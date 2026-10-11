@@ -18,6 +18,7 @@ import {
     ListPlus,
     Plug,
     Trash2,
+    Cable,
     ChartColumn,
     Eraser,
     ShieldCheck,
@@ -50,6 +51,7 @@ import { index as fields } from '@/routes/fields';
 import { index as kanbanIndex } from '@/routes/kanban';
 import { index as leads } from '@/routes/leads';
 import { index as ai, usage as aiUsage } from '@/routes/ai';
+import { index as mcpIndex } from '@/routes/ai/mcp';
 import { index as apiKeys } from '@/routes/api-keys';
 import { index as automations } from '@/routes/automations';
 import { index as campaigns } from '@/routes/campaigns';
@@ -105,6 +107,7 @@ const groups: NavGroup[] = [
         items: [
             { title: 'Proveedores de IA', href: ai(), icon: Sparkles, permission: 'ai.manage' },
             { title: 'Consumo y gastos', href: aiUsage(), icon: ChartColumn, permission: 'ai.manage' },
+            { title: 'Herramientas MCP', href: mcpIndex(), icon: Cable, permission: 'mcp.manage' },
         ],
     },
     {

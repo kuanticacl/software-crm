@@ -71,6 +71,7 @@ Las variables principales (ver `.env.example` y `.env.dokploy.example`):
 | `REDIS_*`, `SESSION_DRIVER`, `CACHE_STORE` | Sesiones y caché en Redis (recomendado en producción). |
 | `ADMIN_EMAIL`, `ADMIN_NAME`, `ADMIN_PASSWORD` | Administrador inicial (se crea solo si el sistema está vacío). |
 | `RESEND_API_KEY` | Opcional: también se configura desde la interfaz. Sin clave el sistema funciona en **modo prueba** (registra los correos sin enviarlos). |
+| `MCP_ALLOW_PRIVATE` | Solo desarrollo: permite servidores MCP en redes privadas. En producción, `false`. |
 | `SEED_DEMO` | En Docker, carga datos de demostración al iniciar. |
 | `TRUSTED_PROXIES`, `PERF_HEADERS` | Proxy inverso y cabeceras de diagnóstico de rendimiento. |
 
@@ -151,6 +152,11 @@ Integrada con el SDK oficial `laravel/ai`. Todo es opcional: sin proveedor el si
 - **Agent (chat flotante, `agent.use`):**
   - Opera el sistema en lenguaje natural: buscar, crear (empresas con RUT validado, prospectos y propuestas en borrador), registrar seguimientos, mover de etapa, consultar el estado de propuestas y resumir el CRM. No elimina datos ni envía correos a clientes.
   - Cada herramienta actúa **como el usuario** (mismos permisos y visibilidad). Ofrece **archivos adjuntos** (PDF, Word, Excel, TXT, CSV, MD, JSON; hasta 5 de 10 MB), **voz** (transcripción en servidor o dictado del navegador) y **modo foco** a pantalla centrada.
+- **Herramientas MCP (*Inteligencia artificial → Herramientas MCP*, `mcp.manage`):** conecta servidores [MCP](https://modelcontextprotocol.io) remotos (*Streamable HTTP*) para darle al Agent herramientas externas.
+  - **Autenticación:** sin credenciales, **API key** (encabezado y prefijo configurables) u **OAuth 2.1** (descubrimiento automático, registro dinámico o Client ID manual, PKCE S256, renovación del token). URL de retorno: `/ai/mcp/oauth/callback`.
+  - **Seguridad:** claves y tokens cifrados y nunca enviados al navegador; solo `https://` público (bloquea redes internas, fija la IP contra *DNS rebinding*, sin redirecciones); respuestas acotadas; 40 llamadas/min por usuario; registro de cada llamada.
+  - **Control fino:** cada herramienta se habilita por separado (al descubrir, solo las de *solo lectura*). Requiere el permiso `mcp.use`. La salida externa llega al modelo como dato no confiable. En esta versión el Agent solo usa herramientas que no piden confirmación.
+  - `MCP_ALLOW_PRIVATE=true` solo para desarrollo.
 
 ---
 

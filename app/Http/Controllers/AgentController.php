@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\McpServer;
 use App\Services\Agent\AgentActions;
+use App\Services\Mcp\McpRegistry;
+use Illuminate\Support\Str;
 use App\Services\Agent\CrmAgent;
 use App\Services\Agent\PendingActions;
 use App\Services\Agent\DocumentReader;
@@ -62,6 +65,10 @@ class AgentController extends Controller
             return response()->json(['ok' => false, 'message' => 'Esta acción venció o ya fue resuelta. Pídesela de nuevo al Agent.'], 410);
         }
 
+        if (($action['op'] ?? '') === 'mcp') {
+            return $this->confirmMcp($request, $action);
+        }
+
         try {
             $message = DB::transaction(fn () => (new AgentActions($request->user()))->run($action));
         } catch (ValidationException $e) {
@@ -73,6 +80,22 @@ class AgentController extends Controller
         }
 
         return response()->json(['ok' => true, 'message' => $message, 'url' => $this->recordUrl($action)]);
+    }
+
+    /** @param  array<string, mixed>  $action */
+    private function confirmMcp(Request $request, array $action): JsonResponse
+    {
+        $server = McpServer::find($action['server_id'] ?? 0);
+        if (! $server || ! $request->user()->hasPermission('mcp.use')) {
+            return response()->json(['ok' => false, 'message' => 'Esa herramienta externa ya no está disponible o no tienes permiso.'], 403);
+        }
+        $res = McpRegistry::execute($server, (string) $action['tool'], (array) $action['args'], $request->user());
+
+        return response()->json([
+            'ok' => ! $res['isError'],
+            'message' => $res['isError'] ? Str::limit($res['text'], 300) : 'Hecho en '.$server->name.($res['text'] !== '' ? ': '.Str::limit($res['text'], 280) : '.'),
+            'url' => null,
+        ], $res['isError'] ? 422 : 200);
     }
 
     public function cancel(Request $request, string $id): JsonResponse

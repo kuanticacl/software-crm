@@ -74,6 +74,7 @@ Las variables principales (ver `.env.example` y `.env.dokploy.example`):
 | `RESEND_API_KEY` | Opcional: también se configura desde la interfaz. Sin clave el sistema funciona en **modo prueba** (registra los correos sin enviarlos). |
 | `PORTAL_DOMAIN`, `PORTAL_URL` | Dominio del portal de clientes (p. ej. `clientes.tudominio.com`). Vacío = el portal queda en `/portal`. |
 | `BILLING_CHARGE_AHEAD_DAYS`, `BILLING_TAX_RATE` | Anticipación con que se generan los cobros recurrentes (10) e IVA por defecto (19). |
+| `MCP_ALLOW_PRIVATE` | Solo desarrollo: permite servidores MCP en localhost/redes privadas. En producción, `false` (por defecto). |
 | `SEED_DEMO` | En Docker, carga datos de demostración al iniciar. |
 | `TRUSTED_PROXIES`, `PERF_HEADERS` | Proxy inverso y cabeceras de diagnóstico de rendimiento. |
 
@@ -157,6 +158,12 @@ Integrada con el SDK oficial `laravel/ai`. Todo es opcional: sin proveedor el si
   - **Editar y eliminar siempre con tu confirmación:** el chat muestra un recuadro «antes → después» con **Confirmar / Cancelar**; solo al confirmar se aplica en el servidor con tus permisos (la acción vence a los 30 minutos y es de un solo uso). Casi todo va a la papelera.
   - Cada herramienta actúa **como el usuario** (mismos permisos y visibilidad). Ofrece **archivos adjuntos** (PDF, Word, Excel, TXT, CSV, MD, JSON; hasta 5 de 10 MB), **voz** (transcripción en servidor o dictado del navegador) y **modo foco** a pantalla centrada.
   - Los usuarios del portal de clientes no tienen acceso al Agent.
+- **Herramientas MCP (*Inteligencia artificial → Herramientas MCP*, `mcp.manage`):** conecta servidores [MCP](https://modelcontextprotocol.io) remotos (transporte *Streamable HTTP*) para darle al Agent herramientas externas.
+  - **Autenticación:** sin credenciales, **API key** (encabezado y prefijo configurables, p. ej. `Authorization: Bearer …` o `X-API-Key`) u **OAuth 2.1** (descubrimiento automático, registro dinámico de cliente o Client ID manual, PKCE S256, renovación automática del token). La URL de retorno OAuth es `/ai/mcp/oauth/callback`.
+  - **Seguridad:** claves y tokens **cifrados** y jamás enviados al navegador; solo `https://` público (bloquea localhost, redes privadas y metadatos de nube, fija la IP resuelta contra *DNS rebinding*, no sigue redirecciones); respuestas acotadas; límite de 40 llamadas/min por usuario; **registro de cada llamada** (parámetros sensibles ocultos).
+  - **Control fino:** cada herramienta se habilita por separado (al descubrir, solo las marcadas como *solo lectura* quedan activas) y las que modifican datos piden **confirmación con botón** en el chat. El Agent las usa únicamente si el rol tiene `mcp.use`.
+  - **Contenido no confiable:** la salida de un servidor externo llega al modelo delimitada y marcada como dato, no como instrucciones.
+  - `MCP_ALLOW_PRIVATE=true` solo para desarrollo (permite servidores locales). Mantenerlo en `false` en producción.
 
 ### 5.5 Portal de clientes y cobranza
 

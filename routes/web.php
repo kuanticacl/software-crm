@@ -5,6 +5,7 @@ use App\Http\Controllers\Ai\AiProposalController;
 use App\Http\Controllers\Ai\AiSettingsController;
 use App\Http\Controllers\Ai\AiUsageController;
 use App\Http\Controllers\Ai\LeadAiController;
+use App\Http\Controllers\Ai\McpController;
 use App\Http\Controllers\AgencyController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\DemoDataController;
@@ -338,6 +339,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('providers/{slug}/test', [AiSettingsController::class, 'test'])->middleware('throttle:20,1')->name('ai.providers.test');
         Route::post('providers/{slug}/test-voice', [AiSettingsController::class, 'testVoice'])->middleware('throttle:20,1')->name('ai.providers.test-voice');
         Route::get('providers/{slug}/models', [AiSettingsController::class, 'models'])->middleware('throttle:20,1')->name('ai.providers.models');
+    });
+
+    // Inteligencia artificial: servidores MCP (herramientas externas del Agent)
+    Route::prefix('ai/mcp')->name('ai.mcp.')->middleware('can:mcp.manage')->group(function () {
+        Route::get('/', [McpController::class, 'index'])->name('index');
+        Route::post('/', [McpController::class, 'store'])->name('store');
+        Route::get('oauth/callback', [McpController::class, 'oauthCallback'])->name('oauth.callback');
+        Route::put('{server}', [McpController::class, 'update'])->name('update');
+        Route::delete('{server}', [McpController::class, 'destroy'])->name('destroy');
+        Route::post('{server}/test', [McpController::class, 'test'])->middleware('throttle:20,1')->name('test');
+        Route::put('{server}/tools', [McpController::class, 'tools'])->name('tools');
+        Route::post('{server}/oauth/start', [McpController::class, 'oauthStart'])->middleware('throttle:20,1')->name('oauth.start');
+        Route::post('{server}/oauth/disconnect', [McpController::class, 'oauthDisconnect'])->name('oauth.disconnect');
     });
 
     // Roles y permisos

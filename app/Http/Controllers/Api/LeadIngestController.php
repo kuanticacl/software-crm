@@ -83,7 +83,7 @@ class LeadIngestController extends Controller
             'source_id' => $source->id,
             'custom' => $custom ?: null,
             'meta' => $meta ?: null,
-        ], null, ['channel' => 'api', 'source' => $source->slug]);
+        ], null, ['channel' => 'api', 'source' => $source->slug, 'email_template' => $data['email_template'] ?? null]);
 
         // Opcional: suscribir al lead a una audiencia (se crea si no existe) para boletines.
         $audience = null;

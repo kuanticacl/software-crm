@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-/** Datos legales, de contacto y redes de la agencia (firma y pie de las propuestas). */
+/** Datos de mi empresa: legales, de contacto y redes (firma y pie de las propuestas). */
 class AgencyController extends Controller
 {
     public function edit(): Response
@@ -45,7 +45,7 @@ class AgencyController extends Controller
 
         Setting::put('billing.tax_document', $data['tax_document']);
 
-        $this->toast('Datos de la agencia guardados.');
+        $this->toast('Datos de tu empresa guardados.');
 
         return back();
     }

@@ -134,7 +134,7 @@ const groups: NavGroup[] = [
             { title: 'Etapas del Kanban', href: stages(), icon: Columns3, permission: 'stages.manage' },
             { title: 'Campos personalizados', href: fields(), icon: ListPlus, permission: 'fields.manage' },
             { title: 'Orígenes de clientes', href: sources(), icon: Cable, permission: 'sources.manage' },
-            { title: 'Datos de la agencia', href: agencyEdit(), icon: Building, permission: 'agency.manage' },
+            { title: 'Datos de mi empresa', href: agencyEdit(), icon: Building, permission: 'agency.manage' },
             { title: 'Identidad visual', href: brandIndex(), icon: Palette, permission: 'brand.manage' },
         ],
     },

@@ -12,14 +12,17 @@ class AutomationRunner
 {
     public function __construct(private EmailService $emails) {}
 
-    /** @param array<string, mixed> $context variables extra del evento (p. ej. etapa anterior) */
-    public function fire(string $trigger, Lead $lead, array $context = []): void
+    /**
+     * @param  array<string, mixed>  $context  variables extra del evento (p. ej. etapa anterior)
+     * @param  string|null  $channel  por dónde llegó el prospecto al crearse: «api» (web/formularios) o «manual»
+     */
+    public function fire(string $trigger, Lead $lead, array $context = [], ?string $channel = null): void
     {
         try {
             $automations = Automation::where('trigger', $trigger)->where('is_active', true)->with('template')->get();
 
             foreach ($automations as $automation) {
-                if (! $this->matches($automation, $lead)) {
+                if (! $this->matches($automation, $lead, $channel)) {
                     continue;
                 }
 
@@ -30,9 +33,14 @@ class AutomationRunner
         }
     }
 
-    public function matches(Automation $a, Lead $lead): bool
+    public function matches(Automation $a, Lead $lead, ?string $channel = null): bool
     {
         $c = $a->conditions ?? [];
+
+        // «Solo registros de la web»: no se escribe a quienes el equipo ingresa a mano.
+        if (! empty($c['web_only']) && $channel !== null && $channel !== 'api') {
+            return false;
+        }
 
         if (! empty($c['source_ids']) && ! in_array($lead->source_id, array_map('intval', $c['source_ids']), true)) {
             return false;

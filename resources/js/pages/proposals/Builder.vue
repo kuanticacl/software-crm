@@ -24,9 +24,10 @@ import { index as servicesIndex } from '@/routes/services';
 import type { CatalogService, ProposalItemInput, Recipient } from '@/types';
 
 type Section = { title: string; body: string };
+type TaxMode = 'honorarios' | 'iva' | 'none';
 type Initial = {
     title: string; currency: 'UF' | 'CLP'; client_id: number | null; lead_id: number | null; recipient: Recipient; sections: Section[]; valid_until: string | null; contract_months: number | null;
-    discount_type: 'percent' | 'amount'; discount_value: number; tax_rate: number; internal_notes: string | null;
+    discount_type: 'percent' | 'amount'; discount_value: number; tax_mode: TaxMode; tax_rate: number; internal_notes: string | null;
     items: Omit<ProposalItemInput, 'key'>[];
 };
 
@@ -35,6 +36,8 @@ const props = defineProps<{
     initial: Initial;
     services: CatalogService[];
     uf: { value: number; date: string } | null;
+    taxModes: Record<TaxMode, string>;
+    retentionRate: number;
     clients: { id: number; name: string; recipient: Recipient }[];
     lead: { id: number; first_name: string; last_name: string | null; company: string | null } | null;
     ai: { enabled: boolean; can_configure: boolean };
@@ -54,7 +57,8 @@ const form = reactive({
     contract_months: (i0.contract_months ?? undefined) as number | undefined,
     discount_type: i0.discount_type,
     discount_value: i0.discount_value,
-    tax_rate: i0.tax_rate,
+    tax_mode: (i0.tax_mode ?? 'honorarios') as TaxMode,
+    tax_rate: Number(i0.tax_rate),
     internal_notes: i0.internal_notes ?? '',
 });
 const blank = (r: Recipient) => Object.fromEntries((['company', 'legal_name', 'rut', 'activity', 'address', 'contact_name', 'contact_role', 'email', 'phone'] as const).map((k) => [k, r[k] ?? ''])) as Record<keyof Recipient, string>;
@@ -139,9 +143,22 @@ const totals = computed(() => {
     const tOne = r(one * f);
     const tMon = r(mon * f);
     const net = r(tOne + tMon * m);
-    const tax = r((net * form.tax_rate) / 100);
+    const rate = form.tax_mode === 'none' ? 0 : form.tax_rate || 0;
+    // Honorarios: el neto es lo que recibe el estudio; la boleta va por el bruto y la retención se suma.
+    const tax = form.tax_mode === 'honorarios' ? (rate > 0 && rate < 100 ? r(net / (1 - rate / 100) - net) : 0) : r((net * rate) / 100);
     return { one: tOne, monthly: tMon, months: m, discount: r(discount), net, tax, gross: r(net + tax), hasMonthly: mon > 0 };
 });
+const taxLabels = computed(() => {
+    const rate = String(Number(form.tax_rate || 0)).replace('.', ',');
+    if (form.tax_mode === 'iva') return { net: 'Total neto', tax: `IVA ${rate}%`, gross: 'Total con IVA' };
+    if (form.tax_mode === 'none') return { net: 'Total', tax: null, gross: 'Total' };
+    return { net: 'Honorarios netos', tax: `Retención boleta de honorarios ${rate}%`, gross: 'Total boleta de honorarios' };
+});
+const onTaxMode = () => {
+    if (form.tax_mode === 'honorarios') form.tax_rate = props.retentionRate;
+    else if (form.tax_mode === 'iva') form.tax_rate = 19;
+    else form.tax_rate = 0;
+};
 const grossClp = computed(() => (form.currency === 'UF' && props.uf ? Math.round(totals.value.gross * props.uf.value) : totals.value.gross));
 
 // ---------------------------------------------------------------- contenido
@@ -282,7 +299,7 @@ const money = (n: number) => formatAmount(n, form.currency);
             <span v-if="proposal" class="rounded-full bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">{{ proposal.number }}</span>
             <span v-if="dirty" class="rounded-full bg-[#FFA165]/20 px-2 py-0.5 text-[11px] font-medium text-[#9A4B00]">Cambios sin guardar</span>
             <div class="ml-auto flex items-center gap-2">
-                <span class="hidden text-sm text-muted-foreground sm:inline">Total <strong class="text-foreground">{{ money(totals.gross) }}</strong> con IVA<template v-if="form.currency === 'UF' && uf"> · ≈ {{ formatMoney(grossClp) || '$0' }}</template></span>
+                <span class="hidden text-sm text-muted-foreground sm:inline">{{ taxLabels.gross }} <strong class="text-foreground">{{ money(totals.gross) }}</strong><template v-if="form.currency === 'UF' && uf"> · ≈ {{ formatMoney(grossClp) || '$0' }}</template></span>
                 <Button size="sm" :disabled="saving || locked || !form.title.trim()" @click="save"><Spinner v-if="saving" /><Save v-else /> Guardar</Button>
             </div>
         </div>
@@ -371,15 +388,23 @@ const money = (n: number) => formatAmount(n, form.currency);
                             <FormField label="Descuento">
                                 <div class="flex gap-2"><NativeSelect v-model="form.discount_type" class="w-24"><option value="percent">%</option><option value="amount">{{ form.currency === 'UF' ? 'UF' : '$' }}</option></NativeSelect><Input v-model.number="form.discount_value" type="number" min="0" /></div>
                             </FormField>
-                            <FormField label="IVA %"><Input v-model.number="form.tax_rate" type="number" min="0" max="30" /></FormField>
+                            <FormField label="Impuesto" class="sm:col-span-2 lg:col-span-5">
+                                <div class="flex flex-wrap gap-2">
+                                    <NativeSelect v-model="form.tax_mode" class="min-w-64 flex-1" @change="onTaxMode"><option v-for="(label, k) in taxModes" :key="k" :value="k">{{ label }}</option></NativeSelect>
+                                    <div v-if="form.tax_mode !== 'none'" class="flex items-center gap-1.5"><Input v-model.number="form.tax_rate" type="number" min="0" max="30" step="0.01" class="w-24" /><span class="text-sm text-muted-foreground">%</span></div>
+                                </div>
+                            </FormField>
                         </div>
                         <dl class="mt-5 grid gap-1.5 rounded-xl bg-muted/40 p-4 text-sm">
                             <div v-if="totals.one" class="flex justify-between"><dt class="text-muted-foreground">Pago único</dt><dd>{{ money(totals.one) }}</dd></div>
                             <div v-if="totals.hasMonthly" class="flex justify-between"><dt class="text-muted-foreground">Mensual × {{ totals.months }} {{ totals.months === 1 ? 'mes' : 'meses' }}</dt><dd>{{ money(totals.monthly) }} /mes</dd></div>
                             <div v-if="totals.discount" class="flex justify-between"><dt class="text-muted-foreground">Descuento aplicado</dt><dd>− {{ money(totals.discount) }}</dd></div>
-                            <div class="flex justify-between border-t pt-1.5"><dt>Total neto</dt><dd class="font-semibold">{{ money(totals.net) }}</dd></div>
-                            <div class="flex justify-between"><dt class="text-muted-foreground">IVA {{ form.tax_rate }}%</dt><dd>{{ money(totals.tax) }}</dd></div>
-                            <div class="flex justify-between text-base font-bold text-primary"><dt>Total con IVA</dt><dd>{{ money(totals.gross) }}</dd></div>
+                            <template v-if="taxLabels.tax">
+                                <div class="flex justify-between border-t pt-1.5"><dt>{{ taxLabels.net }}</dt><dd class="font-semibold">{{ money(totals.net) }}</dd></div>
+                                <div class="flex justify-between"><dt class="text-muted-foreground">{{ taxLabels.tax }}</dt><dd>{{ money(totals.tax) }}</dd></div>
+                            </template>
+                            <div class="flex justify-between text-base font-bold text-primary" :class="{ 'border-t pt-1.5': !taxLabels.tax }"><dt>{{ taxLabels.gross }}</dt><dd>{{ money(totals.gross) }}</dd></div>
+                            <p v-if="form.tax_mode === 'honorarios'" class="text-xs text-muted-foreground">Los honorarios se hablan netos: la boleta se emite por el total y la retención la paga el cliente (si es empresa) o el estudio con ese mismo monto.</p>
                             <div v-if="form.currency === 'UF' && uf" class="mt-1 rounded-lg bg-background/70 p-2.5 text-xs text-muted-foreground">Equivalente ≈ <strong class="text-foreground">{{ formatMoney(grossClp) || '$0' }}</strong> · 1 UF = {{ formatUfValue(uf.value) }} ({{ uf.date }}). Al enviar la propuesta, la UF del día queda guardada como valor de referencia.</div>
                         </dl>
                     </section>

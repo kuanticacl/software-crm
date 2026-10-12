@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import {
+    Briefcase,
     Building,
+    Mail,
+    Shield,
+    SlidersHorizontal,
     Building2,
     Columns3,
     FileText,
@@ -27,6 +31,7 @@ import {
     FileSignature,
     Package,
 } from '@lucide/vue';
+import type { Component } from 'vue';
 import { computed } from 'vue';
 import AppLogo from '@/components/AppLogo.vue';
 import NavFooter from '@/components/NavFooter.vue';
@@ -69,13 +74,14 @@ import { index as services } from '@/routes/services';
 import { index as users } from '@/routes/users';
 import type { NavItem } from '@/types';
 
-type NavGroup = { label: string; items: (NavItem & { permission?: string })[] };
+type NavGroup = { label: string; icon: Component; items: (NavItem & { permission?: string })[] };
 
 const { can } = usePermissions();
 
 const groups: NavGroup[] = [
     {
         label: 'Comercial',
+        icon: Briefcase,
         items: [
             { title: 'Dashboard', href: dashboard(), icon: LayoutDashboard, permission: 'dashboard.view' },
             { title: 'Kanban', href: kanbanIndex(), icon: Columns3, permission: 'dashboard.view' },
@@ -87,6 +93,7 @@ const groups: NavGroup[] = [
     },
     {
         label: 'Email',
+        icon: Mail,
         items: [
             { title: 'Boletines', href: campaigns(), icon: Newspaper, permission: 'campaigns.view' },
             { title: 'Plantillas', href: templates(), icon: FileText, permission: 'templates.view' },
@@ -100,6 +107,7 @@ const groups: NavGroup[] = [
     },
     {
         label: 'Inteligencia artificial',
+        icon: Sparkles,
         items: [
             { title: 'Proveedores', href: ai(), icon: Sparkles, permission: 'ai.manage' },
             { title: 'Consumo y gastos', href: aiUsage(), icon: ChartColumn, permission: 'ai.manage' },
@@ -108,6 +116,7 @@ const groups: NavGroup[] = [
     },
     {
         label: 'Configuración CRM',
+        icon: SlidersHorizontal,
         items: [
             { title: 'Etapas del Kanban', href: stages(), icon: Columns3, permission: 'stages.manage' },
             { title: 'Campos personalizados', href: fields(), icon: ListPlus, permission: 'fields.manage' },
@@ -118,6 +127,7 @@ const groups: NavGroup[] = [
     },
     {
         label: 'Administración',
+        icon: Shield,
         items: [
             { title: 'Usuarios', href: users(), icon: UserCog, permission: 'users.view' },
             { title: 'Roles y permisos', href: roles(), icon: ShieldCheck, permission: 'roles.view' },
@@ -161,6 +171,7 @@ const footerNavItems: NavItem[] = [
                 :key="g.label"
                 :label="g.label"
                 :items="g.items"
+                :icon="g.icon"
                 collapsible
             />
         </SidebarContent>

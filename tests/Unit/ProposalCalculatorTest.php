@@ -32,6 +32,19 @@ class ProposalCalculatorTest extends TestCase
         $this->assertSame(100000, $t['total_net']);
     }
 
+    public function test_honorarios_add_the_boleta_retention_on_top_of_the_net(): void
+    {
+        $t = ProposalCalculator::totals([['billing' => 'one_time', 'quantity' => 1, 'unit_price' => 847500]], 'percent', 0, null, 15.25, 0, 'honorarios');
+
+        // El estudio recibe el neto; la boleta va por el bruto, cuya retención (15,25%) cubre la diferencia.
+        $this->assertEquals(847500, $t['total_net']);
+        $this->assertEquals(1000000, $t['total_gross']);
+        $this->assertEquals(152500, $t['total_tax']);
+
+        $none = ProposalCalculator::totals([['billing' => 'one_time', 'quantity' => 1, 'unit_price' => 1000]], 'percent', 0, null, 19, 0, 'none');
+        $this->assertEquals(1000, $none['total_gross']);
+    }
+
     public function test_chilean_rut_validation_and_format(): void
     {
         $this->assertTrue(Rut::isValid('76.123.456-0'));

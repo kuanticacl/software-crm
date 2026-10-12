@@ -12,6 +12,7 @@ use App\Services\Ai\AiGateway;
 use App\Services\LeadService;
 use App\Services\Proposals\ProposalBuilder;
 use App\Services\UfService;
+use App\Support\Honorarios;
 use App\Support\ProposalText;
 use App\Services\Proposals\ProposalMailer;
 use App\Services\Proposals\ProposalPdf;
@@ -70,7 +71,8 @@ class ProposalController extends Controller
             'contract_months' => 12,
             'discount_type' => 'percent',
             'discount_value' => 0,
-            'tax_rate' => 19,
+            'tax_mode' => 'honorarios',
+            'tax_rate' => Honorarios::rate(),
             'items' => [],
             'internal_notes' => null,
         ]));
@@ -81,7 +83,7 @@ class ProposalController extends Controller
         $this->authorizeView($request, $proposal);
 
         return Inertia::render('proposals/Builder', $this->builderProps($request, $proposal, [
-            ...$proposal->only(['title', 'currency', 'client_id', 'lead_id', 'recipient', 'sections', 'contract_months', 'discount_type', 'discount_value', 'tax_rate', 'internal_notes']),
+            ...$proposal->only(['title', 'currency', 'client_id', 'lead_id', 'recipient', 'sections', 'contract_months', 'discount_type', 'discount_value', 'tax_mode', 'tax_rate', 'internal_notes']),
             'valid_until' => $proposal->valid_until?->toDateString(),
             'items' => $proposal->items->map(fn ($i) => $i->only(['service_id', 'name', 'description', 'deliverables', 'billing', 'unit', 'quantity', 'unit_price', 'discount_pct']))->all(),
         ]));
@@ -145,6 +147,7 @@ class ProposalController extends Controller
                 'total_one_time' => $proposal->total_one_time,
                 'total_monthly' => $proposal->total_monthly,
                 'total_tax' => $proposal->total_tax,
+                'tax_labels' => $proposal->taxLabels(),
                 'contract_months' => $proposal->contract_months,
             ],
             'statuses' => Proposal::STATUSES,
@@ -425,6 +428,8 @@ class ProposalController extends Controller
             'proposal' => $proposal ? ['id' => $proposal->id, 'number' => $proposal->number, 'status' => $proposal->effectiveStatus(), 'is_final' => $proposal->isFinal()] : null,
             'initial' => $initial,
             'uf' => app(UfService::class)->today(),
+            'taxModes' => Proposal::TAX_MODES,
+            'retentionRate' => Honorarios::rate(),
             'services' => Service::where('is_active', true)->orderBy('category')->orderBy('sort_order')->get()
                 ->map(fn (Service $s) => $s->only(['id', 'name', 'category', 'description', 'deliverables', 'billing', 'unit', 'currency', 'price'])),
             'clients' => Client::where('is_active', true)->orderBy('name')->get()->map(fn (Client $c) => [
@@ -465,7 +470,8 @@ class ProposalController extends Controller
             'currency' => ['required', 'in:UF,CLP'],
             'discount_type' => ['required', 'in:percent,amount'],
             'discount_value' => ['nullable', 'numeric', 'min:0', 'max:99999999999'],
-            'tax_rate' => ['required', 'integer', 'min:0', 'max:30'],
+            'tax_mode' => ['nullable', 'in:'.implode(',', array_keys(Proposal::TAX_MODES))],
+            'tax_rate' => ['required', 'numeric', 'min:0', 'max:30'],
             'internal_notes' => ['nullable', 'string', 'max:20000'],
             'items' => ['nullable', 'array', 'max:40'],
             'items.*.service_id' => ['nullable', 'integer', 'exists:services,id'],

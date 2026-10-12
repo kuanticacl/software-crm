@@ -79,7 +79,7 @@ class LeadService
         AnalyzeLead::dispatchIfEnabled($lead);
 
         // Fuera de la transacción: un fallo de email nunca debe deshacer el alta del lead.
-        app(AutomationRunner::class)->fire('lead.created', $lead->fresh(['source', 'stage']));
+        app(AutomationRunner::class)->fire('lead.created', $lead->fresh(['source', 'stage']), [], $activity['channel'] ?? 'manual');
 
         return $lead;
     }

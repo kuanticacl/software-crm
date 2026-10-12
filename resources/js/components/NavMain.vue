@@ -2,12 +2,21 @@
 import { Link } from '@inertiajs/vue3';
 import { ChevronRight } from '@lucide/vue';
 import { useStorage } from '@vueuse/core';
+import type { Component } from 'vue';
 import { computed, watch } from 'vue';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import {
     SidebarGroup,
     SidebarGroupLabel,
@@ -24,6 +33,8 @@ const props = defineProps<{
     label?: string;
     /** Muestra el grupo como desplegable (cerrado por defecto, abierto si contiene la página actual). */
     collapsible?: boolean;
+    /** Ícono del grupo: en el sidebar compacto el grupo es un solo ícono que abre un menú con sus opciones. */
+    icon?: Component;
 }>();
 
 const { isCurrentOrParentUrl } = useCurrentUrl();
@@ -45,8 +56,9 @@ watch(
     { immediate: true },
 );
 
-// Con el sidebar en modo íconos no hay títulos de grupo: se muestran todos los ítems.
+// Sidebar en modo íconos: sin títulos de grupo. Con ícono de grupo se muestra un menú; si no, todos los ítems.
 const iconMode = computed(() => state.value === 'collapsed' && !isMobile.value);
+const asMenu = computed(() => iconMode.value && !!props.icon && !!props.label);
 
 const open = computed({
     get: () =>
@@ -65,7 +77,55 @@ const tooltip = (title: string) =>
 </script>
 
 <template>
-    <Collapsible v-model:open="open" as-child>
+    <SidebarGroup v-if="asMenu" class="px-2 py-0">
+        <SidebarMenu>
+            <SidebarMenuItem>
+                <DropdownMenu>
+                    <DropdownMenuTrigger as-child>
+                        <SidebarMenuButton
+                            :is-active="hasActive"
+                            :tooltip="label"
+                        >
+                            <component :is="icon" />
+                            <span>{{ label }}</span>
+                        </SidebarMenuButton>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                        side="right"
+                        align="start"
+                        :side-offset="8"
+                        class="min-w-56"
+                    >
+                        <DropdownMenuLabel
+                            class="text-xs text-muted-foreground"
+                            >{{ label }}</DropdownMenuLabel
+                        >
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                            v-for="item in items"
+                            :key="item.title"
+                            as-child
+                            :class="
+                                isCurrentOrParentUrl(item.href)
+                                    ? 'bg-accent font-medium'
+                                    : ''
+                            "
+                        >
+                            <Link
+                                :href="item.href"
+                                prefetch
+                                class="cursor-pointer"
+                            >
+                                <component :is="item.icon" />
+                                <span>{{ item.title }}</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            </SidebarMenuItem>
+        </SidebarMenu>
+    </SidebarGroup>
+    <Collapsible v-else v-model:open="open" as-child>
         <SidebarGroup class="px-2 py-0">
             <SidebarGroupLabel v-if="label && !collapsible">{{
                 label

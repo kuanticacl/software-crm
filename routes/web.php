@@ -282,6 +282,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('usage/prices', [AiUsageController::class, 'prices'])->name('ai.usage.prices');
         Route::put('usage/budget', [AiUsageController::class, 'budget'])->name('ai.usage.budget');
         Route::put('settings', [AiSettingsController::class, 'settings'])->name('ai.settings.update');
+        Route::put('tuning', [AiSettingsController::class, 'tuning'])->name('ai.tuning.update');
         Route::put('providers/{slug}', [AiSettingsController::class, 'update'])->name('ai.providers.update');
         Route::delete('providers/{slug}', [AiSettingsController::class, 'destroy'])->name('ai.providers.destroy');
         Route::post('providers/{slug}/default', [AiSettingsController::class, 'makeDefault'])->name('ai.providers.default');

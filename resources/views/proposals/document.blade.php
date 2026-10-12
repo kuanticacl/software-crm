@@ -138,7 +138,7 @@
             @if ($p->valid_until)<div class="glass"><span>Válida hasta</span><strong>{{ $date($p->valid_until) }}</strong></div>@endif
             @if ($p->owner)<div class="glass"><span>Responsable</span><strong>{{ $p->owner->name }}</strong></div>@endif
             @if ($isUf)<div class="glass"><span>UF de referencia · {{ $ufDate }}</span><strong>{{ $ufFmt }}</strong></div>@endif
-            @if ($p->total_gross > 0)<div class="glass purple"><span>Total con IVA</span><strong>{{ $money($p->total_gross) }}</strong>@if ($isUf)<small style="display:block;font-size:11px;opacity:.85">≈ {{ $clpGross }}</small>@endif</div>@endif
+            @if ($p->total_gross > 0)<div class="glass purple"><span>{{ $p->taxLabels()['gross'] }}</span><strong>{{ $money($p->total_gross) }}</strong>@if ($isUf)<small style="display:block;font-size:11px;opacity:.85">≈ {{ $clpGross }}</small>@endif</div>@endif
         </div>
     </section>
 

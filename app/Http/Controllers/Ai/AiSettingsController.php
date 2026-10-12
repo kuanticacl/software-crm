@@ -8,6 +8,7 @@ use App\Models\AiRun;
 use App\Models\Setting;
 use App\Services\Ai\AiCatalog;
 use App\Services\Ai\AiGateway;
+use App\Services\Ai\AiTuning;
 use App\Services\Ai\BrandContext;
 use App\Services\Ai\ModelLister;
 use Illuminate\Http\JsonResponse;
@@ -66,6 +67,10 @@ class AiSettingsController extends Controller
                 'brand_context' => Setting::get('ai.brand_context') ?: BrandContext::defaultText(),
                 'brand_context_is_default' => ! Setting::has('ai.brand_context'),
             ],
+            'tuning' => AiTuning::settings(),
+            'tuningOptions' => ['temperatures' => AiTuning::TEMPERATURES, 'reasoning' => AiTuning::REASONING],
+            'defaultModel' => $ai->default()?->model,
+            'reasoningModel' => AiTuning::isReasoningModel((string) $ai->default()?->model),
             'usage' => $usage,
             'recentErrors' => AiRun::where('status', 'error')->latest()->limit(5)->get(['feature', 'provider', 'error', 'created_at']),
         ]);
@@ -182,6 +187,29 @@ class AiSettingsController extends Controller
         $provider = AiProvider::where('slug', $slug)->firstOrFail();
 
         return response()->json($lister->list($provider));
+    }
+
+    /** Comportamiento de la IA: instrucciones propias y parámetros del modelo. */
+    public function tuning(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'instructions' => ['nullable', 'string', 'max:4000'],
+            'agent_instructions' => ['nullable', 'string', 'max:4000'],
+            'temperature' => ['nullable', 'in:'.implode(',', array_filter(array_keys(AiTuning::TEMPERATURES), fn ($k) => $k !== ''))],
+            'reasoning_effort' => ['nullable', 'in:low,medium,high'],
+            'max_tokens' => ['nullable', 'integer', 'min:256', 'max:32000'],
+            'agent_max_steps' => ['nullable', 'integer', 'min:2', 'max:30'],
+            'transcription_prompt' => ['nullable', 'string', 'max:800'],
+        ]);
+
+        foreach (['instructions', 'agent_instructions', 'temperature', 'reasoning_effort', 'max_tokens', 'agent_max_steps', 'transcription_prompt'] as $key) {
+            $value = trim((string) ($data[$key] ?? ''));
+            Setting::put('ai.'.$key, $value === '' ? null : $value);
+        }
+
+        $this->toast('Comportamiento de la IA guardado.');
+
+        return back();
     }
 
     public function settings(Request $request): RedirectResponse

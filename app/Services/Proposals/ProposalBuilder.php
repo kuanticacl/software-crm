@@ -7,7 +7,7 @@ use App\Models\Lead;
 use App\Models\Proposal;
 use App\Models\ProposalItem;
 use App\Services\UfService;
-use App\Support\Honorarios;
+use App\Support\TaxDocument;
 use App\Support\ProposalText;
 use App\Support\Rut;
 use Illuminate\Support\Facades\DB;
@@ -79,12 +79,8 @@ class ProposalBuilder
             'discount_type' => $data['discount_type'] ?? 'percent',
             'discount_value' => (float) ($data['discount_value'] ?? 0),
             'currency' => in_array($data['currency'] ?? 'UF', ['UF', 'CLP'], true) ? $data['currency'] : 'UF',
-            'tax_mode' => $mode = (array_key_exists($data['tax_mode'] ?? '', Proposal::TAX_MODES) ? $data['tax_mode'] : 'honorarios'),
-            'tax_rate' => match ($mode) {
-                'none' => 0,
-                'honorarios' => isset($data['tax_rate']) && (float) $data['tax_rate'] > 0 ? (float) $data['tax_rate'] : Honorarios::rate(),
-                default => (float) ($data['tax_rate'] ?? 19),
-            },
+            'tax_mode' => $mode = (array_key_exists($data['tax_mode'] ?? '', Proposal::TAX_MODES) ? $data['tax_mode'] : TaxDocument::default()),
+            'tax_rate' => in_array($mode, ['iva', 'honorarios'], true) && isset($data['tax_rate']) && (float) $data['tax_rate'] > 0 ? (float) $data['tax_rate'] : TaxDocument::rate($mode),
             'internal_notes' => isset($data['internal_notes']) ? ProposalText::sanitize((string) $data['internal_notes']) : null,
         ]);
         if (! empty($data['user_id'])) {
@@ -131,7 +127,7 @@ class ProposalBuilder
             $p->contract_months,
             (float) $p->tax_rate,
             $p->decimals(),
-            (string) ($p->tax_mode ?: 'honorarios'),
+            (string) ($p->tax_mode ?: TaxDocument::default()),
         );
         $p->forceFill([
             'total_one_time' => $t['total_one_time'], 'total_monthly' => $t['total_monthly'],

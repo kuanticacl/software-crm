@@ -24,7 +24,7 @@ import { index as servicesIndex } from '@/routes/services';
 import type { CatalogService, ProposalItemInput, Recipient } from '@/types';
 
 type Section = { title: string; body: string };
-type TaxMode = 'honorarios' | 'iva' | 'none';
+type TaxMode = 'iva' | 'exenta' | 'honorarios' | 'none';
 type Initial = {
     title: string; currency: 'UF' | 'CLP'; client_id: number | null; lead_id: number | null; recipient: Recipient; sections: Section[]; valid_until: string | null; contract_months: number | null;
     discount_type: 'percent' | 'amount'; discount_value: number; tax_mode: TaxMode; tax_rate: number; internal_notes: string | null;
@@ -37,7 +37,7 @@ const props = defineProps<{
     services: CatalogService[];
     uf: { value: number; date: string } | null;
     taxModes: Record<TaxMode, string>;
-    retentionRate: number;
+    taxRates: Record<TaxMode, number>;
     clients: { id: number; name: string; recipient: Recipient }[];
     lead: { id: number; first_name: string; last_name: string | null; company: string | null } | null;
     ai: { enabled: boolean; can_configure: boolean };
@@ -57,7 +57,7 @@ const form = reactive({
     contract_months: (i0.contract_months ?? undefined) as number | undefined,
     discount_type: i0.discount_type,
     discount_value: i0.discount_value,
-    tax_mode: (i0.tax_mode ?? 'honorarios') as TaxMode,
+    tax_mode: i0.tax_mode,
     tax_rate: Number(i0.tax_rate),
     internal_notes: i0.internal_notes ?? '',
 });
@@ -143,7 +143,7 @@ const totals = computed(() => {
     const tOne = r(one * f);
     const tMon = r(mon * f);
     const net = r(tOne + tMon * m);
-    const rate = form.tax_mode === 'none' ? 0 : form.tax_rate || 0;
+    const rate = form.tax_mode === 'iva' || form.tax_mode === 'honorarios' ? form.tax_rate || 0 : 0;
     // Honorarios: el neto es lo que recibe el estudio; la boleta va por el bruto y la retención se suma.
     const tax = form.tax_mode === 'honorarios' ? (rate > 0 && rate < 100 ? r(net / (1 - rate / 100) - net) : 0) : r((net * rate) / 100);
     return { one: tOne, monthly: tMon, months: m, discount: r(discount), net, tax, gross: r(net + tax), hasMonthly: mon > 0 };
@@ -151,14 +151,11 @@ const totals = computed(() => {
 const taxLabels = computed(() => {
     const rate = String(Number(form.tax_rate || 0)).replace('.', ',');
     if (form.tax_mode === 'iva') return { net: 'Total neto', tax: `IVA ${rate}%`, gross: 'Total con IVA' };
+    if (form.tax_mode === 'exenta') return { net: 'Total', tax: null, gross: 'Total (exento de IVA)' };
     if (form.tax_mode === 'none') return { net: 'Total', tax: null, gross: 'Total' };
     return { net: 'Honorarios netos', tax: `Retención boleta de honorarios ${rate}%`, gross: 'Total boleta de honorarios' };
 });
-const onTaxMode = () => {
-    if (form.tax_mode === 'honorarios') form.tax_rate = props.retentionRate;
-    else if (form.tax_mode === 'iva') form.tax_rate = 19;
-    else form.tax_rate = 0;
-};
+const onTaxMode = () => (form.tax_rate = props.taxRates[form.tax_mode] ?? 0);
 const grossClp = computed(() => (form.currency === 'UF' && props.uf ? Math.round(totals.value.gross * props.uf.value) : totals.value.gross));
 
 // ---------------------------------------------------------------- contenido
@@ -388,10 +385,10 @@ const money = (n: number) => formatAmount(n, form.currency);
                             <FormField label="Descuento">
                                 <div class="flex gap-2"><NativeSelect v-model="form.discount_type" class="w-24"><option value="percent">%</option><option value="amount">{{ form.currency === 'UF' ? 'UF' : '$' }}</option></NativeSelect><Input v-model.number="form.discount_value" type="number" min="0" /></div>
                             </FormField>
-                            <FormField label="Impuesto" class="sm:col-span-2 lg:col-span-5">
+                            <FormField label="Documento tributario" hint="Por defecto, el configurado en Datos de la agencia; cámbialo solo para esta propuesta si hace falta." class="sm:col-span-2 lg:col-span-5">
                                 <div class="flex flex-wrap gap-2">
                                     <NativeSelect v-model="form.tax_mode" class="min-w-64 flex-1" @change="onTaxMode"><option v-for="(label, k) in taxModes" :key="k" :value="k">{{ label }}</option></NativeSelect>
-                                    <div v-if="form.tax_mode !== 'none'" class="flex items-center gap-1.5"><Input v-model.number="form.tax_rate" type="number" min="0" max="30" step="0.01" class="w-24" /><span class="text-sm text-muted-foreground">%</span></div>
+                                    <div v-if="form.tax_mode === 'iva' || form.tax_mode === 'honorarios'" class="flex items-center gap-1.5"><Input v-model.number="form.tax_rate" type="number" min="0" max="30" step="0.01" class="w-24" /><span class="text-sm text-muted-foreground">%</span></div>
                                 </div>
                             </FormField>
                         </div>

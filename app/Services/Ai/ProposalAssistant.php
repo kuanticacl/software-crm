@@ -81,7 +81,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'service_describe',
-            $this->system('Redactas la descripción de servicios de una software factory y agencia de growth marketing (web, apps, automatización, IA, performance, SEO y email marketing) para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
+            $this->system('Redactas la descripción de servicios de Vivienda en Regla, estudio de arquitectura (regularizaciones, planos, diseño de interiores y obra), para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
             'Servicio: '.mb_substr((string) $in['name'], 0, 160)."\nCategoría: ".($in['category'] ?? '—')."\nModalidad: ".(($in['billing'] ?? '') === 'monthly' ? 'mensual recurrente' : 'pago único')."\nNotas del usuario: ".mb_substr((string) ($in['hint'] ?? '—'), 0, 800),
             fn (JsonSchema $s) => [
                 'description' => $s->string()->required(),
@@ -120,7 +120,7 @@ class ProposalAssistant
 
     private function system(string $task): string
     {
-        return $task."\n\nContexto de la agencia:\n".BrandContext::text()."\n\nReglas generales: español de Chile, trato profesional y cercano; no inventes clientes, cifras, plazos contractuales ni garantías de resultados; refiérete al cliente solo con el marcador [CLIENTE] y a la persona de contacto con [CONTACTO]; sin HTML.";
+        return $task."\n\nContexto de la empresa:\n".BrandContext::text()."\n\nReglas generales: español de Chile, trato profesional y cercano; no inventes clientes, cifras, plazos contractuales ni garantías de resultados; refiérete al cliente solo con el marcador [CLIENTE] y a la persona de contacto con [CONTACTO]; sin HTML.";
     }
 
     /** @param array<string, mixed> $in */

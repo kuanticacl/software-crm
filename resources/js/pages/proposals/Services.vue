@@ -89,7 +89,7 @@ const aiWrite = async () => {
     <Head title="Catálogo de servicios" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Catálogo de servicios" description="Catálogo de servicios pre armados de la agencia. Al armar una propuesta puedes usarlos tal cual o crear servicios únicos para ese cliente.">
+        <PageHeader title="Catálogo de servicios" description="Catálogo de servicios pre armados de tu empresa. Al armar una propuesta puedes usarlos tal cual o crear servicios únicos para ese cliente.">
             <template #actions>
                 <Button v-if="can.manage" @click="openCreate"><Plus /> Nuevo servicio</Button>
             </template>

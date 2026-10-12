@@ -64,7 +64,7 @@ export const isClosed = (lead: Pick<LeadCard, 'closed_at'>): boolean => !!lead.c
 export const lostReasons = [
     'Sin respuesta',
     'Precio / presupuesto',
-    'Eligió otra agencia',
+    'Eligió otro proveedor',
     'No es el perfil',
     'Duplicado',
     'Proyecto cancelado',

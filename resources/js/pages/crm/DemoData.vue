@@ -43,7 +43,7 @@ const rows = (c: Counts) => [
             <ShieldCheck class="mt-0.5 size-5 shrink-0 text-brand-green" />
             <p>
                 <strong>No se toca la configuración:</strong> orígenes y API keys, etapas, campos, plantillas, audiencias, automatizaciones, servicios y tarifas,
-                datos de la agencia, Resend y proveedores de IA, usuarios reales y roles.
+                datos de mi empresa, Resend y proveedores de IA, usuarios reales y roles.
             </p>
         </div>
 

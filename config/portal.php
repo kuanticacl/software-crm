@@ -14,7 +14,7 @@ return [
     'charge_ahead_days' => (int) env('BILLING_CHARGE_AHEAD_DAYS', 10),
 
     /**
-     * Documento tributario por defecto de este CRM (se puede cambiar en Datos de la agencia):
+     * Documento tributario por defecto de este CRM (se puede cambiar en Datos de mi empresa):
      * iva (factura afecta), exenta (factura exenta), honorarios (boleta de honorarios) o none (sin documento).
      */
     'tax_document' => env('BILLING_TAX_DOCUMENT', 'honorarios'),

@@ -4,7 +4,7 @@ namespace App\Services\Billing;
 
 use App\Models\Setting;
 
-/** Datos bancarios de la agencia para recibir transferencias (se muestran en el portal y en los correos de cobro). */
+/** Datos bancarios de la empresa para recibir transferencias (se muestran en el portal y en los correos de cobro). */
 class BankAccounts
 {
     public const FIELDS = ['bank', 'account_type', 'number', 'holder', 'tax_id', 'email'];

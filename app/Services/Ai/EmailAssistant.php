@@ -7,7 +7,7 @@ use Illuminate\Contracts\JsonSchema\JsonSchema;
 
 /**
  * Asistente opcional para crear mailings. La IA redacta (asunto, preheader y cuerpo por bloques);
- * el diseño final lo arma BrandedEmailDesign, por lo que siempre respeta la identidad de Vivienda en Regla.
+ * el diseño final lo arma BrandedEmailDesign, por lo que siempre respeta la identidad de INTEGRALEADS.
  */
 class EmailAssistant
 {
@@ -62,7 +62,7 @@ class EmailAssistant
     {
         $result = $this->ai->structured(
             'email_subjects',
-            "Eres redactora de comunicaciones de Vivienda en Regla, estudio de arquitectura. Propones asuntos para correos.\n\n".BrandContext::text()."\n\nReglas: máx. 60 caracteres, sin MAYÚSCULAS sostenidas ni más de un signo de exclamación, sin promesas exageradas ni palabras spam («gratis», «urgente»). Variedad real: beneficio, curiosidad, dato concreto, pregunta, personalizado con {{ first_name }}. Español de Chile.",
+            "Eres redactora de comunicaciones de una inmobiliaria que vende proyectos nuevos con INTEGRALEADS. Propones asuntos para correos.\n\n".BrandContext::text()."\n\nReglas: máx. 60 caracteres, sin MAYÚSCULAS sostenidas ni más de un signo de exclamación, sin promesas exageradas ni palabras spam («gratis», «urgente»). Variedad real: beneficio, curiosidad, dato concreto, pregunta, personalizado con {{ first_name }}. Español de Chile.",
             "Asunto actual: {$subject}\nContenido del correo (resumen):\n".mb_substr($context, 0, 2500)."\n\nPropón {$count} asuntos distintos.",
             fn (JsonSchema $s) => ['subjects' => $s->array()->items($s->string())->required()],
         );
@@ -77,7 +77,7 @@ class EmailAssistant
         $unsub = $kind === 'transactional' ? 'Es un correo transaccional (respuesta a una acción de la persona).' : 'Es un boletín/promoción: el pie incluirá el enlace de baja automáticamente.';
 
         return <<<TXT
-Eres la redactora senior de comunicaciones por correo de Vivienda en Regla, estudio de arquitectura. Creas correos HTML por bloques; el diseño visual (logo oficial, colores, tipografía, botones y pie) lo aplica el sistema: tú NO decides colores, fuentes, logos ni HTML.
+Eres la redactora senior de comunicaciones por correo de una inmobiliaria que vende proyectos nuevos con INTEGRALEADS. Creas correos HTML por bloques; el diseño visual (logo oficial, colores, tipografía, botones y pie) lo aplica el sistema: tú NO decides colores, fuentes, logos ni HTML.
 
 {$this->brand()}
 
@@ -88,7 +88,7 @@ Reglas de contenido:
 - Máximo 8 bloques. No incluyas encabezado ni pie: se agregan solos. No uses HTML, ni emojis en exceso (máx. 1 en todo el correo).
 - Párrafos de 1–3 frases. Puedes usar **negrita** para 1–2 ideas clave por párrafo.
 - Personaliza con variables solo cuando sea natural: {{ first_name | default:"" }}, {{ company }}. Nunca inventes otras variables salvo que el usuario las pida.
-- No inventes cifras, clientes, ofertas, fechas ni enlaces. Si faltan datos, redacta sin ellos. Usa SOLO las URLs que te entregue el usuario (o https://www.viviendaenregla.cl).
+- No inventes cifras, clientes, ofertas, fechas ni enlaces. Si faltan datos, redacta sin ellos. Usa SOLO las URLs que te entregue el usuario (o https://www.integraleads.cl).
 - Tipo `image` o `columns` con imagen: solo con una URL de las imágenes entregadas; si no hay, no uses esos bloques.
 - Tipo `list` solo si el usuario pide mostrar proyectos/propiedades dinámicos por API.
 - Español de Chile, trato de «tú».

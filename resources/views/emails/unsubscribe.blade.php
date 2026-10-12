@@ -8,7 +8,7 @@
     <style>
         body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(#F6EFEB,#fff);font-family:'Open Sans',Arial,sans-serif;color:#3B2F2F}
         .card{background:#fff;border:1px solid #e4e4e4;border-radius:20px;padding:36px 32px;max-width:420px;width:calc(100% - 32px);text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.05)}
-        h1{font-size:22px;margin:0 0 8px;color:#A9606B}p{color:#7A6A68;line-height:1.5;margin:0 0 20px}
+        h1{font-size:22px;margin:0 0 8px;color:#6419DB}p{color:#565E74;line-height:1.5;margin:0 0 20px}
         button{background:#D9A0A5;color:#2B1B1E;border:0;border-radius:999px;padding:12px 28px;font:600 15px 'Open Sans',Arial,sans-serif;cursor:pointer}
         button:hover{background:#B76E79}.ok{color:#0d9f85}
     </style>

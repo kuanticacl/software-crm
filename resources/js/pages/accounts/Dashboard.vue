@@ -28,7 +28,7 @@ const props = defineProps<{
 defineOptions({ layout: { breadcrumbs: [{ title: 'Dashboard de cuentas', href: '/accounts' }] } });
 
 const cards = computed(() => [
-    { label: 'Ingreso recurrente mensual', hint: 'Neto, equivalente mensual', value: money(props.kpis.mrr), icon: Repeat, color: '#A9606B' },
+    { label: 'Ingreso recurrente mensual', hint: 'Neto, equivalente mensual', value: money(props.kpis.mrr), icon: Repeat, color: '#6419DB' },
     { label: 'Ingreso anual proyectado', hint: 'MRR × 12', value: money(props.kpis.arr), icon: TrendingUp, color: '#4A8CFF' },
     { label: 'Cuentas activas', hint: `${props.kpis.services_active} servicios · ${money(props.kpis.avg_per_account)} por cuenta`, value: String(props.kpis.accounts_active), icon: Users, color: '#A855F7' },
     ...(props.billing ? [
@@ -67,13 +67,13 @@ const daysLabel = (n: number) => (n === 0 ? 'hoy' : n === 1 ? 'mañana' : n < 0 
             <DataCard v-if="billing" class="p-5 xl:col-span-2">
                 <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
                     <h2 class="font-semibold">Facturado vs cobrado · últimos 6 meses</h2>
-                    <div class="flex items-center gap-4 text-xs text-muted-foreground"><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#4A8CFF]" /> Facturado (neto)</span><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#A9606B]" /> Cobrado (neto)</span></div>
+                    <div class="flex items-center gap-4 text-xs text-muted-foreground"><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#4A8CFF]" /> Facturado (neto)</span><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#6419DB]" /> Cobrado (neto)</span></div>
                 </div>
                 <div class="flex h-44 items-end gap-2 sm:gap-4" role="img" aria-label="Facturado y cobrado por mes">
                     <div v-for="s in billing.series" :key="s.month" class="flex h-full flex-1 flex-col justify-end gap-1">
                         <div class="flex flex-1 items-end justify-center gap-1">
                             <div class="w-1/2 max-w-8 rounded-t-md bg-[#4A8CFF]" :style="{ height: Math.max(2, (s.billed / chartMax) * 100) + '%' }" :title="`Facturado ${money(s.billed)}`" />
-                            <div class="w-1/2 max-w-8 rounded-t-md bg-[#A9606B]" :style="{ height: Math.max(2, (s.collected / chartMax) * 100) + '%' }" :title="`Cobrado ${money(s.collected)}`" />
+                            <div class="w-1/2 max-w-8 rounded-t-md bg-[#6419DB]" :style="{ height: Math.max(2, (s.collected / chartMax) * 100) + '%' }" :title="`Cobrado ${money(s.collected)}`" />
                         </div>
                         <p class="text-center text-xs text-muted-foreground capitalize">{{ monthName(s.month) }}</p>
                     </div>

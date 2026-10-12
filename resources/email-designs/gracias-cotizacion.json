@@ -15,14 +15,14 @@
     {
       "key": "site_url",
       "label": "Sitio web",
-      "default": "https://www.viviendaenregla.cl",
-      "sample": "https://www.viviendaenregla.cl"
+      "default": "https://www.integraleads.cl",
+      "sample": "https://www.integraleads.cl"
     },
     {
       "key": "tipo_servicio",
-      "label": "Servicio de interés",
+      "label": "Proyecto de interés",
       "default": "",
-      "sample": "Regularización"
+      "sample": "Edificio Mirador"
     },
     {
       "key": "fecha_preferida",
@@ -33,12 +33,12 @@
   ],
   "design": {
     "settings": {
-      "bg": "#F6EFEB",
+      "bg": "#F3F4FB",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#3B2F2F",
-      "linkColor": "#8A4A55",
+      "textColor": "#171B2E",
+      "linkColor": "#4A10A8",
       "radius": 16
     },
     "blocks": [
@@ -48,8 +48,8 @@
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Vivienda en Regla",
-          "brandColor": "#A9606B",
+          "brandText": "INTEGRALEADS",
+          "brandColor": "#6419DB",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -62,7 +62,7 @@
         "props": {
           "text": "Gracias por tu solicitud, {{ first_name }}",
           "size": 26,
-          "color": "#3B2F2F",
+          "color": "#171B2E",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -88,9 +88,9 @@
         "id": "b000001f",
         "type": "text",
         "props": {
-          "text": "{{#if tipo_servicio}}Servicio de interés: **{{ tipo_servicio }}**{{/if}}{{#if fecha_preferida}}\nVisita o reunión preferida: **{{ fecha_preferida }}**{{/if}}",
+          "text": "{{#if tipo_servicio}}Proyecto de interés: **{{ tipo_servicio }}**{{/if}}{{#if fecha_preferida}}\nVisita o reunión preferida: **{{ fecha_preferida }}**{{/if}}",
           "size": 15,
-          "color": "#7A6A68",
+          "color": "#565E74",
           "lineHeight": 1.6,
           "align": "left",
           "padY": 8,
@@ -104,7 +104,7 @@
         "props": {
           "text": "Qué sigue",
           "size": 18,
-          "color": "#3B2F2F",
+          "color": "#171B2E",
           "weight": "700",
           "align": "left",
           "padY": 8,
@@ -116,7 +116,7 @@
         "id": "b000001h",
         "type": "text",
         "props": {
-          "text": "**1.** El equipo de Vivienda en Regla revisa tu solicitud.\n\n**2.** Te escribimos o llamamos para coordinar la visita o reunión.\n\n**3.** Preparamos una propuesta a la medida de tu propiedad o tu espacio.",
+          "text": "**1.** Un ejecutivo revisa tu solicitud y las unidades disponibles.\n\n**2.** Te escribimos o llamamos para coordinar la visita a la sala de ventas.\n\n**3.** Te enviamos la cotización con precios en UF, pie y plan de pago.",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -130,9 +130,9 @@
         "id": "b000001i",
         "type": "button",
         "props": {
-          "label": "Conoce Vivienda en Regla",
+          "label": "Ver proyectos",
           "href": "{{ site_url }}",
-          "bg": "#A9606B",
+          "bg": "#6419DB",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -149,7 +149,7 @@
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -162,5 +162,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#8A4A55}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F6EFEB;font-family:Arial, Helvetica, sans-serif;color:#3B2F2F\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F6EFEB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Vivienda en Regla\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Gracias por tu solicitud, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Recibimos tu solicitud de cotización. <strong>Pronto te estaremos confirmando</strong> y contactando para acelerar el proceso.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#7A6A68;text-align:left\">{{#if tipo_servicio}}Servicio de interés: <strong>{{ tipo_servicio }}</strong>{{/if}}{{#if fecha_preferida}}<br>Visita o reunión preferida: <strong>{{ fecha_preferida }}</strong>{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Qué sigue</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\"><strong>1.</strong> El equipo de Vivienda en Regla revisa tu solicitud.<br><br><strong>2.</strong> Te escribimos o llamamos para coordinar la visita o reunión.<br><br><strong>3.</strong> Preparamos una propuesta a la medida de tu propiedad o tu espacio.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#A9606B\" style=\"background-color:#A9606B;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Conoce Vivienda en Regla</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#4A10A8}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F4FB;font-family:Arial, Helvetica, sans-serif;color:#171B2E\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F4FB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"INTEGRALEADS\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">Gracias por tu solicitud, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">Recibimos tu solicitud de cotización. <strong>Pronto te estaremos confirmando</strong> y contactando para acelerar el proceso.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#565E74;text-align:left\">{{#if tipo_servicio}}Proyecto de interés: <strong>{{ tipo_servicio }}</strong>{{/if}}{{#if fecha_preferida}}<br>Visita o reunión preferida: <strong>{{ fecha_preferida }}</strong>{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">Qué sigue</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\"><strong>1.</strong> Un ejecutivo revisa tu solicitud y las unidades disponibles.<br><br><strong>2.</strong> Te escribimos o llamamos para coordinar la visita a la sala de ventas.<br><br><strong>3.</strong> Te enviamos la cotización con precios en UF, pie y plan de pago.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#6419DB\" style=\"background-color:#6419DB;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver proyectos</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

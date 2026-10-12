@@ -12,11 +12,8 @@ export default defineConfig({
             input: ['resources/css/app.css', 'resources/js/app.ts'],
             refresh: true,
             fonts: [
-                bunny('Jost', {
-                    weights: [400, 500, 600, 700],
-                }),
-                bunny('Cormorant Garamond', {
-                    weights: [500, 600, 700],
+                bunny('Plus Jakarta Sans', {
+                    weights: [400, 500, 600, 700, 800],
                 }),
             ],
         }),

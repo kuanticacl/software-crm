@@ -144,7 +144,7 @@ class AiGateway
 
     /**
      * Contexto para el modelo de voz (Whisper y gpt-4o-transcribe aceptan «prompt»): un texto de ejemplo
-     * en español de Chile con el vocabulario del estudio mejora mucho el idioma, los acentos y los términos.
+     * en español de Chile con el vocabulario inmobiliario mejora mucho el idioma, los acentos y los términos.
      * @return array<string, string>
      */
     public static function transcriptionHints(string $driver): array
@@ -154,9 +154,10 @@ class AiGateway
         }
         $custom = trim((string) \App\Models\Setting::get('ai.transcription_prompt', ''));
 
-        return ['prompt' => $custom !== '' ? mb_substr($custom, 0, 800) : 'Nota de voz en español de Chile para el CRM de Vivienda en Regla. '
-            .'Habla de prospectos, clientes, propuestas, regularizaciones, permisos de edificación, recepción final, '
-            .'la DOM, planos, ampliaciones, honorarios, boleta de honorarios, UF, RUT, comunas y seguimientos. '
+        return ['prompt' => $custom !== '' ? mb_substr($custom, 0, 800) : 'Nota de voz en español de Chile para el CRM de INTEGRALEADS. '
+            .'Habla de prospectos, clientes, proyectos inmobiliarios, departamentos, casas, tipologías, dormitorios, baños, '
+            .'estacionamientos, bodegas, quinchos, cotizaciones, reservas, pie, cuotas, crédito hipotecario, promesa, escritura, '
+            .'sala de ventas, UF, RUT, comunas y seguimientos. '
             .'Transcribe con puntuación y tildes, tal como se dice.'];
     }
 

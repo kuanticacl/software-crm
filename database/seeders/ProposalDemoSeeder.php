@@ -128,7 +128,7 @@ class ProposalDemoSeeder extends Seeder
     private function sections(array $c): array
     {
         $s = ProposalBuilder::defaultSections();
-        $s[0]['body'] = '<p>Gracias por la oportunidad de presentar esta propuesta a <strong>[CLIENTE]</strong>. '.$c['brief'].'</p><p>En Vivienda en Regla somos una software factory y agencia de growth marketing con más de 10 años de experiencia: diseñamos y construimos soluciones web, móviles, de automatización e inteligencia artificial, y activamos estrategias de crecimiento (campañas, SEO, email marketing y analítica) a la medida de cada negocio.</p>';
+        $s[0]['body'] = '<p>Gracias por la oportunidad de presentar esta propuesta a <strong>[CLIENTE]</strong>. '.$c['brief'].'</p><p>En INTEGRALEADS somos una software factory y agencia de growth marketing con más de 10 años de experiencia: diseñamos y construimos soluciones web, móviles, de automatización e inteligencia artificial, y activamos estrategias de crecimiento (campañas, SEO, email marketing y analítica) a la medida de cada negocio.</p>';
 
         return $s;
     }

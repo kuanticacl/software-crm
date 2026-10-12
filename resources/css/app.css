@@ -9,15 +9,15 @@
 
 @theme inline {
     --font-sans:
-        'Jost', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-    --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    --font-serif: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
 
-    --color-brand: #d9a0a5;
-    --color-brand-blue: #7d8fa3;
-    --color-brand-green: #4f8f7a;
-    --color-brand-purple: #3b2f2f;
-    --color-brand-pink: #b76e79;
+    --color-brand: #6419db;
+    --color-brand-blue: #3b82f6;
+    --color-brand-green: #00875a;
+    --color-brand-purple: #4a10a8;
+    --color-brand-pink: #b48cf2;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -89,7 +89,100 @@
     body,
     html {
         --font-sans:
-            'Jost', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+            'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+            'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    }
+}
+
+:root {
+    /* Identidad INTEGRALEADS: violeta #6419DB sobre blanco azulado #F8F9FF, gris pizarra #565E74, verde #00452D; tipografía Plus Jakarta Sans */
+    --background: #f8f9ff;
+    --foreground: #171b2e;
+    --card: #ffffff;
+    --card-foreground: #171b2e;
+    --popover: #ffffff;
+    --popover-foreground: #171b2e;
+    --primary: #6419db;
+    --primary-foreground: #ffffff;
+    --secondary: #eef0fa;
+    --secondary-foreground: #2a2f45;
+    --muted: #eef0f8;
+    --muted-foreground: #565e74;
+    --accent: #f0e9fd;
+    --accent-foreground: #4a10a8;
+    --destructive: #d92d20;
+    --destructive-foreground: #ffffff;
+    --border: #e3e6f2;
+    --input: #d9dcec;
+    --ring: #9b6bef;
+    --chart-1: #6419db;
+    --chart-2: #00875a;
+    --chart-3: #565e74;
+    --chart-4: #b48cf2;
+    --chart-5: #f59e0b;
+    --radius: 0.75rem;
+    --sidebar-background: #ffffff;
+    --sidebar-foreground: #2a2f45;
+    --sidebar-primary: #6419db;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f0e9fd;
+    --sidebar-accent-foreground: #4a10a8;
+    --sidebar-border: #e8eaf4;
+    --sidebar-ring: #9b6bef;
+    --sidebar: #ffffff;
+}
+
+.dark {
+    --background: #0e1020;
+    --foreground: #eceefb;
+    --card: #161a2e;
+    --card-foreground: #eceefb;
+    --popover: #161a2e;
+    --popover-foreground: #eceefb;
+    --primary: #9b6bef;
+    --primary-foreground: #ffffff;
+    --secondary: #1f2440;
+    --secondary-foreground: #eceefb;
+    --muted: #1f2440;
+    --muted-foreground: #a3a9c2;
+    --accent: #2a1f4f;
+    --accent-foreground: #d8c6fb;
+    --destructive: #f04438;
+    --destructive-foreground: #ffffff;
+    --border: #262b47;
+    --input: #2e3453;
+    --ring: #9b6bef;
+    --chart-1: #9b6bef;
+    --chart-2: #34d399;
+    --chart-3: #a3a9c2;
+    --chart-4: #d8c6fb;
+    --chart-5: #fbbf24;
+    --sidebar-background: #0b0d1a;
+    --sidebar-foreground: #d4d8ec;
+    --sidebar-primary: #9b6bef;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #1c1838;
+    --sidebar-accent-foreground: #d8c6fb;
+    --sidebar-border: #1d2138;
+    --sidebar-ring: #9b6bef;
+    --sidebar: #0b0d1a;
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--border, currentColor);
+    }
+}
+
+@layer utilities {
+    body,
+    html {
+        --font-sans:
+            'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
             'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
 }
@@ -177,8 +270,8 @@
     }
     h1 {
         font-family: var(--font-serif);
-        font-weight: 600;
-        letter-spacing: -0.01em;
+        font-weight: 700;
+        letter-spacing: -0.02em;
     }
 }
 
@@ -187,7 +280,7 @@
 .rich > * + * { margin-top: 0.5rem; }
 .rich ul { list-style: disc; padding-left: 1.25rem; }
 .rich ol { list-style: decimal; padding-left: 1.25rem; }
-.rich li::marker { color: #A9606B; }
-.rich a { color: #A9606B; text-decoration: underline; }
+.rich li::marker { color: #6419DB; }
+.rich a { color: #6419DB; text-decoration: underline; }
 .rich h3 { font-size: 1rem; font-weight: 700; }
-.rich blockquote { border-left: 3px solid #A9606B; padding-left: 0.75rem; color: #707070; }
+.rich blockquote { border-left: 3px solid #6419DB; padding-left: 0.75rem; color: #707070; }

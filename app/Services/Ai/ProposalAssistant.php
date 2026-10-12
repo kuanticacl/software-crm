@@ -31,7 +31,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'proposal_draft',
-            $this->system("Redactas el contenido de propuestas comerciales de Vivienda en Regla, un estudio de arquitectura (regularizaciones, planos y diseño de interiores), para personas y empresas que necesitan regularizar una propiedad, obtener planos o diseñar un espacio.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen del proyecto», «Objetivos», «Alcance de los servicios», «Etapas y plazos».\n- Resumen del proyecto: 2 párrafos cortos que muestren que entendemos la propiedad o el espacio y lo que el cliente necesita.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Etapas y plazos: viñetas por etapa (levantamiento, anteproyecto, ingreso a la municipalidad, ejecución, entrega…), en términos relativos y marcados como referenciales; los plazos municipales dependen del organismo.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte. No prometas aprobaciones municipales ni plazos exactos."),
+            $this->system("Redactas el contenido de propuestas comerciales de INTEGRALEADS, un estudio de arquitectura (regularizaciones, planos y diseño de interiores), para personas y empresas que necesitan regularizar una propiedad, obtener planos o diseñar un espacio.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen del proyecto», «Objetivos», «Alcance de los servicios», «Etapas y plazos».\n- Resumen del proyecto: 2 párrafos cortos que muestren que entendemos la propiedad o el espacio y lo que el cliente necesita.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Etapas y plazos: viñetas por etapa (levantamiento, anteproyecto, ingreso a la municipalidad, ejecución, entrega…), en términos relativos y marcados como referenciales; los plazos municipales dependen del organismo.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte. No prometas aprobaciones municipales ni plazos exactos."),
             $this->context($in)."\nTono: ".($in['tone'] ?? 'Cercano y profesional')."\nInstrucciones adicionales: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1200),
             fn (JsonSchema $s) => [
                 'title' => $s->string()->description('Título corto de la propuesta, sin nombre del cliente')->required(),
@@ -63,7 +63,7 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'proposal_improve',
-            $this->system('Mejoras textos de propuestas comerciales de Vivienda en Regla. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
+            $this->system('Mejoras textos de propuestas comerciales de INTEGRALEADS. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
             "Sección: ".mb_substr((string) ($in['title'] ?? ''), 0, 120)."\nTipo de cliente / giro: ".($in['recipient']['activity'] ?? 'no informado')."\n{$instruction}\n\nTexto actual:\n".(mb_substr(ProposalText::toMarkdown($in['text'] ?? ''), 0, 5000) ?: '(vacío: redáctalo desde cero según el título de la sección)'),
             fn (JsonSchema $s) => ['text' => $s->string()->required()],
         );
@@ -81,7 +81,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'service_describe',
-            $this->system('Redactas la descripción de servicios de Vivienda en Regla, estudio de arquitectura (regularizaciones, planos, diseño de interiores y obra), para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
+            $this->system('Redactas la descripción de servicios de INTEGRALEADS, estudio de arquitectura (regularizaciones, planos, diseño de interiores y obra), para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
             'Servicio: '.mb_substr((string) $in['name'], 0, 160)."\nCategoría: ".($in['category'] ?? '—')."\nModalidad: ".(($in['billing'] ?? '') === 'monthly' ? 'mensual recurrente' : 'pago único')."\nNotas del usuario: ".mb_substr((string) ($in['hint'] ?? '—'), 0, 800),
             fn (JsonSchema $s) => [
                 'description' => $s->string()->required(),
@@ -103,7 +103,7 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'service_suggest',
-            $this->system('Eres la asistente comercial de Vivienda en Regla, estudio de arquitectura. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza lo que resuelve el problema del cliente y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
+            $this->system('Eres la asistente comercial de INTEGRALEADS, estudio de arquitectura. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza lo que resuelve el problema del cliente y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
             $this->context($in)."\nNecesidad: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1000)."\n\nCatálogo:\n".$catalog->map(fn ($s) => "#{$s->id} [{$s->category}] {$s->name} ({$s->billing}) — ".mb_substr((string) $s->description, 0, 140))->implode("\n"),
             fn (JsonSchema $s) => ['suggestions' => $s->array()->items($s->object([
                 'service_id' => $s->integer()->required(),

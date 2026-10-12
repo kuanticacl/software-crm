@@ -21,7 +21,7 @@ class CrmInstall extends Command
         }
 
         $this->call('db:seed', ['--class' => DatabaseSeeder::class, '--force' => true]);
-        $this->info('Datos iniciales cargados. Administrador: '.env('ADMIN_EMAIL', 'admin@viviendaenregla.cl'));
+        $this->info('Datos iniciales cargados. Administrador: '.env('ADMIN_EMAIL', 'admin@integraleads.cl'));
 
         return self::SUCCESS;
     }

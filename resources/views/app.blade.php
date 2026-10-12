@@ -31,8 +31,9 @@
         </style>
 
         <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
-        <link rel="icon" href="/favicon.ico" type="image/x-icon">
-        <link rel="apple-touch-icon" href="/favicon.ico">
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+        <link rel="alternate icon" href="/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
         @fonts
 

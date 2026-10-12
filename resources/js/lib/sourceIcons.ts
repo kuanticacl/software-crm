@@ -40,9 +40,9 @@ export const sourceIcons: Record<string, Component> = {
 
 export const sourceIconNames = Object.keys(sourceIcons);
 
-/** Paleta de la marca Vivienda en Regla para elegir colores rápido. */
+/** Paleta de la marca INTEGRALEADS para elegir colores rápido. */
 export const brandColors = [
-    '#A9606B',
+    '#6419DB',
     '#1AA0E4',
     '#0D9F85',
     '#3B2F2F',

@@ -31,7 +31,7 @@ const filters = ref({ q: props.filters.q ?? '', client: props.filters.client ?? 
 useDebouncedFilters('/contracts', filters, ['services', 'filters']);
 
 const cards = [
-    { label: 'Servicios activos', value: () => String(props.kpis.active), icon: PackageCheck, color: '#A9606B' },
+    { label: 'Servicios activos', value: () => String(props.kpis.active), icon: PackageCheck, color: '#6419DB' },
     { label: 'Ingreso recurrente mensual (neto)', value: () => money(props.kpis.recurring_monthly_clp), icon: Repeat, color: '#4A8CFF' },
     { label: 'Terminan en 30 días (sin renovación)', value: () => String(props.kpis.ending_soon), icon: CalendarClock, color: '#FFA165' },
 ];

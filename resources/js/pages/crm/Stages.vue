@@ -111,7 +111,7 @@ const typeStyle: Record<string, string> = {
                     <span class="w-5 text-center text-xs font-semibold text-muted-foreground">{{ i + 1 }}</span>
                     <span class="size-4 shrink-0 rounded-full" :style="{ backgroundColor: s.color }" />
                     <span class="flex-1 font-medium">{{ s.name }}</span>
-                    <Badge v-if="s.requires_proposal" class="border-transparent bg-primary/10 text-primary" title="Pide propuesta comercial"><FileSignature class="size-3" />Propuesta</Badge>
+                    <Badge v-if="s.requires_proposal" class="border-transparent bg-primary/10 text-primary" title="Pide cotización"><FileSignature class="size-3" />Propuesta</Badge>
                     <Badge :class="['border-transparent', typeStyle[s.type]]">{{ types[s.type] }}</Badge>
                     <span class="w-16 text-right text-xs text-muted-foreground">{{ s.leads_count }} leads</span>
                     <Button variant="ghost" size="icon-sm" title="Editar" @click="openEdit(s)"><Pencil /></Button>
@@ -147,7 +147,7 @@ const typeStyle: Record<string, string> = {
                 </FormField>
                 <label class="flex items-start gap-3 rounded-xl border bg-muted/30 p-3 text-sm">
                     <Switch :model-value="form.requires_proposal" class="mt-0.5" @update:model-value="(v: boolean) => (form.requires_proposal = v)" />
-                    <span><strong>Requiere propuesta comercial</strong><span class="block text-xs text-muted-foreground">Al mover un prospecto a esta etapa sin propuesta, el CRM te ofrece crearla y la muestra en la tarjeta.</span></span>
+                    <span><strong>Requiere cotización</strong><span class="block text-xs text-muted-foreground">Al mover un prospecto a esta etapa sin cotización, el CRM te ofrece crearla.</span></span>
                 </label>
                 <DialogFooter class="gap-2">
                     <Button type="button" variant="outline" @click="dialogOpen = false">Cancelar</Button>

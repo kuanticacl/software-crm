@@ -1,0 +1,159 @@
+{
+  "slug": "reserva-confirmada",
+  "name": "Reserva confirmada",
+  "description": "Confirmación al comprador cuando se registra la reserva de su unidad, con el plan de pagos del pie.",
+  "category": "transactional",
+  "subject": "¡Reservaste tu unidad en {{ project_name }}!",
+  "preheader": "Reserva {{ reservation_number }} confirmada",
+  "variables": [
+    {
+      "key": "first_name",
+      "label": "Nombre",
+      "default": "",
+      "sample": "María"
+    },
+    {
+      "key": "project_name",
+      "label": "Proyecto",
+      "default": "",
+      "sample": "Edificio Mirador"
+    },
+    {
+      "key": "unit_label",
+      "label": "Unidades",
+      "default": "",
+      "sample": "Departamento 1204 + estacionamiento E-15"
+    },
+    {
+      "key": "reservation_number",
+      "label": "Número",
+      "default": "",
+      "sample": "R-2026-0001"
+    },
+    {
+      "key": "total_uf",
+      "label": "Total UF",
+      "default": "",
+      "sample": "4.120,00 UF"
+    },
+    {
+      "key": "plan",
+      "label": "Plan de pagos",
+      "default": "",
+      "sample": "Pie: 24 cuotas de 33,96 UF desde el 05-11-2026"
+    },
+    {
+      "key": "promise_date",
+      "label": "Firma de promesa",
+      "default": "",
+      "sample": "15 de noviembre de 2026"
+    },
+    {
+      "key": "executive",
+      "label": "Ejecutivo",
+      "default": "",
+      "sample": "Camila Rojas"
+    }
+  ],
+  "design": {
+    "settings": {
+      "bg": "#F3F4FB",
+      "contentBg": "#FFFFFF",
+      "width": 600,
+      "font": "Arial, Helvetica, sans-serif",
+      "textColor": "#171B2E",
+      "linkColor": "#4A10A8",
+      "radius": 16
+    },
+    "blocks": [
+      {
+        "id": "b0000024",
+        "type": "header",
+        "props": {
+          "logoUrl": "{{LOGO_URL}}",
+          "logoWidth": 150,
+          "brandText": "INTEGRALEADS",
+          "brandColor": "#6419DB",
+          "align": "center",
+          "padY": 28,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000025",
+        "type": "heading",
+        "props": {
+          "text": "¡Felicitaciones, {{ first_name }}!",
+          "size": 26,
+          "color": "#171B2E",
+          "weight": "700",
+          "align": "left",
+          "padY": 12,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000026",
+        "type": "text",
+        "props": {
+          "text": "Confirmamos la reserva **{{ reservation_number }}** de tu nueva vivienda en **{{ project_name }}**.",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000027",
+        "type": "text",
+        "props": {
+          "text": "{{ unit_label }}\nValor total: **{{ total_uf }}**\n{{ plan }}{{#if promise_date}}\nFirma de la promesa: **{{ promise_date }}**{{/if}}",
+          "size": 15,
+          "color": "#565E74",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000028",
+        "type": "text",
+        "props": {
+          "text": "{{#if executive}}{{ executive }} te acompañará en los siguientes pasos: promesa de compraventa, pago del pie y escritura.{{/if}}",
+          "size": 13,
+          "color": "#7B8299",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 6,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000029",
+        "type": "footer",
+        "props": {
+          "company": "{{ company_name }}",
+          "address": "{{ADDRESS}}",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.",
+          "showUnsubscribe": false,
+          "unsubscribeText": "Darme de baja",
+          "showView": false,
+          "color": "#9A8C88",
+          "align": "center",
+          "padY": 24,
+          "padX": 32,
+          "bg": "#FBF8F6"
+        }
+      }
+    ]
+  },
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#4A10A8}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F4FB;font-family:Arial, Helvetica, sans-serif;color:#171B2E\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F4FB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"INTEGRALEADS\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">¡Felicitaciones, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">Confirmamos la reserva <strong>{{ reservation_number }}</strong> de tu nueva vivienda en <strong>{{ project_name }}</strong>.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#565E74;text-align:left\">{{ unit_label }}<br>Valor total: <strong>{{ total_uf }}</strong><br>{{ plan }}{{#if promise_date}}<br>Firma de la promesa: <strong>{{ promise_date }}</strong>{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#7B8299;text-align:center\">{{#if executive}}{{ executive }} te acompañará en los siguientes pasos: promesa de compraventa, pago del pie y escritura.{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+}

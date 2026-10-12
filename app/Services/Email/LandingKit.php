@@ -8,26 +8,26 @@ use App\Models\LeadField;
 use App\Models\LeadSource;
 
 /**
- * Recursos del CRM para el sitio viviendaenregla.cl: orígenes (cada uno con su API key),
+ * Recursos del CRM para el sitio integraleads.cl: orígenes (cada uno con su API key),
  * audiencia del boletín, campos personalizados y las dos plantillas de agradecimiento.
  * Es idempotente: solo crea lo que falta y nunca pisa lo que ya se editó en el CRM.
  */
 class LandingKit
 {
-    public const SITE = 'https://www.viviendaenregla.cl';
+    public const SITE = 'https://www.integraleads.cl';
 
     public const NEWSLETTER_TEMPLATE = 'gracias-contacto';
 
     public const ADVISORY_TEMPLATE = 'gracias-cotizacion';
 
-    public const AUDIENCE = 'Boletín Vivienda en Regla';
+    public const AUDIENCE = 'Boletín INTEGRALEADS';
 
     /** @return array<string, string> resumen de lo creado */
     public function install(): array
     {
         $created = [];
 
-        foreach ([['Formulario Contacto', '#A9606B', 'mail', 20], ['Formulario Cotización', '#7D8FA3', 'calendar-check', 21]] as [$name, $color, $icon, $order]) {
+        foreach ([['Formulario Contacto', '#6419DB', 'mail', 20], ['Formulario Cotización', '#7D8FA3', 'calendar-check', 21]] as [$name, $color, $icon, $order]) {
             $slug = \Illuminate\Support\Str::slug($name);
             if (! LeadSource::where('slug', $slug)->exists()) {
                 LeadSource::create(['name' => $name, 'slug' => $slug, 'color' => $color, 'icon' => $icon, 'api_key' => LeadSource::generateKey(), 'sort_order' => $order]);
@@ -36,7 +36,7 @@ class LandingKit
         }
 
         if (! ContactList::where('name', self::AUDIENCE)->exists()) {
-            ContactList::create(['name' => self::AUDIENCE, 'description' => 'Suscriptores del boletín de novedades de Vivienda en Regla.']);
+            ContactList::create(['name' => self::AUDIENCE, 'description' => 'Suscriptores del boletín de novedades de INTEGRALEADS.']);
             $created[] = 'audiencia: '.self::AUDIENCE;
         }
 

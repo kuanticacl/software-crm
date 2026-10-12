@@ -52,7 +52,7 @@ const tabs = [
 const cards = [
     { label: 'Por cobrar', value: () => money(props.kpis.receivable_clp), icon: Wallet, color: '#4A8CFF' },
     { label: 'Vencido', value: () => money(props.kpis.overdue_clp), icon: CircleAlert, color: '#EF4444' },
-    { label: 'Cobrado este mes', value: () => money(props.kpis.paid_month_clp), icon: AlarmClock, color: '#A9606B' },
+    { label: 'Cobrado este mes', value: () => money(props.kpis.paid_month_clp), icon: AlarmClock, color: '#6419DB' },
 ];
 
 const newOpen = ref(false);

@@ -83,6 +83,16 @@ class Lead extends Model
         return $this->hasOne(Proposal::class)->latestOfMany();
     }
 
+    public function quotes(): HasMany
+    {
+        return $this->hasMany(Quote::class)->latest('id');
+    }
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class)->latest('id');
+    }
+
     public function notes(): HasMany
     {
         return $this->hasMany(LeadNote::class)->latest();

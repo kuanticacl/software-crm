@@ -13,12 +13,13 @@ class CrmSeeder extends Seeder
     {
         if (PipelineStage::count() === 0) {
             $stages = [
-                ['Nuevo contacto', '#B76E79', 'open', false],
-                ['Primera conversación', '#8C7B75', 'open', false],
-                ['Visita o levantamiento', '#C9A66B', 'open', false],
-                ['Propuesta enviada', '#A9606B', 'open', true],
-                ['Ganado', '#4F8F7A', 'won', true],
-                ['Perdido', '#9A8C88', 'lost', false],
+                ['Nuevo prospecto', '#2E90FA', 'open', false],
+                ['Contactado', '#7A5AF8', 'open', false],
+                ['Visita agendada', '#F79009', 'open', false],
+                ['Cotizado', '#6419DB', 'open', true],
+                ['Reservado', '#12B76A', 'open', true],
+                ['Promesado / vendido', '#027A48', 'won', true],
+                ['Perdido', '#98A2B3', 'lost', false],
             ];
 
             foreach ($stages as $i => [$name, $color, $type, $needsProposal]) {
@@ -26,17 +27,17 @@ class CrmSeeder extends Seeder
             }
         }
 
-        $this->call(ServiceSeeder::class);
 
         if (LeadSource::count() === 0) {
             $sources = [
-                ['Sitio web', '#7D8FA3', 'globe', false],
-                ['Instagram', '#B76E79', 'camera', false],
-                ['Meta Ads', '#8C7B75', 'megaphone', false],
-                ['Google Ads', '#4F8F7A', 'search', false],
+                ['Sitio web', '#6419DB', 'globe', false],
+                ['Portal inmobiliario', '#F79009', 'building', false],
+                ['Meta Ads', '#2E90FA', 'megaphone', false],
+                ['Google Ads', '#12B76A', 'search', false],
+                ['Sala de ventas', '#7A5AF8', 'store', false],
                 ['WhatsApp', '#25D366', 'message-circle', false],
-                ['Referido', '#C9A66B', 'handshake', false],
-                ['Manual', '#7A6A68', 'pencil', true],
+                ['Referido', '#565E74', 'handshake', false],
+                ['Manual', '#565E74', 'pencil', true],
             ];
 
             foreach ($sources as $i => [$name, $color, $icon, $system]) {

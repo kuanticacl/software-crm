@@ -104,7 +104,7 @@ class BillingMailer
     {
         $ref = "{$doc} N° {$number}";
         if ($kind === 'issued') {
-            return ["Tienes un nuevo cobro", "ya tienes disponible la {$ref}, con vencimiento el {$due}.", "Nuevo cobro de Vivienda en Regla · {$doc} {$number}"];
+            return ["Tienes un nuevo cobro", "ya tienes disponible la {$ref}, con vencimiento el {$due}.", "Nuevo cobro de INTEGRALEADS · {$doc} {$number}"];
         }
         if ($days > 0) {
             $d = $days === 1 ? '1 día' : "{$days} días";

@@ -13,13 +13,8 @@ defineProps<Props>();
 </script>
 
 <template>
-    <!-- Isotipo oficial (casa con escuadra y lápiz): PNG como máscara, toma el color actual -->
-    <span
-        role="img"
-        aria-label="Vivienda en Regla"
-        class="inline-block bg-current"
-        :class="className"
-        style="aspect-ratio: 207 / 195; -webkit-mask: url('/brand/vivienda-mark-white.png') no-repeat center / contain; mask: url('/brand/vivienda-mark-white.png') no-repeat center / contain"
-        v-bind="$attrs"
-    />
+    <!-- Isotipo oficial de INTEGRALEADS: toma el color actual -->
+    <svg role="img" aria-label="INTEGRALEADS" viewBox="-1 -1 47 33" fill="currentColor" class="inline-block" :class="className" v-bind="$attrs">
+        <path d="M97.245,100.548l-10.4-10.4a1.075,1.075,0,0,1,.76-1.835h4.08a1.076,1.076,0,0,1,.76.315l4.8,4.8a1.075,1.075,0,0,0,1.52,0l12.213-12.31a1.075,1.075,0,0,1,.76-.315h4.08a1.075,1.075,0,0,1,.76,1.835l-17.813,17.91a1.075,1.075,0,0,1-1.52,0" transform="translate(-74.555 -69.624)" /><path d="M19.65.315l10.4,10.4a1.075,1.075,0,0,1-.76,1.835h-4.08a1.076,1.076,0,0,1-.76-.315l-4.8-4.8a1.075,1.075,0,0,0-1.52,0L5.917,19.745a1.075,1.075,0,0,1-.76.315H1.077a1.075,1.075,0,0,1-.76-1.835L18.13.315a1.075,1.075,0,0,1,1.52,0" transform="translate(0 0)" />
+    </svg>
 </template>

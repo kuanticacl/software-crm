@@ -4,17 +4,18 @@ namespace App\Services\Ai;
 
 use App\Models\Setting;
 
-/** Contexto de marca de Vivienda en Regla que se entrega a la IA (voz, propuesta de valor y reglas de estilo). */
+/** Contexto comercial (inmobiliaria con INTEGRALEADS) que se entrega a la IA (voz, propuesta de valor y reglas de estilo). */
 class BrandContext
 {
     public static function defaultText(): string
     {
         return <<<'TXT'
-Vivienda en Regla es el estudio de arquitectura de Catalina Quiroga, arquitecta en Chile. Ayuda a personas y empresas a regularizar sus propiedades y a diseñar espacios con criterio, orden y un estilo minimalista y cálido.
-Servicios: regularizaciones de viviendas y construcciones (permisos, ampliaciones y edificaciones sin permiso, recepción final, cambios de destino, locales comerciales), planos (levantamiento, arquitectura, planos para trámite municipal y de remodelación) y diseño de interiores para oficinas, departamentos, casas, retail, stands y locales comerciales. Según el proyecto se trabaja solo con honorarios (diseño y gestión) o con honorarios más obra completa.
-Clientes: personas que necesitan resolver la situación de su vivienda o remodelar, y empresas que necesitan oficinas, locales o stands.
-Voz: profesional, cercana, serena y elegante, con claridad técnica sin tecnicismos innecesarios. Español de Chile, trato de «tú» (o «usted» si el cliente lo usa primero), frases cortas, beneficios concretos (tranquilidad legal, espacios mejor aprovechados, plazos claros). Sin promesas exageradas, mayúsculas gritadas ni exceso de signos de exclamación. Los plazos de trámites dependen de la municipalidad: indícalos como estimados.
-Llamados a la acción típicos: «Cuéntanos de tu proyecto», «Agenda una visita», «Conversemos».
+Equipo comercial inmobiliario que vende proyectos nuevos (departamentos y casas en blanco, en verde y de entrega inmediata) en Chile, trabajando con la plataforma INTEGRALEADS.
+Producto: unidades de cada proyecto (departamentos, casas, oficinas o locales) más complementos como estacionamientos, bodegas y quinchos. Los precios se expresan en UF; el pie se paga en cuotas y el saldo se financia con crédito hipotecario.
+Proceso comercial: captación del prospecto, cotización de una o más unidades, visita a la sala de ventas o piloto, reserva con un monto inicial, promesa de compraventa y escritura.
+Clientes: personas que buscan su primera vivienda, familias que se cambian e inversionistas que buscan rentabilidad por arriendo o plusvalía.
+Voz: profesional, cercana, clara y orientada a ayudar a decidir. Español de Chile, trato de «tú» (o «usted» si el cliente lo usa primero), frases cortas, beneficios concretos (ubicación, conectividad, metraje, terminaciones, plusvalía, facilidades de pago). Nunca inventes precios, stock, descuentos ni fechas de entrega: usa solo los datos del CRM.
+Llamados a la acción típicos: «Agenda tu visita a la sala de ventas», «Cotiza tu departamento», «Reserva tu unidad».
 TXT;
     }
 

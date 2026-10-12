@@ -35,12 +35,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $p->title }} · Vivienda en Regla</title>
+    <title>{{ $p->title }} · INTEGRALEADS</title>
     @if ($public ?? false)<meta name="robots" content="noindex,nofollow">@endif
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --o:{{ \App\Support\Theme::primary() ?? '#A9606B' }}; --o2:#E3B5AE; --ink:#3B2F2F; --mut:#7A6A68; --line:#E6D8D1; --bg:#F6EFEB; --soft:{{ \App\Support\Theme::accent() ?? '#F6E7E4' }}; }
+        :root { --o:{{ \App\Support\Theme::primary() ?? '#6419DB' }}; --o2:#E3B5AE; --ink:#3B2F2F; --mut:#565E74; --line:#E6D8D1; --bg:#F6EFEB; --soft:{{ \App\Support\Theme::accent() ?? '#F6E7E4' }}; }
         * { box-sizing: border-box; }
         html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         body { margin:0; background:var(--bg); color:var(--ink); font-family:'Jost',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
@@ -128,7 +128,7 @@
     </div>
 
     <section class="cover">
-        <img class="logo" src="{{ $asset('brand/vivienda-logo-dark.png') }}" alt="Vivienda en Regla">
+        <img class="logo" src="{{ $asset('brand/integraleads-logo-dark.png') }}" alt="INTEGRALEADS">
         <span class="tag">Propuesta comercial · N.º {{ $p->number }}</span>
         <h1>{{ $p->title }}</h1>
         <p>Preparada para <strong>{{ $company }}</strong></p>
@@ -238,9 +238,9 @@
     {{-- Firma y aceptación --}}
     <section class="card">
         <h2>Firma y aceptación</h2>
-        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de Vivienda en Regla. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
+        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de INTEGRALEADS. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
         <div class="sign">
-            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo Vivienda en Regla' }}</strong><div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div></div>
+            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo INTEGRALEADS' }}</strong><div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div></div>
             <div>
                 @if ($status === 'accepted')
                     <div class="line" style="display:grid;place-items:end center;padding-bottom:4px;min-height:64px">

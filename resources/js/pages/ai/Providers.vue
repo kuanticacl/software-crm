@@ -202,7 +202,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
             <form class="grid gap-5" @submit.prevent="savePrefs">
                 <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Analizar prospectos nuevos automáticamente</span><br /><span class="text-xs text-muted-foreground">Al ingresar un prospecto se genera su perfil y recomendaciones en segundo plano (consume tokens del proveedor por defecto).</span></span><Switch :model-value="prefs.auto_analyze" @update:model-value="(v: boolean) => (prefs.auto_analyze = v)" /></label>
                 <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Enviar correo y teléfono completos a la IA</span><br /><span class="text-xs text-muted-foreground">Desactivado: la IA solo recibe nombre, empresa, cargo, dominio del correo y datos comerciales (más privado). Actívalo solo si el proveedor está autorizado para tratar datos personales.</span></span><Switch :model-value="prefs.share_contact" @update:model-value="(v: boolean) => (prefs.share_contact = v)" /></label>
-                <FormField label="Contexto de marca (lo que la IA sabe de Vivienda en Regla)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
+                <FormField label="Contexto de marca (lo que la IA sabe de INTEGRALEADS)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
                     <Textarea id="bc" v-model="prefs.brand_context" rows="7" />
                 </FormField>
                 <div class="flex items-center justify-between">
@@ -217,7 +217,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
             <p class="mb-5 text-sm text-muted-foreground">Ajusta cómo responde la IA en todo el CRM. Las reglas base de cada función (seguridad, herramientas y formato) siempre se mantienen; lo que escribas aquí se suma a ellas.</p>
             <form class="grid gap-5" @submit.prevent="saveTuning">
                 <div class="grid gap-5 lg:grid-cols-2">
-                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y al Agent. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
+                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y al Agent. Ej.: «Siempre expresa los precios en UF», «Invita a visitar la sala de ventas».">
                         <Textarea id="ti" v-model="tuning.instructions" rows="5" placeholder="Ej.: Usa siempre «usted» con empresas y «tú» con personas. Nunca prometas plazos municipales." />
                     </FormField>
                     <FormField label="Instrucciones solo para el Agent (chat)" for="ta" :error="tuning.errors.agent_instructions" hint="Cómo quieres que converse y actúe el asistente del chat.">

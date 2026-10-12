@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
-    /** Catálogo inicial de Vivienda en Regla (honorarios referenciales en pesos; se ajustan en Catálogo). */
+    /** Catálogo inicial de INTEGRALEADS (honorarios referenciales en pesos; se ajustan en Catálogo). */
     public function run(): void
     {
         if (Service::count() > 0) {

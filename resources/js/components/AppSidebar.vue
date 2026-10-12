@@ -2,11 +2,14 @@
 import { Link } from '@inertiajs/vue3';
 import {
     Briefcase,
+    Calculator,
+    Hotel,
+    KeyRound,
+    LayoutGrid,
     Building,
     Mail,
     Shield,
     SlidersHorizontal,
-    Wallet,
     Building2,
     Columns3,
     FileText,
@@ -29,10 +32,6 @@ import {
     ShieldCheck,
     UserCog,
     Users,
-    FileSignature,
-    Package,
-    PackageCheck,
-    Receipt,
 } from '@lucide/vue';
 import type { Component } from 'vue';
 import { computed } from 'vue';
@@ -72,8 +71,6 @@ import { index as suppressions } from '@/routes/suppressions';
 import { index as templates } from '@/routes/templates';
 import { index as sources } from '@/routes/sources';
 import { index as stages } from '@/routes/stages';
-import { index as proposals } from '@/routes/proposals';
-import { index as services } from '@/routes/services';
 import { index as users } from '@/routes/users';
 import type { NavItem } from '@/types';
 
@@ -90,18 +87,16 @@ const groups: NavGroup[] = [
             { title: 'Kanban', href: kanbanIndex(), icon: Columns3, permission: 'dashboard.view' },
             { title: 'Prospectos', href: leads(), icon: Users, permission: 'leads.view' },
             { title: 'Clientes', href: clients(), icon: Building2, permission: 'clients.view' },
-            { title: 'Propuestas', href: proposals(), icon: FileSignature, permission: 'proposals.view' },
-            { title: 'Catálogo de servicios', href: services(), icon: Package, permission: 'services.view' },
+            { title: 'Cotizaciones', href: '/quotes', icon: Calculator, permission: 'quotes.view' },
+            { title: 'Reservas', href: '/reservations', icon: KeyRound, permission: 'reservations.view' },
         ],
     },
     {
-        label: 'Cuentas y cobranza',
-        icon: Wallet,
+        label: 'Proyectos',
+        icon: Building,
         items: [
-            { title: 'Dashboard de cuentas', href: '/accounts', icon: ChartColumn, permission: 'contracts.view' },
-            { title: 'Kanban de cuentas', href: '/accounts/kanban', icon: Columns3, permission: 'contracts.view' },
-            { title: 'Proyectos', href: '/contracts', icon: PackageCheck, permission: 'contracts.view' },
-            { title: 'Cobros y boletas', href: '/billing', icon: Receipt, permission: 'billing.view' },
+            { title: 'Proyectos', href: '/projects', icon: Hotel, permission: 'projects.view' },
+            { title: 'Inventario', href: '/inventory', icon: LayoutGrid, permission: 'units.view' },
         ],
     },
     {
@@ -160,7 +155,7 @@ const visibleGroups = computed(() =>
 );
 
 const footerNavItems: NavItem[] = [
-    { title: 'viviendaenregla.cl', href: 'https://www.viviendaenregla.cl', icon: Globe },
+    { title: 'integraleads.cl', href: 'https://www.integraleads.cl', icon: Globe },
 ];
 </script>
 

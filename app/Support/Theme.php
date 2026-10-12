@@ -23,12 +23,12 @@ class Theme
 
     /** Tipografías disponibles (Bunny Fonts: sin rastreo y con licencia abierta). @var array<string, string> nombre => slug */
     public const SANS = [
-        'Jost' => 'jost', 'Inter' => 'inter', 'Open Sans' => 'open-sans', 'Poppins' => 'poppins', 'Montserrat' => 'montserrat', 'DM Sans' => 'dm-sans',
+        'Plus Jakarta Sans' => 'plus-jakarta-sans', 'Inter' => 'inter', 'Jost' => 'jost', 'Open Sans' => 'open-sans', 'Poppins' => 'poppins', 'Montserrat' => 'montserrat', 'DM Sans' => 'dm-sans',
         'Lato' => 'lato', 'Nunito Sans' => 'nunito-sans', 'Work Sans' => 'work-sans', 'Manrope' => 'manrope', 'Asap' => 'asap',
     ];
 
     public const TITLES = [
-        'Cormorant Garamond' => 'cormorant-garamond', 'Playfair Display' => 'playfair-display', 'Lora' => 'lora', 'Libre Baskerville' => 'libre-baskerville',
+        'Plus Jakarta Sans' => 'plus-jakarta-sans', 'Cormorant Garamond' => 'cormorant-garamond', 'Playfair Display' => 'playfair-display', 'Lora' => 'lora', 'Libre Baskerville' => 'libre-baskerville',
         'DM Serif Display' => 'dm-serif-display', 'Fraunces' => 'fraunces',
     ];
 

@@ -27,6 +27,7 @@ use App\Http\Controllers\LeadNoteController;
 use App\Http\Controllers\LeadFieldController;
 use App\Http\Controllers\Proposals\ProposalController;
 use App\Http\Controllers\Public\ProposalViewController as PublicProposalController;
+use App\Http\Controllers\RealEstate as RE;
 use App\Http\Controllers\Proposals\ServiceController;
 use App\Http\Controllers\Billing\AccountsController;
 use App\Http\Controllers\Billing\ContractController;
@@ -60,6 +61,8 @@ Route::get('/', function (Request $request) {
 
 // Propuesta comercial para el cliente: enlace privado (token), sin iniciar sesión.
 Route::get('p/{token}', [PublicProposalController::class, 'show'])->name('proposals.public');
+Route::get('c/{token}', [RE\QuoteController::class, 'publicShow'])->middleware('throttle:60,1')->name('quotes.public');
+Route::get('c/{token}/pdf', [RE\QuoteController::class, 'publicPdf'])->middleware('throttle:20,1')->name('quotes.public.pdf');
 Route::get('p/{token}/pdf', [PublicProposalController::class, 'pdf'])->middleware('throttle:20,1')->name('proposals.public.pdf');
 Route::post('p/{token}/respond', [PublicProposalController::class, 'answer'])->middleware('throttle:10,1')->name('proposals.public.respond');
 
@@ -215,6 +218,73 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('leads/{lead}/proposals', [ProposalController::class, 'forLead'])->middleware('can:proposals.view')->name('leads.proposals');
     Route::post('leads/{lead}/proposals/attach', [ProposalController::class, 'attach'])->middleware('can:proposals.create')->name('leads.proposals.attach');
     Route::delete('leads/{lead}/proposals/{proposal}/attach', [ProposalController::class, 'detach'])->middleware('can:proposals.create')->name('leads.proposals.detach');
+    // ---------------------------------------------------------------- CRM inmobiliario
+    Route::prefix('projects')->name('projects.')->group(function () {
+        Route::get('/', [RE\ProjectController::class, 'index'])->middleware('can:projects.view')->name('index');
+        Route::middleware('can:projects.manage')->group(function () {
+            Route::get('create', [RE\ProjectController::class, 'create'])->name('create');
+            Route::post('/', [RE\ProjectController::class, 'store'])->name('store');
+            Route::get('{project}/edit', [RE\ProjectController::class, 'edit'])->name('edit');
+            Route::post('{project}', [RE\ProjectController::class, 'update'])->name('update'); // multipart (portada)
+            Route::delete('{project}', [RE\ProjectController::class, 'destroy'])->name('destroy');
+        });
+        Route::get('{project}', [RE\ProjectController::class, 'show'])->middleware('can:projects.view')->name('show');
+        Route::middleware('can:units.manage')->group(function () {
+            Route::post('{project}/units/import', [RE\UnitController::class, 'import'])->name('units.import');
+            Route::post('{project}/units/prices', [RE\UnitController::class, 'prices'])->name('units.prices');
+        });
+    });
+    Route::get('inventory', [RE\UnitController::class, 'index'])->middleware('can:units.view')->name('units.index');
+    Route::prefix('units')->name('units.')->group(function () {
+        Route::get('template.csv', [RE\UnitController::class, 'template'])->middleware('can:units.manage')->name('template');
+        Route::middleware('can:units.manage')->group(function () {
+            Route::post('/', [RE\UnitController::class, 'store'])->name('store');
+            Route::post('{unit}', [RE\UnitController::class, 'update'])->name('update'); // multipart (planta)
+            Route::delete('{unit}', [RE\UnitController::class, 'destroy'])->name('destroy');
+            Route::delete('{unit}/floor-plan', [RE\UnitController::class, 'removePlan'])->name('plan.remove');
+        });
+        Route::put('{unit}/status', [RE\UnitController::class, 'status'])->middleware('can:units.status')->name('status');
+    });
+    Route::prefix('quotes')->name('quotes.')->group(function () {
+        Route::get('/', [RE\QuoteController::class, 'index'])->middleware('can:quotes.view')->name('index');
+        Route::middleware('can:quotes.create')->group(function () {
+            Route::get('create', [RE\QuoteController::class, 'create'])->name('create');
+            Route::post('/', [RE\QuoteController::class, 'store'])->name('store');
+            Route::get('{quote}/edit', [RE\QuoteController::class, 'edit'])->name('edit');
+            Route::put('{quote}', [RE\QuoteController::class, 'update'])->name('update');
+            Route::post('{quote}/duplicate', [RE\QuoteController::class, 'duplicate'])->name('duplicate');
+        });
+        Route::middleware('can:quotes.send')->group(function () {
+            Route::post('{quote}/send', [RE\QuoteController::class, 'send'])->name('send');
+            Route::post('{quote}/shared', [RE\QuoteController::class, 'shared'])->name('shared');
+            Route::put('{quote}/status', [RE\QuoteController::class, 'status'])->name('status');
+        });
+        Route::delete('{quote}', [RE\QuoteController::class, 'destroy'])->middleware('can:quotes.delete')->name('destroy');
+        Route::middleware('can:quotes.view')->group(function () {
+            Route::get('{quote}', [RE\QuoteController::class, 'show'])->name('show');
+            Route::get('{quote}/pdf', [RE\QuoteController::class, 'pdf'])->name('pdf');
+        });
+    });
+    Route::prefix('reservations')->name('reservations.')->group(function () {
+        Route::get('/', [RE\ReservationController::class, 'index'])->middleware('can:reservations.view')->name('index');
+        Route::middleware('can:reservations.create')->group(function () {
+            Route::get('create', [RE\ReservationController::class, 'create'])->name('create');
+            Route::post('/', [RE\ReservationController::class, 'store'])->name('store');
+        });
+        Route::get('{reservation}', [RE\ReservationController::class, 'show'])->middleware('can:reservations.view')->name('show');
+        Route::middleware('can:reservations.manage')->group(function () {
+            Route::put('{reservation}', [RE\ReservationController::class, 'update'])->name('update');
+            Route::post('{reservation}/transition', [RE\ReservationController::class, 'transition'])->name('transition');
+            Route::post('{reservation}/payments', [RE\ReservationController::class, 'storePayment'])->name('payments.store');
+            Route::put('{reservation}/payments/{payment}', [RE\ReservationController::class, 'updatePayment'])->name('payments.update');
+            Route::delete('{reservation}/payments/{payment}', [RE\ReservationController::class, 'destroyPayment'])->name('payments.destroy');
+        });
+        Route::middleware('can:reservations.payments')->group(function () {
+            Route::post('{reservation}/payments/{payment}/pay', [RE\ReservationController::class, 'pay'])->name('payments.pay');
+            Route::post('{reservation}/payments/{payment}/unpay', [RE\ReservationController::class, 'unpay'])->name('payments.unpay');
+        });
+    });
+
     Route::middleware('can:agent.use')->prefix('agent')->name('agent.')->group(function () {
         Route::get('status', [AgentController::class, 'status'])->name('status');
         Route::post('chat', [AgentController::class, 'chat'])->middleware('throttle:20,1')->name('chat');
@@ -376,7 +446,7 @@ require __DIR__.'/settings.php';
 
 Route::post('portal-preview/exit', [PortalAccessController::class, 'exitPreview'])->middleware('auth')->name('portal-preview.exit');
 
-// Portal de clientes (host propio opcional: clientes.viviendaenregla.cl). Solo accesos con rol «cliente» y empresa asignada.
+// Portal de clientes (host propio opcional: clientes.integraleads.cl). Solo accesos con rol «cliente» y empresa asignada.
 Route::prefix('portal')->middleware(['auth', 'auth.session', 'portal'])->name('portal.')->group(function () {
     Route::get('/', [PortalController::class, 'home'])->name('home');
     Route::get('propuestas', [PortalController::class, 'proposals_index'])->name('proposals');

@@ -17,7 +17,7 @@ const props = defineProps<{
 }>();
 
 const cards = [
-    { label: 'Servicios activos', value: () => String(props.summary.active_services), icon: Package, href: '/portal/servicios', color: '#A9606B' },
+    { label: 'Servicios activos', value: () => String(props.summary.active_services), icon: Package, href: '/portal/servicios', color: '#6419DB' },
     { label: 'Cobros por pagar', value: () => String(props.summary.pending_invoices), icon: Receipt, href: '/portal/facturas', color: '#4A8CFF', note: () => (props.summary.pending_invoices ? `Total ${money(props.summary.pending_total_clp)}` : 'Todo al día') },
     { label: 'Propuestas', value: () => String(props.summary.proposals), icon: FileText, href: '/portal/propuestas', color: '#FFA165' },
 ];

@@ -169,11 +169,15 @@ class LeadController extends Controller
                 'user' => $a->user?->name,
                 'occurred_at' => $a->occurred_at->toIso8601String(),
             ]),
-            'proposals' => $user->hasPermission('proposals.view')
-                ? $lead->proposals()->get()->map(fn ($p) => [
-                    'id' => $p->id, 'number' => $p->number, 'title' => $p->title, 'status' => $p->effectiveStatus(),
-                    'status_label' => \App\Models\Proposal::STATUSES[$p->effectiveStatus()], 'status_color' => \App\Models\Proposal::STATUS_COLORS[$p->effectiveStatus()],
-                    'currency' => $p->currency, 'total_net' => $p->total_net, 'total_gross' => $p->total_gross, 'valid_until' => $p->valid_until?->toDateString(), 'created_at' => $p->created_at?->toIso8601String(),
+            // Cotizaciones del prospecto (en este CRM la pestaña «propuestas» muestra cotizaciones y su reserva).
+            'proposals' => $user->hasPermission('quotes.view')
+                ? $lead->quotes()->with(['project:id,name', 'items', 'reservation:id,quote_id,number,status'])->get()->map(fn (\App\Models\Quote $q) => [
+                    'id' => $q->id, 'number' => $q->number,
+                    'title' => $q->project?->name.($q->items->first() ? ' · '.$q->items->first()->label() : '').($q->items->count() > 1 ? ' + '.($q->items->count() - 1) : ''),
+                    'status' => $q->effectiveStatus(),
+                    'status_label' => \App\Models\Quote::STATUSES[$q->effectiveStatus()], 'status_color' => \App\Models\Quote::STATUS_COLORS[$q->effectiveStatus()],
+                    'currency' => 'UF', 'total_net' => $q->total_uf, 'total_gross' => $q->total_uf, 'valid_until' => $q->valid_until?->toDateString(), 'created_at' => $q->created_at?->toIso8601String(),
+                    'reservation' => $q->reservation ? ['id' => $q->reservation->id, 'number' => $q->reservation->number] : null,
                 ])
                 : [],
             'scoring' => $this->scoring($lead),
@@ -188,8 +192,8 @@ class LeadController extends Controller
                 'delete' => $user->can('delete', $lead),
                 'note' => $user->can('note', $lead),
                 'assign' => $user->hasPermission('leads.assign') && $user->can('view', $lead),
-                'proposals' => $user->hasPermission('proposals.view'),
-                'create_proposal' => $user->hasPermission('proposals.create'),
+                'proposals' => $user->hasPermission('quotes.view'),
+                'create_proposal' => $user->hasPermission('quotes.create'),
             ],
         ];
     }
@@ -323,10 +327,10 @@ class LeadController extends Controller
             'estimated_currency' => $data['estimated_currency'] ?? 'CLP',
         ]);
 
-        // Etapas como «Propuesta» piden tener una propuesta asociada: se avisa para crearla.
+        // Etapas como «Cotizado» piden tener una cotización asociada: se avisa para crearla.
         $needsProposal = PipelineStage::whereKey($lead->stage_id)->value('requires_proposal')
-            && $request->user()->hasPermission('proposals.create')
-            && ! $lead->proposals()->exists();
+            && $request->user()->hasPermission('quotes.create')
+            && ! \App\Models\Quote::where('lead_id', $lead->id)->exists();
 
         return $this->respond($request, ['position' => $lead->position, 'stage_id' => $lead->stage_id, 'needs_proposal' => (bool) $needsProposal]);
     }

@@ -96,9 +96,9 @@ const appUrlOk = !/localhost|127\.0\.0\.1/.test(props.appUrl);
             <DataCard class="p-6">
                 <h2 class="mb-4 font-semibold">Remitente y marca</h2>
                 <div class="grid gap-5 sm:grid-cols-2">
-                    <FormField label="Nombre del remitente" for="fn" :error="form.errors.from_name"><Input id="fn" v-model="form.from_name" placeholder="Vivienda en Regla" /></FormField>
-                    <FormField label="Correo del remitente" for="fe" :error="form.errors.from_email" hint="Debe pertenecer a un dominio verificado en Resend."><Input id="fe" v-model="form.from_email" type="email" placeholder="hola@viviendaenregla.cl" /></FormField>
-                    <FormField label="Responder a (reply-to)" for="rt" :error="form.errors.reply_to"><Input id="rt" v-model="form.reply_to" type="email" placeholder="ventas@viviendaenregla.cl" /></FormField>
+                    <FormField label="Nombre del remitente" for="fn" :error="form.errors.from_name"><Input id="fn" v-model="form.from_name" placeholder="INTEGRALEADS" /></FormField>
+                    <FormField label="Correo del remitente" for="fe" :error="form.errors.from_email" hint="Debe pertenecer a un dominio verificado en Resend."><Input id="fe" v-model="form.from_email" type="email" placeholder="hola@integraleads.cl" /></FormField>
+                    <FormField label="Responder a (reply-to)" for="rt" :error="form.errors.reply_to"><Input id="rt" v-model="form.reply_to" type="email" placeholder="ventas@integraleads.cl" /></FormField>
                     <FormField label="Nombre de la empresa" for="cn" :error="form.errors.company_name" hint="Se usa en el pie y en la página de baja."><Input id="cn" v-model="form.company_name" /></FormField>
                     <FormField label="Dirección postal (pie de los boletines)" for="fa" :error="form.errors.footer_address" class="sm:col-span-2"><Input id="fa" v-model="form.footer_address" placeholder="Av. Providencia 1234, Santiago, Chile" /></FormField>
                 </div>

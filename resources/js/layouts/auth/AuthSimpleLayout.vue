@@ -36,8 +36,8 @@ const hero = computed(() => (usePage().props.brand as { hero: string | null } | 
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-6">
                     <Link :href="home()" class="flex items-center">
-                        <BrandLogo class="h-16 w-auto text-foreground" />
-                        <span class="sr-only">Vivienda en Regla</span>
+                        <BrandLogo class="h-9 w-auto text-foreground" />
+                        <span class="sr-only">INTEGRALEADS</span>
                     </Link>
                     <div class="space-y-2 text-center">
                         <h1 class="text-2xl font-semibold text-primary">
@@ -54,7 +54,7 @@ const hero = computed(() => (usePage().props.brand as { hero: string | null } | 
                     <slot />
                 </div>
                 <p class="text-center text-xs text-muted-foreground">
-                    Arquitectura y regularizaciones · CRM interno
+                    CRM inmobiliario · Proyectos nuevos
                 </p>
             </div>
         </div>

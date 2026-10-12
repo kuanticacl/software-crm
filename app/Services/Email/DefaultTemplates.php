@@ -11,7 +11,7 @@ use App\Services\Ai\BrandedEmailDesign;
  */
 class DefaultTemplates
 {
-    public const SLUGS = ['bienvenida-usuario', 'recuperar-password', 'gracias-contacto', 'gracias-cotizacion', 'propuesta-comercial', 'propuesta-respondida', 'bienvenida-portal', 'cobro-factura', 'recordatorio-pago'];
+    public const SLUGS = ['bienvenida-usuario', 'recuperar-password', 'gracias-contacto', 'gracias-cotizacion', 'propuesta-comercial', 'propuesta-respondida', 'bienvenida-portal', 'cobro-factura', 'recordatorio-pago', 'cotizacion-inmobiliaria', 'reserva-confirmada'];
 
     /** Crea la plantilla si falta; con $upgrade, una versión antigua en HTML que nadie editó pasa al editor visual. */
     public function ensure(string $slug, bool $upgrade = false): EmailTemplate

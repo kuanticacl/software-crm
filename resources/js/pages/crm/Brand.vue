@@ -24,7 +24,7 @@ const props = defineProps<{
 }>();
 defineOptions({ layout: { breadcrumbs: [{ title: 'Identidad visual', href: index() }] } });
 
-const picks = ref<Picks>(props.saved.picks ?? { primary: '#a9606b', background: '#fbf8f6', sidebar: '#f6efeb', text: '#3b2f2f' });
+const picks = ref<Picks>(props.saved.picks ?? { primary: '#6419DB', background: '#fbf8f6', sidebar: '#f6efeb', text: '#3b2f2f' });
 const radius = ref(props.saved.radius ?? '');
 const fontSans = ref(props.saved.font_sans ?? '');
 const fontTitle = ref(props.saved.font_title ?? '');
@@ -42,7 +42,7 @@ onMounted(() => {
 });
 
 const presets: { name: string; picks: Picks }[] = [
-    { name: 'Oro rosa', picks: { primary: '#a9606b', background: '#fbf8f6', sidebar: '#f6efeb', text: '#3b2f2f' } },
+    { name: 'Oro rosa', picks: { primary: '#6419DB', background: '#fbf8f6', sidebar: '#f6efeb', text: '#3b2f2f' } },
     { name: 'Verde bosque', picks: { primary: '#2f7d5b', background: '#f6f8f5', sidebar: '#eaf0ea', text: '#1f2d27' } },
     { name: 'Azul marino', picks: { primary: '#1f4e8c', background: '#f4f6fa', sidebar: '#101a2e', text: '#18202f' } },
     { name: 'Naranja', picks: { primary: '#d9480f', background: '#f7f5f2', sidebar: '#ffffff', text: '#2a2522' } },

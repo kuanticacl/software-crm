@@ -1,7 +1,7 @@
 {
   "slug": "gracias-contacto",
   "name": "Gracias por contactarnos",
-  "description": "Respuesta automática al formulario de contacto de viviendaenregla.cl.",
+  "description": "Respuesta automática al formulario de contacto de integraleads.cl.",
   "category": "transactional",
   "subject": "Recibimos tu mensaje, {{ first_name }}",
   "preheader": "Te responderemos a la brevedad",
@@ -15,18 +15,18 @@
     {
       "key": "site_url",
       "label": "Sitio web",
-      "default": "https://www.viviendaenregla.cl",
-      "sample": "https://www.viviendaenregla.cl"
+      "default": "https://www.integraleads.cl",
+      "sample": "https://www.integraleads.cl"
     }
   ],
   "design": {
     "settings": {
-      "bg": "#F6EFEB",
+      "bg": "#F3F4FB",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#3B2F2F",
-      "linkColor": "#8A4A55",
+      "textColor": "#171B2E",
+      "linkColor": "#4A10A8",
       "radius": 16
     },
     "blocks": [
@@ -36,8 +36,8 @@
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Vivienda en Regla",
-          "brandColor": "#A9606B",
+          "brandText": "INTEGRALEADS",
+          "brandColor": "#6419DB",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -50,7 +50,7 @@
         "props": {
           "text": "¡Gracias por escribirnos, {{ first_name }}!",
           "size": 26,
-          "color": "#3B2F2F",
+          "color": "#171B2E",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -62,7 +62,7 @@
         "id": "b0000016",
         "type": "text",
         "props": {
-          "text": "Recibimos tu mensaje y ya lo está revisando nuestro equipo. **Te responderemos a la brevedad** para conversar sobre tu propiedad o tu espacio.",
+          "text": "Recibimos tu mensaje y ya lo está revisando un ejecutivo de ventas. **Pronto nos pondremos en contacto contigo** para ayudarte a encontrar tu próxima vivienda.",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -76,9 +76,9 @@
         "id": "b0000017",
         "type": "heading",
         "props": {
-          "text": "Cómo trabajamos",
+          "text": "Cómo seguimos",
           "size": 18,
-          "color": "#3B2F2F",
+          "color": "#171B2E",
           "weight": "700",
           "align": "left",
           "padY": 8,
@@ -90,7 +90,7 @@
         "id": "b0000018",
         "type": "text",
         "props": {
-          "text": "**1. Conversamos.** Entendemos tu propiedad o tu espacio, tus plazos y lo que necesitas lograr.\n\n**2. Proponemos.** Te enviamos una propuesta clara, con alcance, etapas y honorarios.\n\n**3. Resolvemos.** Hacemos los planos, los trámites o el diseño, y te acompañamos hasta la entrega.",
+          "text": "**1. Conversamos.** Entendemos qué buscas: ubicación, metraje, dormitorios y presupuesto.\n\n**2. Cotizamos.** Te enviamos una cotización clara de las unidades disponibles, con pie, cuotas y simulación de crédito.\n\n**3. Visitas y reservas.** Te acompañamos en la visita a la sala de ventas y hasta la entrega de tu vivienda.",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -104,9 +104,9 @@
         "id": "b0000019",
         "type": "button",
         "props": {
-          "label": "Conocer Vivienda en Regla",
+          "label": "Ver proyectos",
           "href": "{{ site_url }}",
-          "bg": "#A9606B",
+          "bg": "#6419DB",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -121,9 +121,9 @@
         "id": "b000001a",
         "type": "text",
         "props": {
-          "text": "Arquitectura: regularizaciones, planos y diseño de interiores para viviendas, oficinas, locales comerciales y stands.",
+          "text": "Departamentos y casas nuevas: cotiza, visita y reserva con facilidades de pago.",
           "size": 13,
-          "color": "#9A8C88",
+          "color": "#7B8299",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 6,
@@ -137,7 +137,7 @@
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -150,5 +150,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#8A4A55}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F6EFEB;font-family:Arial, Helvetica, sans-serif;color:#3B2F2F\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F6EFEB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Vivienda en Regla\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">¡Gracias por escribirnos, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Recibimos tu mensaje y ya lo está revisando nuestro equipo. <strong>Te responderemos a la brevedad</strong> para conversar sobre tu propiedad o tu espacio.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Cómo trabajamos</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\"><strong>1. Conversamos.</strong> Entendemos tu propiedad o tu espacio, tus plazos y lo que necesitas lograr.<br><br><strong>2. Proponemos.</strong> Te enviamos una propuesta clara, con alcance, etapas y honorarios.<br><br><strong>3. Resolvemos.</strong> Hacemos los planos, los trámites o el diseño, y te acompañamos hasta la entrega.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#A9606B\" style=\"background-color:#A9606B;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Conocer Vivienda en Regla</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#9A8C88;text-align:center\">Arquitectura: regularizaciones, planos y diseño de interiores para viviendas, oficinas, locales comerciales y stands.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#4A10A8}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F4FB;font-family:Arial, Helvetica, sans-serif;color:#171B2E\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F4FB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"INTEGRALEADS\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">¡Gracias por escribirnos, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">Recibimos tu mensaje y ya lo está revisando un ejecutivo de ventas. <strong>Pronto nos pondremos en contacto contigo</strong> para ayudarte a encontrar tu próxima vivienda.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">Cómo seguimos</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\"><strong>1. Conversamos.</strong> Entendemos qué buscas: ubicación, metraje, dormitorios y presupuesto.<br><br><strong>2. Cotizamos.</strong> Te enviamos una cotización clara de las unidades disponibles, con pie, cuotas y simulación de crédito.<br><br><strong>3. Visitas y reservas.</strong> Te acompañamos en la visita a la sala de ventas y hasta la entrega de tu vivienda.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#6419DB\" style=\"background-color:#6419DB;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver proyectos</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#7B8299;text-align:center\">Departamentos y casas nuevas: cotiza, visita y reserva con facilidades de pago.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

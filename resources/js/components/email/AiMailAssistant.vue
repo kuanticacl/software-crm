@@ -66,7 +66,7 @@ const generate = async () => {
         <DialogContent class="sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle class="flex items-center gap-2"><Sparkles class="size-5 text-primary" /> Asistente de IA para mailings</DialogTitle>
-                <DialogDescription>Cuéntame qué quieres comunicar. Redacto el asunto y el contenido; el diseño siempre usa la identidad oficial de Vivienda en Regla (logo, naranja, tipografía y botones).</DialogDescription>
+                <DialogDescription>Cuéntame qué quieres comunicar. Redacto el asunto y el contenido; el diseño siempre usa la identidad oficial de INTEGRALEADS (logo, naranja, tipografía y botones).</DialogDescription>
             </DialogHeader>
 
             <div class="grid gap-4">
@@ -91,7 +91,7 @@ const generate = async () => {
 
                 <div class="grid gap-3 sm:grid-cols-2">
                     <FormField label="Texto del botón (opcional)" :error="errors.cta_label"><Input v-model="form.cta_label" placeholder="Agenda una demo" /></FormField>
-                    <FormField label="Enlace del botón (opcional)" :error="errors.cta_url"><Input v-model="form.cta_url" placeholder="https://www.viviendaenregla.cl" /></FormField>
+                    <FormField label="Enlace del botón (opcional)" :error="errors.cta_url"><Input v-model="form.cta_url" placeholder="https://www.integraleads.cl" /></FormField>
                 </div>
 
                 <FormField label="Imágenes (opcional)" :error="errors.images" hint="Una URL https por línea. La IA solo usa las que entregues; no inventa imágenes.">

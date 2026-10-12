@@ -8,12 +8,12 @@ use App\Models\Setting;
 class Agency
 {
     public const FIELDS = [
-        'legal_name' => 'Catalina Quiroga Muñoz Jusus',
-        'tax_id' => '20.046.510-5',
+        'legal_name' => 'INTEGRALEADS',
+        'tax_id' => '',
         'address' => 'Santiago, Chile',
-        'email' => 'contacto@viviendaenregla.cl',
+        'email' => 'contacto@integraleads.cl',
         'phone' => '',
-        'website' => 'https://www.viviendaenregla.cl',
+        'website' => 'https://www.integraleads.cl',
         'instagram' => '',
         'linkedin' => '',
         'facebook' => '',

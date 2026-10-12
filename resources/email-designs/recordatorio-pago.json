@@ -75,18 +75,18 @@
     {
       "key": "portal_url",
       "label": "Enlace al portal",
-      "default": "https://clientes.viviendaenregla.cl/portal/facturas",
-      "sample": "https://clientes.viviendaenregla.cl/portal/facturas"
+      "default": "https://clientes.integraleads.cl/portal/facturas",
+      "sample": "https://clientes.integraleads.cl/portal/facturas"
     }
   ],
   "design": {
     "settings": {
-      "bg": "#F6EFEB",
+      "bg": "#F3F4FB",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#3B2F2F",
-      "linkColor": "#8A4A55",
+      "textColor": "#171B2E",
+      "linkColor": "#4A10A8",
       "radius": 16
     },
     "blocks": [
@@ -96,8 +96,8 @@
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Vivienda en Regla",
-          "brandColor": "#A9606B",
+          "brandText": "INTEGRALEADS",
+          "brandColor": "#6419DB",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -110,7 +110,7 @@
         "props": {
           "text": "{{ headline }}",
           "size": 26,
-          "color": "#3B2F2F",
+          "color": "#171B2E",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -152,7 +152,7 @@
         "props": {
           "label": "Ver y pagar mi cobro",
           "href": "{{ portal_url }}",
-          "bg": "#A9606B",
+          "bg": "#6419DB",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -169,7 +169,7 @@
         "props": {
           "text": "{{#if payment_link}}Enlace de pago directo: {{ payment_link }}{{/if}}",
           "size": 14,
-          "color": "#7A6A68",
+          "color": "#565E74",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 4,
@@ -197,7 +197,7 @@
         "props": {
           "text": "Si ya realizaste el pago, avísanos respondiendo este correo para actualizar tu estado.",
           "size": 13,
-          "color": "#9A8C88",
+          "color": "#7B8299",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 6,
@@ -211,7 +211,7 @@
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -224,5 +224,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#8A4A55}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F6EFEB;font-family:Arial, Helvetica, sans-serif;color:#3B2F2F\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F6EFEB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Vivienda en Regla\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">{{ headline }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Hola {{ first_name }}, {{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#FBF8F6;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Documento<br><strong>N° {{ invoice_number }}</strong> · {{ concept }}<br><br>Total a pagar<br><strong>{{ total }}</strong><br>{{#if amount_detail}}{{ amount_detail }}<br>{{/if}}<br>Vencimiento<br><strong>{{ due_date }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#A9606B\" style=\"background-color:#A9606B;border-radius:999px\"><a href=\"{{ portal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver y pagar mi cobro</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:4px 32px;\"><div style=\"font-size:14px;line-height:1.6;color:#7A6A68;text-align:center\">{{#if payment_link}}Enlace de pago directo: {{ payment_link }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:14px 32px;background-color:#FBF8F6;\"><div style=\"font-size:14px;line-height:1.6;color:#3B2F2F;text-align:left\">{{#if bank_details}}<strong>Pago por transferencia</strong><br><br>{{{ bank_details }}}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#9A8C88;text-align:center\">Si ya realizaste el pago, avísanos respondiendo este correo para actualizar tu estado.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#4A10A8}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F4FB;font-family:Arial, Helvetica, sans-serif;color:#171B2E\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F4FB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"INTEGRALEADS\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">{{ headline }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">Hola {{ first_name }}, {{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#FBF8F6;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">Documento<br><strong>N° {{ invoice_number }}</strong> · {{ concept }}<br><br>Total a pagar<br><strong>{{ total }}</strong><br>{{#if amount_detail}}{{ amount_detail }}<br>{{/if}}<br>Vencimiento<br><strong>{{ due_date }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#6419DB\" style=\"background-color:#6419DB;border-radius:999px\"><a href=\"{{ portal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver y pagar mi cobro</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:4px 32px;\"><div style=\"font-size:14px;line-height:1.6;color:#565E74;text-align:center\">{{#if payment_link}}Enlace de pago directo: {{ payment_link }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:14px 32px;background-color:#FBF8F6;\"><div style=\"font-size:14px;line-height:1.6;color:#171B2E;text-align:left\">{{#if bank_details}}<strong>Pago por transferencia</strong><br><br>{{{ bank_details }}}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#7B8299;text-align:center\">Si ya realizaste el pago, avísanos respondiendo este correo para actualizar tu estado.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

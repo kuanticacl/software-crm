@@ -4,7 +4,7 @@ use App\Models\Service;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * Vivienda en Regla también es agencia de growth marketing: agrega esos servicios al catálogo (tarifas
+ * INTEGRALEADS también es agencia de growth marketing: agrega esos servicios al catálogo (tarifas
  * referenciales en UF, editables en Servicios). No toca los que ya existen ni se repite si ya están.
  */
 return new class extends Migration

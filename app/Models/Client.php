@@ -25,6 +25,16 @@ class Client extends Model
         return ['is_active' => 'boolean'];
     }
 
+    public function quotes(): HasMany
+    {
+        return $this->hasMany(Quote::class)->latest('id');
+    }
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class)->latest('id');
+    }
+
     public function leads(): HasMany
     {
         return $this->hasMany(Lead::class);

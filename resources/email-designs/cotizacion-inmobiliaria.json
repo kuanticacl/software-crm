@@ -1,0 +1,182 @@
+{
+  "slug": "cotizacion-inmobiliaria",
+  "name": "Cotización inmobiliaria",
+  "description": "Correo con el enlace a la cotización (unidad, complementos, pie y crédito). Se usa al enviar desde Cotizaciones.",
+  "category": "transactional",
+  "subject": "Tu cotización {{ quote_number }} · {{ project_name }}",
+  "preheader": "Precios en UF, pie y simulación de crédito",
+  "variables": [
+    {
+      "key": "first_name",
+      "label": "Nombre",
+      "default": "",
+      "sample": "María"
+    },
+    {
+      "key": "project_name",
+      "label": "Proyecto",
+      "default": "",
+      "sample": "Edificio Mirador"
+    },
+    {
+      "key": "unit_label",
+      "label": "Unidad",
+      "default": "",
+      "sample": "Departamento 1204 + estacionamiento"
+    },
+    {
+      "key": "quote_number",
+      "label": "Número",
+      "default": "",
+      "sample": "C-2026-0001"
+    },
+    {
+      "key": "total_uf",
+      "label": "Total UF",
+      "default": "",
+      "sample": "4.120,00 UF"
+    },
+    {
+      "key": "quote_url",
+      "label": "Enlace",
+      "default": "",
+      "sample": "https://www.integraleads.cl"
+    },
+    {
+      "key": "valid_until",
+      "label": "Válida hasta",
+      "default": "",
+      "sample": "30 de octubre de 2026"
+    },
+    {
+      "key": "executive",
+      "label": "Ejecutivo",
+      "default": "",
+      "sample": "Camila Rojas"
+    },
+    {
+      "key": "message",
+      "label": "Mensaje",
+      "default": "",
+      "sample": "Te comparto la cotización que conversamos en la sala de ventas."
+    }
+  ],
+  "design": {
+    "settings": {
+      "bg": "#F3F4FB",
+      "contentBg": "#FFFFFF",
+      "width": 600,
+      "font": "Arial, Helvetica, sans-serif",
+      "textColor": "#171B2E",
+      "linkColor": "#4A10A8",
+      "radius": 16
+    },
+    "blocks": [
+      {
+        "id": "b000001x",
+        "type": "header",
+        "props": {
+          "logoUrl": "{{LOGO_URL}}",
+          "logoWidth": 150,
+          "brandText": "INTEGRALEADS",
+          "brandColor": "#6419DB",
+          "align": "center",
+          "padY": 28,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001y",
+        "type": "heading",
+        "props": {
+          "text": "Hola {{ first_name }}, aquí está tu cotización",
+          "size": 26,
+          "color": "#171B2E",
+          "weight": "700",
+          "align": "left",
+          "padY": 12,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001z",
+        "type": "text",
+        "props": {
+          "text": "{{ message }}",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000020",
+        "type": "text",
+        "props": {
+          "text": "**{{ project_name }}**\n{{ unit_label }}\nTotal: **{{ total_uf }}**{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}",
+          "size": 15,
+          "color": "#565E74",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000021",
+        "type": "button",
+        "props": {
+          "label": "Ver cotización",
+          "href": "{{ quote_url }}",
+          "bg": "#6419DB",
+          "color": "#FFFFFF",
+          "radius": 999,
+          "size": 16,
+          "align": "center",
+          "fullWidth": false,
+          "padY": 20,
+          "padX": 32,
+          "rowBg": ""
+        }
+      },
+      {
+        "id": "b0000022",
+        "type": "text",
+        "props": {
+          "text": "En el enlace verás la planta, las superficies, el pie en cuotas y la simulación del crédito. {{#if executive}}Te atiende {{ executive }}.{{/if}}",
+          "size": 13,
+          "color": "#7B8299",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 6,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000023",
+        "type": "footer",
+        "props": {
+          "company": "{{ company_name }}",
+          "address": "{{ADDRESS}}",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.",
+          "showUnsubscribe": false,
+          "unsubscribeText": "Darme de baja",
+          "showView": false,
+          "color": "#9A8C88",
+          "align": "center",
+          "padY": 24,
+          "padX": 32,
+          "bg": "#FBF8F6"
+        }
+      }
+    ]
+  },
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#4A10A8}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F4FB;font-family:Arial, Helvetica, sans-serif;color:#171B2E\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F4FB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"INTEGRALEADS\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#171B2E;text-align:left\">Hola {{ first_name }}, aquí está tu cotización</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#171B2E;text-align:left\">{{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#565E74;text-align:left\"><strong>{{ project_name }}</strong><br>{{ unit_label }}<br>Total: <strong>{{ total_uf }}</strong>{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#6419DB\" style=\"background-color:#6419DB;border-radius:999px\"><a href=\"{{ quote_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver cotización</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#7B8299;text-align:center\">En el enlace verás la planta, las superficies, el pie en cuotas y la simulación del crédito. {{#if executive}}Te atiende {{ executive }}.{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en INTEGRALEADS.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+}

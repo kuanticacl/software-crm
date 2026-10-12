@@ -2,7 +2,7 @@
 
 return [
     /*
-    | Dominio del portal de clientes (p. ej. clientes.viviendaenregla.cl). Es la misma aplicación del CRM: en ese host solo se
+    | Dominio del portal de clientes (p. ej. clientes.integraleads.cl). Es la misma aplicación del CRM: en ese host solo se
     | atiende el portal y el inicio de sesión. Vacío = el portal funciona igual en /portal del dominio del CRM.
     */
     'domain' => env('PORTAL_DOMAIN'),

@@ -74,6 +74,7 @@ class AiGateway
         $start = microtime(true);
 
         try {
+            $agent = app(AiTuning::class)->tune($agent, $feature, $provider);
             $response = $agent->prompt($prompt, provider: [$this->build($provider)], model: $provider->model ?: null, timeout: $timeout);
 
             $this->log($feature, $provider, 'ok', $start, $response->usage->inputTokens ?? 0, $response->usage->outputTokens ?? 0, null, $ctx);
@@ -141,6 +142,24 @@ class AiGateway
         return $p->transcription_model ?: \App\Models\Setting::get('ai.transcription_model') ?: (AiCatalog::transcription($p->slug)['default'] ?? null);
     }
 
+    /**
+     * Contexto para el modelo de voz (Whisper y gpt-4o-transcribe aceptan «prompt»): un texto de ejemplo
+     * en español de Chile con el vocabulario del estudio mejora mucho el idioma, los acentos y los términos.
+     * @return array<string, string>
+     */
+    public static function transcriptionHints(string $driver): array
+    {
+        if (! in_array($driver, ['openai', 'groq', 'openai-compatible'], true)) {
+            return [];
+        }
+        $custom = trim((string) \App\Models\Setting::get('ai.transcription_prompt', ''));
+
+        return ['prompt' => $custom !== '' ? mb_substr($custom, 0, 800) : 'Nota de voz en español de Chile para el CRM de Vivienda en Regla. '
+            .'Habla de prospectos, clientes, propuestas, regularizaciones, permisos de edificación, recepción final, '
+            .'la DOM, planos, ampliaciones, honorarios, boleta de honorarios, UF, RUT, comunas y seguimientos. '
+            .'Transcribe con puntuación y tildes, tal como se dice.'];
+    }
+
     /** Prueba la voz con un segundo de silencio: valida credenciales, URL y modelo de transcripción. @return array{ok: bool, message: string, ms: int} */
     public function testTranscription(AiProvider $p): array
     {
@@ -175,7 +194,7 @@ class AiGateway
         $start = microtime(true);
 
         try {
-            $text = trim((string) Transcription::fromUpload($audio)->language('es')->timeout(90)->generate([$this->build($provider, $this->transcriptionModel($provider))]));
+            $text = trim((string) Transcription::fromUpload($audio)->language('es')->withProviderOptions(fn ($p) => self::transcriptionHints($p->driver()))->timeout(90)->generate([$this->build($provider, $this->transcriptionModel($provider))]));
             $this->log('transcribe', $provider, 'ok', $start, 0, 0, null, []);
 
             return $text;

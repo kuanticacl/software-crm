@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 #[Fillable([
     'number', 'title', 'currency', 'uf_value', 'uf_date', 'client_id', 'lead_id', 'user_id', 'status', 'recipient', 'sections',
-    'issued_at', 'valid_until', 'contract_months', 'discount_type', 'discount_value', 'tax_rate',
+    'issued_at', 'valid_until', 'contract_months', 'discount_type', 'discount_value', 'tax_rate', 'tax_mode',
     'total_one_time', 'total_monthly', 'total_net', 'total_tax', 'total_gross',
     'internal_notes', 'public_token', 'sent_at', 'viewed_at', 'view_count', 'responded_at', 'responded_by', 'signer_rut', 'response_note', 'response_ip', 'response_user_agent', 'signature_data',
 ])]
@@ -33,6 +33,16 @@ class Proposal extends Model
         'draft' => '#8A8A8A', 'sent' => '#1AA0E4', 'viewed' => '#121826', 'changes_requested' => '#D97706', 'accepted' => '#0D9F85', 'rejected' => '#DC2626', 'expired' => '#C23F00',
     ];
 
+    /**
+     * Cómo se cobra: en honorarios el monto se habla neto y se suma la retención de la boleta
+     * (el cliente paga el bruto); con IVA se suma el IVA; sin impuesto, el total es el neto.
+     */
+    public const TAX_MODES = [
+        'honorarios' => 'Neto + retención boleta de honorarios',
+        'iva' => 'Neto + IVA (factura)',
+        'none' => 'Sin impuesto',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -42,6 +52,7 @@ class Proposal extends Model
             'uf_date' => 'date',
             'uf_value' => 'float',
             'discount_value' => 'float',
+            'tax_rate' => 'float',
             'total_one_time' => 'float',
             'total_monthly' => 'float',
             'total_net' => 'float',
@@ -70,6 +81,18 @@ class Proposal extends Model
         $seq = $last ? ((int) substr($last, -4)) + 1 : 1;
 
         return sprintf('P-%d-%04d', $year, $seq);
+    }
+
+    /** Etiquetas de los totales según el modo de impuesto. @return array{net: string, tax: ?string, gross: string} */
+    public function taxLabels(): array
+    {
+        $rate = rtrim(rtrim(number_format((float) $this->tax_rate, 2, ',', ''), '0'), ',');
+
+        return match ($this->tax_mode) {
+            'iva' => ['net' => 'Total neto', 'tax' => "IVA {$rate}%", 'gross' => 'Total con IVA'],
+            'none' => ['net' => 'Total', 'tax' => null, 'gross' => 'Total'],
+            default => ['net' => 'Honorarios netos', 'tax' => "Retención boleta de honorarios {$rate}%", 'gross' => 'Total boleta de honorarios'],
+        };
     }
 
     /** Decimales de la moneda: la UF lleva 2, el peso chileno ninguno. */

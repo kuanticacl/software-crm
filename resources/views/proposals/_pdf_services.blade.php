@@ -37,9 +37,12 @@
             @if ($subOnce > 0)<tr><td>Subtotal pago único</td><td class="r">{{ $m($subOnce) }}</td></tr>@endif
             @if ($subMonthly > 0)<tr><td>Subtotal mensual × {{ $months }}</td><td class="r">{{ $m($subMonthly * $months) }}</td></tr>@endif
             @if ($discount > 0)<tr><td>Descuento{{ $p->discount_type === 'percent' ? ' ('.$p->discount_value.'%)' : '' }}</td><td class="r">− {{ $m($discount) }}</td></tr>@endif
-            <tr><td style="border-top:1px solid #E8E8E8;padding-top:6px"><b>Total neto</b></td><td class="r" style="border-top:1px solid #E8E8E8;padding-top:6px"><b>{{ $m($p->total_net) }}</b></td></tr>
-            <tr><td>IVA {{ $p->tax_rate }}%</td><td class="r">{{ $m($p->total_tax) }}</td></tr>
-            <tr class="grand"><td>Total con IVA</td><td class="r">{{ $m($p->total_gross) }}</td></tr>
+            @php($tl = $p->taxLabels())
+            @if ($tl['tax'])
+            <tr><td style="border-top:1px solid #E8E8E8;padding-top:6px"><b>{{ $tl['net'] }}</b></td><td class="r" style="border-top:1px solid #E8E8E8;padding-top:6px"><b>{{ $m($p->total_net) }}</b></td></tr>
+            <tr><td>{{ $tl['tax'] }}</td><td class="r">{{ $m($p->total_tax) }}</td></tr>
+            @endif
+            <tr class="grand"><td>{{ $tl['gross'] }}</td><td class="r">{{ $m($p->total_gross) }}</td></tr>
             @if ($isUf)<tr><td colspan="2" class="r" style="padding-top:6px;font-size:9px;color:#707070">Equivalente en pesos ≈ <b style="color:#393939">{{ $clpGross }}</b><br>Valor de referencia: 1 UF = {{ $ufFmt }} al {{ $ufDate }}</td></tr>@endif
         </table>
     @endif

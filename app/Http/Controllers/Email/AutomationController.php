@@ -71,6 +71,7 @@ class AutomationController extends Controller
             'conditions.source_ids.*' => ['integer'],
             'conditions.stage_ids' => ['nullable', 'array'],
             'conditions.stage_ids.*' => ['integer'],
+            'conditions.web_only' => ['nullable', 'boolean'],
             'template_id' => ['required', 'integer', Rule::exists('email_templates', 'id')],
             'subject' => ['nullable', 'string', 'max:300'],
             'to_mode' => ['required', Rule::in(['lead', 'fixed'])],

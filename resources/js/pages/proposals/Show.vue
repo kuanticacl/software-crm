@@ -23,6 +23,7 @@ type Detail = ProposalRow & {
     recipient: Recipient | null; public_url: string; sent_at: string | null; viewed_at: string | null; view_count: number;
     responded_at: string | null; responded_by: string | null; signer_rut: string | null; signature_data: string | null; response_note: string | null; internal_notes: string | null; internal_notes_html: string;
     total_one_time: number; total_monthly: number; total_tax: number; contract_months: number | null;
+    tax_labels: { net: string; tax: string | null; gross: string };
 };
 
 const props = defineProps<{ proposal: Detail; statuses: Record<string, string>; siblings: ProposalRow[]; can: { create: boolean; send: boolean; delete: boolean } }>();
@@ -104,9 +105,11 @@ const ufDay = computed(() => (props.proposal.uf_date ? new Intl.DateTimeFormat('
                     <dl class="grid gap-1.5 text-sm">
                         <div v-if="proposal.total_one_time" class="flex justify-between"><dt class="text-muted-foreground">Pago único</dt><dd>{{ money(proposal.total_one_time) }}</dd></div>
                         <div v-if="proposal.total_monthly" class="flex justify-between"><dt class="text-muted-foreground">Mensual × {{ proposal.contract_months ?? 1 }}</dt><dd>{{ money(proposal.total_monthly) }}</dd></div>
-                        <div class="flex justify-between border-t pt-1.5"><dt>Total neto</dt><dd class="font-semibold">{{ money(proposal.total_net) }}</dd></div>
-                        <div class="flex justify-between"><dt class="text-muted-foreground">IVA</dt><dd>{{ money(proposal.total_tax) }}</dd></div>
-                        <div class="flex justify-between rounded-xl bg-primary px-3 py-2 font-bold text-primary-foreground"><dt>Total</dt><dd>{{ money(proposal.total_gross) }}</dd></div>
+                        <template v-if="proposal.tax_labels.tax">
+                            <div class="flex justify-between border-t pt-1.5"><dt>{{ proposal.tax_labels.net }}</dt><dd class="font-semibold">{{ money(proposal.total_net) }}</dd></div>
+                            <div class="flex justify-between gap-2"><dt class="text-muted-foreground">{{ proposal.tax_labels.tax }}</dt><dd class="shrink-0">{{ money(proposal.total_tax) }}</dd></div>
+                        </template>
+                        <div class="flex justify-between gap-2 rounded-xl bg-primary px-3 py-2 font-bold text-primary-foreground"><dt>{{ proposal.tax_labels.gross }}</dt><dd class="shrink-0">{{ money(proposal.total_gross) }}</dd></div>
                     </dl>
                     <p v-if="proposal.currency === 'UF' && proposal.uf_value" class="mt-3 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground">≈ <strong class="text-foreground">{{ clp(proposal.total_gross_clp) }}</strong> en pesos<br>Valor UF de referencia: <strong class="text-foreground">{{ formatUfValue(proposal.uf_value) }}</strong> ({{ ufDay }}){{ proposal.status === 'draft' ? ' · se actualiza cada día hasta que se envía' : '' }}</p>
                 </DataCard>

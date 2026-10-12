@@ -40,7 +40,7 @@ class CreateProposal extends CrmTool
             'contract_months' => $schema->integer()->description('Meses de contrato si hay servicios mensuales.'),
             'discount_type' => $schema->string()->enum(['percent', 'amount']),
             'discount_value' => $schema->number(),
-            'tax_rate' => $schema->integer()->description('IVA en % (19 por defecto).'),
+            'tax_mode' => $schema->string()->enum(['honorarios', 'iva', 'none'])->description('honorarios por defecto (neto + retención de boleta de honorarios); iva solo si el texto pide factura con IVA.'),
             'items' => $schema->array()->items($schema->object([
                 'service_id' => $schema->integer()->description('ID del catálogo si corresponde.'),
                 'name' => $schema->string()->required(),
@@ -72,7 +72,7 @@ class CreateProposal extends CrmTool
             'currency' => ['nullable', 'in:UF,CLP'], 'valid_until' => ['nullable', 'date'],
             'contract_months' => ['nullable', 'integer', 'min:1', 'max:60'],
             'discount_type' => ['nullable', 'in:percent,amount'], 'discount_value' => ['nullable', 'numeric', 'min:0'],
-            'tax_rate' => ['nullable', 'integer', 'min:0', 'max:30'],
+            'tax_mode' => ['nullable', 'in:honorarios,iva,none'],
             'items' => ['required', 'array', 'min:1', 'max:40'],
             'items.*.name' => ['required', 'string', 'max:200'], 'items.*.billing' => ['required', 'in:one_time,monthly'],
             'items.*.unit_price' => ['required', 'numeric', 'min:0'], 'items.*.quantity' => ['nullable', 'numeric', 'min:0'],
@@ -94,7 +94,8 @@ class CreateProposal extends CrmTool
             'recipient' => $recipient,
             'currency' => $data['currency'] ?? 'UF',
             'discount_type' => $data['discount_type'] ?? 'percent',
-            'tax_rate' => $data['tax_rate'] ?? 19,
+            'tax_mode' => $data['tax_mode'] ?? 'honorarios',
+            'tax_rate' => ($data['tax_mode'] ?? 'honorarios') === 'iva' ? 19 : null,
             'items' => collect($r['items'])->map(fn ($i) => [...$i, 'quantity' => $i['quantity'] ?? 1])->all(),
             'sections' => ! empty($r['sections']) ? $r['sections'] : $this->defaultSections($client?->name ?: ($lead?->company ?: 'el cliente')),
             'internal_notes' => $r['internal_notes'] ?? null,
@@ -108,7 +109,7 @@ class CreateProposal extends CrmTool
 
         return [
             'id' => $p->id, 'number' => $p->number, 'status' => 'draft', 'currency' => $p->currency,
-            'total_net' => $p->total_net, 'total_gross' => $p->total_gross, 'url' => url('/proposals/'.$p->id),
+            'total_net' => $p->total_net, 'total_tax' => $p->total_tax, 'total_gross' => $p->total_gross, 'totals_labels' => $p->taxLabels(), 'url' => url('/proposals/'.$p->id),
             'note' => 'Borrador creado; no se envió. Para enviarla usa el botón «Enviar por correo» en la ficha.',
         ];
     }

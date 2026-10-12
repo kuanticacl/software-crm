@@ -38,9 +38,12 @@
             @if ($subOnce > 0)<div><span>Subtotal pago único</span><span>{{ $money($subOnce) }}</span></div>@endif
             @if ($subMonthly > 0)<div><span>Subtotal mensual × {{ $months }}</span><span>{{ $money($subMonthly * $months) }}</span></div>@endif
             @if ($discount > 0)<div><span>Descuento{{ $p->discount_type === 'percent' ? ' ('.$p->discount_value.'%)' : '' }}</span><span>− {{ $money($discount) }}</span></div>@endif
-            <div class="sep"><span>Total neto</span><strong>{{ $money($p->total_net) }}</strong></div>
-            <div><span>IVA {{ $p->tax_rate }}%</span><span>{{ $money($p->total_tax) }}</span></div>
-            <div class="grand"><span>Total con IVA</span><span>{{ $money($p->total_gross) }}</span></div>
+            @php($tl = $p->taxLabels())
+            @if ($tl['tax'])
+            <div class="sep"><span>{{ $tl['net'] }}</span><strong>{{ $money($p->total_net) }}</strong></div>
+            <div><span>{{ $tl['tax'] }}</span><span>{{ $money($p->total_tax) }}</span></div>
+            @endif
+            <div class="grand"><span>{{ $tl['gross'] }}</span><span>{{ $money($p->total_gross) }}</span></div>
             @if ($isUf)<div style="display:block;margin-top:8px;font-size:12.5px;color:var(--mut);text-align:right">Equivalente en pesos ≈ <strong style="color:var(--ink)">{{ $clpGross }}</strong><br>Valor de referencia: 1 UF = {{ $ufFmt }} al {{ $ufDate }}</div>@endif
         </div>
     @endif

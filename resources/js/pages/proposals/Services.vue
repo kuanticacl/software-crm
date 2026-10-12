@@ -121,7 +121,7 @@ const aiWrite = async () => {
                         <li v-if="s.deliverables.length > 3" class="pl-3">+{{ s.deliverables.length - 3 }} más</li>
                     </ul>
                     <div class="mt-auto flex items-end justify-between pt-2">
-                        <p><span class="text-lg font-bold text-primary">{{ formatAmount(s.price, s.currency) }}</span><span class="text-xs text-muted-foreground"> + IVA / {{ s.unit }}</span><span v-if="s.currency === 'UF' && uf" class="block text-[11px] text-muted-foreground">≈ {{ formatMoney(Math.round(s.price * uf.value)) }}</span></p>
+                        <p><span class="text-lg font-bold text-primary">{{ formatAmount(s.price, s.currency) }}</span><span class="text-xs text-muted-foreground"> neto / {{ s.unit }}</span><span v-if="s.currency === 'UF' && uf" class="block text-[11px] text-muted-foreground">≈ {{ formatMoney(Math.round(s.price * uf.value)) }}</span></p>
                         <div v-if="can.manage" class="flex gap-1">
                             <Button variant="ghost" size="icon-sm" title="Editar" @click="openEdit(s)"><Pencil /></Button>
                             <Button variant="ghost" size="icon-sm" class="text-destructive hover:text-destructive" title="Eliminar" @click="toDelete = s"><Trash2 /></Button>
@@ -137,7 +137,7 @@ const aiWrite = async () => {
         <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle>{{ editing ? 'Editar servicio' : 'Nuevo servicio' }}</DialogTitle>
-                <DialogDescription>La tarifa es la de referencia (neta, sin IVA). En cada propuesta se puede ajustar sin afectar el catálogo.</DialogDescription>
+                <DialogDescription>La tarifa es la de referencia (honorarios netos; la propuesta suma la retención de la boleta). En cada propuesta se puede ajustar sin afectar el catálogo.</DialogDescription>
             </DialogHeader>
             <form class="grid gap-4" @submit.prevent="save">
                 <FormField label="Nombre del servicio" for="sv-name" :error="form.errors.name" required><Input id="sv-name" v-model="form.name" placeholder="Gestión de campañas Meta Ads" /></FormField>

@@ -3,7 +3,7 @@
 namespace App\Services\Proposals;
 
 /**
- * Totales de una propuesta (CLP, enteros, valores netos).
+ * Totales de una propuesta (valores netos + impuesto según el modo: retención de honorarios o IVA).
  * El descuento se aplica sobre el total contratado (pago único + mensual × meses) y se reparte
  * proporcionalmente entre ambos, de modo que «mensual» y «único» siempre cuadran con el total.
  */
@@ -13,7 +13,7 @@ class ProposalCalculator
      * @param  array<int, array{billing: string, quantity: float|int|string, unit_price: int|string, discount_pct?: int|string}>  $items
      * @return array{subtotal_one_time: float, subtotal_monthly: float, months: int, discount: float, total_one_time: float, total_monthly: float, total_net: float, total_tax: float, total_gross: float}
      */
-    public static function totals(array $items, string $discountType, float $discountValue, ?int $months, int $taxRate, int $decimals = 2): array
+    public static function totals(array $items, string $discountType, float $discountValue, ?int $months, float $taxRate, int $decimals = 2, string $taxMode = 'iva'): array
     {
         $r = fn (float $n): float => round($n, $decimals);
         $oneTime = 0;
@@ -36,7 +36,12 @@ class ProposalCalculator
         $totalOne = $r($oneTime * $factor);
         $totalMonthly = $r($monthly * $factor);
         $net = $r($totalOne + $totalMonthly * $m);
-        $tax = $r($net * $taxRate / 100);
+        // Honorarios: el neto es lo que recibe el profesional; la boleta se emite por el bruto, cuya retención lo cubre.
+        $tax = match ($taxMode) {
+            'honorarios' => $taxRate > 0 && $taxRate < 100 ? $r($net / (1 - $taxRate / 100) - $net) : 0.0,
+            'none' => 0.0,
+            default => $r($net * $taxRate / 100),
+        };
 
         return [
             'subtotal_one_time' => $r($oneTime),

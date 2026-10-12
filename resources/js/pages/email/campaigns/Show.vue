@@ -42,8 +42,8 @@ const progress = computed(() => (props.campaign.recipients_count ? Math.round(((
 const kpis = computed(() => [
     { label: 'Enviados', value: props.stats.sent, sub: `${props.campaign.recipients_count} destinatarios`, icon: MailCheck, color: '#1AA0E4' },
     { label: 'Entregados', value: props.stats.delivered, sub: props.stats.sent ? `${Math.round((props.stats.delivered / props.stats.sent) * 100)}%` : '', icon: MailCheck, color: '#0D9F85' },
-    { label: 'Aperturas', value: props.stats.opened, sub: `${props.stats.open_rate}% tasa`, icon: MailOpen, color: '#121826' },
-    { label: 'Clics', value: props.stats.clicked, sub: `${props.stats.click_rate}% tasa`, icon: MousePointerClick, color: '#3DBB6C' },
+    { label: 'Aperturas', value: props.stats.opened, sub: `${props.stats.open_rate}% tasa`, icon: MailOpen, color: '#3B2F2F' },
+    { label: 'Clics', value: props.stats.clicked, sub: `${props.stats.click_rate}% tasa`, icon: MousePointerClick, color: '#A9606B' },
     { label: 'Rebotes', value: props.stats.bounced, sub: `${props.stats.bounce_rate}%`, icon: MailX, color: '#DC2626' },
     { label: 'Bajas', value: props.stats.unsubscribed, sub: `${props.stats.complained} spam`, icon: UserMinus, color: '#8A8A8A' },
 ]);
@@ -87,7 +87,7 @@ const cancelSend = () => {
             <DataCard class="p-5 lg:col-span-2">
                 <h3 class="mb-4 font-semibold">Embudo de envío</h3>
                 <div class="grid gap-3">
-                    <div v-for="[label, value, color] in ([['Destinatarios', campaign.recipients_count, '#8A8A8A'], ['Enviados', stats.sent, '#1AA0E4'], ['Entregados', stats.delivered, '#0D9F85'], ['Abrieron', stats.opened, '#121826'], ['Hicieron clic', stats.clicked, '#3DBB6C']] as [string, number, string][])" :key="label">
+                    <div v-for="[label, value, color] in ([['Destinatarios', campaign.recipients_count, '#8A8A8A'], ['Enviados', stats.sent, '#1AA0E4'], ['Entregados', stats.delivered, '#0D9F85'], ['Abrieron', stats.opened, '#3B2F2F'], ['Hicieron clic', stats.clicked, '#A9606B']] as [string, number, string][])" :key="label">
                         <div class="mb-1 flex justify-between text-xs"><span>{{ label }}</span><span class="text-muted-foreground tabular-nums">{{ value.toLocaleString('es-CL') }}</span></div>
                         <div class="h-2.5 overflow-hidden rounded-full bg-muted"><div class="h-full rounded-full transition-all" :style="{ width: (campaign.recipients_count ? (value / campaign.recipients_count) * 100 : 0) + '%', backgroundColor: color }" /></div>
                     </div>

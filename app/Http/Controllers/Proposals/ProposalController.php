@@ -70,7 +70,7 @@ class ProposalController extends Controller
             'contract_months' => 12,
             'discount_type' => 'percent',
             'discount_value' => 0,
-            'tax_rate' => 19,
+            'tax_rate' => 0,
             'items' => [],
             'internal_notes' => null,
         ]));
@@ -296,9 +296,9 @@ class ProposalController extends Controller
         $proposal->save();
 
         $leads = app(LeadService::class);
-        $leads->log($lead, 'proposal', $request->user(), "Propuesta {$proposal->number} asociada a este cliente", ['proposal_id' => $proposal->id]);
+        $leads->log($lead, 'proposal', $request->user(), "Propuesta {$proposal->number} asociada a este prospecto", ['proposal_id' => $proposal->id]);
         if ($previous) {
-            $leads->log($previous, 'proposal', $request->user(), "Propuesta {$proposal->number} pasó a otro cliente", ['proposal_id' => $proposal->id]);
+            $leads->log($previous, 'proposal', $request->user(), "Propuesta {$proposal->number} pasó a otro prospecto", ['proposal_id' => $proposal->id]);
         }
 
         return response()->json(['ok' => true]);
@@ -312,7 +312,7 @@ class ProposalController extends Controller
         abort_unless(Proposal::visibleTo($request->user())->whereKey($proposal->id)->exists(), 403);
 
         $proposal->update(['lead_id' => null]);
-        app(LeadService::class)->log($lead, 'proposal', $request->user(), "Propuesta {$proposal->number} desvinculada de este cliente", ['proposal_id' => $proposal->id]);
+        app(LeadService::class)->log($lead, 'proposal', $request->user(), "Propuesta {$proposal->number} desvinculada de este prospecto", ['proposal_id' => $proposal->id]);
 
         return response()->json(['ok' => true]);
     }

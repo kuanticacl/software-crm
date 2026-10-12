@@ -19,7 +19,7 @@ const snippets = computed(() => ({
 const res = await fetch('${url.value}', {
   method: 'POST',
   headers: {
-    Authorization: 'Bearer ' + process.env.ECORTESCL_API_KEY,
+    Authorization: 'Bearer ' + process.env.VIVIENDAENREGLA_API_KEY,
     'Content-Type': 'application/json',
   },
   body: JSON.stringify(${json.value.replace(/\n/g, '\n  ')}),
@@ -34,7 +34,7 @@ curl_setopt_array($ch, [
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => [
-        'Authorization: Bearer ' . getenv('ECORTESCL_API_KEY'),
+        'Authorization: Bearer ' . getenv('VIVIENDAENREGLA_API_KEY'),
         'Content-Type: application/json',
     ],
     CURLOPT_POSTFIELDS => json_encode($payload),

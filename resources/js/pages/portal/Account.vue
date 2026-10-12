@@ -27,7 +27,7 @@ const companyRows = [
     <Head title="Mi cuenta" />
 
     <div class="flex flex-col gap-5">
-        <div><h1 class="text-2xl font-semibold tracking-tight">Mi cuenta</h1><p class="mt-1 text-sm text-muted-foreground">Tus datos y los de tu empresa. Si algo de la empresa está desactualizado, escríbenos y lo corregimos.</p></div>
+        <div><h1 class="text-2xl font-semibold tracking-tight">Mi cuenta</h1><p class="mt-1 text-sm text-muted-foreground">Tus datos y los de tu negocio. Si algo del cliente está desactualizado, escríbenos y lo corregimos.</p></div>
 
         <div v-if="must_change_password" class="flex items-start gap-3 rounded-2xl border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-800 dark:text-amber-300">
             <ShieldAlert class="mt-0.5 size-5 shrink-0" /><p><strong>Cambia tu contraseña.</strong> Ingresaste con una contraseña temporal; define una propia para proteger tu cuenta.</p>
@@ -45,7 +45,7 @@ const companyRows = [
             </section>
 
             <section class="rounded-2xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
-                <h2 class="mb-4 flex items-center gap-2 font-semibold"><Building2 class="size-4" /> Mi empresa</h2>
+                <h2 class="mb-4 flex items-center gap-2 font-semibold"><Building2 class="size-4" /> Mis datos</h2>
                 <p class="mb-3 text-lg font-semibold">{{ company.name }}</p>
                 <dl class="grid gap-3 text-sm"><div v-for="[k, v] in companyRows" :key="k as string"><dt class="text-xs text-muted-foreground">{{ k }}</dt><dd>{{ v }}</dd></div></dl>
             </section>

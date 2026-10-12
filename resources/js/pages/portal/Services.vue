@@ -14,7 +14,7 @@ defineProps<{ company: { id: number; name: string }; services: Svc[] }>();
     <Head title="Servicios" />
 
     <div class="flex flex-col gap-5">
-        <div><h1 class="text-2xl font-semibold tracking-tight">Servicios contratados</h1><p class="mt-1 text-sm text-muted-foreground">Lo que {{ company.name }} tiene contratado con ECORTESCL: vigencia, renovación y servicios asociados.</p></div>
+        <div><h1 class="text-2xl font-semibold tracking-tight">Servicios contratados</h1><p class="mt-1 text-sm text-muted-foreground">Lo que {{ company.name }} tiene contratado con Vivienda en Regla: vigencia, renovación y servicios asociados.</p></div>
 
         <p v-if="!services.length" class="rounded-2xl border border-dashed bg-card p-8 text-center text-sm text-muted-foreground">Aún no tienes servicios contratados.</p>
 

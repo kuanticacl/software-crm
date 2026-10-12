@@ -61,7 +61,7 @@ const channel: Record<string, { label: string; icon: typeof Phone }> = {
 };
 const when: Record<string, string> = { today: 'Hoy', this_week: 'Esta semana', later: 'Más adelante' };
 const temp: Record<string, { label: string; color: string }> = {
-    hot: { label: 'Caliente', color: '#3DBB6C' },
+    hot: { label: 'Caliente', color: '#A9606B' },
     warm: { label: 'Tibio', color: '#FFA165' },
     cold: { label: 'Frío', color: '#1AA0E4' },
 };
@@ -148,7 +148,7 @@ const canUpdate = computed(() => props.data.can.update);
             <div class="flex flex-wrap items-center justify-between gap-2">
                 <h3 class="flex items-center gap-2 text-sm font-semibold"><Sparkles class="size-4 text-primary" /> Análisis con IA <span class="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-medium text-primary">Opcional</span></h3>
                 <Button v-if="ai.available" size="sm" :variant="a ? 'outline' : 'default'" :disabled="busy === 'analyze'" @click="analyze">
-                    <Spinner v-if="busy === 'analyze'" /><Wand2 v-else /> {{ busy === 'analyze' ? 'Analizando…' : a ? 'Actualizar análisis' : 'Analizar este cliente' }}
+                    <Spinner v-if="busy === 'analyze'" /><Wand2 v-else /> {{ busy === 'analyze' ? 'Analizando…' : a ? 'Actualizar análisis' : 'Analizar este prospecto' }}
                 </Button>
             </div>
 
@@ -158,10 +158,10 @@ const canUpdate = computed(() => props.data.can.update);
                 <span v-else>Pide a un administrador que lo configure.</span>
             </p>
 
-            <p v-else-if="!a" class="mt-3 text-xs text-muted-foreground">La IA resume al cliente, propone los próximos pasos, redacta un primer mensaje y sugiere qué datos completar. Usa el puntaje y el perfil de arriba como base.</p>
+            <p v-else-if="!a" class="mt-3 text-xs text-muted-foreground">La IA resume al prospecto, propone los próximos pasos, redacta un primer mensaje y sugiere qué datos completar. Usa el puntaje y el perfil de arriba como base.</p>
 
             <template v-if="a">
-                <p v-if="ai.stale" class="mt-3 flex items-center gap-2 rounded-xl bg-[#FFA165]/15 px-3 py-2 text-xs text-[#9A4B00]"><TriangleAlert class="size-4 shrink-0" /> El cliente cambió desde este análisis. Actualízalo para obtener recomendaciones al día.</p>
+                <p v-if="ai.stale" class="mt-3 flex items-center gap-2 rounded-xl bg-[#FFA165]/15 px-3 py-2 text-xs text-[#9A4B00]"><TriangleAlert class="size-4 shrink-0" /> El prospecto cambió desde este análisis. Actualízalo para obtener recomendaciones al día.</p>
                 <div class="mt-3 flex flex-wrap items-center gap-2">
                     <span class="rounded-full px-2.5 py-0.5 text-xs font-semibold text-white" :style="{ backgroundColor: temp[a.temperature].color }">{{ temp[a.temperature].label }}</span>
                     <span class="text-[11px] text-muted-foreground">{{ timeAgo(a.generated_at) }} · {{ a.provider }}{{ a.model ? ` · ${a.model}` : '' }}</span>

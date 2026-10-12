@@ -367,7 +367,7 @@ require __DIR__.'/settings.php';
 
 Route::post('portal-preview/exit', [PortalAccessController::class, 'exitPreview'])->middleware('auth')->name('portal-preview.exit');
 
-// Portal de clientes (host propio opcional: clientes.ecortes.cl). Solo accesos con rol «cliente» y empresa asignada.
+// Portal de clientes (host propio opcional: clientes.viviendaenregla.cl). Solo accesos con rol «cliente» y empresa asignada.
 Route::prefix('portal')->middleware(['auth', 'auth.session', 'portal'])->name('portal.')->group(function () {
     Route::get('/', [PortalController::class, 'home'])->name('home');
     Route::get('propuestas', [PortalController::class, 'proposals_index'])->name('proposals');

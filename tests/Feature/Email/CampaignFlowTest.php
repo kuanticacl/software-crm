@@ -22,10 +22,10 @@ class CampaignFlowTest extends TestCase
     public function test_campaign_sends_to_unique_non_suppressed_recipients_with_tracking_and_unsubscribe(): void
     {
         Queue::fake();
-        Setting::put('mail.from_email', 'hola@ecortes.cl');
+        Setting::put('mail.from_email', 'hola@viviendaenregla.cl');
         Setting::put('mail.provider', 'log'); // no sale ningún correo real
 
-        $template = EmailTemplate::create(['name' => 'Boletín', 'slug' => 'boletin', 'category' => 'marketing', 'is_active' => true, 'subject' => 'Hola {{ first_name }}', 'html' => '<html><body><a href="https://www.ecortes.cl">Sitio</a></body></html>']);
+        $template = EmailTemplate::create(['name' => 'Boletín', 'slug' => 'boletin', 'category' => 'marketing', 'is_active' => true, 'subject' => 'Hola {{ first_name }}', 'html' => '<html><body><a href="https://www.viviendaenregla.cl">Sitio</a></body></html>']);
         $list = ContactList::create(['name' => 'Prueba']);
         foreach (['a@x.cl', 'b@x.cl', 'c@x.cl', 'A@x.cl'] as $email) {
             ContactListEntry::updateOrCreate(['contact_list_id' => $list->id, 'email' => strtolower($email)], ['name' => 'Persona']);

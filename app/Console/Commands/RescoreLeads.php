@@ -8,9 +8,9 @@ use Illuminate\Console\Command;
 
 class RescoreLeads extends Command
 {
-    protected $signature = 'leads:rescore {--open : Solo clientes en etapas en curso}';
+    protected $signature = 'leads:rescore {--open : Solo prospectos en etapas en curso}';
 
-    protected $description = 'Recalcula el puntaje y el perfil de los clientes (refleja el paso del tiempo y datos nuevos)';
+    protected $description = 'Recalcula el puntaje y el perfil de los prospectos (refleja el paso del tiempo y datos nuevos)';
 
     public function handle(LeadScorer $scorer): int
     {
@@ -27,7 +27,7 @@ class RescoreLeads extends Command
             }
         });
 
-        $this->info("{$n} clientes recalculados.");
+        $this->info("{$n} prospectos recalculados.");
 
         return self::SUCCESS;
     }

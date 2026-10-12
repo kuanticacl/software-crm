@@ -40,12 +40,12 @@ export const sourceIcons: Record<string, Component> = {
 
 export const sourceIconNames = Object.keys(sourceIcons);
 
-/** Paleta de la marca ECORTESCL para elegir colores rápido. */
+/** Paleta de la marca Vivienda en Regla para elegir colores rápido. */
 export const brandColors = [
-    '#3DBB6C',
+    '#A9606B',
     '#1AA0E4',
     '#0D9F85',
-    '#121826',
+    '#3B2F2F',
     '#DF1E79',
     '#4A8CFF',
     '#FFA165',

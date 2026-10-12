@@ -61,7 +61,7 @@ class InvoiceController extends Controller
                 'overdue_clp' => (float) Invoice::overdue()->sum('total_clp'),
                 'paid_month_clp' => (float) Invoice::where('status', 'paid')->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('total_clp'),
             ],
-            'clients' => Client::orderBy('name')->get(['id', 'name']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'kind']),
             'services' => ClientService::orderBy('name')->get(['id', 'name', 'client_id', 'currency', 'price']),
             'taxRate' => config('portal.tax_rate'),
             'reminderOffsets' => ReminderRunner::defaultOffsets(),
@@ -237,7 +237,9 @@ class InvoiceController extends Controller
 
     public function fileName(Invoice $i): string
     {
-        return 'Factura-'.preg_replace('/[^A-Za-z0-9._-]+/', '-', $i->number ?: (string) $i->id).'.pdf';
+        $prefix = ['boleta' => 'Boleta', 'factura' => 'Factura'][$i->document_type] ?? 'Documento';
+
+        return $prefix.'-'.preg_replace('/[^A-Za-z0-9._-]+/', '-', $i->number ?: (string) $i->id).'.pdf';
     }
 
     /** @return array<string, mixed> */
@@ -251,6 +253,7 @@ class InvoiceController extends Controller
             'period_start' => $i->period_start?->toDateString(), 'period_end' => $i->period_end?->toDateString(),
             'issue_date' => $i->issue_date?->toDateString(), 'due_date' => $i->due_date?->toDateString(),
             'currency' => $i->currency, 'amount_net' => $i->amount_net, 'tax_rate' => $i->tax_rate, 'amount_total' => $i->amount_total,
+            'document_type' => $i->document_type, 'kind' => $i->kind, 'retention_rate' => $i->retention_rate, 'retention_amount' => $i->retention_amount, 'retention_by_client' => $i->retention_by_client,
             'total_clp' => $i->total_clp, 'uf_value' => $i->uf_value,
             'status' => $i->status, 'display_status' => $i->displayStatus(),
             'has_pdf' => $i->hasPdf(), 'pdf_name' => $i->pdf_name, 'auto_remind' => $i->auto_remind, 'payment_link' => $i->payment_link,

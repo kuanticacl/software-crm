@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils';
 import type { Paginated } from '@/types';
 import type { InvoiceRow } from '@/types/billing';
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Facturación', href: '/billing' }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Cobros', href: '/billing' }] } });
 
 const props = defineProps<{
     invoices: Paginated<InvoiceRow>;
@@ -52,7 +52,7 @@ const tabs = [
 const cards = [
     { label: 'Por cobrar', value: () => money(props.kpis.receivable_clp), icon: Wallet, color: '#4A8CFF' },
     { label: 'Vencido', value: () => money(props.kpis.overdue_clp), icon: CircleAlert, color: '#EF4444' },
-    { label: 'Cobrado este mes', value: () => money(props.kpis.paid_month_clp), icon: AlarmClock, color: '#3DBB6C' },
+    { label: 'Cobrado este mes', value: () => money(props.kpis.paid_month_clp), icon: AlarmClock, color: '#A9606B' },
 ];
 
 const newOpen = ref(false);
@@ -70,10 +70,10 @@ void router;
 </script>
 
 <template>
-    <Head title="Facturación" />
+    <Head title="Cobros" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Facturación y cobranza" description="Cobros y facturas de tus clientes. La factura se emite en tu sistema externo: aquí adjuntas el PDF, envías el cobro y controlas los pagos.">
+        <PageHeader title="Cobros y boletas" description="Cobros y facturas de tus clientes. La factura se emite en tu sistema externo: aquí adjuntas el PDF, envías el cobro y controlas los pagos.">
             <template #actions>
                 <Button v-if="can('billing.settings')" variant="outline" @click="bankOpen = true"><Landmark /> Datos bancarios</Button>
                 <Button v-if="can('billing.settings')" variant="outline" @click="settingsOpen = true"><Settings2 /> Recordatorios</Button>
@@ -105,8 +105,8 @@ void router;
                 </button>
             </div>
             <div class="grid gap-3 border-b p-4 sm:grid-cols-[1fr_16rem]">
-                <div class="relative"><Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" /><Input v-model="filters.q" placeholder="Buscar por N° de factura, concepto o empresa…" class="pl-9" /></div>
-                <NativeSelect v-model="filters.client"><option value="">Todas las empresas</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
+                <div class="relative"><Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" /><Input v-model="filters.q" placeholder="Buscar por N° de factura, concepto o cliente…" class="pl-9" /></div>
+                <NativeSelect v-model="filters.client"><option value="">Todos los clientes</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
             </div>
             <InvoiceList :invoices="invoices.data" show-client :clients="clients" :services="services" :tax-rate="taxRate" :ai-available="aiAvailable" />
             <Pagination :paginator="invoices" />

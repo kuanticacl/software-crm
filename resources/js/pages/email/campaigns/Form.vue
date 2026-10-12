@@ -223,7 +223,7 @@ const chip = (on: boolean) => cn('inline-flex items-center gap-1.5 rounded-full 
                         </div>
 
                         <div class="rounded-xl border p-4">
-                            <label class="flex items-center justify-between text-sm font-medium">Clientes del CRM<Switch :model-value="audience.leads.enabled" @update:model-value="(v: boolean) => (audience.leads.enabled = v)" /></label>
+                            <label class="flex items-center justify-between text-sm font-medium">Prospectos del CRM<Switch :model-value="audience.leads.enabled" @update:model-value="(v: boolean) => (audience.leads.enabled = v)" /></label>
                             <div v-if="audience.leads.enabled" class="mt-4 grid gap-4">
                                 <div><p class="mb-1.5 text-xs font-medium text-muted-foreground">Origen</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(audience.leads.sources.includes(s.id))" @click="toggle(audience.leads.sources, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                                 <div><p class="mb-1.5 text-xs font-medium text-muted-foreground">Etapa</p><div class="flex flex-wrap gap-2"><button v-for="s in stages" :key="s.id" type="button" :class="chip(audience.leads.stages.includes(s.id))" @click="toggle(audience.leads.stages, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
@@ -233,7 +233,7 @@ const chip = (on: boolean) => cn('inline-flex items-center gap-1.5 rounded-full 
                                     <div><p class="mb-1.5 text-xs font-medium text-muted-foreground">Etiquetas (deben tener todas)</p><TagInput v-model="audience.leads.tags" /></div>
                                     <div class="grid grid-cols-2 gap-2"><div><p class="mb-1.5 text-xs font-medium text-muted-foreground">Ingresados desde</p><Input v-model="audience.leads.created_from" type="date" /></div><div><p class="mb-1.5 text-xs font-medium text-muted-foreground">hasta</p><Input v-model="audience.leads.created_to" type="date" /></div></div>
                                 </div>
-                                <p class="text-[11px] text-muted-foreground">Sin filtros = todos los clientes con correo.</p>
+                                <p class="text-[11px] text-muted-foreground">Sin filtros = todos los prospectos con correo.</p>
                             </div>
                         </div>
 

@@ -16,7 +16,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
-/** Servicios contratados por las empresas (vista interna: incluye precios, costos y gastos según permisos). */
+/** Servicios contratados por los clientes (vista interna: incluye precios, costos y gastos según permisos). */
 class ContractController extends Controller
 {
     public function __construct(private ContractService $contracts) {}
@@ -47,7 +47,7 @@ class ContractController extends Controller
         return Inertia::render('contracts/Index', [
             'services' => $services,
             'filters' => $filters,
-            'clients' => Client::orderBy('name')->get(['id', 'name']),
+            'clients' => Client::orderBy('name')->get(['id', 'name', 'kind']),
             'kpis' => $this->kpis(),
             'meta' => ['cycles' => ClientService::CYCLES, 'statuses' => [...ClientService::STATUSES, ...ClientService::DERIVED]],
         ]);
@@ -82,6 +82,7 @@ class ContractController extends Controller
             'service' => [
                 ...$this->row($clientService),
                 'description' => $clientService->description,
+                'works_budget' => $clientService->works_budget,
                 'internal_notes' => $clientService->internal_notes,
                 'payment_link' => $clientService->payment_link,
                 'reminder_offsets' => $clientService->reminder_offsets,
@@ -105,7 +106,7 @@ class ContractController extends Controller
     {
         return Inertia::render('contracts/Form', [
             'service' => [
-                ...$clientService->only(['id', 'client_id', 'proposal_id', 'catalog_service_id', 'parent_id', 'name', 'description', 'billing_cycle', 'currency', 'price', 'auto_renew', 'status', 'billing_day', 'reminder_offsets', 'payment_link', 'internal_notes']),
+                ...$clientService->only(['id', 'client_id', 'proposal_id', 'catalog_service_id', 'parent_id', 'name', 'description', 'project_address', 'billing_cycle', 'modality', 'currency', 'price', 'works_budget', 'auto_renew', 'status', 'billing_day', 'reminder_offsets', 'payment_link', 'internal_notes']),
                 'start_date' => $clientService->start_date?->toDateString(),
                 'end_date' => $clientService->end_date?->toDateString(),
             ],
@@ -143,7 +144,7 @@ class ContractController extends Controller
     {
         return [
             'id' => $s->id, 'name' => $s->name, 'client' => $s->relationLoaded('client') ? $s->client?->only(['id', 'name']) : null,
-            'billing_cycle' => $s->billing_cycle, 'currency' => $s->currency, 'price' => $s->price,
+            'billing_cycle' => $s->billing_cycle, 'modality' => $s->modality, 'project_address' => $s->project_address, 'currency' => $s->currency, 'price' => $s->price,
             'start_date' => $s->start_date?->toDateString(), 'end_date' => $s->end_date?->toDateString(), 'auto_renew' => $s->auto_renew,
             'status' => $s->effectiveStatus(), 'next_charge_on' => $s->next_charge_on?->toDateString(),
             'parent' => $s->relationLoaded('parent') ? $s->parent?->only(['id', 'name']) : null,
@@ -155,11 +156,11 @@ class ContractController extends Controller
     private function formData(): array
     {
         return [
-            'clients' => Client::where('is_active', true)->orderBy('name')->get(['id', 'name']),
+            'clients' => Client::where('is_active', true)->orderBy('name')->get(['id', 'name', 'kind']),
             'proposals' => Proposal::whereNotIn('status', ['draft'])->orWhereNotNull('client_id')->orderByDesc('id')->limit(300)->get(['id', 'number', 'title', 'client_id']),
             'parents' => ClientService::whereNull('parent_id')->orderBy('name')->get(['id', 'name', 'client_id']),
             'catalog' => Service::where('is_active', true)->orderBy('category')->orderBy('name')->get(['id', 'name', 'description', 'billing', 'unit', 'currency', 'price']),
-            'meta' => ['cycles' => ClientService::CYCLES, 'statuses' => ClientService::STATUSES],
+            'meta' => ['cycles' => ClientService::CYCLES, 'statuses' => ClientService::STATUSES, 'modalities' => ClientService::MODALITIES],
             'taxRate' => config('portal.tax_rate'),
             'defaultOffsets' => \App\Services\Billing\ReminderRunner::defaultOffsets(),
         ];

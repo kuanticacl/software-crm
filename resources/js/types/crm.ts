@@ -48,6 +48,7 @@ export type PermissionGroup = {
 
 export type ClientRow = {
     id: number;
+    kind: 'person' | 'company';
     name: string;
     legal_name: string | null;
     activity: string | null;

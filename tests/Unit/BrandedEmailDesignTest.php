@@ -17,7 +17,7 @@ class BrandedEmailDesignTest extends TestCase
 
         $blocks = $design['blocks'];
         $this->assertSame('header', $blocks[0]['type']);
-        $this->assertStringEndsWith('/brand/ecortes-logo-dark.png', $blocks[0]['props']['logoUrl']);
+        $this->assertStringEndsWith('/brand/vivienda-logo-dark.png', $blocks[0]['props']['logoUrl']);
         $this->assertSame('footer', end($blocks)['type']);
         $this->assertTrue(end($blocks)['props']['showUnsubscribe']);
         $this->assertNotContains('html', array_column($blocks, 'type'));
@@ -25,7 +25,7 @@ class BrandedEmailDesignTest extends TestCase
         $button = collect($blocks)->firstWhere('type', 'button');
         $this->assertSame('#3DBB6C', $button['props']['bg']);
         $this->assertSame(999, $button['props']['radius']);
-        $this->assertSame('https://www.ecortes.cl', $button['props']['href']);
+        $this->assertSame('https://www.viviendaenregla.cl', $button['props']['href']);
 
         $text = collect($blocks)->firstWhere('type', 'text');
         $this->assertStringNotContainsString('javascript', $text['props']['text']);

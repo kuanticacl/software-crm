@@ -22,7 +22,7 @@ const create = () => form.submit(store(), { onSuccess: () => (open.value = false
     <Head title="Audiencias" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Audiencias" description="Listas de contactos para tus boletines. Los clientes y empresas del CRM también se pueden usar como audiencia directamente al crear un boletín.">
+        <PageHeader title="Audiencias" description="Listas de contactos para tus boletines. Los prospectos y clientes del CRM también se pueden usar como audiencia directamente al crear un boletín.">
             <template #actions><Button @click="open = true"><Plus /> Nueva lista</Button></template>
         </PageHeader>
 

@@ -71,7 +71,7 @@ const removeInvoice = computed(() => toDelete.value);
         <TableHeader>
             <TableRow class="hover:bg-transparent">
                 <TableHead>Cobro</TableHead>
-                <TableHead v-if="showClient" class="hidden md:table-cell">Empresa</TableHead>
+                <TableHead v-if="showClient" class="hidden md:table-cell">Cliente</TableHead>
                 <TableHead>Vence</TableHead>
                 <TableHead class="text-right">Total</TableHead>
                 <TableHead>Estado</TableHead>
@@ -124,10 +124,10 @@ const removeInvoice = computed(() => toDelete.value);
 
     <Dialog :open="!!pdfFor" @update:open="(v: boolean) => !v && (pdfFor = null)">
         <DialogContent class="sm:max-w-md">
-            <DialogHeader><DialogTitle>Adjuntar factura (PDF)</DialogTitle><DialogDescription>{{ pdfFor?.concept }}</DialogDescription></DialogHeader>
+            <DialogHeader><DialogTitle>Adjuntar boleta o factura (PDF)</DialogTitle><DialogDescription>{{ pdfFor?.concept }}</DialogDescription></DialogHeader>
             <form class="grid gap-4" @submit.prevent="submitPdf">
                 <FormField label="Archivo PDF" for="pdf-file" required :error="pdfForm.errors.pdf"><input id="pdf-file" type="file" accept="application/pdf" required class="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary" @change="(e: Event) => (pdfForm.pdf = (e.target as HTMLInputElement).files?.[0] ?? null)" /></FormField>
-                <FormField label="N° de factura" for="pdf-number" :error="pdfForm.errors.number"><Input id="pdf-number" v-model="pdfForm.number" placeholder="F-1024" /></FormField>
+                <FormField label="N° de documento" for="pdf-number" :error="pdfForm.errors.number"><Input id="pdf-number" v-model="pdfForm.number" placeholder="F-1024" /></FormField>
                 <label v-if="pdfFor?.status === 'scheduled'" class="flex items-start gap-3 rounded-xl border p-3 text-sm"><Switch :model-value="pdfForm.issue" @update:model-value="(v: boolean) => (pdfForm.issue = v)" /><span><strong>Emitir ahora</strong><span class="block text-xs text-muted-foreground">Pasa a «por pagar» y el cliente la ve en su portal.</span></span></label>
                 <DialogFooter class="gap-2"><Button type="button" variant="outline" @click="pdfFor = null">Cancelar</Button><Button type="submit" :disabled="pdfForm.processing || !pdfForm.pdf"><Spinner v-if="pdfForm.processing" /> Guardar</Button></DialogFooter>
             </form>

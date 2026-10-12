@@ -53,7 +53,7 @@ const remaining = () => props.col.total - props.col.leads.length;
                 <span class="size-3 rounded-full" :style="{ backgroundColor: col.color }" />
                 <h3 class="flex-1 truncate text-sm font-semibold">{{ col.name }}</h3>
                 <span class="rounded-full px-2 py-0.5 text-xs font-semibold text-white" :style="{ backgroundColor: col.color }">{{ col.total }}</span>
-                <button v-if="canCreate && col.type === 'open'" type="button" class="rounded-md p-1 text-muted-foreground hover:bg-background hover:text-primary" :title="`Nuevo cliente en ${col.name}`" @click="emit('add')"><Plus class="size-4" /></button>
+                <button v-if="canCreate && col.type === 'open'" type="button" class="rounded-md p-1 text-muted-foreground hover:bg-background hover:text-primary" :title="`Nuevo prospecto en ${col.name}`" @click="emit('add')"><Plus class="size-4" /></button>
                 <button type="button" class="rounded-md p-1 text-muted-foreground hover:bg-background hover:text-foreground" title="Seleccionar todas las tarjetas" @click="emit('selectColumn')"><ListChecks class="size-4" /></button>
                 <button type="button" class="rounded-md p-1 text-muted-foreground hover:bg-background hover:text-foreground" title="Colapsar columna" @click="emit('toggleCollapse')"><ChevronsLeftRight class="size-4 rotate-180" /></button>
             </div>
@@ -92,7 +92,7 @@ const remaining = () => props.col.total - props.col.leads.length;
             </template>
             <template #footer>
                 <p v-if="!col.leads.length" class="rounded-xl border border-dashed py-6 text-center text-xs text-muted-foreground">
-                    {{ canMove ? 'Arrastra clientes aquí' : 'Sin clientes' }}
+                    {{ canMove ? 'Arrastra prospectos aquí' : 'Sin prospectos' }}
                 </p>
             </template>
         </draggable>

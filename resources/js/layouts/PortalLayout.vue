@@ -14,7 +14,7 @@ const nav = [
     { label: 'Inicio', href: '/portal', icon: Home, exact: true },
     { label: 'Propuestas', href: '/portal/propuestas', icon: FileText },
     { label: 'Servicios', href: '/portal/servicios', icon: Package },
-    { label: 'Facturas', href: '/portal/facturas', icon: Receipt },
+    { label: 'Cobros', href: '/portal/facturas', icon: Receipt },
     { label: 'Mi cuenta', href: '/portal/cuenta', icon: UserRound },
 ];
 const active = (n: (typeof nav)[number]) => (n.exact ? path.value === n.href : path.value.startsWith(n.href));
@@ -29,20 +29,20 @@ const exitPreview = () => router.post('/portal-preview/exit');
             <span class="flex items-center gap-2"><Eye class="size-4" /> Vista previa: así ve el portal <strong>{{ preview.user ?? preview.client }}</strong><span v-if="preview.user"> ({{ preview.client }})</span> · solo lectura</span>
             <button type="button" class="rounded-full bg-amber-950 px-3 py-1 text-xs font-semibold text-amber-50 hover:bg-amber-900" @click="exitPreview">Salir de la vista previa</button>
         </div>
-        <header :class="['sticky z-30 bg-sidebar text-sidebar-foreground shadow-sm', preview ? 'top-[2.4rem]' : 'top-0']">
+        <header :class="['sticky z-30 border-b bg-card/95 text-foreground backdrop-blur', preview ? 'top-[2.4rem]' : 'top-0']">
             <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 md:px-6">
                 <Link href="/portal" class="flex items-center gap-3">
-                    <BrandLogo class="h-7 w-[8.4rem] shrink-0 text-white" />
-                    <span class="hidden rounded-full bg-white/10 px-2.5 py-0.5 text-[10px] font-semibold tracking-wide uppercase sm:inline">Portal de clientes</span>
+                    <BrandLogo class="h-10 w-[14rem] shrink-0 text-foreground" />
+                    <span class="hidden rounded-full bg-primary/10 px-2.5 py-0.5 text-primary text-[10px] font-semibold tracking-wide uppercase sm:inline">Portal de clientes</span>
                 </Link>
 
                 <nav class="ml-6 hidden items-center gap-1 md:flex" aria-label="Principal">
-                    <Link v-for="n in nav" :key="n.href" :href="n.href" prefetch :class="cn('inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors', active(n) ? 'bg-white/15 text-white' : 'text-white/70 hover:bg-white/10 hover:text-white')"><component :is="n.icon" class="size-4" />{{ n.label }}</Link>
+                    <Link v-for="n in nav" :key="n.href" :href="n.href" prefetch :class="cn('inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm font-medium transition-colors', active(n) ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted hover:text-foreground')"><component :is="n.icon" class="size-4" />{{ n.label }}</Link>
                 </nav>
 
                 <div class="ml-auto flex items-center gap-3">
-                    <span class="hidden max-w-48 truncate text-sm text-white/80 lg:block">{{ preview ? (preview.user ?? preview.client) : user.name }}</span>
-                    <button v-if="!preview" type="button" class="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-white/70 transition-colors hover:bg-white/10 hover:text-white" title="Cerrar sesión" @click="logout"><LogOut class="size-4" /><span class="hidden sm:inline">Salir</span></button>
+                    <span class="hidden max-w-48 truncate text-sm text-muted-foreground lg:block">{{ preview ? (preview.user ?? preview.client) : user.name }}</span>
+                    <button v-if="!preview" type="button" class="inline-flex items-center gap-2 rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground" title="Cerrar sesión" @click="logout"><LogOut class="size-4" /><span class="hidden sm:inline">Salir</span></button>
                 </div>
             </div>
         </header>

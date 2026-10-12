@@ -64,15 +64,15 @@ const seen = (u: PortalUser) => (u.last_login_at ? `Último ingreso ${fmtDate(u.
                 </div>
             </li>
         </ul>
-        <p v-else class="px-5 py-6 text-sm text-muted-foreground">Nadie de esta empresa tiene acceso todavía. Al dar acceso se genera una contraseña y se envía un correo con los datos de ingreso.</p>
+        <p v-else class="px-5 py-6 text-sm text-muted-foreground">Nadie de este cliente tiene acceso todavía. Al dar acceso se genera una contraseña y se envía un correo con los datos de ingreso.</p>
         <div class="flex items-center gap-1 border-t px-5 py-2.5 text-xs text-muted-foreground"><ExternalLink class="size-3" /> Portal: <a :href="portal.url" target="_blank" rel="noopener" class="text-primary hover:underline">{{ portal.url }}</a></div>
     </DataCard>
 
     <Dialog v-model:open="open">
         <DialogContent class="sm:max-w-md">
-            <DialogHeader><DialogTitle>Dar acceso al portal</DialogTitle><DialogDescription>Generamos la contraseña y enviamos un correo de bienvenida con el correo, la contraseña y el enlace de ingreso. Verá solo lo de su empresa.</DialogDescription></DialogHeader>
+            <DialogHeader><DialogTitle>Dar acceso al portal</DialogTitle><DialogDescription>Generamos la contraseña y enviamos un correo de bienvenida con el correo, la contraseña y el enlace de ingreso. Verá solo lo de su cliente.</DialogDescription></DialogHeader>
             <form class="grid gap-4" @submit.prevent="create">
-                <FormField v-if="contacts.length" label="Contacto de la empresa" for="pa-lead" hint="Opcional: precarga sus datos."><NativeSelect id="pa-lead" v-model="form.lead_id" @update:model-value="pick"><option value="">Otra persona</option><option v-for="c in contacts" :key="c.id" :value="c.id">{{ c.full_name }}</option></NativeSelect></FormField>
+                <FormField v-if="contacts.length" label="Contacto del cliente" for="pa-lead" hint="Opcional: precarga sus datos."><NativeSelect id="pa-lead" v-model="form.lead_id" @update:model-value="pick"><option value="">Otra persona</option><option v-for="c in contacts" :key="c.id" :value="c.id">{{ c.full_name }}</option></NativeSelect></FormField>
                 <FormField label="Nombre" for="pa-name" required :error="form.errors.name"><Input id="pa-name" v-model="form.name" /></FormField>
                 <FormField label="Correo" for="pa-email" required :error="form.errors.email"><Input id="pa-email" v-model="form.email" type="email" /></FormField>
                 <FormField label="Teléfono" for="pa-phone" :error="form.errors.phone"><Input id="pa-phone" v-model="form.phone" /></FormField>

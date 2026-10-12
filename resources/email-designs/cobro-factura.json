@@ -1,10 +1,10 @@
 {
   "slug": "cobro-factura",
-  "name": "Cobro: nueva factura disponible",
-  "description": "Aviso al cliente cuando se le envía un cobro o se emite una nueva factura (botón «Enviar cobro»).",
+  "name": "Cobro: nuevo cobro disponible",
+  "description": "Aviso al cliente cuando se le envía un cobro con su boleta de honorarios (botón «Enviar cobro»).",
   "category": "transactional",
-  "subject": "Nueva factura {{ invoice_number }} de ECORTESCL",
-  "preheader": "Tu factura ya está disponible en el portal",
+  "subject": "{{ subject_line }}",
+  "preheader": "Tu cobro ya está disponible en el portal",
   "variables": [
     {
       "key": "first_name",
@@ -19,22 +19,40 @@
       "sample": "Oritec SpA"
     },
     {
-      "key": "invoice_number",
-      "label": "N° de factura",
+      "key": "subject_line",
+      "label": "Asunto",
       "default": "",
-      "sample": "F-1024"
+      "sample": "Nuevo cobro de Vivienda en Regla · boleta de honorarios 12"
+    },
+    {
+      "key": "document",
+      "label": "Documento",
+      "default": "",
+      "sample": "Boleta de honorarios"
+    },
+    {
+      "key": "invoice_number",
+      "label": "N° de documento",
+      "default": "",
+      "sample": "12"
     },
     {
       "key": "concept",
       "label": "Concepto",
       "default": "",
-      "sample": "Mantención web · octubre 2026"
+      "sample": "Regularización vivienda · 50% de anticipo"
     },
     {
       "key": "total",
       "label": "Total a pagar",
       "default": "",
-      "sample": "$119.000"
+      "sample": "$325.000"
+    },
+    {
+      "key": "amount_detail",
+      "label": "Detalle de la retención",
+      "default": "",
+      "sample": "Honorarios $383.481 − retención 15,25% ($58.481)"
     },
     {
       "key": "due_date",
@@ -57,18 +75,18 @@
     {
       "key": "portal_url",
       "label": "Enlace al portal",
-      "default": "https://clientes.ecortes.cl/portal/facturas",
-      "sample": "https://clientes.ecortes.cl/portal/facturas"
+      "default": "https://clientes.viviendaenregla.cl/portal/facturas",
+      "sample": "https://clientes.viviendaenregla.cl/portal/facturas"
     }
   ],
   "design": {
     "settings": {
-      "bg": "#F4F4F4",
+      "bg": "#F6EFEB",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#393939",
-      "linkColor": "#15803D",
+      "textColor": "#3B2F2F",
+      "linkColor": "#8A4A55",
       "radius": 16
     },
     "blocks": [
@@ -78,8 +96,8 @@
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "ECORTESCL",
-          "brandColor": "#3DBB6C",
+          "brandText": "Vivienda en Regla",
+          "brandColor": "#A9606B",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -90,9 +108,9 @@
         "id": "b000000g",
         "type": "heading",
         "props": {
-          "text": "Tienes una nueva factura, {{ first_name }}",
+          "text": "Tienes un nuevo cobro, {{ first_name }}",
           "size": 26,
-          "color": "#393939",
+          "color": "#3B2F2F",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -104,7 +122,7 @@
         "id": "b000000h",
         "type": "text",
         "props": {
-          "text": "Emitimos la factura **{{ invoice_number }}**{{#if company}} a nombre de **{{ company }}**{{/if}}. Puedes verla y descargar el PDF en tu portal.",
+          "text": "Emitimos la **{{ document }}** N° **{{ invoice_number }}**{{#if company}} a nombre de **{{ company }}**{{/if}}. Puedes verla y descargar el PDF en tu portal.",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -118,24 +136,24 @@
         "id": "b000000i",
         "type": "text",
         "props": {
-          "text": "Concepto\n**{{ concept }}**\n\nTotal a pagar\n**{{ total }}**\n\nVence el\n**{{ due_date }}**",
+          "text": "Concepto\n**{{ concept }}**\n\nTotal a pagar\n**{{ total }}**\n{{#if amount_detail}}{{ amount_detail }}\n{{/if}}\nVence el\n**{{ due_date }}**",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
           "align": "left",
           "padY": 16,
           "padX": 32,
-          "bg": "#FAFAFA"
+          "bg": "#FBF8F6"
         }
       },
       {
         "id": "b000000j",
         "type": "button",
         "props": {
-          "label": "Ver mi factura",
+          "label": "Ver mi cobro",
           "href": "{{ portal_url }}",
-          "bg": "#64D989",
-          "color": "#0B1220",
+          "bg": "#A9606B",
+          "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
           "align": "center",
@@ -151,7 +169,7 @@
         "props": {
           "text": "{{#if payment_link}}También puedes pagar directamente aquí: {{ payment_link }}{{/if}}",
           "size": 14,
-          "color": "#707070",
+          "color": "#7A6A68",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 4,
@@ -170,7 +188,7 @@
           "align": "left",
           "padY": 14,
           "padX": 32,
-          "bg": "#FAFAFA"
+          "bg": "#FBF8F6"
         }
       },
       {
@@ -179,7 +197,7 @@
         "props": {
           "text": "Si ya realizaste el pago, puedes ignorar este correo.",
           "size": 13,
-          "color": "#8A8A8A",
+          "color": "#9A8C88",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 6,
@@ -193,18 +211,18 @@
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en ECORTESCL.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
-          "color": "#8A8A8A",
+          "color": "#9A8C88",
           "align": "center",
           "padY": 24,
           "padX": 32,
-          "bg": "#FAFAFA"
+          "bg": "#FBF8F6"
         }
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#15803D}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F4F4F4;font-family:Arial, Helvetica, sans-serif;color:#393939\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F4F4F4\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"ECORTESCL\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">Tienes una nueva factura, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Emitimos la factura <strong>{{ invoice_number }}</strong>{{#if company}} a nombre de <strong>{{ company }}</strong>{{/if}}. Puedes verla y descargar el PDF en tu portal.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#FAFAFA;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Concepto<br><strong>{{ concept }}</strong><br><br>Total a pagar<br><strong>{{ total }}</strong><br><br>Vence el<br><strong>{{ due_date }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#64D989\" style=\"background-color:#64D989;border-radius:999px\"><a href=\"{{ portal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#0B1220;text-decoration:none;border-radius:999px\">Ver mi factura</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:4px 32px;\"><div style=\"font-size:14px;line-height:1.6;color:#707070;text-align:center\">{{#if payment_link}}También puedes pagar directamente aquí: {{ payment_link }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:14px 32px;background-color:#FAFAFA;\"><div style=\"font-size:14px;line-height:1.6;color:#393939;text-align:left\">{{#if bank_details}}<strong>Pago por transferencia</strong><br><br>{{{ bank_details }}}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A8A8A;text-align:center\">Si ya realizaste el pago, puedes ignorar este correo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en ECORTESCL.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#8A4A55}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F6EFEB;font-family:Arial, Helvetica, sans-serif;color:#3B2F2F\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F6EFEB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Vivienda en Regla\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Tienes un nuevo cobro, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Emitimos la <strong>{{ document }}</strong> N° <strong>{{ invoice_number }}</strong>{{#if company}} a nombre de <strong>{{ company }}</strong>{{/if}}. Puedes verla y descargar el PDF en tu portal.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#FBF8F6;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Concepto<br><strong>{{ concept }}</strong><br><br>Total a pagar<br><strong>{{ total }}</strong><br>{{#if amount_detail}}{{ amount_detail }}<br>{{/if}}<br>Vence el<br><strong>{{ due_date }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#A9606B\" style=\"background-color:#A9606B;border-radius:999px\"><a href=\"{{ portal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver mi cobro</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:4px 32px;\"><div style=\"font-size:14px;line-height:1.6;color:#7A6A68;text-align:center\">{{#if payment_link}}También puedes pagar directamente aquí: {{ payment_link }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:14px 32px;background-color:#FBF8F6;\"><div style=\"font-size:14px;line-height:1.6;color:#3B2F2F;text-align:left\">{{#if bank_details}}<strong>Pago por transferencia</strong><br><br>{{{ bank_details }}}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#9A8C88;text-align:center\">Si ya realizaste el pago, puedes ignorar este correo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

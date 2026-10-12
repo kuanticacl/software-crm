@@ -27,7 +27,7 @@ defineOptions({ layout: { breadcrumbs: [{ title: 'Propuestas', href: index() }] 
 const filters = ref({ q: props.filters.q ?? '', status: props.filters.status ?? '' });
 useDebouncedFilters(index().url, filters, ['proposals', 'filters']);
 
-const colors: Record<string, string> = { draft: '#8A8A8A', sent: '#1AA0E4', viewed: '#121826', changes_requested: '#D97706', accepted: '#0D9F85', rejected: '#DC2626', expired: '#C23F00' };
+const colors: Record<string, string> = { draft: '#8A8A8A', sent: '#1AA0E4', viewed: '#3B2F2F', changes_requested: '#D97706', accepted: '#0D9F85', rejected: '#DC2626', expired: '#C23F00' };
 const toggle = (k: string) => (filters.value.status = filters.value.status === k ? '' : k);
 const fmt = (d: string | null) => (d ? new Intl.DateTimeFormat('es-CL', { dateStyle: 'medium' }).format(new Date(d + 'T12:00:00')) : '—');
 </script>
@@ -36,7 +36,7 @@ const fmt = (d: string | null) => (d ? new Intl.DateTimeFormat('es-CL', { dateSt
     <Head title="Propuestas" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Propuestas comerciales" description="Arma propuestas con la identidad de ECORTESCL, envíalas por correo o enlace y sigue si el cliente las vio y aceptó.">
+        <PageHeader title="Propuestas comerciales" description="Arma propuestas con la identidad de Vivienda en Regla, envíalas por correo o enlace y sigue si el cliente las vio y aceptó.">
             <template #actions>
                 <Button v-if="can.services" variant="outline" as-child><Link :href="services()"><Package /> Catálogo</Link></Button>
                 <Button v-if="can.create" as-child><Link :href="create()"><Plus /> Nueva propuesta</Link></Button>
@@ -55,13 +55,13 @@ const fmt = (d: string | null) => (d ? new Intl.DateTimeFormat('es-CL', { dateSt
             <div class="border-b p-4">
                 <div class="relative max-w-md">
                     <Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input v-model="filters.q" placeholder="Buscar por título, número o empresa…" class="pl-9" />
+                    <Input v-model="filters.q" placeholder="Buscar por título, número o cliente…" class="pl-9" />
                 </div>
             </div>
             <Table>
                 <TableHeader>
                     <TableRow class="hover:bg-transparent">
-                        <TableHead>Propuesta</TableHead><TableHead>Empresa</TableHead><TableHead>Estado</TableHead><TableHead class="text-right">Total neto</TableHead><TableHead>Vigencia</TableHead><TableHead>Responsable</TableHead>
+                        <TableHead>Propuesta</TableHead><TableHead>Cliente</TableHead><TableHead>Estado</TableHead><TableHead class="text-right">Total neto</TableHead><TableHead>Vigencia</TableHead><TableHead>Responsable</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

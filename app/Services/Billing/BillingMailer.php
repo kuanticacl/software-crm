@@ -29,7 +29,7 @@ class BillingMailer
     }
 
     /**
-     * Destinatarios de los cobros de una empresa: sus accesos activos al portal; si no hay, el correo de la empresa.
+     * Destinatarios de los cobros de un cliente: sus accesos activos al portal; si no hay, el correo del cliente.
      *
      * @return array<int, array{email: string, name: string}>
      */
@@ -75,7 +75,11 @@ class BillingMailer
     {
         $number = $i->number ?: '#'.$i->id;
         $days = (int) today()->diffInDays($i->due_date, false); // >0: faltan; <0: vencida hace
-        [$headline, $message, $subject] = $this->wording($number, $i->due_date->format('d-m-Y'), $days, $kind);
+        $doc = mb_strtolower($i->documentLabel());
+        [$headline, $message, $subject] = $this->wording($doc, $number, $i->due_date->format('d-m-Y'), $days, $kind);
+        $detail = $i->document_type === 'boleta' && $i->retention_by_client && $i->retention_amount > 0
+            ? 'Honorarios '.Money::format($i->amount_net, $i->currency).' − retención '.rtrim(rtrim(number_format($i->retention_rate, 2, ',', ''), '0'), ',').'% ('.Money::format($i->retention_amount, $i->currency).')'
+            : '';
 
         return [
             'first_name' => $this->firstName($name),
@@ -83,6 +87,8 @@ class BillingMailer
             'invoice_number' => $number,
             'concept' => $i->concept,
             'total' => Money::format($i->amount_total, $i->currency),
+            'amount_detail' => $detail,
+            'document' => $i->documentLabel(),
             'due_date' => $i->due_date->format('d-m-Y'),
             'payment_link' => $i->payment_link ?: ($i->service?->payment_link ?? ''),
             'portal_url' => PortalUrl::to('facturas'),
@@ -94,22 +100,23 @@ class BillingMailer
     }
 
     /** @return array{0: string, 1: string, 2: string} título, mensaje y asunto */
-    private function wording(string $number, string $due, int $days, string $kind): array
+    private function wording(string $doc, string $number, string $due, int $days, string $kind): array
     {
+        $ref = "{$doc} N° {$number}";
         if ($kind === 'issued') {
-            return ["Nueva factura {$number}", "ya tienes disponible la factura {$number}, con vencimiento el {$due}.", "Nueva factura {$number} de ECORTESCL"];
+            return ["Tienes un nuevo cobro", "ya tienes disponible la {$ref}, con vencimiento el {$due}.", "Nuevo cobro de Vivienda en Regla · {$doc} {$number}"];
         }
         if ($days > 0) {
             $d = $days === 1 ? '1 día' : "{$days} días";
 
-            return ["Tu factura vence en {$d}", "te recordamos que la factura {$number} vence el {$due}.", "Recordatorio: la factura {$number} vence en {$d}"];
+            return ["Tu cobro vence en {$d}", "te recordamos que la {$ref} vence el {$due}.", "Recordatorio: tu {$doc} {$number} vence en {$d}"];
         }
         if ($days === 0) {
-            return ['Tu factura vence hoy', "te recordamos que la factura {$number} vence hoy ({$due}).", "Recordatorio: la factura {$number} vence hoy"];
+            return ['Tu cobro vence hoy', "te recordamos que la {$ref} vence hoy ({$due}).", "Recordatorio: tu {$doc} {$number} vence hoy"];
         }
         $d = abs($days) === 1 ? '1 día' : abs($days).' días';
 
-        return ["Tu factura está vencida hace {$d}", "la factura {$number} venció el {$due} y aún figura pendiente de pago.", "Factura {$number} vencida: regulariza tu pago"];
+        return ["Tu cobro está vencido hace {$d}", "la {$ref} venció el {$due} y aún figura pendiente de pago.", "Cobro vencido ({$doc} {$number}): regulariza tu pago"];
     }
 
     private function firstName(string $name): string

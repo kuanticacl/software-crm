@@ -71,7 +71,7 @@ const persistMove = async (lead: LeadCard, col: BoardColumn, afterId: number | n
             toast(`«${lead.full_name}» está en ${col.name} y aún no tiene propuesta`, { action: { label: 'Crear propuesta', onClick: () => router.visit(`/proposals/create?lead=${lead.id}`) }, duration: 9000 });
         }
     } catch {
-        toast.error('No se pudo mover el cliente. Se restauró el tablero.');
+        toast.error('No se pudo mover el prospecto. Se restauró el tablero.');
         refresh();
     }
 };
@@ -135,7 +135,7 @@ const openId = ref<number | null>(null);
 // ---- creación rápida ----
 const quick = ref<{ stageId: number; stageName: string } | null>(null);
 const onCreated = (id: number) => {
-    toast.success('Cliente creado');
+    toast.success('Prospecto creado');
     refresh();
     openId.value = id;
 };
@@ -147,7 +147,7 @@ const runBulk = async (payload: Record<string, unknown>) => {
     busy.value = true;
     try {
         const res = await sendJson<{ done: number; skipped: number }>('POST', bulk().url, { ids: [...selected.value], ...payload });
-        toast.success(`${res.done} cliente${res.done === 1 ? '' : 's'} actualizado${res.done === 1 ? '' : 's'}${res.skipped ? ` · ${res.skipped} sin permiso` : ''}`);
+        toast.success(`${res.done} lead${res.done === 1 ? '' : 's'} actualizado${res.done === 1 ? '' : 's'}${res.skipped ? ` · ${res.skipped} sin permiso` : ''}`);
         selected.value = new Set();
         refresh();
     } catch {
@@ -164,7 +164,7 @@ const onBulk = (payload: { action: string; stage_id?: number }) => {
             return;
         }
     }
-    if (payload.action === 'delete' && !window.confirm(`¿Eliminar ${selected.value.size} clientes? Esta acción no se puede deshacer.`)) return;
+    if (payload.action === 'delete' && !window.confirm(`¿Eliminar ${selected.value.size} prospectos? Esta acción no se puede deshacer.`)) return;
     runBulk(payload);
 };
 const confirmBulkClose = (extra: { lost_reason: string | null }) => {

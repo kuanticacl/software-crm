@@ -71,7 +71,7 @@ class LeadFieldController extends Controller
     {
         $field->delete(); // los valores ya guardados en leads.custom se conservan
 
-        $this->toast('Campo eliminado. Los datos ya guardados en los clientes se conservan.');
+        $this->toast('Campo eliminado. Los datos ya guardados en los prospectos se conservan.');
 
         return back();
     }

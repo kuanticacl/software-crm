@@ -110,7 +110,7 @@ const sample = computed(() => Object.fromEntries((tpl.value?.variables ?? []).ma
                         <tr><td class="px-3 py-2"><code>variables</code></td><td class="px-3 py-2">Objeto con los valores de las variables de la plantilla. Admite arreglos para <code v-pre>{{#each}}</code>.</td></tr>
                         <tr><td class="px-3 py-2"><em>cualquier otro parámetro</em></td><td class="px-3 py-2">Se toma como variable (útil con query string o formularios): <code>?template=x&to=a@b.cl&first_name=María</code>.</td></tr>
                         <tr><td class="px-3 py-2"><code>subject</code></td><td class="px-3 py-2">Reemplaza el asunto de la plantilla (admite variables).</td></tr>
-                        <tr><td class="px-3 py-2"><code>lead_id</code></td><td class="px-3 py-2">Carga automáticamente los datos de ese cliente como variables (<code>first_name</code>, <code>company</code>, <code>lead.*</code>…).</td></tr>
+                        <tr><td class="px-3 py-2"><code>lead_id</code></td><td class="px-3 py-2">Carga automáticamente los datos de ese prospecto como variables (<code>first_name</code>, <code>company</code>, <code>lead.*</code>…).</td></tr>
                         <tr><td class="px-3 py-2"><code>delay_minutes</code> / <code>send_at</code></td><td class="px-3 py-2">Programa el envío (minutos de espera, o fecha ISO 8601).</td></tr>
                         <tr><td class="px-3 py-2"><code>track_opens</code> / <code>track_clicks</code></td><td class="px-3 py-2">Medir aperturas y clics (por defecto <code>false</code> en transaccionales).</td></tr>
                     </tbody>
@@ -122,7 +122,7 @@ const sample = computed(() => Object.fromEntries((tpl.value?.variables ?? []).ma
             <p class="text-sm text-muted-foreground">Estado de un envío (<code>queued → sent → delivered</code>, <code>bounced</code>, <code>complained</code>, <code>failed</code>), aperturas, clics y eventos.</p>
 
             <h3 class="mt-6 font-semibold"><code>POST /leads</code> + plantilla <span class="text-xs font-normal text-muted-foreground">· key de origen (Orígenes y API)</span></h3>
-            <p class="text-sm text-muted-foreground">Al crear un cliente puedes agregar <code>"email_template": "slug"</code> para enviarle una plantilla al instante con los mismos datos del cliente (nombre, UTM, campos personalizados…). Para reglas sin código, usa <strong>Automatizaciones</strong>.</p>
+            <p class="text-sm text-muted-foreground">Al crear un prospecto puedes agregar <code>"email_template": "slug"</code> para enviarle una plantilla al instante con los mismos datos del prospecto (nombre, UTM, campos personalizados…). Para reglas sin código, usa <strong>Automatizaciones</strong>.</p>
         </DataCard>
 
         <DataCard class="p-6">
@@ -137,8 +137,8 @@ const sample = computed(() => Object.fromEntries((tpl.value?.variables ?? []).ma
                 <p class="mb-1 font-semibold">Flujo típico: landing → correo de bienvenida</p>
                 <ol class="list-decimal space-y-1 pl-5 text-muted-foreground">
                     <li>El formulario de la landing envía los datos a <strong>tu servidor</strong> (o a una automatización de Zapier/Make).</li>
-                    <li>Tu servidor llama <code>POST /leads</code> con la key del origen «Landing» (el cliente aparece en el Kanban) <strong>y</strong>, si quieres, <code>"email_template": "bienvenida"</code>.</li>
-                    <li>Alternativa sin tocar código: crea una <strong>Automatización</strong> «Cuando ingresa un cliente desde Landing → enviar plantilla Bienvenida».</li>
+                    <li>Tu servidor llama <code>POST /leads</code> con la key del origen «Landing» (el prospecto aparece en el Kanban) <strong>y</strong>, si quieres, <code>"email_template": "bienvenida"</code>.</li>
+                    <li>Alternativa sin tocar código: crea una <strong>Automatización</strong> «Cuando ingresa un prospecto desde Landing → enviar plantilla Bienvenida».</li>
                 </ol>
             </div>
         </DataCard>

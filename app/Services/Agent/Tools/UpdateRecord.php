@@ -17,7 +17,7 @@ class UpdateRecord extends CrmTool
     {
         $fields = collect(['lead', 'client', 'proposal', 'contract', 'invoice'])->map(fn ($e) => "{$e}: ".implode(', ', array_keys(AgentActions::fields($e))))->implode(' | ');
 
-        return 'Propone EDITAR un registro existente (entity: lead=cliente persona, client=empresa, proposal, contract=servicio contratado, invoice=cobro/factura). '
+        return 'Propone EDITAR un registro existente (entity: lead=prospecto, client=cliente (persona o empresa), proposal, contract=proyecto/servicio contratado, invoice=cobro/boleta). '
             .'NO aplica el cambio: muestra al usuario un resumen «antes → después» con botones Confirmar/Cancelar y solo se aplica si él confirma. '
             .'Primero busca el registro para obtener su id. Cambia únicamente lo que el usuario pidió. Campos editables — '.$fields.'. '
             .'Fechas YYYY-MM-DD; booleanos true/false; en lead el valor estimado va en estimated_amount + estimated_currency (CLP/UF).';

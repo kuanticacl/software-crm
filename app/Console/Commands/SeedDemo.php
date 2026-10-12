@@ -10,7 +10,7 @@ class SeedDemo extends Command
 {
     protected $signature = 'crm:seed-demo {--force : Volver a cargar aunque ya se haya cargado}';
 
-    protected $description = 'Carga datos de muestra: una empresa con su cliente y propuestas por cada origen (idempotente)';
+    protected $description = 'Carga datos de muestra: un cliente con su prospecto y propuestas por cada origen (idempotente)';
 
     public function handle(): int
     {

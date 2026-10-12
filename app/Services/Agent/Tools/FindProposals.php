@@ -18,13 +18,13 @@ class FindProposals extends CrmTool
     public function description(): string
     {
         return 'Busca propuestas y devuelve su ESTADO (borrador, enviada, vista, ajustes solicitados, aceptada, rechazada, vencida), vistas, respuesta del cliente y totales. '
-            .'Filtra por texto (número, título, empresa), por estado, empresa (client_id) o cliente (lead_id).';
+            .'Filtra por texto (número, título, cliente), por estado, cliente (client_id) o cliente (lead_id).';
     }
 
     public function schema(JsonSchema $schema): array
     {
         return [
-            'query' => $schema->string()->description('Número (P-2026-0001), título o nombre de empresa/contacto.'),
+            'query' => $schema->string()->description('Número (P-2026-0001), título o nombre de cliente/contacto.'),
             'status' => $schema->string()->enum(array_keys(Proposal::STATUSES)),
             'client_id' => $schema->integer(),
             'lead_id' => $schema->integer(),

@@ -34,13 +34,13 @@ defineOptions({ layout: { breadcrumbs: [{ title: 'Dashboard', href: dashboard() 
 const setPeriod = (v: string | number | null) => router.get(dashboard().url, { period: v === 'all' ? undefined : v }, { preserveState: true, preserveScroll: true, replace: true });
 
 const kpis = computed(() => [
-    { label: 'Clientes', value: props.stats.total, icon: Layers, color: '#3DBB6C', hint: props.periods[props.filters.period] },
+    { label: 'Prospectos', value: props.stats.total, icon: Layers, color: '#A9606B', hint: props.periods[props.filters.period] },
     { label: 'Nuevos hoy', value: props.stats.today, icon: CalendarPlus, color: '#1AA0E4', hint: 'Ingresados hoy' },
     { label: 'Conversión', value: `${props.stats.conversion}%`, icon: Percent, color: '#DF1E79', hint: `${props.stats.won} concretados de ${props.stats.total}` },
-    { label: 'Valor en pipeline', value: formatMoneyShort(props.stats.pipeline_value) || '$0', icon: TrendingUp, color: '#4A8CFF', hint: 'Clientes en gestión' },
+    { label: 'Valor en pipeline', value: formatMoneyShort(props.stats.pipeline_value) || '$0', icon: TrendingUp, color: '#4A8CFF', hint: 'Prospectos en gestión' },
 ]);
 const secondary = computed(() => [
-    { label: 'En gestión', value: props.stats.open, icon: Sparkles, color: '#121826' },
+    { label: 'En gestión', value: props.stats.open, icon: Sparkles, color: '#3B2F2F' },
     { label: 'Concretados', value: props.stats.won, icon: CircleCheckBig, color: '#0D9F85' },
     { label: 'Descartados', value: props.stats.lost, icon: CircleX, color: '#8A8A8A' },
     { label: 'Ventas concretadas', value: formatMoneyShort(props.stats.won_value) || '$0', icon: Trophy, color: '#0D9F85' },
@@ -62,7 +62,7 @@ const gradeCls: Record<string, string> = { A: 'bg-emerald-100 text-emerald-700',
                     <option v-for="(label, key) in periods" :key="key" :value="key">{{ label }}</option>
                 </NativeSelect>
                 <Button variant="outline" as-child><Link :href="kanban()"><Columns3 /> Abrir Kanban</Link></Button>
-                <Button v-if="can.create" as-child><Link :href="create()"><Plus /> Nuevo cliente</Link></Button>
+                <Button v-if="can.create" as-child><Link :href="create()"><Plus /> Nuevo prospecto</Link></Button>
             </template>
         </PageHeader>
 
@@ -111,14 +111,14 @@ const gradeCls: Record<string, string> = { A: 'bg-emerald-100 text-emerald-700',
 
                 <!-- 3 · Actividad -->
                 <section class="rounded-2xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
-                    <h2 class="mb-3 font-semibold">Clientes nuevos · últimos 14 días</h2>
-                    <BarChart :labels="daily.map((d) => d.date)" :series="[{ key: 'leads', label: 'Clientes', color: 'var(--primary)', values: daily.map((d) => d.leads) }]" :height="150" chart-label="Clientes nuevos por día" />
+                    <h2 class="mb-3 font-semibold">Prospectos nuevos · últimos 14 días</h2>
+                    <BarChart :labels="daily.map((d) => d.date)" :series="[{ key: 'leads', label: 'Prospectos', color: 'var(--primary)', values: daily.map((d) => d.leads) }]" :height="150" chart-label="Prospectos nuevos por día" />
                 </section>
 
                 <!-- 4 · Orígenes -->
                 <section class="rounded-2xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
                     <div class="mb-4 flex items-baseline justify-between gap-2">
-                        <h2 class="font-semibold">Clientes por origen</h2>
+                        <h2 class="font-semibold">Prospectos por origen</h2>
                         <p class="text-xs text-muted-foreground">Clic para verlos en el Kanban</p>
                     </div>
                     <div class="grid grid-cols-2 gap-3 md:grid-cols-3">
@@ -166,8 +166,8 @@ const gradeCls: Record<string, string> = { A: 'bg-emerald-100 text-emerald-700',
 
                 <!-- 7 · Últimos leads -->
                 <section class="rounded-2xl border bg-card shadow-sm shadow-black/[0.03]">
-                    <div class="flex items-center justify-between border-b px-5 py-3.5"><h2 class="font-semibold">Últimos clientes</h2><Link v-if="can.leads" :href="'/leads'" class="inline-flex items-center gap-1 text-xs text-primary hover:underline"><List class="size-3" /> Ver lista</Link></div>
-                    <p v-if="!recent.length" class="px-5 py-8 text-center text-sm text-muted-foreground">Aún no hay leads.</p>
+                    <div class="flex items-center justify-between border-b px-5 py-3.5"><h2 class="font-semibold">Últimos prospectos</h2><Link v-if="can.leads" :href="'/leads'" class="inline-flex items-center gap-1 text-xs text-primary hover:underline"><List class="size-3" /> Ver lista</Link></div>
+                    <p v-if="!recent.length" class="px-5 py-8 text-center text-sm text-muted-foreground">Aún no hay prospectos.</p>
                     <ul v-else class="divide-y">
                         <li v-for="l in recent" :key="l.id">
                             <Link :href="leadShow(l.id)" class="flex items-center gap-3 px-5 py-2.5 transition hover:bg-muted/50">

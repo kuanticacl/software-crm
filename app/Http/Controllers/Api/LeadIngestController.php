@@ -113,7 +113,7 @@ class LeadIngestController extends Controller
     private function subscribe(Lead $lead, string $name): array
     {
         $list = \App\Models\ContactList::whereRaw('lower(name) = ?', [mb_strtolower($name)])->first()
-            ?? \App\Models\ContactList::create(['name' => $name, 'description' => 'Creada desde la API de clientes']);
+            ?? \App\Models\ContactList::create(['name' => $name, 'description' => 'Creada desde la API de prospectos']);
 
         // Si el correo ya estaba en la audiencia (p. ej. importado con variables) no se toca su fila.
         $entry = \App\Models\ContactListEntry::firstOrCreate(
@@ -169,7 +169,7 @@ class LeadIngestController extends Controller
             return ['template' => $slug, 'error' => 'Plantilla no encontrada o inactiva'];
         }
         if (! $lead->email) {
-            return ['template' => $slug, 'error' => 'El cliente no tiene correo'];
+            return ['template' => $slug, 'error' => 'El prospecto no tiene correo'];
         }
 
         $lead->loadMissing(['source:id,name', 'stage:id,name']);

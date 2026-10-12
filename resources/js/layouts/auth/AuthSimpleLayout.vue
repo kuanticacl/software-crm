@@ -12,7 +12,7 @@ defineProps<{
 
 <template>
     <div
-        class="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#f4f4f4] to-white p-6 md:p-10 dark:from-[#141414] dark:to-[#1c1c1c]"
+        class="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#f6efeb] to-white p-6 md:p-10 dark:from-[#171112] dark:to-[#1d1718]"
     >
         <!-- Isotipo de fondo -->
         <AppLogoIcon
@@ -26,8 +26,8 @@ defineProps<{
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-6">
                     <Link :href="home()" class="flex items-center">
-                        <BrandLogo class="h-9 w-auto text-foreground" />
-                        <span class="sr-only">ECORTESCL</span>
+                        <BrandLogo class="h-12 w-auto text-foreground" />
+                        <span class="sr-only">Vivienda en Regla</span>
                     </Link>
                     <div class="space-y-2 text-center">
                         <h1 class="text-2xl font-semibold text-primary">
@@ -44,7 +44,7 @@ defineProps<{
                     <slot />
                 </div>
                 <p class="text-center text-xs text-muted-foreground">
-                    Software Factory & Growth Marketing · CRM interno
+                    Arquitectura y regularizaciones · CRM interno
                 </p>
             </div>
         </div>

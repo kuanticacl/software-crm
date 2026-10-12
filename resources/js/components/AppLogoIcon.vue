@@ -13,15 +13,10 @@ defineProps<Props>();
 </script>
 
 <template>
-    <!-- Isotipo de ECORTESCL: dos pares de chevrones (toma el color actual) -->
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 32 32"
-        :class="className"
-        v-bind="$attrs"
-    >
-        <g fill="none" stroke="currentColor" stroke-width="2.4">
-            <path d="M12.8 8.3 8 13.8l5.1 5.4M16.6 8.3l-4.8 5.5 5.1 5.4M16 13.4l5.1 5.4-5.1 5.4M19.5 13.4l5.1 5.4-5.1 5.4" />
-        </g>
+    <!-- Isotipo de Vivienda en Regla: casa de línea fina con una «V» (toma el color actual) -->
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" :class="className" v-bind="$attrs" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 31 32 9l24 22" />
+        <path d="M14 27v26h36V27" />
+        <path d="M24 53V40l8 9 8-9v13" />
     </svg>
 </template>

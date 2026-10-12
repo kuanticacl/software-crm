@@ -11,19 +11,28 @@ defineProps<{
 </script>
 
 <template>
-    <!-- Logo de ECORTESCL: isotipo verde + wordmark (el texto toma el color actual y la tipografía Open Sans) -->
+    <!-- Logo de Vivienda en Regla: isotipo oro rosa + wordmark (el texto toma el color actual; tipografía Cormorant Garamond) -->
     <svg
         xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 150 32"
+        viewBox="0 0 252 44"
         role="img"
-        aria-label="ECORTESCL"
+        aria-label="Vivienda en Regla"
         :class="$props.class"
         v-bind="$attrs"
     >
-        <rect width="32" height="32" rx="8.6" fill="#64d989" />
-        <g fill="none" stroke="#fff" stroke-width="2.1">
-            <path d="M12.8 8.3 8 13.8l5.1 5.4M16.6 8.3l-4.8 5.5 5.1 5.4M16 13.4l5.1 5.4-5.1 5.4M19.5 13.4l5.1 5.4-5.1 5.4" />
+        <defs>
+            <linearGradient id="vr-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#D9A89E" />
+                <stop offset=".55" stop-color="#B76E79" />
+                <stop offset="1" stop-color="#9C5560" />
+            </linearGradient>
+        </defs>
+        <g transform="translate(0 2) scale(.62)" fill="none" stroke="url(#vr-gold)" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 31 32 9l24 22" />
+            <path d="M14 27v26h36V27" />
+            <path d="M24 53V40l8 9 8-9v13" />
         </g>
-        <text x="40" y="23.5" font-family="'Open Sans', ui-sans-serif, system-ui, sans-serif" font-weight="700" font-size="22" letter-spacing="-0.7" fill="currentColor">eCortesCL</text>
+        <text x="46" y="24.5" font-family="'Cormorant Garamond', Georgia, serif" font-weight="600" font-size="25" letter-spacing=".2" fill="currentColor">Vivienda en Regla</text>
+        <text x="47" y="39" font-family="'Jost', ui-sans-serif, sans-serif" font-weight="500" font-size="6.2" letter-spacing="2.3" fill="#B76E79">ARQUITECTURA · REGULARIZACIONES</text>
     </svg>
 </template>

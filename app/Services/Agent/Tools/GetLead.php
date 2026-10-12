@@ -22,16 +22,16 @@ class GetLead extends CrmTool
 
     public function schema(JsonSchema $schema): array
     {
-        return ['lead_id' => $schema->integer()->required()->description('ID del cliente.')];
+        return ['lead_id' => $schema->integer()->required()->description('ID del prospecto.')];
     }
 
     protected function run(Request $r): array|string
     {
         $lead = Lead::visibleTo($this->ctx->user)->with(['stage:id,name', 'source:id,name', 'assignee:id,name', 'client:id,name'])->find((int) $r['lead_id']);
         if (! $lead) {
-            return 'ERROR: cliente no encontrado o sin acceso.';
+            return 'ERROR: prospecto no encontrado o sin acceso.';
         }
-        $this->ctx->record($this->name(), "Consultó el cliente {$lead->full_name}", url('/leads/'.$lead->id));
+        $this->ctx->record($this->name(), "Consultó el prospecto {$lead->full_name}", url('/leads/'.$lead->id));
 
         return [
             'id' => $lead->id, 'name' => $lead->full_name, 'company' => $lead->company, 'job_title' => $lead->job_title,

@@ -2,7 +2,7 @@
 set -e
 cd /var/www/html
 
-echo "▶ CRM ECORTESCL · iniciando…"
+echo "▶ CRM Vivienda en Regla · iniciando…"
 
 if [ -z "${APP_KEY}" ]; then
     echo "✖ Falta APP_KEY (defínela en las variables de entorno de Dokploy)."

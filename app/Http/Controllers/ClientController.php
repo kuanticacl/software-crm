@@ -45,7 +45,7 @@ class ClientController extends Controller
     {
         $client = Client::create([...$request->validated(), 'created_by' => $request->user()->id]);
 
-        $this->toast("Empresa «{$client->name}» creada.");
+        $this->toast("Cliente «{$client->name}» creada.");
 
         return to_route('clients.show', $client);
     }
@@ -89,7 +89,7 @@ class ClientController extends Controller
                 ]),
             ] : null,
             'billingLookups' => [
-                'clients' => [['id' => $client->id, 'name' => $client->name]],
+                'clients' => [['id' => $client->id, 'name' => $client->name, 'kind' => $client->kind]],
                 'services' => $client->services()->get(['id', 'name', 'client_id', 'currency', 'price']),
                 'taxRate' => config('portal.tax_rate'),
             ],
@@ -105,7 +105,7 @@ class ClientController extends Controller
     {
         $client->update($request->validated());
 
-        $this->toast("Empresa «{$client->name}» actualizada.");
+        $this->toast("Cliente «{$client->name}» actualizada.");
 
         return to_route('clients.show', $client);
     }
@@ -117,7 +117,7 @@ class ClientController extends Controller
         $billing = $client->services()->count() + $client->invoices()->count();
 
         if (($leads || $proposals || $billing) && ! $request->boolean('confirm_related')) {
-            $this->toast('La empresa tiene datos relacionados: confirma la eliminación para enviarlos a la papelera.', 'error');
+            $this->toast('El cliente tiene datos relacionados: confirma la eliminación para enviarlos a la papelera.', 'error');
 
             return back();
         }
@@ -131,14 +131,14 @@ class ClientController extends Controller
         $cascade->client($client, $target);
 
         if ($target) {
-            $this->toast("Empresa eliminada. {$leads} cliente(s) y {$proposals} propuesta(s) pasaron a «{$target->name}».");
+            $this->toast("Cliente eliminado. {$leads} cliente(s) y {$proposals} propuesta(s) pasaron a «{$target->name}».");
 
             return to_route('clients.index');
         }
 
         $this->toast($leads || $proposals
-            ? "Empresa eliminada junto con {$leads} cliente(s) y {$proposals} propuesta(s) relacionados."
-            : 'Empresa eliminada.');
+            ? "Cliente eliminado junto con {$leads} cliente(s) y {$proposals} propuesta(s) relacionados."
+            : 'Cliente eliminado.');
 
         return to_route('clients.index');
     }

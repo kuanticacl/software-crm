@@ -35,7 +35,7 @@ const when = (c: Row) => (c.status === 'scheduled' && c.scheduled_at ? `Programa
     <Head title="Boletines" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Boletines" description="Crea, programa y mide envíos masivos a listas, clientes y empresas.">
+        <PageHeader title="Boletines" description="Crea, programa y mide envíos masivos a listas, prospectos y clientes.">
             <template #actions><Button v-if="can('campaigns.create')" as-child><Link :href="create()"><Plus /> Nuevo boletín</Link></Button></template>
         </PageHeader>
 

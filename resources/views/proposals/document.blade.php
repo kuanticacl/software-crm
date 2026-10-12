@@ -34,15 +34,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $p->title }} · ECORTESCL</title>
+    <title>{{ $p->title }} · Vivienda en Regla</title>
     @if ($public ?? false)<meta name="robots" content="noindex,nofollow">@endif
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --o:#1F9D57; --o2:#86EFAC; --ink:#393939; --mut:#707070; --line:#E8E8E8; --bg:#F4F4F4; --soft:#E8F7EE; }
+        :root { --o:#A9606B; --o2:#E3B5AE; --ink:#3B2F2F; --mut:#7A6A68; --line:#E6D8D1; --bg:#F6EFEB; --soft:#F6E7E4; }
         * { box-sizing: border-box; }
         html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-        body { margin:0; background:var(--bg); color:var(--ink); font-family:'Open Sans',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
+        body { margin:0; background:var(--bg); color:var(--ink); font-family:'Jost',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
         .wrap { max-width:880px; margin:0 auto; padding:24px 16px 64px; }
         .top { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 4px 20px; }
         .top svg { height:26px; width:auto; color:var(--ink); }
@@ -50,18 +50,17 @@
         .pill.primary { background:var(--o); border-color:var(--o); color:#fff; }
         .pill:hover { filter:brightness(.97); }
         .card { background:#fff; border-radius:24px; padding:32px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:#F4F4F4 url('{{ $asset('brand/proposal-cover.jpg') }}') no-repeat right center / auto 100%; box-shadow:0 1px 2px rgba(0,0,0,.05); }
-        .cover::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.94) 42%,rgba(244,244,244,0) 74%); }
+        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:linear-gradient(120deg,#F6EFEB 0%,#EFD9D3 55%,#E3B5AE 100%); box-shadow:0 1px 2px rgba(0,0,0,.05); }
+                .cover::before { content:''; position:absolute; right:-60px; bottom:-70px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,.28); }
         .cover > * { position:relative; }
-        @media (max-width:760px) { .cover { background-size:auto 70%; background-position:right bottom; } .cover::before { background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.85) 40%,rgba(244,244,244,0) 78%); } }
         .cover .logo { height:24px; width:auto; display:block; }
         .cover .tag { display:inline-block; margin-top:34px; background:rgba(255,255,255,.6); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.9); box-shadow:0 2px 10px rgba(0,0,0,.05); border-radius:999px; padding:4px 14px; font-size:13px; font-weight:600; color:var(--mut); }
-        .cover h1 { margin:14px 0 6px; font-size:38px; line-height:1.12; font-weight:600; color:var(--o); max-width:520px; }
+        .cover h1 { font-family:'Cormorant Garamond',Georgia,serif; letter-spacing:-.01em; margin:14px 0 6px; font-size:38px; line-height:1.12; font-weight:600; color:var(--o); max-width:520px; }
         .cover p { margin:0; font-size:18px; color:var(--mut); max-width:520px; } .cover p strong { color:var(--ink); }
         .cover .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; max-width:640px; }
         .glass { padding:7px 12px; background:rgba(255,255,255,.55); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.9); box-shadow:0 4px 18px rgba(0,0,0,.06); border-radius:14px; padding:8px 14px; }
-        .glass.purple { background:rgba(18,24,38,.82); border-color:rgba(255,255,255,.25); box-shadow:0 8px 26px rgba(18,24,38,.28); color:#fff; }
-        .glass span { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); } .glass strong { font-size:15px; } .glass.purple span { color:#E4D6FB; }
+        .glass.purple { background:rgba(59,47,47,.82); border-color:rgba(255,255,255,.25); box-shadow:0 8px 26px rgba(59,47,47,.28); color:#fff; }
+        .glass span { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); } .glass strong { font-size:15px; } .glass.purple span { color:#EBD3CF; }
         h2 { margin:0 0 12px; font-size:21px; line-height:1.25; display:flex; align-items:center; gap:12px; }
         h2 .n { flex:none; width:32px; height:32px; border-radius:11px; background:var(--soft); color:var(--o); font-size:14px; font-weight:700; display:grid; place-items:center; }
         .body p { margin:0 0 10px; } .body ul { margin:0 0 10px; padding-left:20px; } .body li { margin:3px 0; } .body li::marker { color:var(--o); }
@@ -80,7 +79,7 @@
         .totals div { display:flex; justify-content:space-between; padding:5px 0; } .totals .sep { border-top:1px solid var(--line); margin-top:6px; padding-top:10px; }
         .totals .grand { background:var(--o); color:#fff; border-radius:16px; padding:14px 18px; margin-top:10px; font-size:18px; font-weight:700; }
         .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:8px; }
-        .kpi { background:var(--soft); border:1px solid rgba(31,157,87,.12); border-radius:18px; padding:16px 18px; } .kpi.p { background:rgba(18,24,38,.07); border-color:rgba(18,24,38,.16); } .kpi.p strong { color:#121826; } .kpi span { font-size:12px; color:var(--mut); text-transform:uppercase; letter-spacing:.05em; } .kpi strong { display:block; font-size:24px; color:var(--o); line-height:1.2; }
+        .kpi { background:var(--soft); border:1px solid rgba(169,96,107,.12); border-radius:18px; padding:16px 18px; } .kpi.p { background:rgba(59,47,47,.07); border-color:rgba(59,47,47,.16); } .kpi.p strong { color:#3B2F2F; } .kpi span { font-size:12px; color:var(--mut); text-transform:uppercase; letter-spacing:.05em; } .kpi strong { display:block; font-size:24px; color:var(--o); line-height:1.2; }
         .accept { border:2px solid var(--o); } .accept form { display:grid; gap:12px; margin-top:12px; }
         .accept input, .accept textarea { font:inherit; width:100%; border:1px solid var(--line); border-radius:14px; padding:11px 14px; background:#fff; color:var(--ink); }
         .accept input:focus, .accept textarea:focus { outline:2px solid var(--o2); border-color:var(--o); }
@@ -92,14 +91,14 @@
         .holding { display:flex; flex-wrap:nowrap; align-items:center; gap:4px; margin-left:-8px; } .holding a { display:block; } .holding img { height:40px; width:auto; display:block; }
         .hold-note { margin:12px 0 0; font-size:12.5px; color:var(--mut); }
         .where { display:grid; gap:7px; font-size:14px; } .where div { display:flex; gap:9px; align-items:flex-start; } .where svg { flex:none; width:16px; height:16px; margin-top:3px; color:var(--o); stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; } .where a { color:inherit; text-decoration:none; }
-        .soc { display:flex; gap:8px; margin-top:12px; } .soc a { width:34px; height:34px; border-radius:12px; display:grid; place-items:center; color:var(--o); background:rgba(31,157,87,.08); border:1px solid rgba(31,157,87,.18); } .soc svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-        .tech { text-align:center; margin:22px 0 4px; } .tech p { margin:0 0 10px; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:#A8A8A8; }
+        .soc { display:flex; gap:8px; margin-top:12px; } .soc a { width:34px; height:34px; border-radius:12px; display:grid; place-items:center; color:var(--o); background:rgba(169,96,107,.08); border:1px solid rgba(169,96,107,.18); } .soc svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+        .tech { text-align:center; margin:22px 0 4px; } .tech p { margin:0 0 10px; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:#B5A7A2; }
         .tech div { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 22px; } .tech img { height:16px; width:auto; opacity:.9; }
-        .legal { text-align:center; color:#A8A8A8; font-size:12px; margin-top:14px; }
+        .legal { text-align:center; color:#B5A7A2; font-size:12px; margin-top:14px; }
         @media (max-width:640px) { .sign, .ficha { grid-template-columns:1fr; } }
-        .flash { background:#E7F8F3; color:#0A7A66; border-radius:16px; padding:12px 18px; margin-bottom:16px; font-weight:600; }
+        .flash { background:#E8F3EE; color:#3C7A66; border-radius:16px; padding:12px 18px; margin-bottom:16px; font-weight:600; }
         .err { background:#FDECEC; color:#B42318; border-radius:16px; padding:12px 18px; margin-bottom:16px; }
-        .vp { position:fixed; right:12px; bottom:12px; background:#393939; color:#fff; border-radius:999px; padding:6px 14px; font-size:12px; opacity:.85; }
+        .vp { position:fixed; right:12px; bottom:12px; background:#3B2F2F; color:#fff; border-radius:999px; padding:6px 14px; font-size:12px; opacity:.85; }
         @media (max-width:640px) { .card { padding:22px 18px; border-radius:20px; } .cover { padding:32px 22px; } .cover h1 { font-size:27px; } th.hide, td.hide { display:none; } }
         @media print {
             body { background:#fff; font-size:13.5px; } .wrap { max-width:none; padding:0; } .noprint, .vp { display:none !important; }
@@ -128,7 +127,7 @@
     </div>
 
     <section class="cover">
-        <img class="logo" src="{{ $asset('brand/ecortes-logo-dark.png') }}" alt="ECORTESCL">
+        <img class="logo" src="{{ $asset('brand/vivienda-logo-dark.png') }}" alt="Vivienda en Regla">
         <span class="tag">Propuesta comercial · N.º {{ $p->number }}</span>
         <h1>{{ $p->title }}</h1>
         <p>Preparada para <strong>{{ $company }}</strong></p>
@@ -213,7 +212,7 @@
                 var ctx = c.getContext('2d'), drawing = false, dirty = false, last = null;
                 var form = document.getElementById('resp-form'), sig = document.getElementById('resp-signature'), hint = document.getElementById('resp-hint'), err = document.getElementById('resp-error');
                 var ratio = Math.max(window.devicePixelRatio || 1, 1);
-                function size() { var w = c.clientWidth || 640; c.width = w * ratio; c.height = 200 * ratio; ctx.scale(ratio, ratio); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#121826'; dirty = false; sig.value = ''; hint.hidden = false; }
+                function size() { var w = c.clientWidth || 640; c.width = w * ratio; c.height = 200 * ratio; ctx.scale(ratio, ratio); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#3B2F2F'; dirty = false; sig.value = ''; hint.hidden = false; }
                 size();
                 function pos(e) { var r = c.getBoundingClientRect(); var t = e.touches ? e.touches[0] : e; return { x: t.clientX - r.left, y: t.clientY - r.top }; }
                 function start(e) { e.preventDefault(); drawing = true; last = pos(e); ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(last.x + 0.1, last.y + 0.1); ctx.stroke(); }
@@ -238,9 +237,9 @@
     {{-- Firma y aceptación --}}
     <section class="card">
         <h2>Firma y aceptación</h2>
-        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de ECORTESCL. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
+        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de Vivienda en Regla. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
         <div class="sign">
-            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo ECORTESCL' }}</strong><div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div></div>
+            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo Vivienda en Regla' }}</strong><div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div></div>
             <div>
                 @if ($status === 'accepted')
                     <div class="line" style="display:grid;place-items:end center;padding-bottom:4px;min-height:64px">
@@ -294,10 +293,12 @@
     </footer>
 
     {{-- Tecnologías: lo último de la página, pequeño y sutil --}}
+    @if (count($tech))
     <div class="tech">
         <p>Tecnologías con las que trabajamos</p>
         <div>@foreach ($tech as $t)<img src="{{ $asset('brand/tech/'.$t.'.png') }}" alt="{{ $t }}">@endforeach</div>
     </div>
+    @endif
     <p class="legal">© {{ now()->year }} {{ $agency['legal_name'] }} · Documento confidencial para {{ $company }}</p>
 </div>
 @if ($preview ?? false)<div class="vp noprint">Vista previa</div>@endif

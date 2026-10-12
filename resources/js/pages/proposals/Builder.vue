@@ -296,10 +296,10 @@ const money = (n: number) => formatAmount(n, form.currency);
                     <!-- Cliente -->
                     <section class="rounded-2xl border bg-card p-5">
                         <h2 class="mb-1 flex items-center gap-2 font-semibold"><Building2 class="size-4 text-primary" /> Cliente y destinatario</h2>
-                        <p class="mb-4 text-xs text-muted-foreground">Estos datos aparecen en la propuesta. Quedan fijos al emitirla, aunque después cambies la ficha del cliente.<span v-if="lead"> Cliente asociado: <strong>{{ lead.first_name }} {{ lead.last_name }}</strong>.</span></p>
+                        <p class="mb-4 text-xs text-muted-foreground">Estos datos aparecen en la propuesta. Quedan fijos al emitirla, aunque después cambies la ficha del cliente.<span v-if="lead"> Prospecto asociado: <strong>{{ lead.first_name }} {{ lead.last_name }}</strong>.</span></p>
                         <div class="grid gap-4 sm:grid-cols-2">
-                            <FormField label="Empresa del CRM" class="sm:col-span-2" hint="Al elegirlo se completan los datos de la empresa.">
-                                <NativeSelect v-model="form.client_id" @update:model-value="onClient"><option :value="null">— Sin empresa registrada —</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
+                            <FormField label="Cliente del CRM" class="sm:col-span-2" hint="Al elegirlo se completan los datos del cliente.">
+                                <NativeSelect v-model="form.client_id" @update:model-value="onClient"><option :value="null">— Sin cliente registrada —</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
                             </FormField>
                             <FormField label="Nombre de fantasía"><Input v-model="recipient.company" placeholder="Los Robles" /></FormField>
                             <FormField label="Razón social"><Input v-model="recipient.legal_name" placeholder="Comercial Los Robles SpA" /></FormField>
@@ -348,7 +348,7 @@ const money = (n: number) => formatAmount(n, form.currency);
                                         <div class="flex flex-wrap items-center justify-between gap-2">
                                             <Button v-if="ai.enabled" type="button" size="sm" variant="ghost" class="text-primary" :disabled="aiBusy === `it-${it.key}`" @click="writeItem(it)"><Spinner v-if="aiBusy === `it-${it.key}`" /><Wand2 v-else /> Redactar con IA</Button>
                                             <span v-else />
-                                            <span class="text-sm"><Repeat v-if="it.billing === 'monthly'" class="mr-1 inline size-3.5 text-[#121826]" />Total línea{{ it.billing === 'monthly' ? ' / mes' : '' }}: <strong>{{ money(Number((it.quantity * it.unit_price * (1 - (it.discount_pct || 0) / 100)).toFixed(decimals))) }}</strong></span>
+                                            <span class="text-sm"><Repeat v-if="it.billing === 'monthly'" class="mr-1 inline size-3.5 text-[#3B2F2F]" />Total línea{{ it.billing === 'monthly' ? ' / mes' : '' }}: <strong>{{ money(Number((it.quantity * it.unit_price * (1 - (it.discount_pct || 0) / 100)).toFixed(decimals))) }}</strong></span>
                                         </div>
                                     </div>
                                     <div class="flex flex-col">
@@ -474,7 +474,7 @@ const money = (n: number) => formatAmount(n, form.currency);
     <Dialog v-model:open="suggestOpen">
         <DialogContent class="max-h-[85vh] overflow-y-auto sm:max-w-lg">
             <DialogHeader><DialogTitle class="flex items-center gap-2"><Sparkles class="size-5 text-primary" /> Servicios sugeridos</DialogTitle><DialogDescription>La IA elige del catálogo lo que mejor calza con lo que necesita el cliente.</DialogDescription></DialogHeader>
-            <FormField label="¿Qué necesita el cliente?" hint="Si hay un cliente asociado, también se usa su mensaje y etapa."><Textarea v-model="suggestBrief" rows="3" placeholder="Quiere captar compradores para un proyecto nuevo y ordenar el seguimiento de sus clientes." /></FormField>
+            <FormField label="¿Qué necesita el cliente?" hint="Si hay un prospecto asociado, también se usa su mensaje y etapa."><Textarea v-model="suggestBrief" rows="3" placeholder="Quiere captar compradores para un proyecto nuevo y ordenar el seguimiento de sus prospectos." /></FormField>
             <Button :disabled="aiBusy === 'suggest'" class="w-fit" @click="runSuggest"><Spinner v-if="aiBusy === 'suggest'" /><Sparkles v-else /> Sugerir</Button>
             <ul v-if="suggestions.length" class="grid gap-2">
                 <li v-for="s in suggestions" :key="s.service_id" class="flex items-start justify-between gap-3 rounded-xl border p-3">

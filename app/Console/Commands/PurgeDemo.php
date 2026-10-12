@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 
 class PurgeDemo extends Command
 {
-    protected $signature = 'crm:purge-demo {--all : Borrar TODOS los clientes, empresas y propuestas (no solo los de muestra)} {--force : Ejecutar de verdad (sin esto solo muestra qué se borraría)}';
+    protected $signature = 'crm:purge-demo {--all : Borrar TODOS los prospectos, clientes y propuestas (no solo los de muestra)} {--force : Ejecutar de verdad (sin esto solo muestra qué se borraría)}';
 
     protected $description = 'Limpia los datos de prueba para empezar a usar el CRM en real, sin tocar la configuración';
 

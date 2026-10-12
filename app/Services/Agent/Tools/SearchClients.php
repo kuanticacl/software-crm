@@ -17,7 +17,7 @@ class SearchClients extends CrmTool
 
     public function description(): string
     {
-        return 'Busca EMPRESAS (organizaciones/inmobiliarias; no personas) por nombre, razón social, RUT, correo o contacto. Úsalo SIEMPRE antes de crear una empresa para evitar duplicados. Para buscar personas usa search_leads.';
+        return 'Busca CLIENTES (personas o empresas; no prospectos del Kanban) por nombre, razón social, RUT, correo o contacto. Úsalo SIEMPRE antes de crear un cliente para evitar duplicados. Para buscar prospectos usa search_leads.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -37,7 +37,7 @@ class SearchClients extends CrmTool
             ->orWhere('contact_name', 'like', "%$t%")->orWhere('tax_id', 'like', "%$t%")
             ->when(strlen($rut) >= 7, fn ($q) => $q->orWhereRaw("replace(replace(tax_id,'.',''),'-','') like ?", ["%$rut%"])))
             ->limit($this->limit($r))->get();
-        $this->ctx->record($this->name(), "Buscó empresas «{$t}»: {$clients->count()}");
+        $this->ctx->record($this->name(), "Buscó clientes «{$t}»: {$clients->count()}");
 
         return $clients->map(fn (Client $c) => ['id' => $c->id, 'name' => $c->name, 'legal_name' => $c->legal_name, 'rut' => $c->tax_id, 'contact' => $c->contact_name, 'email' => $c->email, 'phone' => $c->phone, 'url' => url('/clients/'.$c->id)])->all() ?: 'Sin resultados.';
     }

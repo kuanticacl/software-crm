@@ -28,7 +28,7 @@ const props = defineProps<{
 defineOptions({ layout: { breadcrumbs: [{ title: 'Dashboard de cuentas', href: '/accounts' }] } });
 
 const cards = computed(() => [
-    { label: 'Ingreso recurrente mensual', hint: 'Neto, equivalente mensual', value: money(props.kpis.mrr), icon: Repeat, color: '#3DBB6C' },
+    { label: 'Ingreso recurrente mensual', hint: 'Neto, equivalente mensual', value: money(props.kpis.mrr), icon: Repeat, color: '#A9606B' },
     { label: 'Ingreso anual proyectado', hint: 'MRR × 12', value: money(props.kpis.arr), icon: TrendingUp, color: '#4A8CFF' },
     { label: 'Cuentas activas', hint: `${props.kpis.services_active} servicios · ${money(props.kpis.avg_per_account)} por cuenta`, value: String(props.kpis.accounts_active), icon: Users, color: '#A855F7' },
     ...(props.billing ? [
@@ -49,7 +49,7 @@ const daysLabel = (n: number) => (n === 0 ? 'hoy' : n === 1 ? 'mañana' : n < 0 
     <Head title="Dashboard de cuentas" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Dashboard de cuentas" description="Cómo están las empresas que ya tienen servicios: ingreso recurrente, cobranza y renovaciones.">
+        <PageHeader title="Dashboard de cuentas" description="Cómo están los clientes que ya tienen servicios: ingreso recurrente, cobranza y renovaciones.">
             <template #actions>
                 <Button variant="outline" as-child><Link href="/accounts/kanban">Ver Kanban de cuentas</Link></Button>
                 <Button variant="outline" as-child><Link href="/contracts">Servicios</Link></Button>
@@ -67,13 +67,13 @@ const daysLabel = (n: number) => (n === 0 ? 'hoy' : n === 1 ? 'mañana' : n < 0 
             <DataCard v-if="billing" class="p-5 xl:col-span-2">
                 <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
                     <h2 class="font-semibold">Facturado vs cobrado · últimos 6 meses</h2>
-                    <div class="flex items-center gap-4 text-xs text-muted-foreground"><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#4A8CFF]" /> Facturado (neto)</span><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#3DBB6C]" /> Cobrado (neto)</span></div>
+                    <div class="flex items-center gap-4 text-xs text-muted-foreground"><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#4A8CFF]" /> Facturado (neto)</span><span class="flex items-center gap-1.5"><i class="size-2.5 rounded-sm bg-[#A9606B]" /> Cobrado (neto)</span></div>
                 </div>
                 <div class="flex h-44 items-end gap-2 sm:gap-4" role="img" aria-label="Facturado y cobrado por mes">
                     <div v-for="s in billing.series" :key="s.month" class="flex h-full flex-1 flex-col justify-end gap-1">
                         <div class="flex flex-1 items-end justify-center gap-1">
                             <div class="w-1/2 max-w-8 rounded-t-md bg-[#4A8CFF]" :style="{ height: Math.max(2, (s.billed / chartMax) * 100) + '%' }" :title="`Facturado ${money(s.billed)}`" />
-                            <div class="w-1/2 max-w-8 rounded-t-md bg-[#3DBB6C]" :style="{ height: Math.max(2, (s.collected / chartMax) * 100) + '%' }" :title="`Cobrado ${money(s.collected)}`" />
+                            <div class="w-1/2 max-w-8 rounded-t-md bg-[#A9606B]" :style="{ height: Math.max(2, (s.collected / chartMax) * 100) + '%' }" :title="`Cobrado ${money(s.collected)}`" />
                         </div>
                         <p class="text-center text-xs text-muted-foreground capitalize">{{ monthName(s.month) }}</p>
                     </div>
@@ -146,7 +146,7 @@ const daysLabel = (n: number) => (n === 0 ? 'hoy' : n === 1 ? 'mañana' : n < 0 
                 <h2 class="mb-3 font-semibold">Mezcla por ciclo de cobro</h2>
                 <p v-if="!cycle_mix.length" class="text-sm text-muted-foreground">Sin servicios activos.</p>
                 <ul class="grid gap-2 text-sm"><li v-for="m in cycle_mix" :key="m.cycle" class="flex items-center justify-between"><span>{{ cycleLabels[m.cycle] }} <span class="text-xs text-muted-foreground">· {{ m.count }} servicio(s)</span></span><span class="tabular-nums">{{ m.mrr ? money(m.mrr) + ' / mes' : '—' }}</span></li></ul>
-                <div v-if="without_services.length" class="mt-4 border-t pt-4"><p class="mb-2 text-xs font-medium text-muted-foreground">Empresas con cobros pero sin servicios activos</p><div class="flex flex-wrap gap-2"><Link v-for="c in without_services" :key="c.id" :href="`/clients/${c.id}`" class="rounded-full bg-muted px-3 py-1 text-xs hover:bg-accent">{{ c.name }}</Link></div></div>
+                <div v-if="without_services.length" class="mt-4 border-t pt-4"><p class="mb-2 text-xs font-medium text-muted-foreground">Clientes con cobros pero sin servicios activos</p><div class="flex flex-wrap gap-2"><Link v-for="c in without_services" :key="c.id" :href="`/clients/${c.id}`" class="rounded-full bg-muted px-3 py-1 text-xs hover:bg-accent">{{ c.name }}</Link></div></div>
             </DataCard>
 
             <DataCard v-if="costs" class="p-5">

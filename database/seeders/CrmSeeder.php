@@ -13,12 +13,12 @@ class CrmSeeder extends Seeder
     {
         if (PipelineStage::count() === 0) {
             $stages = [
-                ['Ingreso', '#1AA0E4', 'open', false],
-                ['Contactado', '#121826', 'open', false],
-                ['Agendado', '#DF1E79', 'open', false],
-                ['Propuesta', '#3DBB6C', 'open', true],
-                ['Concretado', '#0D9F85', 'won', true],
-                ['Descartado', '#8A8A8A', 'lost', false],
+                ['Nuevo contacto', '#B76E79', 'open', false],
+                ['Primera conversación', '#8C7B75', 'open', false],
+                ['Visita o levantamiento', '#C9A66B', 'open', false],
+                ['Propuesta enviada', '#A9606B', 'open', true],
+                ['Ganado', '#4F8F7A', 'won', true],
+                ['Perdido', '#9A8C88', 'lost', false],
             ];
 
             foreach ($stages as $i => [$name, $color, $type, $needsProposal]) {
@@ -30,13 +30,13 @@ class CrmSeeder extends Seeder
 
         if (LeadSource::count() === 0) {
             $sources = [
-                ['Sitio web', '#1AA0E4', 'globe', false],
-                ['Landing page', '#121826', 'layout-template', false],
-                ['Meta Ads', '#4A8CFF', 'megaphone', false],
-                ['Google Ads', '#0D9F85', 'search', false],
+                ['Sitio web', '#7D8FA3', 'globe', false],
+                ['Instagram', '#B76E79', 'camera', false],
+                ['Meta Ads', '#8C7B75', 'megaphone', false],
+                ['Google Ads', '#4F8F7A', 'search', false],
                 ['WhatsApp', '#25D366', 'message-circle', false],
-                ['Referido', '#DF1E79', 'handshake', false],
-                ['Manual', '#707070', 'pencil', true],
+                ['Referido', '#C9A66B', 'handshake', false],
+                ['Manual', '#7A6A68', 'pencil', true],
             ];
 
             foreach ($sources as $i => [$name, $color, $icon, $system]) {

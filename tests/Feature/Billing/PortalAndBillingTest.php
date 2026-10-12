@@ -127,7 +127,9 @@ class PortalAndBillingTest extends TestCase
         $i = Invoice::first();
         $this->assertSame('scheduled', $i->status);
         $this->assertTrue($i->auto_remind);
-        $this->assertEquals(119000, $i->amount_total);
+        // Por defecto los cobros son boletas de honorarios: sin IVA (el cliente de prueba es una persona: paga el bruto).
+        $this->assertSame('boleta', $i->document_type);
+        $this->assertEquals(100000, $i->amount_total);
     }
 
     public function test_one_time_services_do_not_schedule_charges(): void
@@ -142,7 +144,7 @@ class PortalAndBillingTest extends TestCase
     {
         $c = $this->company();
         $svc = app(InvoiceService::class);
-        $i = $svc->create(['client_id' => $c->id, 'concept' => 'Hosting', 'currency' => 'UF', 'amount_net' => 10, 'due_date' => today()->toDateString()]);
+        $i = $svc->create(['client_id' => $c->id, 'document_type' => 'factura', 'concept' => 'Hosting', 'currency' => 'UF', 'amount_net' => 10, 'due_date' => today()->toDateString()]);
 
         $this->assertEquals(11.9, $i->amount_total);
         $this->assertEquals(476000, $i->total_clp);

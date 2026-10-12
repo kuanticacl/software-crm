@@ -98,10 +98,10 @@ class LeadApiTest extends TestCase
 
     public function test_audience_subscribes_the_lead_email_without_duplicates()
     {
-        $r = $this->post(['first_name' => 'Ana', 'email' => 'Ana@b.cl', 'audience' => 'Boletín ECORTESCL']);
+        $r = $this->post(['first_name' => 'Ana', 'email' => 'Ana@b.cl', 'audience' => 'Boletín Vivienda en Regla']);
         $r->assertCreated()->assertJsonPath('data.audience.status', 'subscribed');
 
-        $this->post(['first_name' => 'Ana', 'email' => 'ana@b.cl', 'audience' => 'boletín ecortescl'])
+        $this->post(['first_name' => 'Ana', 'email' => 'ana@b.cl', 'audience' => 'boletín vivienda en regla'])
             ->assertJsonPath('data.audience.status', 'already_subscribed');
 
         $this->assertSame(1, \App\Models\ContactList::count());
@@ -116,6 +116,6 @@ class LeadApiTest extends TestCase
 
         $this->assertSame(2, LeadSource::where('slug', 'like', 'formulario-%')->count());
         $this->assertTrue(\App\Models\EmailTemplate::where('slug', 'confirmacion-asesoria')->exists());
-        $this->assertTrue(\App\Models\ContactList::where('name', 'Boletín ECORTESCL')->exists());
+        $this->assertTrue(\App\Models\ContactList::where('name', 'Boletín Vivienda en Regla')->exists());
     }
 }

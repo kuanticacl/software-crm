@@ -158,8 +158,8 @@ const addNote = async () => {
 const removeNote = (n: LeadNote) => run(() => sendJson('DELETE', destroyNote({ lead: lead.value.id, note: n.id }).url), 'Nota eliminada');
 
 const typeMeta: Record<string, { icon: typeof Phone; color: string }> = {
-    created: { icon: Sparkles, color: '#3DBB6C' },
-    stage_changed: { icon: ArrowRightLeft, color: '#121826' },
+    created: { icon: Sparkles, color: '#A9606B' },
+    stage_changed: { icon: ArrowRightLeft, color: '#3B2F2F' },
     assigned: { icon: UserCheck, color: '#1AA0E4' },
     updated: { icon: Pencil, color: '#8A8A8A' },
     call: { icon: Phone, color: '#0D9F85' },
@@ -167,7 +167,7 @@ const typeMeta: Record<string, { icon: typeof Phone; color: string }> = {
     whatsapp: { icon: MessageCircle, color: '#25D366' },
     meeting: { icon: CalendarDays, color: '#DF1E79' },
     task: { icon: ListChecks, color: '#FFA165' },
-    proposal: { icon: FileSignature, color: '#3DBB6C' },
+    proposal: { icon: FileSignature, color: '#A9606B' },
     other: { icon: CircleDot, color: '#8A8A8A' },
 };
 const meta = (t: string) => typeMeta[t] ?? typeMeta.other;
@@ -310,7 +310,7 @@ const sc = computed(() => props.data.scoring);
 
                 <TabsContent v-if="can.proposals" value="proposals" class="mt-3 flex flex-col gap-3">
                     <div class="flex items-center justify-between gap-2 rounded-2xl border bg-card p-4">
-                        <p class="text-sm text-muted-foreground">{{ data.proposals.length ? 'Puedes crear otra propuesta o una nueva versión para este cliente.' : 'Este cliente aún no tiene propuestas comerciales.' }}</p>
+                        <p class="text-sm text-muted-foreground">{{ data.proposals.length ? 'Puedes crear otra propuesta o una nueva versión para este prospecto.' : 'Este prospecto aún no tiene propuestas comerciales.' }}</p>
                         <div v-if="can.create_proposal" class="flex shrink-0 flex-wrap justify-end gap-2">
                             <Button size="sm" variant="outline" @click="attachOpen = true"><Link2 /> Asociar existente</Button>
                             <Button size="sm" as-child><Link :href="`/proposals/create?lead=${lead.id}`"><FileSignature /> Nueva propuesta</Link></Button>
@@ -320,7 +320,7 @@ const sc = computed(() => props.data.scoring);
                         <span class="min-w-0"><span class="block truncate text-sm font-semibold">{{ pr.title }}</span><span class="text-xs text-muted-foreground">{{ pr.number }} · {{ timeAgo(pr.created_at) }}<template v-if="pr.valid_until"> · vence {{ pr.valid_until }}</template></span></span>
                         <span class="flex shrink-0 items-center gap-2">
                             <span class="flex flex-col items-end gap-1"><strong class="text-sm">{{ formatAmount(pr.total_net, pr.currency) }}</strong><span class="rounded-full px-2 py-0.5 text-[10px] font-semibold text-white" :style="{ backgroundColor: pr.status_color }">{{ pr.status_label }}</span></span>
-                            <button v-if="can.create_proposal" type="button" class="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-destructive" title="Desvincular de este cliente (no la elimina)" @click.prevent.stop="detachProposal(pr.id)"><Unlink class="size-4" /></button>
+                            <button v-if="can.create_proposal" type="button" class="rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-destructive" title="Desvincular de este prospecto (no la elimina)" @click.prevent.stop="detachProposal(pr.id)"><Unlink class="size-4" /></button>
                         </span>
                     </Link>
                     <AttachProposalDialog v-model:open="attachOpen" :lead-id="lead.id" @attached="emit('changed')" />
@@ -332,7 +332,7 @@ const sc = computed(() => props.data.scoring);
 
                 <TabsContent value="notes" class="mt-3 flex flex-col gap-4">
                     <form v-if="can.note" class="grid gap-3 rounded-2xl border bg-card p-4" @submit.prevent="addNote">
-                        <RichTextEditor v-model="note.body" compact :min-height="80" placeholder="Escribe una nota interna sobre este cliente…" />
+                        <RichTextEditor v-model="note.body" compact :min-height="80" placeholder="Escribe una nota interna sobre este prospecto…" />
                         <div class="flex items-center justify-between gap-3">
                             <label class="flex items-center gap-2.5 text-sm">
                                 <Switch :model-value="note.is_private" @update:model-value="(v: boolean) => (note.is_private = v)" />

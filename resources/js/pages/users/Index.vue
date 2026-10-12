@@ -192,7 +192,7 @@ const formatDate = (value: string | null) =>
     <ConfirmDialog
         :open="!!toDelete"
         title="Eliminar usuario"
-        :description="`Se eliminará a ${toDelete?.name}. Sus clientes quedarán sin responsable.`"
+        :description="`Se eliminará a ${toDelete?.name}. Sus prospectos quedarán sin responsable.`"
         confirm-label="Eliminar"
         @update:open="(v: boolean) => !v && (toDelete = null)"
         @confirm="confirmDelete"

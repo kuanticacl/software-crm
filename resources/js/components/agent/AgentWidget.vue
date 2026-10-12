@@ -33,7 +33,7 @@ const fileInput = ref<HTMLInputElement | null>(null);
 let pid = 0;
 
 const suggestions = [
-    'Resume cómo vamos: clientes por etapa y propuestas por estado',
+    'Resume cómo vamos: prospectos por etapa y propuestas por estado',
     '¿En qué estado está la última propuesta que creé?',
     'Crea la propuesta con este texto: ',
     'Registra un seguimiento: llamé a … y quedamos en hablar el viernes',
@@ -446,7 +446,7 @@ const visit = (url: string) => {
 
                         <div v-if="!messages.length" class="space-y-4">
                             <p class="text-sm text-muted-foreground">
-                                Puedo buscar leads y clientes, crear propuestas desde un texto o un archivo (PDF, Word, Excel, TXT), registrar seguimientos, mover leads de etapa y decirte el estado de una propuesta.
+                                Puedo buscar prospectos y clientes, crear propuestas desde un texto o un archivo (PDF, Word, Excel, TXT), registrar seguimientos, mover leads de etapa y decirte el estado de una propuesta.
                             </p>
                             <div :class="cn('grid gap-2', focus ? 'sm:grid-cols-2' : '')">
                                 <button v-for="s in suggestions" :key="s" class="rounded-xl border px-3 py-2.5 text-left text-sm transition hover:bg-muted" @click="useSuggestion(s)">{{ s }}</button>

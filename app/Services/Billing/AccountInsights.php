@@ -10,7 +10,7 @@ use App\Services\UfService;
 use Illuminate\Support\Collection;
 
 /**
- * Lectura de la salud de las cuentas (empresas con servicios contratados): ingreso recurrente, cobranza, renovaciones y
+ * Lectura de la salud de las cuentas (clientes con servicios contratados): ingreso recurrente, cobranza, renovaciones y
  * el estado automático que ordena el Kanban de cuentas. Todo en pesos (los montos en UF se convierten con la UF de hoy).
  */
 class AccountInsights
@@ -21,7 +21,7 @@ class AccountInsights
         'to_issue' => ['name' => 'Por facturar', 'color' => '#FFA165', 'hint' => 'Cobro generado sin factura (PDF)'],
         'due' => ['name' => 'Por cobrar', 'color' => '#4A8CFF', 'hint' => 'Facturas emitidas pendientes de pago'],
         'renewal' => ['name' => 'Renovación próxima', 'color' => '#A855F7', 'hint' => 'Servicios que terminan en 60 días sin renovación automática'],
-        'ok' => ['name' => 'Al día', 'color' => '#3DBB6C', 'hint' => 'Servicios activos sin pendientes'],
+        'ok' => ['name' => 'Al día', 'color' => '#A9606B', 'hint' => 'Servicios activos sin pendientes'],
         'pending' => ['name' => 'Por iniciar', 'color' => '#38BDF8', 'hint' => 'Contratados que aún no parten'],
         'inactive' => ['name' => 'Sin servicios activos', 'color' => '#94A3B8', 'hint' => 'Bloqueados, cancelados o finalizados'],
     ];
@@ -134,7 +134,7 @@ class AccountInsights
     }
 
     /**
-     * Cuentas del Kanban: una tarjeta por empresa con servicios (o cobros), en la columna que corresponda por su situación.
+     * Cuentas del Kanban: una tarjeta por cliente con servicios (o cobros), en la columna que corresponda por su situación.
      *
      * @return array<string, mixed>
      */
@@ -205,7 +205,7 @@ class AccountInsights
             ['key' => 'scheduled', 'name' => 'Por emitir', 'color' => '#FFA165', 'q' => $base()->where('status', 'scheduled')->orderBy('due_date')],
             ['key' => 'issued', 'name' => 'Por pagar', 'color' => '#4A8CFF', 'q' => $base()->where('status', 'issued')->whereDate('due_date', '>=', today())->orderBy('due_date')],
             ['key' => 'overdue', 'name' => 'Vencidas', 'color' => '#EF4444', 'q' => $base()->overdue()->orderBy('due_date')],
-            ['key' => 'paid', 'name' => 'Pagadas (30 días)', 'color' => '#3DBB6C', 'q' => $base()->where('status', 'paid')->where('paid_at', '>=', now()->subDays(30))->orderByDesc('paid_at')],
+            ['key' => 'paid', 'name' => 'Pagadas (30 días)', 'color' => '#A9606B', 'q' => $base()->where('status', 'paid')->where('paid_at', '>=', now()->subDays(30))->orderByDesc('paid_at')],
         ];
 
         return collect($defs)->map(function ($d) use ($present) {

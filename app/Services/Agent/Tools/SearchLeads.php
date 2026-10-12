@@ -17,7 +17,7 @@ class SearchLeads extends CrmTool
 
     public function description(): string
     {
-        return 'Busca clientes por nombre, empresa, correo, teléfono o mensaje. Sin texto devuelve los más recientes. Solo ve los clientes a los que el usuario tiene acceso.';
+        return 'Busca prospectos por nombre, cliente, correo, teléfono o mensaje. Sin texto devuelve los más recientes. Solo ve los prospectos a los que el usuario tiene acceso.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -41,7 +41,7 @@ class SearchLeads extends CrmTool
             ->when(! empty($r['stage']), fn ($q) => $q->whereHas('stage', fn ($s) => $s->where('name', 'like', '%'.$r['stage'].'%')))
             ->latest('id')->limit($this->limit($r))->get();
 
-        $this->ctx->record($this->name(), "Buscó clientes{$this->suffix($term)}: {$leads->count()}");
+        $this->ctx->record($this->name(), "Buscó prospectos{$this->suffix($term)}: {$leads->count()}");
 
         return $leads->map(fn (Lead $l) => [
             'id' => $l->id, 'name' => $l->full_name, 'company' => $l->company, 'email' => $l->email, 'phone' => $l->phone,

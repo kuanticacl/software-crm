@@ -35,7 +35,7 @@ const props = defineProps<{
 }>();
 const { can } = usePermissions();
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Empresas', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Clientes', href: index() }] } });
 
 const fmt = (d: string) => new Intl.DateTimeFormat('es-CL', { dateStyle: 'medium' }).format(new Date(d));
 const info = [
@@ -50,7 +50,7 @@ const info = [
     <Head :title="client.name" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader :title="client.name" :description="[client.legal_name, client.tax_id].filter(Boolean).join(' · ') || undefined">
+        <PageHeader :title="client.name" :description="[client.kind === 'company' ? 'Empresa' : 'Persona', client.legal_name, client.tax_id].filter(Boolean).join(' · ') || undefined">
             <template #actions>
                 <Badge :class="client.is_active ? 'border-transparent bg-brand-green/10 text-brand-green' : 'border-transparent bg-muted text-muted-foreground'">
                     {{ client.is_active ? 'Activo' : 'Inactivo' }}
@@ -85,15 +85,15 @@ const info = [
             </DataCard>
 
             <DataCard class="lg:col-span-2">
-                <div class="border-b px-5 py-3 font-semibold">Leads asociados ({{ leads.length }})</div>
+                <div class="border-b px-5 py-3 font-semibold">Prospectos asociados ({{ leads.length }})</div>
                 <Table>
                     <TableHeader>
                         <TableRow class="hover:bg-transparent">
-                            <TableHead>Cliente</TableHead><TableHead>Origen</TableHead><TableHead>Etapa</TableHead><TableHead>Responsable</TableHead><TableHead>Ingreso</TableHead>
+                            <TableHead>Lead</TableHead><TableHead>Origen</TableHead><TableHead>Etapa</TableHead><TableHead>Responsable</TableHead><TableHead>Ingreso</TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableEmpty v-if="!leads.length" :colspan="5">Esta empresa aún no tiene clientes asociados.</TableEmpty>
+                        <TableEmpty v-if="!leads.length" :colspan="5">Este cliente aún no tiene prospectos asociados.</TableEmpty>
                         <TableRow v-for="l in leads" :key="l.id">
                             <TableCell><p class="font-medium">{{ l.full_name }}</p><p class="text-xs text-muted-foreground">{{ l.email }}</p></TableCell>
                             <TableCell><span class="inline-flex items-center gap-1.5 text-sm"><span class="size-2 rounded-full" :style="{ backgroundColor: l.source.color }" />{{ l.source.name }}</span></TableCell>

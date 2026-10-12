@@ -89,7 +89,7 @@ useIntervalFn(() => { if (visibility.value === 'visible') reload(); }, 60_000);
             <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <h1 class="text-2xl font-semibold tracking-tight">Kanban</h1>
                 <p class="flex flex-wrap gap-x-3 text-sm text-muted-foreground">
-                    <span><strong class="text-foreground tabular-nums">{{ stats.total }}</strong> clientes</span>
+                    <span><strong class="text-foreground tabular-nums">{{ stats.total }}</strong> prospectos</span>
                     <span><strong class="text-foreground tabular-nums">{{ stats.open }}</strong> en gestión</span>
                     <button type="button" :class="cn('rounded-md hover:text-destructive', f.overdue && 'font-semibold text-destructive')" title="Filtrar seguimientos vencidos" @click="f = { ...f, overdue: !f.overdue }"><strong class="tabular-nums" :class="stats.overdue ? 'text-destructive' : 'text-foreground'">{{ stats.overdue }}</strong> vencidos</button>
                     <span class="hidden sm:inline">· pipeline <strong class="text-foreground">{{ formatMoneyShort(stats.pipeline_value) || '$0' }}</strong></span>
@@ -98,7 +98,7 @@ useIntervalFn(() => { if (visibility.value === 'visible') reload(); }, 60_000);
             <div class="flex flex-wrap items-center gap-2">
                 <Button variant="outline" as-child><Link :href="dashboard()"><LayoutDashboard /> Dashboard</Link></Button>
                 <Button variant="outline" as-child><Link :href="leadsIndex()"><List /> Ver lista</Link></Button>
-                <Button v-if="can.create" as-child><Link :href="create()"><Plus /> Nuevo cliente</Link></Button>
+                <Button v-if="can.create" as-child><Link :href="create()"><Plus /> Nuevo prospecto</Link></Button>
             </div>
         </div>
 

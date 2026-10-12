@@ -97,7 +97,7 @@ class LeadController extends Controller
             return response()->json(['id' => $lead->id]);
         }
 
-        $this->toast("Cliente «{$lead->full_name}» creado.");
+        $this->toast("Prospecto «{$lead->full_name}» creado.");
 
         return to_route('leads.show', $lead);
     }
@@ -278,7 +278,7 @@ class LeadController extends Controller
 
         $this->leads->update($lead, $data, $user);
 
-        $this->toast('Cliente actualizado.');
+        $this->toast('Prospecto actualizado.');
 
         return to_route('leads.show', $lead);
     }
@@ -290,14 +290,14 @@ class LeadController extends Controller
         $proposals = $lead->proposals()->count();
 
         if ($proposals && ! $request->boolean('confirm_related')) {
-            $this->toast('El cliente tiene propuestas: confirma la eliminación para enviarlas a la papelera.', 'error');
+            $this->toast('El prospecto tiene propuestas: confirma la eliminación para enviarlas a la papelera.', 'error');
 
             return back();
         }
 
         $cascade->lead($lead);
 
-        $this->toast($proposals ? "Cliente eliminado junto con {$proposals} propuesta(s)." : 'Cliente eliminado.');
+        $this->toast($proposals ? "Prospecto eliminado junto con {$proposals} propuesta(s)." : 'Prospecto eliminado.');
 
         return to_route('leads.index');
     }
@@ -367,7 +367,7 @@ class LeadController extends Controller
 
         $this->leads->update($lead, $data, $request->user());
 
-        return $this->respond($request, [], 'Cliente actualizado.');
+        return $this->respond($request, [], 'Prospecto actualizado.');
     }
 
     /** Acciones masivas sobre los leads seleccionados en el tablero. */
@@ -411,7 +411,7 @@ class LeadController extends Controller
 
         Cache::forget('lead-tags');
 
-        return $this->respond($request, ['done' => $done, 'skipped' => count($data['ids']) - $done], "{$done} clientes actualizados.");
+        return $this->respond($request, ['done' => $done, 'skipped' => count($data['ids']) - $done], "{$done} prospectos actualizados.");
     }
 
     /** @return array<string, mixed> */

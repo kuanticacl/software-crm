@@ -3,29 +3,29 @@
 namespace App\Services\Ai;
 
 /**
- * Convierte lo que propone la IA en un diseño de bloques que SIEMPRE respeta la marca ECORTESCL.
+ * Convierte lo que propone la IA en un diseño de bloques que SIEMPRE respeta la marca Vivienda en Regla.
  * La IA solo aporta textos y la elección/orden de bloques; el diseño (colores, tipografía, logo,
  * botones en píldora, pie con baja) se impone aquí y no puede ser alterado por el modelo.
  */
 class BrandedEmailDesign
 {
-    public const ORANGE = '#64D989';
+    public const ORANGE = '#A9606B';
 
-    public const TEXT = '#393939';
+    public const TEXT = '#3B2F2F';
 
     /** Bloques que la IA puede elegir. El encabezado y el pie los pone el sistema. */
     public const ALLOWED = ['heading', 'text', 'button', 'image', 'divider', 'spacer', 'columns', 'list'];
 
     public static function logoUrl(): string
     {
-        return url('/brand/ecortes-logo-dark.png');
+        return url('/brand/vivienda-logo-dark.png');
     }
 
     /** @return array<string, mixed> */
     public static function settings(): array
     {
         return [
-            'bg' => '#F4F4F4',
+            'bg' => '#F6EFEB',
             'contentBg' => '#FFFFFF',
             'width' => 600,
             'font' => 'Arial, Helvetica, sans-serif',
@@ -82,10 +82,10 @@ class BrandedEmailDesign
         return match ($type) {
             'heading' => $text !== '' || $title !== '' ? self::make('heading', ['text' => $title ?: $text, 'size' => 28]) : null,
             'text' => $text !== '' ? self::make('text', ['text' => $text]) : null,
-            'button' => $label !== '' ? self::make('button', ['label' => $label, 'href' => $url ?: 'https://www.ecortes.cl']) : null,
+            'button' => $label !== '' ? self::make('button', ['label' => $label, 'href' => $url ?: 'https://www.viviendaenregla.cl']) : null,
             'image' => $img ? self::make('image', ['src' => $img, 'alt' => self::clean($raw['alt'] ?? $title, 120), 'href' => '']) : null,
             'columns' => $title !== '' || $text !== ''
-                ? self::make('columns', ['imageUrl' => $img ?: '', 'title' => $title, 'text' => $text, 'buttonLabel' => $label, 'buttonUrl' => $url ?: 'https://www.ecortes.cl'])
+                ? self::make('columns', ['imageUrl' => $img ?: '', 'title' => $title, 'text' => $text, 'buttonLabel' => $label, 'buttonUrl' => $url ?: 'https://www.viviendaenregla.cl'])
                 : null,
             'list' => self::make('list', ['collection' => preg_replace('/[^a-z0-9_]/i', '', (string) ($raw['collection'] ?? 'proyectos')) ?: 'proyectos']),
             'divider' => self::make('divider'),
@@ -97,7 +97,7 @@ class BrandedEmailDesign
     /** @return array<string, mixed> */
     private static function header(): array
     {
-        return self::make('header', ['logoUrl' => self::logoUrl(), 'logoWidth' => 150, 'brandText' => 'ECORTESCL', 'align' => 'center', 'padY' => 28]);
+        return self::make('header', ['logoUrl' => self::logoUrl(), 'logoWidth' => 150, 'brandText' => 'Vivienda en Regla', 'align' => 'center', 'padY' => 28]);
     }
 
     /** @return array<string, mixed> */
@@ -122,16 +122,16 @@ class BrandedEmailDesign
     private static function defaults(string $type): array
     {
         return match ($type) {
-            'header' => ['logoUrl' => '', 'logoWidth' => 140, 'brandText' => 'ECORTESCL', 'brandColor' => self::ORANGE, 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => ''],
+            'header' => ['logoUrl' => '', 'logoWidth' => 140, 'brandText' => 'Vivienda en Regla', 'brandColor' => self::ORANGE, 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => ''],
             'heading' => ['text' => '', 'size' => 28, 'color' => '', 'weight' => '700', 'align' => 'left', 'padY' => 12, 'padX' => 32, 'bg' => ''],
             'text' => ['text' => '', 'size' => 16, 'color' => '', 'lineHeight' => 1.6, 'align' => 'left', 'padY' => 8, 'padX' => 32, 'bg' => ''],
             'image' => ['src' => '', 'alt' => '', 'href' => '', 'width' => 100, 'radius' => 8, 'align' => 'center', 'padY' => 12, 'padX' => 32, 'bg' => ''],
-            'button' => ['label' => '', 'href' => 'https://www.ecortes.cl', 'bg' => self::ORANGE, 'color' => '#FFFFFF', 'radius' => 999, 'size' => 16, 'align' => 'center', 'fullWidth' => false, 'padY' => 16, 'padX' => 32, 'rowBg' => ''],
-            'columns' => ['imageUrl' => '', 'imageSide' => 'left', 'title' => '', 'text' => '', 'buttonLabel' => '', 'buttonUrl' => 'https://www.ecortes.cl', 'buttonBg' => self::ORANGE, 'padY' => 16, 'padX' => 32, 'bg' => ''],
+            'button' => ['label' => '', 'href' => 'https://www.viviendaenregla.cl', 'bg' => self::ORANGE, 'color' => '#FFFFFF', 'radius' => 999, 'size' => 16, 'align' => 'center', 'fullWidth' => false, 'padY' => 16, 'padX' => 32, 'rowBg' => ''],
+            'columns' => ['imageUrl' => '', 'imageSide' => 'left', 'title' => '', 'text' => '', 'buttonLabel' => '', 'buttonUrl' => 'https://www.viviendaenregla.cl', 'buttonBg' => self::ORANGE, 'padY' => 16, 'padX' => 32, 'bg' => ''],
             'list' => ['collection' => 'proyectos', 'imageKey' => 'imagen', 'titleKey' => 'nombre', 'textKey' => 'descripcion', 'priceKey' => 'precio', 'urlKey' => 'url', 'buttonLabel' => 'Ver detalle', 'buttonBg' => self::ORANGE, 'emptyText' => '', 'padY' => 12, 'padX' => 32, 'bg' => ''],
-            'divider' => ['color' => '#E4E4E4', 'thickness' => 1, 'padY' => 12, 'padX' => 32, 'bg' => ''],
+            'divider' => ['color' => '#E6D8D1', 'thickness' => 1, 'padY' => 12, 'padX' => 32, 'bg' => ''],
             'spacer' => ['height' => 16, 'bg' => ''],
-            'footer' => ['company' => '{{ company_name }}', 'address' => '', 'legal' => '', 'showUnsubscribe' => true, 'unsubscribeText' => 'Darme de baja', 'showView' => false, 'color' => '#8A8A8A', 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => '#FAFAFA'],
+            'footer' => ['company' => '{{ company_name }}', 'address' => '', 'legal' => '', 'showUnsubscribe' => true, 'unsubscribeText' => 'Darme de baja', 'showView' => false, 'color' => '#9A8C88', 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => '#FBF8F6'],
             default => [],
         };
     }
@@ -147,7 +147,7 @@ class BrandedEmailDesign
     }
 
     /**
-     * Solo https de ecortes.cl, URLs entregadas por el usuario (`$allowed`) o variables {{ }}.
+     * Solo https de viviendaenregla.cl, URLs entregadas por el usuario (`$allowed`) o variables {{ }}.
      * Los enlaces que la IA invente en otros dominios se descartan.
      */
     private static function safeUrl(string $url, ?array $allowed = null): string
@@ -168,7 +168,7 @@ class BrandedEmailDesign
         }
         $host = strtolower((string) parse_url($url, PHP_URL_HOST));
 
-        return $host === 'ecortes.cl' || str_ends_with($host, '.ecortes.cl') ? $url : '';
+        return $host === 'viviendaenregla.cl' || str_ends_with($host, '.viviendaenregla.cl') ? $url : '';
     }
 
     private static function imageUrl(string $url, array $images): string

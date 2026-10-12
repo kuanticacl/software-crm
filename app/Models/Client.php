@@ -8,10 +8,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-#[Fillable(['name', 'legal_name', 'activity', 'tax_id', 'email', 'phone', 'website', 'address', 'commune', 'city', 'contact_name', 'contact_role', 'notes', 'is_active', 'created_by'])]
+#[Fillable(['kind', 'name', 'legal_name', 'activity', 'tax_id', 'email', 'phone', 'website', 'address', 'commune', 'city', 'contact_name', 'contact_role', 'notes', 'is_active', 'created_by'])]
 class Client extends Model
 {
     use SoftDeletes;
+
+    public const KINDS = ['person' => 'Persona', 'company' => 'Empresa'];
+
+    public function isCompany(): bool
+    {
+        return $this->kind === 'company';
+    }
 
     protected function casts(): array
     {

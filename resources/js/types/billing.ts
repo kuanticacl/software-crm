@@ -5,6 +5,9 @@ export type ServiceRow = {
     name: string;
     client: { id: number; name: string } | null;
     billing_cycle: string;
+    modality: 'honorarios' | 'honorarios_obra';
+    project_address: string | null;
+    works_budget?: number | null;
     currency: Currency;
     price: number;
     start_date: string;
@@ -31,6 +34,11 @@ export type InvoiceRow = {
     currency: Currency;
     amount_net: number;
     tax_rate: number;
+    document_type: 'boleta' | 'factura' | 'otro';
+    kind: 'honorarios' | 'obra';
+    retention_rate: number;
+    retention_amount: number;
+    retention_by_client: boolean;
     amount_total: number;
     total_clp: number | null;
     uf_value: number | null;

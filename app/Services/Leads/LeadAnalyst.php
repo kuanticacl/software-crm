@@ -84,7 +84,7 @@ class LeadAnalyst
         $result = $this->ai->structured(
             'lead_analysis',
             $this->instructions(),
-            "Analiza este cliente de una empresa que nos contactó para un proyecto de software o de growth marketing:\n".json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+            "Analiza este prospecto (persona o empresa) que nos contactó por una regularización, planos o un proyecto de diseño de interiores:\n".json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
             fn (JsonSchema $s) => [
                 'summary' => $s->string()->description('Resumen de 1–2 frases: quién es y qué busca')->required(),
                 'temperature' => $s->string()->enum(['hot', 'warm', 'cold'])->description('Qué tan cerca está de comprar')->required(),
@@ -98,7 +98,7 @@ class LeadAnalyst
                     'when' => $s->string()->enum(['today', 'this_week', 'later'])->required(),
                     'why' => $s->string()->description('Motivo en una frase')->required(),
                 ]))->description('1 a 4 próximos pasos priorizados')->required(),
-                'suggested_message' => $s->string()->description('Borrador de primer mensaje (correo o WhatsApp) en español de Chile, tono ECORTESCL, máx. 90 palabras. Sin datos inventados')->required(),
+                'suggested_message' => $s->string()->description('Borrador de primer mensaje (correo o WhatsApp) en español de Chile, tono Vivienda en Regla, máx. 90 palabras. Sin datos inventados')->required(),
                 'questions_to_ask' => $s->array()->items($s->string())->description('2–4 preguntas de calificación para completar el perfil')->required(),
                 'profile_suggestions' => $s->array()->items($s->object([
                     'field' => $s->string()->enum(self::APPLICABLE)->required(),
@@ -181,14 +181,14 @@ class LeadAnalyst
     private function instructions(): string
     {
         return <<<TXT
-Eres un analista comercial senior de ECORTESCL, software factory y agencia de growth marketing en Chile (web, apps, automatización, IA, campañas de performance, SEO y email marketing). Tu trabajo es ayudar al equipo comercial a prospectar mejor cada lead: entender su potencial, decidir el siguiente paso y completar su perfil.
+Eres un analista comercial senior de Vivienda en Regla, estudio de arquitectura en Chile (regularizaciones, planos y diseño de interiores). Tu trabajo es ayudar a prospectar mejor cada prospecto: entender su potencial, decidir el siguiente paso y completar su perfil.
 
 {$this->brand()}
 
 Reglas:
-- Basa TODO en los datos entregados. No inventes empresa, presupuesto, cargo, cifras ni hechos. Si algo no se sabe, dilo o sugiere cómo averiguarlo (preguntas de calificación).
+- Basa TODO en los datos entregados. No inventes empresa, superficie, presupuesto, cargo, cifras ni hechos. Si algo no se sabe, dilo o sugiere cómo averiguarlo (preguntas de calificación).
 - «score_adjustment» solo si hay evidencia clara que el puntaje automático no captura (p. ej. urgencia explícita, presupuesto declarado: positivo; mensaje genérico o spam: negativo). Si dudas, 0.
-- Próximos pasos: concretos, ordenados por prioridad, con canal y plazo. Considera la etapa actual, los seguimientos previos y el tiempo desde el ingreso. Un lead nuevo sin contacto requiere primer contacto rápido.
+- Próximos pasos: concretos, ordenados por prioridad, con canal y plazo. Considera la etapa actual, los seguimientos previos y el tiempo desde el ingreso. Un prospecto nuevo sin contacto requiere primer contacto rápido.
 - El mensaje sugerido debe sonar humano y cercano (tuteo, español de Chile), mencionar su necesidad si existe y proponer UN paso claro (llamada o reunión). Sin exclamaciones excesivas ni promesas.
 - Sugerencias de perfil: solo con evidencia (p. ej. etiquetas por intereses, prioridad según urgencia). No repitas valores que ya están definidos.
 TXT;

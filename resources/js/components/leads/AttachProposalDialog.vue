@@ -64,7 +64,7 @@ const attach = async (r: Row) => {
         <DialogContent class="sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle>Asociar una propuesta existente</DialogTitle>
-                <DialogDescription>Busca por número, título o empresa. Si la propuesta estaba en otro cliente, se mueve a este.</DialogDescription>
+                <DialogDescription>Busca por número, título o empresa. Si la propuesta estaba en otro prospecto, se mueve a este.</DialogDescription>
             </DialogHeader>
             <div class="relative">
                 <Search class="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -79,7 +79,7 @@ const attach = async (r: Row) => {
                             <div class="flex items-center gap-2"><span class="truncate text-sm font-semibold">{{ r.title }}</span><span class="shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold text-white" :style="{ backgroundColor: r.status_color }">{{ r.status_label }}</span></div>
                             <p class="truncate text-xs text-muted-foreground">{{ r.number }}<template v-if="r.company"> · {{ r.company }}</template> · {{ formatAmount(r.total_net, r.currency) }}</p>
                             <p v-if="r.lead" class="text-xs text-amber-600">Hoy asociada a: {{ r.lead.name }}</p>
-                            <p v-else class="text-xs text-muted-foreground">Sin cliente asociado</p>
+                            <p v-else class="text-xs text-muted-foreground">Sin prospecto asociado</p>
                         </div>
                         <Button size="sm" variant="outline" :disabled="saving !== null" @click="attach(r)"><Spinner v-if="saving === r.id" /><Link2 v-else /> Asociar</Button>
                     </li>

@@ -95,7 +95,7 @@ const confirmDelete = () => {
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <PageHeader
             title="Campos personalizados"
-            description="Agrega datos propios a los clientes además de nombre, apellido, correo, teléfono, cargo y empresa."
+            description="Agrega datos propios a los prospectos además de nombre, apellido, correo, teléfono, cargo y empresa."
         >
             <template #actions>
                 <Button @click="openCreate"><Plus /> Nuevo campo</Button>
@@ -150,7 +150,7 @@ const confirmDelete = () => {
                 </FormField>
                 <div class="grid gap-3 text-sm">
                     <label class="flex items-center gap-3">
-                        <Switch :model-value="form.is_required" @update:model-value="(v: boolean) => (form.is_required = v)" /> Obligatorio al crear un cliente manualmente
+                        <Switch :model-value="form.is_required" @update:model-value="(v: boolean) => (form.is_required = v)" /> Obligatorio al crear un prospecto manualmente
                     </label>
                     <label class="flex items-center gap-3">
                         <Switch :model-value="form.show_on_card" @update:model-value="(v: boolean) => (form.show_on_card = v)" /> Mostrar en la tarjeta del Kanban
@@ -170,7 +170,7 @@ const confirmDelete = () => {
     <ConfirmDialog
         :open="!!toDelete"
         title="Eliminar campo"
-        :description="`Se eliminará «${toDelete?.label}». Los valores ya guardados en los clientes se conservan.`"
+        :description="`Se eliminará «${toDelete?.label}». Los valores ya guardados en los prospectos se conservan.`"
         confirm-label="Eliminar"
         @update:open="(v: boolean) => !v && (toDelete = null)"
         @confirm="confirmDelete"

@@ -16,7 +16,7 @@ import { cycleLabels, cyclePer, fmtDate, money } from '@/lib/billingUi';
 import type { Paginated } from '@/types';
 import type { ServiceRow } from '@/types/billing';
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Servicios', href: '/contracts' }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Proyectos', href: '/contracts' }] } });
 
 const props = defineProps<{
     services: Paginated<ServiceRow>;
@@ -31,17 +31,17 @@ const filters = ref({ q: props.filters.q ?? '', client: props.filters.client ?? 
 useDebouncedFilters('/contracts', filters, ['services', 'filters']);
 
 const cards = [
-    { label: 'Servicios activos', value: () => String(props.kpis.active), icon: PackageCheck, color: '#3DBB6C' },
+    { label: 'Servicios activos', value: () => String(props.kpis.active), icon: PackageCheck, color: '#A9606B' },
     { label: 'Ingreso recurrente mensual (neto)', value: () => money(props.kpis.recurring_monthly_clp), icon: Repeat, color: '#4A8CFF' },
     { label: 'Terminan en 30 días (sin renovación)', value: () => String(props.kpis.ending_soon), icon: CalendarClock, color: '#FFA165' },
 ];
 </script>
 
 <template>
-    <Head title="Servicios" />
+    <Head title="Proyectos" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Servicios" description="Lo que cada empresa tiene contratado: fechas, ciclo de cobro, renovación y servicios asociados.">
+        <PageHeader title="Proyectos" description="Lo que cada cliente tiene contratado: honorarios, obra, fechas y cobros.">
             <template #actions>
                 <Button v-if="can('contracts.create')" as-child>
                     <Link href="/contracts/create"><Plus /> Nuevo servicio</Link>
@@ -63,10 +63,10 @@ const cards = [
             <div class="grid gap-3 border-b p-4 sm:grid-cols-2 lg:grid-cols-[1fr_14rem_11rem_11rem]">
                 <div class="relative">
                     <Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-                    <Input v-model="filters.q" placeholder="Buscar servicio o empresa…" class="pl-9" />
+                    <Input v-model="filters.q" placeholder="Buscar servicio o cliente…" class="pl-9" />
                 </div>
                 <NativeSelect v-model="filters.client">
-                    <option value="">Todas las empresas</option>
+                    <option value="">Todos los clientes</option>
                     <option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option>
                 </NativeSelect>
                 <NativeSelect v-model="filters.status">
@@ -83,7 +83,7 @@ const cards = [
                 <TableHeader>
                     <TableRow class="hover:bg-transparent">
                         <TableHead>Servicio</TableHead>
-                        <TableHead class="hidden md:table-cell">Empresa</TableHead>
+                        <TableHead class="hidden md:table-cell">Cliente</TableHead>
                         <TableHead>Valor neto</TableHead>
                         <TableHead class="hidden lg:table-cell">Vigencia</TableHead>
                         <TableHead class="hidden xl:table-cell">Próximo cobro</TableHead>

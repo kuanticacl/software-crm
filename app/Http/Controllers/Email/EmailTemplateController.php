@@ -279,7 +279,7 @@ class EmailTemplateController extends Controller
             ['key' => 'view_url', 'description' => 'Ver este correo en el navegador'],
             ['key' => 'to_name', 'description' => 'Nombre del destinatario'],
             ['key' => 'to_email', 'description' => 'Correo del destinatario'],
-            ['key' => 'first_name', 'description' => 'Nombre (clientes, listas y API)'],
+            ['key' => 'first_name', 'description' => 'Nombre (prospectos, listas y API)'],
             ['key' => 'last_name', 'description' => 'Apellido'],
             ['key' => 'company', 'description' => 'Empresa'],
             ['key' => 'current_year', 'description' => 'Año actual'],

@@ -40,7 +40,7 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
                     <a v-if="wa" :href="wa" target="_blank" rel="noopener" class="text-xs text-[#25D366] hover:underline">WhatsApp</a>
                 </li>
                 <li v-if="lead.company" class="flex items-center gap-2.5"><Building2 class="size-4 text-muted-foreground" />{{ lead.company }}</li>
-                <li v-if="lead.client" class="flex items-center gap-2.5"><Building2 class="size-4 text-primary" /><span>Empresa: <Link :href="`/clients/${lead.client.id}`" class="font-medium hover:text-primary">{{ lead.client.name }}</Link></span></li>
+                <li v-if="lead.client" class="flex items-center gap-2.5"><Building2 class="size-4 text-primary" /><span>Cliente: <Link :href="`/clients/${lead.client.id}`" class="font-medium hover:text-primary">{{ lead.client.name }}</Link></span></li>
             </ul>
             <p v-if="lead.message" class="mt-3 border-t pt-3 text-sm whitespace-pre-line text-muted-foreground">{{ lead.message }}</p>
         </DataCard>
@@ -64,7 +64,7 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
                 <li v-if="device" class="flex items-center gap-2.5" :title="String(lead.capture.user_agent)"><Monitor class="size-4 shrink-0 text-muted-foreground" />{{ device }}</li>
                 <li v-if="lead.capture.landing_url" class="break-all"><span class="text-xs text-muted-foreground">Landing</span><br />{{ lead.capture.landing_url }}</li>
                 <li v-if="lead.capture.referrer" class="break-all"><span class="text-xs text-muted-foreground">Referrer</span><br />{{ lead.capture.referrer }}</li>
-                <li v-if="!location && !lead.capture.ip_address && !device && !lead.capture.landing_url && !lead.capture.referrer" class="text-xs text-muted-foreground">Sin datos de captura (cliente ingresado manualmente).</li>
+                <li v-if="!location && !lead.capture.ip_address && !device && !lead.capture.landing_url && !lead.capture.referrer" class="text-xs text-muted-foreground">Sin datos de captura (prospecto ingresado manualmente).</li>
             </ul>
             <dl v-if="metaEntries.length" class="mt-3 grid gap-1.5 border-t pt-3 text-xs">
                 <div v-for="[k, v] in metaEntries" :key="k" class="flex justify-between gap-3"><dt class="text-muted-foreground">{{ k }}</dt><dd class="max-w-[60%] truncate font-mono">{{ typeof v === 'object' ? JSON.stringify(v) : v }}</dd></div>

@@ -66,7 +66,7 @@ class LeadService
             $lead->stage_changed_at = now();
             $lead->save();
 
-            $this->log($lead, 'created', $actor, 'Cliente ingresado'.($lead->source ? " desde {$lead->source->name}" : ''), $activity);
+            $this->log($lead, 'created', $actor, 'Prospecto ingresado'.($lead->source ? " desde {$lead->source->name}" : ''), $activity);
 
             if ($lead->assigned_to) {
                 $this->log($lead, 'assigned', $actor, 'Asignado a '.$lead->assignee?->name, ['to' => $lead->assigned_to]);

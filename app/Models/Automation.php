@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Automation extends Model
 {
     public const TRIGGERS = [
-        'lead.created' => 'Cuando ingresa un cliente nuevo',
-        'lead.stage_changed' => 'Cuando un cliente cambia de etapa',
+        'lead.created' => 'Cuando ingresa un prospecto nuevo',
+        'lead.stage_changed' => 'Cuando un prospecto cambia de etapa',
     ];
 
     protected function casts(): array

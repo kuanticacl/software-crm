@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Support\ProposalText;
 use App\Support\Rut;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ClientRequest extends FormRequest
 {
@@ -17,6 +18,7 @@ class ClientRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'kind' => ['required', Rule::in(array_keys(\App\Models\Client::KINDS))],
             'name' => ['required', 'string', 'max:255'],
             'legal_name' => ['nullable', 'string', 'max:255'],
             'activity' => ['nullable', 'string', 'max:255'],
@@ -55,6 +57,6 @@ class ClientRequest extends FormRequest
 
     public function attributes(): array
     {
-        return ['name' => 'nombre de fantasía', 'activity' => 'giro', 'commune' => 'comuna', 'contact_name' => 'contacto', 'legal_name' => 'razón social', 'tax_id' => 'RUT', 'website' => 'sitio web', 'address' => 'dirección', 'city' => 'ciudad', 'notes' => 'notas'];
+        return ['name' => 'nombre', 'activity' => 'giro', 'commune' => 'comuna', 'contact_name' => 'contacto', 'legal_name' => 'razón social', 'tax_id' => 'RUT', 'website' => 'sitio web', 'address' => 'dirección', 'city' => 'ciudad', 'notes' => 'notas'];
     }
 }

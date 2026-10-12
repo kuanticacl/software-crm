@@ -49,6 +49,7 @@ class HandleInertiaRequests extends Middleware
                 'permissions' => $user?->permissionKeys() ?? [],
             ],
             // UF de hoy (para convertir UF ↔ CLP en formularios); en caché para no consultar la base en cada página.
+            'retention_rate' => fn () => $user ? \App\Support\Honorarios::rate() : null,
             'uf' => fn () => $user ? \Illuminate\Support\Facades\Cache::remember('uf.today.shared', 600, fn () => app(\App\Services\UfService::class)->today()) : null,
             // ¿Hay un proveedor de IA utilizable? (lectura de facturas en cualquier formulario de cobro). Solo para quien puede usar IA.
             'ai_available' => fn () => $user && $user->hasPermission('ai.use')

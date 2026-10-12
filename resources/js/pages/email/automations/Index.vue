@@ -75,7 +75,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
     <Head title="Automatizaciones" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Automatizaciones de email" description="Reglas que envían una plantilla solas cuando pasa algo con un cliente, por ejemplo: «cuando alguien se registra en la landing, enviar el correo de bienvenida».">
+        <PageHeader title="Automatizaciones de email" description="Reglas que envían una plantilla solas cuando pasa algo con un prospecto, por ejemplo: «cuando alguien se registra en la landing, enviar el correo de bienvenida».">
             <template #actions><Button @click="openCreate"><Plus /> Nueva automatización</Button></template>
         </PageHeader>
 
@@ -93,7 +93,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 </div>
 
                 <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                    <Badge variant="outline">{{ a.trigger === 'lead.created' ? 'Ingresa un cliente' : 'Cambia de etapa' }}</Badge>
+                    <Badge variant="outline">{{ a.trigger === 'lead.created' ? 'Ingresa un prospecto' : 'Cambia de etapa' }}</Badge>
                     <template v-if="a.conditions?.source_ids?.length"><span class="text-muted-foreground">de</span><Badge variant="secondary">{{ names(a.conditions.source_ids, sources) }}</Badge></template>
                     <template v-if="a.conditions?.stage_ids?.length"><span class="text-muted-foreground">a</span><Badge variant="secondary">{{ names(a.conditions.stage_ids, stages) }}</Badge></template>
                     <ArrowRight class="size-3.5 text-muted-foreground" />
@@ -101,7 +101,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 </div>
                 <p class="flex items-center gap-3 text-xs text-muted-foreground">
                     <span class="flex items-center gap-1"><Clock class="size-3.5" />{{ delayText(a.delay_minutes) }}</span>
-                    <span>a {{ a.to_mode === 'lead' ? 'el correo del cliente' : a.to_email }}</span>
+                    <span>a {{ a.to_mode === 'lead' ? 'el correo del prospecto' : a.to_email }}</span>
                 </p>
 
                 <div class="mt-auto flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
@@ -114,7 +114,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
 
     <Dialog v-model:open="open">
         <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
-            <DialogHeader><DialogTitle>{{ editing ? 'Editar automatización' : 'Nueva automatización' }}</DialogTitle><DialogDescription>Define cuándo se dispara y qué plantilla se envía. Los datos del cliente (nombre, empresa, UTM, campos personalizados y cualquier parámetro enviado por la API) quedan disponibles como variables.</DialogDescription></DialogHeader>
+            <DialogHeader><DialogTitle>{{ editing ? 'Editar automatización' : 'Nueva automatización' }}</DialogTitle><DialogDescription>Define cuándo se dispara y qué plantilla se envía. Los datos del prospecto (nombre, empresa, UTM, campos personalizados y cualquier parámetro enviado por la API) quedan disponibles como variables.</DialogDescription></DialogHeader>
             <form class="grid gap-5" @submit.prevent="save">
                 <FormField label="Nombre" for="an" :error="form.errors.name" required><Input id="an" v-model="form.name" placeholder="Ej: Bienvenida landing Proyecto Norte" /></FormField>
 
@@ -125,20 +125,20 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
 
                 <div class="grid gap-3 rounded-xl border p-4">
                     <p class="text-sm font-medium">Condiciones <span class="text-xs font-normal text-muted-foreground">(sin marcar = cualquiera)</span></p>
-                    <div><p class="mb-1.5 text-xs text-muted-foreground">Origen del cliente</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(form.conditions.source_ids.includes(s.id))" @click="toggleIn(form.conditions.source_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
+                    <div><p class="mb-1.5 text-xs text-muted-foreground">Origen del prospecto</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(form.conditions.source_ids.includes(s.id))" @click="toggleIn(form.conditions.source_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                     <div v-if="form.trigger === 'lead.stage_changed'"><p class="mb-1.5 text-xs text-muted-foreground">Pasa a la etapa</p><div class="flex flex-wrap gap-2"><button v-for="s in stages" :key="s.id" type="button" :class="chip(form.conditions.stage_ids.includes(s.id))" @click="toggleIn(form.conditions.stage_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                 </div>
 
                 <div class="grid gap-4 sm:grid-cols-2">
                     <FormField label="Plantilla" for="atp" :error="form.errors.template_id" required><NativeSelect id="atp" v-model="form.template_id"><option v-for="t in templates" :key="t.id" :value="t.id">{{ t.name }}</option></NativeSelect></FormField>
                     <FormField label="Asunto (opcional)" for="as" hint="Reemplaza el de la plantilla. Admite variables."><Input id="as" v-model="form.subject" /></FormField>
-                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del cliente</option><option value="fixed">Una dirección fija (aviso interno)</option></NativeSelect></FormField>
-                    <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@ecortes.cl" /></FormField>
+                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del prospecto</option><option value="fixed">Una dirección fija (aviso interno)</option></NativeSelect></FormField>
+                    <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@viviendaenregla.cl" /></FormField>
                 </div>
 
                 <div class="grid gap-2 rounded-xl border p-4">
                     <div class="flex items-center justify-between"><p class="text-sm font-medium">Valores fijos de variables</p><Button type="button" variant="ghost" size="sm" @click="form.variables.push({ key: '', value: '' })"><Plus /> Agregar</Button></div>
-                    <p class="text-xs text-muted-foreground">Sirven como valor por defecto (p. ej. <code>proyecto</code> = «Torre Norte»); si el cliente trae ese dato, prevalece el del cliente.<template v-if="tplVars.length"> Variables de la plantilla: <code v-for="v in tplVars" :key="v" class="mr-1">{{ v }}</code></template></p>
+                    <p class="text-xs text-muted-foreground">Sirven como valor por defecto (p. ej. <code>proyecto</code> = «Torre Norte»); si el prospecto trae ese dato, prevalece el del prospecto.<template v-if="tplVars.length"> Variables de la plantilla: <code v-for="v in tplVars" :key="v" class="mr-1">{{ v }}</code></template></p>
                     <div v-for="(v, i) in form.variables" :key="i" class="flex gap-2"><Input v-model="v.key" placeholder="variable" class="w-40 font-mono text-xs" /><Input v-model="v.value" placeholder="valor" /><Button type="button" variant="ghost" size="icon-sm" @click="form.variables.splice(i, 1)"><Trash2 /></Button></div>
                 </div>
 

@@ -9,14 +9,15 @@
 
 @theme inline {
     --font-sans:
-        'Open Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Jost', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
         'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
 
-    --color-brand: #64d989;
-    --color-brand-blue: #1aa0e4;
-    --color-brand-green: #0d9f85;
-    --color-brand-purple: #121826;
-    --color-brand-pink: #df1e79;
+    --color-brand: #d9a0a5;
+    --color-brand-blue: #7d8fa3;
+    --color-brand-green: #4f8f7a;
+    --color-brand-purple: #3b2f2f;
+    --color-brand-pink: #b76e79;
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
@@ -88,83 +89,83 @@
     body,
     html {
         --font-sans:
-            'Open Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+            'Jost', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
             'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
 }
 
 :root {
-    /* Identidad ECORTESCL: azul marino #121826, verde #64D989, fuente Open Sans */
-    --background: #f3f5f8;
-    --foreground: #1a2233;
+    /* Identidad Vivienda en Regla: oro rosa #B76E79 sobre blanco cálido, tipografía Jost + Cormorant Garamond */
+    --background: #fbf8f6;
+    --foreground: #3b2f2f;
     --card: #ffffff;
-    --card-foreground: #1a2233;
+    --card-foreground: #3b2f2f;
     --popover: #ffffff;
-    --popover-foreground: #1a2233;
-    --primary: #3dbb6c;
-    --primary-foreground: #0b1220;
-    --secondary: #e9edf3;
-    --secondary-foreground: #1a2233;
-    --muted: #eceff4;
-    --muted-foreground: #667085;
-    --accent: #e3f6ea;
-    --accent-foreground: #15803d;
-    --destructive: #dc2626;
+    --popover-foreground: #3b2f2f;
+    --primary: #a9606b;
+    --primary-foreground: #ffffff;
+    --secondary: #f3ece8;
+    --secondary-foreground: #3b2f2f;
+    --muted: #f1eae6;
+    --muted-foreground: #7a6a68;
+    --accent: #f6e7e4;
+    --accent-foreground: #8a4a55;
+    --destructive: #c0392b;
     --destructive-foreground: #ffffff;
-    --border: #e1e6ee;
-    --input: #d5dbe5;
-    --ring: #3dbb6c;
-    --chart-1: #3dbb6c;
-    --chart-2: #1aa0e4;
-    --chart-3: #0d9f85;
-    --chart-4: #121826;
-    --chart-5: #df1e79;
-    --radius: 0.75rem;
-    --sidebar-background: #121826;
-    --sidebar-foreground: #c9d1e0;
-    --sidebar-primary: #64d989;
-    --sidebar-primary-foreground: #0b1220;
-    --sidebar-accent: #1f2937;
-    --sidebar-accent-foreground: #64d989;
-    --sidebar-border: #232d3f;
-    --sidebar-ring: #64d989;
-    --sidebar: #121826;
+    --border: #ebe0da;
+    --input: #e3d6cf;
+    --ring: #c98b93;
+    --chart-1: #a9606b;
+    --chart-2: #d4a5a0;
+    --chart-3: #8c7b75;
+    --chart-4: #5b4b4d;
+    --chart-5: #c9a66b;
+    --radius: 0.6rem;
+    --sidebar-background: #f6efeb;
+    --sidebar-foreground: #4a3b3c;
+    --sidebar-primary: #a9606b;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #ecdfd9;
+    --sidebar-accent-foreground: #7e4450;
+    --sidebar-border: #e6d8d1;
+    --sidebar-ring: #c98b93;
+    --sidebar: #f6efeb;
 }
 
 .dark {
-    --background: #121826;
-    --foreground: #eef2f8;
-    --card: #1b2330;
-    --card-foreground: #eef2f8;
-    --popover: #1b2330;
-    --popover-foreground: #eef2f8;
-    --primary: #64d989;
-    --primary-foreground: #0b1220;
-    --secondary: #202835;
-    --secondary-foreground: #eef2f8;
-    --muted: #202835;
-    --muted-foreground: #9aa6ba;
-    --accent: #16301f;
-    --accent-foreground: #86efac;
-    --destructive: #ef4444;
+    --background: #1d1718;
+    --foreground: #f3e9e6;
+    --card: #271f20;
+    --card-foreground: #f3e9e6;
+    --popover: #271f20;
+    --popover-foreground: #f3e9e6;
+    --primary: #d9a0a5;
+    --primary-foreground: #2b1b1e;
+    --secondary: #322829;
+    --secondary-foreground: #f3e9e6;
+    --muted: #322829;
+    --muted-foreground: #b4a29f;
+    --accent: #3a2b2e;
+    --accent-foreground: #ecc2c3;
+    --destructive: #e5554a;
     --destructive-foreground: #ffffff;
-    --border: #2b3443;
-    --input: #343e4f;
-    --ring: #64d989;
-    --chart-1: #64d989;
-    --chart-2: #4cb8ee;
-    --chart-3: #2fc4a8;
-    --chart-4: #a5b4fc;
-    --chart-5: #ff71b4;
-    --sidebar-background: #0e1420;
-    --sidebar-foreground: #c9d1e0;
-    --sidebar-primary: #64d989;
-    --sidebar-primary-foreground: #0b1220;
-    --sidebar-accent: #1b2330;
-    --sidebar-accent-foreground: #64d989;
-    --sidebar-border: #232d3f;
-    --sidebar-ring: #64d989;
-    --sidebar: #0e1420;
+    --border: #3a2e2f;
+    --input: #443637;
+    --ring: #d9a0a5;
+    --chart-1: #d9a0a5;
+    --chart-2: #e8c4b8;
+    --chart-3: #a8958f;
+    --chart-4: #8d7b7e;
+    --chart-5: #d9bb86;
+    --sidebar-background: #171112;
+    --sidebar-foreground: #dccfcb;
+    --sidebar-primary: #d9a0a5;
+    --sidebar-primary-foreground: #2b1b1e;
+    --sidebar-accent: #271f20;
+    --sidebar-accent-foreground: #ecc2c3;
+    --sidebar-border: #2f2526;
+    --sidebar-ring: #d9a0a5;
+    --sidebar: #171112;
 }
 
 @layer base {
@@ -174,6 +175,11 @@
     body {
         @apply bg-background text-foreground;
     }
+    h1 {
+        font-family: var(--font-serif);
+        font-weight: 600;
+        letter-spacing: -0.01em;
+    }
 }
 
 /* Texto enriquecido ya renderizado (notas, descripciones): el reset de Tailwind quita viñetas y espacios. */
@@ -181,7 +187,7 @@
 .rich > * + * { margin-top: 0.5rem; }
 .rich ul { list-style: disc; padding-left: 1.25rem; }
 .rich ol { list-style: decimal; padding-left: 1.25rem; }
-.rich li::marker { color: #3DBB6C; }
-.rich a { color: #3DBB6C; text-decoration: underline; }
+.rich li::marker { color: #A9606B; }
+.rich a { color: #A9606B; text-decoration: underline; }
 .rich h3 { font-size: 1rem; font-weight: 700; }
-.rich blockquote { border-left: 3px solid #3DBB6C; padding-left: 0.75rem; color: #707070; }
+.rich blockquote { border-left: 3px solid #A9606B; padding-left: 0.75rem; color: #707070; }

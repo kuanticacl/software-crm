@@ -18,7 +18,7 @@ class CrmOverview extends CrmTool
 
     public function description(): string
     {
-        return 'Resumen del CRM para el usuario: etapas del Kanban con su cantidad de clientes, orígenes disponibles y propuestas por estado. Úsalo para conocer los nombres de etapas y para responder «cómo vamos».';
+        return 'Resumen del CRM para el usuario: etapas del Kanban con su cantidad de prospectos, orígenes disponibles y propuestas por estado. Úsalo para conocer los nombres de etapas y para responder «cómo vamos».';
     }
 
     public function schema(JsonSchema $schema): array

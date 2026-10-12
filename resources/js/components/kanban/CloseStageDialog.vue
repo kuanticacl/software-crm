@@ -63,15 +63,15 @@ const close = (v: boolean) => {
         <DialogContent class="sm:max-w-md">
             <DialogHeader>
                 <DialogTitle>
-                    {{ type === 'won' ? '🎉 Marcar como concretado' : 'Descartar cliente' }}
-                    <template v-if="count && count > 1"> ({{ count }} clientes)</template>
+                    {{ type === 'won' ? '🎉 Marcar como concretado' : 'Descartar prospecto' }}
+                    <template v-if="count && count > 1"> ({{ count }} prospectos)</template>
                 </DialogTitle>
                 <DialogDescription>
                     <template v-if="type === 'won'">
-                        {{ leadName ?? 'El cliente' }} pasará a «{{ stageName }}». Puedes registrar el valor final del negocio.
+                        {{ leadName ?? 'El prospecto' }} pasará a «{{ stageName }}». Puedes registrar el valor final del negocio.
                     </template>
                     <template v-else>
-                        {{ leadName ?? 'El cliente' }} pasará a «{{ stageName }}». Indica el motivo para poder analizar por qué se pierden oportunidades.
+                        {{ leadName ?? 'El prospecto' }} pasará a «{{ stageName }}». Indica el motivo para poder analizar por qué se pierden oportunidades.
                     </template>
                 </DialogDescription>
             </DialogHeader>

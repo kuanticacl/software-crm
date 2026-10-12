@@ -38,7 +38,7 @@ class BillingOverview extends CrmTool
             'cobrado_este_mes_clp' => Money::format(Invoice::where('status', 'paid')->whereBetween('paid_at', [now()->startOfMonth(), now()->endOfMonth()])->sum('total_clp')),
             'servicios_activos' => ClientService::where('status', 'active')->count(),
             'proximos_vencimientos' => Invoice::with('client:id,name')->where('status', 'issued')->orderBy('due_date')->limit(5)->get()
-                ->map(fn (Invoice $i) => ['id' => $i->id, 'empresa' => $i->client?->name, 'concepto' => $i->concept, 'vence' => $i->due_date->toDateString(), 'total' => Money::format($i->amount_total, $i->currency)])->all(),
+                ->map(fn (Invoice $i) => ['id' => $i->id, 'cliente' => $i->client?->name, 'concepto' => $i->concept, 'vence' => $i->due_date->toDateString(), 'total' => Money::format($i->amount_total, $i->currency)])->all(),
             'url' => url('/billing'),
         ];
     }

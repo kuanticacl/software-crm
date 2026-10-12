@@ -87,7 +87,7 @@ const typeStyle: Record<string, string> = {
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <PageHeader
             title="Etapas del Kanban"
-            description="Arrastra para cambiar el orden. Los clientes nuevos ingresan en la primera etapa."
+            description="Arrastra para cambiar el orden. Los prospectos nuevos ingresan en la primera etapa."
         >
             <template #actions>
                 <Button @click="openCreate"><Plus /> Nueva etapa</Button>
@@ -123,7 +123,7 @@ const typeStyle: Record<string, string> = {
         </draggable>
 
         <p class="max-w-3xl text-sm text-muted-foreground">
-            El <strong>tipo</strong> define cómo se cuentan los clientes en el dashboard:
+            El <strong>tipo</strong> define cómo se cuentan los prospectos en el dashboard:
             <em>En curso</em> (en gestión), <em>Concretado</em> (venta ganada) o
             <em>Descartado</em> (perdido).
         </p>
@@ -147,7 +147,7 @@ const typeStyle: Record<string, string> = {
                 </FormField>
                 <label class="flex items-start gap-3 rounded-xl border bg-muted/30 p-3 text-sm">
                     <Switch :model-value="form.requires_proposal" class="mt-0.5" @update:model-value="(v: boolean) => (form.requires_proposal = v)" />
-                    <span><strong>Requiere propuesta comercial</strong><span class="block text-xs text-muted-foreground">Al mover un cliente a esta etapa sin propuesta, el CRM te ofrece crearla y la muestra en la tarjeta.</span></span>
+                    <span><strong>Requiere propuesta comercial</strong><span class="block text-xs text-muted-foreground">Al mover un prospecto a esta etapa sin propuesta, el CRM te ofrece crearla y la muestra en la tarjeta.</span></span>
                 </label>
                 <DialogFooter class="gap-2">
                     <Button type="button" variant="outline" @click="dialogOpen = false">Cancelar</Button>
@@ -168,7 +168,7 @@ const typeStyle: Record<string, string> = {
                     <template v-else>Esta etapa no tiene leads. Esta acción no se puede deshacer.</template>
                 </DialogDescription>
             </DialogHeader>
-            <FormField v-if="toDelete?.leads_count" label="Mover clientes a" for="move-to">
+            <FormField v-if="toDelete?.leads_count" label="Mover prospectos a" for="move-to">
                 <NativeSelect id="move-to" v-model="moveTo">
                     <option v-for="t in targets" :key="t.id" :value="t.id">{{ t.name }}</option>
                 </NativeSelect>

@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-/** Administra los accesos de una empresa al portal de clientes: crear con contraseña generada y correo de bienvenida, reenviar, desactivar. */
+/** Administra los accesos de un cliente al portal de clientes: crear con contraseña generada y correo de bienvenida, reenviar, desactivar. */
 class PortalAccessController extends Controller
 {
     public function __construct(private PortalAccess $access) {}

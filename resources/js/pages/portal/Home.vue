@@ -17,8 +17,8 @@ const props = defineProps<{
 }>();
 
 const cards = [
-    { label: 'Servicios activos', value: () => String(props.summary.active_services), icon: Package, href: '/portal/servicios', color: '#3DBB6C' },
-    { label: 'Facturas por pagar', value: () => String(props.summary.pending_invoices), icon: Receipt, href: '/portal/facturas', color: '#4A8CFF', note: () => (props.summary.pending_invoices ? `Total ${money(props.summary.pending_total_clp)}` : 'Todo al día') },
+    { label: 'Servicios activos', value: () => String(props.summary.active_services), icon: Package, href: '/portal/servicios', color: '#A9606B' },
+    { label: 'Cobros por pagar', value: () => String(props.summary.pending_invoices), icon: Receipt, href: '/portal/facturas', color: '#4A8CFF', note: () => (props.summary.pending_invoices ? `Total ${money(props.summary.pending_total_clp)}` : 'Todo al día') },
     { label: 'Propuestas', value: () => String(props.summary.proposals), icon: FileText, href: '/portal/propuestas', color: '#FFA165' },
 ];
 </script>
@@ -34,7 +34,7 @@ const cards = [
 
         <div v-if="summary.overdue_invoices" class="flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-700 dark:text-red-300">
             <CircleAlert class="mt-0.5 size-5 shrink-0" />
-            <p>Tienes <strong>{{ summary.overdue_invoices }}</strong> factura{{ summary.overdue_invoices === 1 ? '' : 's' }} vencida{{ summary.overdue_invoices === 1 ? '' : 's' }}. <Link href="/portal/facturas" class="font-semibold underline">Revisar ahora</Link></p>
+            <p>Tienes <strong>{{ summary.overdue_invoices }}</strong> cobro{{ summary.overdue_invoices === 1 ? '' : 's' }} vencido{{ summary.overdue_invoices === 1 ? '' : 's' }}. <Link href="/portal/facturas" class="font-semibold underline">Revisar ahora</Link></p>
         </div>
 
         <div class="grid gap-3 sm:grid-cols-3">
@@ -45,15 +45,15 @@ const cards = [
         </div>
 
         <section v-if="next_invoice" class="grid gap-3">
-            <h2 class="font-semibold">Próxima factura por pagar</h2>
+            <h2 class="font-semibold">Próximo cobro por pagar</h2>
             <InvoiceCard :invoice="next_invoice" />
         </section>
 
         <BankAccountsCard v-if="bank" :bank="bank" />
 
         <section class="grid gap-3">
-            <div class="flex items-center justify-between"><h2 class="font-semibold">Últimas facturas</h2><Button variant="ghost" size="sm" as-child><Link href="/portal/facturas">Ver todas <ArrowRight /></Link></Button></div>
-            <p v-if="!recent_invoices.length" class="rounded-2xl border border-dashed bg-card p-6 text-center text-sm text-muted-foreground">Aún no tienes facturas.</p>
+            <div class="flex items-center justify-between"><h2 class="font-semibold">Últimos cobros</h2><Button variant="ghost" size="sm" as-child><Link href="/portal/facturas">Ver todas <ArrowRight /></Link></Button></div>
+            <p v-if="!recent_invoices.length" class="rounded-2xl border border-dashed bg-card p-6 text-center text-sm text-muted-foreground">Aún no tienes cobros.</p>
             <InvoiceCard v-for="i in recent_invoices" :key="i.id" :invoice="i" />
         </section>
     </div>

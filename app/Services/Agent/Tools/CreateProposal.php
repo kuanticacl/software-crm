@@ -21,7 +21,7 @@ class CreateProposal extends CrmTool
     public function description(): string
     {
         return 'Crea una propuesta comercial en BORRADOR con servicios, precios netos y secciones de texto. Los totales los calcula el servidor. '
-            .'Asocia client_id (empresa) y/o lead_id (cliente/persona) existentes (créalos antes si faltan). No la envía al cliente. '
+            .'Asocia client_id (cliente) y/o lead_id (prospecto) existentes (créalos antes si faltan). No la envía al cliente. '
             .'Condiciones de pago (cuotas, hitos) van en la sección «Condiciones comerciales»; los montos de cada servicio en items.';
     }
 
@@ -29,8 +29,8 @@ class CreateProposal extends CrmTool
     {
         return [
             'title' => $schema->string()->required()->description('Título de la propuesta.'),
-            'client_id' => $schema->integer()->description('Empresa existente (id de search_clients).'),
-            'lead_id' => $schema->integer()->description('Cliente (persona) existente (opcional).'),
+            'client_id' => $schema->integer()->description('Cliente existente (id de search_clients).'),
+            'lead_id' => $schema->integer()->description('Prospecto existente (opcional).'),
             'contact_name' => $schema->string()->description('Contacto destinatario.'),
             'contact_role' => $schema->string(),
             'contact_email' => $schema->string(),
@@ -54,7 +54,7 @@ class CreateProposal extends CrmTool
             'sections' => $schema->array()->items($schema->object([
                 'title' => $schema->string()->required(),
                 'body' => $schema->string()->required()->description('Texto; admite listas con "- " y **negrita**.'),
-            ]))->description('Secciones: Resumen ejecutivo, Objetivos, Alcance, Plan de trabajo, Condiciones comerciales… Si se omiten se usan las estándar.'),
+            ]))->description('Secciones: Resumen del proyecto, Objetivos, Alcance, Etapas y plazos, Condiciones comerciales… Si se omiten se usan las estándar.'),
             'internal_notes' => $schema->string()->description('Notas internas (no las ve el cliente).'),
         ];
     }
@@ -63,7 +63,7 @@ class CreateProposal extends CrmTool
     {
         $user = $this->ctx->user;
         if ($r['lead_id'] && ! Lead::visibleTo($user)->whereKey((int) $r['lead_id'])->exists()) {
-            return 'ERROR: cliente no encontrado o sin acceso.';
+            return 'ERROR: prospecto no encontrado o sin acceso.';
         }
 
         $data = $r->validate([

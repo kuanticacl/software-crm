@@ -8,15 +8,15 @@ use App\Models\Setting;
 class Agency
 {
     public const FIELDS = [
-        'legal_name' => 'ECORTESCL',
-        'tax_id' => '',
-        'address' => 'Providencia, Santiago, Chile',
-        'email' => 'contacto@ecortes.cl',
+        'legal_name' => 'Catalina Quiroga Muñoz Jusus',
+        'tax_id' => '20.046.510-5',
+        'address' => 'Santiago, Chile',
+        'email' => 'contacto@viviendaenregla.cl',
         'phone' => '',
-        'website' => 'https://www.ecortes.cl',
-        'instagram' => 'https://www.instagram.com/ecortescl/',
-        'linkedin' => 'https://linkedin.com/in/ecortescl',
-        'facebook' => 'https://www.facebook.com/ecortes.cl/',
+        'website' => 'https://www.viviendaenregla.cl',
+        'instagram' => '',
+        'linkedin' => '',
+        'facebook' => '',
         'youtube' => '',
         'tiktok' => '',
     ];
@@ -40,7 +40,7 @@ class Agency
     /** Logos de tecnologías que usa la agencia (archivo en public/brand/tech). @return array<int, string> */
     public static function tech(): array
     {
-        return ['laravel', 'vuejs', 'nuxtjs', 'node', 'vercel', 'google'];
+        return [];
     }
 
     /** Empresas relacionadas con logo en public/brand/partners (vacío = no se muestra el pie «holding»). @return array<int, array{name: string, url: string, logo: string}> */

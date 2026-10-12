@@ -17,7 +17,7 @@ class AddFollowUp extends CrmTool
 
     public function description(): string
     {
-        return 'Registra un seguimiento realizado en un cliente (llamada, correo, WhatsApp, reunión, tarea) y/o agenda el próximo seguimiento. También guarda una nota interna si se pide «anota…».';
+        return 'Registra un seguimiento realizado en un prospecto (llamada, correo, WhatsApp, reunión, tarea) y/o agenda el próximo seguimiento. También guarda una nota interna si se pide «anota…».';
     }
 
     public function schema(JsonSchema $schema): array
@@ -36,7 +36,7 @@ class AddFollowUp extends CrmTool
         $user = $this->ctx->user;
         $lead = Lead::visibleTo($user)->find((int) $r['lead_id']);
         if (! $lead || ! $user->can('note', $lead)) {
-            return 'ERROR: cliente no encontrado o sin permiso para registrar seguimientos.';
+            return 'ERROR: prospecto no encontrado o sin permiso para registrar seguimientos.';
         }
         $d = $r->validate([
             'type' => ['nullable', 'in:'.implode(',', array_keys(LeadActivity::MANUAL))],
@@ -57,6 +57,6 @@ class AddFollowUp extends CrmTool
         }
         $this->ctx->record($this->name(), "$what en {$lead->full_name}".(! empty($d['next_follow_up_at']) ? ' (próximo: '.$d['next_follow_up_at'].')' : ''), url('/leads/'.$lead->id));
 
-        return "OK: $what en el cliente #{$lead->id}.".(! empty($d['next_follow_up_at']) ? ' Próximo seguimiento: '.$d['next_follow_up_at'].'.' : '');
+        return "OK: $what en el prospecto #{$lead->id}.".(! empty($d['next_follow_up_at']) ? ' Próximo seguimiento: '.$d['next_follow_up_at'].'.' : '');
     }
 }

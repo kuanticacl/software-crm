@@ -29,11 +29,11 @@ class AgentActions
 {
     /** Entidades: nombre legible, permiso para editar y para eliminar. */
     public const ENTITIES = [
-        'lead' => ['label' => 'cliente (persona)', 'update' => 'leads.update', 'delete' => 'leads.delete'],
-        'client' => ['label' => 'empresa', 'update' => 'clients.update', 'delete' => 'clients.delete'],
+        'lead' => ['label' => 'prospecto', 'update' => 'leads.update', 'delete' => 'leads.delete'],
+        'client' => ['label' => 'cliente', 'update' => 'clients.update', 'delete' => 'clients.delete'],
         'proposal' => ['label' => 'propuesta', 'update' => 'proposals.create', 'delete' => 'proposals.delete'],
-        'contract' => ['label' => 'servicio contratado', 'update' => 'contracts.update', 'delete' => 'contracts.delete'],
-        'invoice' => ['label' => 'cobro/factura', 'update' => 'billing.manage', 'delete' => 'billing.delete'],
+        'contract' => ['label' => 'proyecto (servicio contratado)', 'update' => 'contracts.update', 'delete' => 'contracts.delete'],
+        'invoice' => ['label' => 'cobro/boleta', 'update' => 'billing.manage', 'delete' => 'billing.delete'],
         'expense' => ['label' => 'gasto de un servicio', 'update' => null, 'delete' => 'contracts.costs'],
     ];
 
@@ -52,7 +52,7 @@ class AgentActions
                 'estimated_amount' => [...$n, 'numeric', 'min:0'], 'estimated_currency' => [Rule::in(['CLP', 'UF'])], 'tags' => [...$n, 'string', 'max:300'], 'next_follow_up_at' => [...$n, 'date'],
             ],
             'client' => [
-                'name' => ['required', 'string', 'max:255'], 'legal_name' => [...$n, 'string', 'max:255'], 'activity' => [...$n, 'string', 'max:255'],
+                'kind' => [Rule::in(array_keys(Client::KINDS))], 'name' => ['required', 'string', 'max:255'], 'legal_name' => [...$n, 'string', 'max:255'], 'activity' => [...$n, 'string', 'max:255'],
                 'tax_id' => [...$n, 'string', 'max:20', fn ($a, $v, $fail) => $v && ! Rut::isValid($v) ? $fail('El RUT no es válido (revisa el dígito verificador).') : null],
                 'email' => [...$n, 'email:rfc', 'max:255'], 'phone' => [...$n, 'string', 'max:40'], 'website' => [...$n, 'string', 'max:255'], 'address' => [...$n, 'string', 'max:255'],
                 'commune' => [...$n, 'string', 'max:120'], 'city' => [...$n, 'string', 'max:120'], 'contact_name' => [...$n, 'string', 'max:255'], 'contact_role' => [...$n, 'string', 'max:255'],
@@ -61,12 +61,13 @@ class AgentActions
             'proposal' => ['title' => ['required', 'string', 'max:255'], 'internal_notes' => [...$n, 'string', 'max:5000'], 'valid_until' => [...$n, 'date']],
             'contract' => [
                 'name' => ['required', 'string', 'max:255'], 'description' => [...$n, 'string', 'max:5000'], 'billing_cycle' => [Rule::in(array_keys(ClientService::CYCLES))],
+                'modality' => [Rule::in(array_keys(ClientService::MODALITIES))], 'project_address' => [...$n, 'string', 'max:255'],
                 'currency' => [Rule::in(['CLP', 'UF'])], 'price' => ['numeric', 'min:0'], 'start_date' => ['date'], 'end_date' => [...$n, 'date'], 'auto_renew' => ['boolean'],
                 'status' => [Rule::in(array_keys(ClientService::STATUSES))], 'billing_day' => [...$n, 'integer', 'between:1,31'], 'payment_link' => [...$n, 'url', 'max:500'], 'internal_notes' => [...$n, 'string', 'max:5000'],
             ],
             'invoice' => [
                 'number' => [...$n, 'string', 'max:60'], 'concept' => ['required', 'string', 'max:255'], 'due_date' => ['date'], 'issue_date' => [...$n, 'date'], 'period_start' => [...$n, 'date'], 'period_end' => [...$n, 'date'],
-                'currency' => [Rule::in(['CLP', 'UF'])], 'amount_net' => ['numeric', 'min:0'], 'tax_rate' => ['numeric', 'between:0,100'], 'payment_link' => [...$n, 'url', 'max:500'], 'notes' => [...$n, 'string', 'max:3000'], 'auto_remind' => ['boolean'],
+                'currency' => [Rule::in(['CLP', 'UF'])], 'amount_net' => ['numeric', 'min:0'], 'document_type' => [Rule::in(array_keys(\App\Models\Invoice::DOCUMENTS))], 'retention_rate' => [...$n, 'numeric', 'between:0,100'], 'tax_rate' => ['numeric', 'between:0,100'], 'payment_link' => [...$n, 'url', 'max:500'], 'notes' => [...$n, 'string', 'max:3000'], 'auto_remind' => ['boolean'],
             ],
             default => [],
         };
@@ -157,7 +158,7 @@ class AgentActions
         if ($entity === 'client' && ! empty($validated['tax_id'])) {
             $validated['tax_id'] = Rut::format($validated['tax_id']);
             if (Client::where('tax_id', $validated['tax_id'])->whereKeyNot($model->getKey())->exists()) {
-                throw ValidationException::withMessages(['tax_id' => 'Ya existe otra empresa con ese RUT.']);
+                throw ValidationException::withMessages(['tax_id' => 'Ya existe otro cliente con ese RUT.']);
             }
         }
 
@@ -315,12 +316,12 @@ class AgentActions
     {
         return [
             'first_name' => 'Nombre', 'last_name' => 'Apellido', 'email' => 'Correo', 'phone' => 'Teléfono', 'job_title' => 'Cargo', 'company' => 'Empresa (texto)', 'message' => 'Mensaje',
-            'client_id' => 'Empresa (id)', 'priority' => 'Prioridad', 'estimated_amount' => 'Valor estimado', 'estimated_currency' => 'Moneda del valor', 'tags' => 'Etiquetas', 'next_follow_up_at' => 'Próximo seguimiento',
+            'client_id' => 'Cliente (id)', 'priority' => 'Prioridad', 'estimated_amount' => 'Valor estimado', 'estimated_currency' => 'Moneda del valor', 'tags' => 'Etiquetas', 'next_follow_up_at' => 'Próximo seguimiento',
             'name' => 'Nombre', 'legal_name' => 'Razón social', 'activity' => 'Giro', 'tax_id' => 'RUT', 'website' => 'Sitio web', 'address' => 'Dirección', 'commune' => 'Comuna', 'city' => 'Ciudad',
-            'contact_name' => 'Contacto', 'contact_role' => 'Cargo del contacto', 'notes' => 'Notas', 'is_active' => 'Activa', 'title' => 'Título', 'internal_notes' => 'Notas internas', 'valid_until' => 'Válida hasta',
-            'description' => 'Descripción', 'billing_cycle' => 'Ciclo de cobro', 'currency' => 'Moneda', 'price' => 'Valor neto', 'start_date' => 'Inicio', 'end_date' => 'Término', 'auto_renew' => 'Renovación automática',
-            'status' => 'Estado', 'billing_day' => 'Día de cobro', 'payment_link' => 'Enlace de pago', 'number' => 'N° de factura', 'concept' => 'Concepto', 'due_date' => 'Vencimiento', 'issue_date' => 'Emisión',
-            'period_start' => 'Período desde', 'period_end' => 'Período hasta', 'amount_net' => 'Monto neto', 'tax_rate' => 'IVA %', 'auto_remind' => 'Recordatorios automáticos',
+            'contact_name' => 'Contacto', 'contact_role' => 'Cargo del contacto', 'notes' => 'Notas', 'is_active' => 'Activo', 'title' => 'Título', 'internal_notes' => 'Notas internas', 'valid_until' => 'Válida hasta',
+            'description' => 'Descripción', 'billing_cycle' => 'Ciclo de cobro', 'currency' => 'Moneda', 'price' => 'Honorarios', 'start_date' => 'Inicio', 'end_date' => 'Término', 'auto_renew' => 'Renovación automática',
+            'status' => 'Estado', 'billing_day' => 'Día de cobro', 'payment_link' => 'Enlace de pago', 'number' => 'N° de documento', 'concept' => 'Concepto', 'due_date' => 'Vencimiento', 'issue_date' => 'Emisión',
+            'period_start' => 'Período desde', 'period_end' => 'Período hasta', 'amount_net' => 'Honorarios brutos / neto', 'tax_rate' => 'IVA %', 'kind' => 'Tipo', 'modality' => 'Modalidad', 'project_address' => 'Dirección del proyecto', 'document_type' => 'Documento', 'retention_rate' => 'Retención %', 'auto_remind' => 'Recordatorios automáticos',
         ][$field] ?? $field;
     }
 }

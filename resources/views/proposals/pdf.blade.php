@@ -12,49 +12,49 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<title>{{ $p->title }} · ECORTESCL</title>
+<title>{{ $p->title }} · Vivienda en Regla</title>
 <style>
     @font-face { font-family:'Open Sans'; font-weight:400; font-style:normal; src:url('file://{{ $fonts }}/OpenSans-400.ttf') format('truetype'); }
     @font-face { font-family:'Open Sans'; font-weight:600; font-style:normal; src:url('file://{{ $fonts }}/OpenSans-600.ttf') format('truetype'); }
     @font-face { font-family:'Open Sans'; font-weight:700; font-style:normal; src:url('file://{{ $fonts }}/OpenSans-700.ttf') format('truetype'); }
     @page { margin: 30px 34px 52px 34px; }
     * { box-sizing: border-box; }
-    body { font-family:'Open Sans', Arial, sans-serif; font-size:10.5px; line-height:1.55; color:#393939; margin:0; }
-    h2 { font-size:15px; margin:0 0 8px; color:#393939; }
+    body { font-family:'Open Sans', Arial, sans-serif; font-size:10.5px; line-height:1.55; color:#3B2F2F; margin:0; }
+    h2 { font-size:15px; margin:0 0 8px; color:#3B2F2F; }
     p { margin:0 0 6px; } ul { margin:0 0 6px; padding-left:16px; } li { margin:2px 0; }
-    .mut { color:#707070; } .or { color:#1F9D57; } .b { font-weight:700; }
-    .card { border:1px solid #E8E8E8; border-radius:14px; padding:16px 18px; margin-bottom:12px; page-break-inside:avoid; }
+    .mut { color:#7A6A68; } .or { color:#A9606B; } .b { font-weight:700; }
+    .card { border:1px solid #E6D8D1; border-radius:14px; padding:16px 18px; margin-bottom:12px; page-break-inside:avoid; }
     .h2t { width:auto; border-collapse:collapse; margin:0 0 8px; } .h2t td { padding:0; vertical-align:middle; }
-      .h2t .num { width:22px; height:22px; border-radius:7px; background:#E8F7EE; color:#1F9D57; font-size:10px; font-weight:700; text-align:center; vertical-align:middle; line-height:1; padding:0 0 0 0; }
-    .h2t .tt { padding-left:8px; font-size:15px; font-weight:700; color:#393939; line-height:1.2; }
+      .h2t .num { width:22px; height:22px; border-radius:7px; background:#F6E7E4; color:#A9606B; font-size:10px; font-weight:700; text-align:center; vertical-align:middle; line-height:1; padding:0 0 0 0; }
+    .h2t .tt { padding-left:8px; font-size:15px; font-weight:700; color:#3B2F2F; line-height:1.2; }
     table { width:100%; border-collapse:collapse; }
-    .cover { width:100%; border-radius:18px; background-color:#F4F4F4; background-image:url('{{ $img('brand/proposal-cover.jpg') }}'); background-repeat:no-repeat; background-position:right center; background-size:auto 100%; margin-bottom:12px; }
-    .chip { background:rgba(255,255,255,.75); border:1px solid #E6E6E6; border-radius:10px; padding:6px 10px; }
-    .chip .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.06em; color:#8A8A8A; } .chip .v { font-size:11px; font-weight:700; color:#393939; }
-    .chip.pu { background:rgba(18,24,38,.88); border-color:rgba(255,255,255,.3); } .chip.pu .l { color:#E4D6FB; } .chip.pu .v { color:#fff; }
-    .tag { background:rgba(255,255,255,.75); border:1px solid #E6E6E6; border-radius:20px; padding:3px 11px; font-size:9px; font-weight:600; color:#707070; }
-    .info td { width:33%; padding:0 6px 8px 0; vertical-align:top; } .info .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.05em; color:#8A8A8A; } .info .v { font-weight:600; }
-    .items th { text-align:left; font-size:8px; text-transform:uppercase; letter-spacing:.05em; color:#8A8A8A; padding:0 6px 5px; border-bottom:2px solid #1F9D57; }
-    .items td { padding:8px 6px; border-bottom:1px solid #EDEDED; vertical-align:top; }
+    .cover { width:100%; border-radius:18px; background-color:#F1E2DD; margin-bottom:12px; }
+    .chip { background:rgba(255,255,255,.75); border:1px solid #E6D8D1; border-radius:10px; padding:6px 10px; }
+    .chip .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.06em; color:#9A8C88; } .chip .v { font-size:11px; font-weight:700; color:#3B2F2F; }
+    .chip.pu { background:rgba(59,47,47,.88); border-color:rgba(255,255,255,.3); } .chip.pu .l { color:#EBD3CF; } .chip.pu .v { color:#fff; }
+    .tag { background:rgba(255,255,255,.75); border:1px solid #E6D8D1; border-radius:20px; padding:3px 11px; font-size:9px; font-weight:600; color:#7A6A68; }
+    .info td { width:33%; padding:0 6px 8px 0; vertical-align:top; } .info .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.05em; color:#9A8C88; } .info .v { font-weight:600; }
+    .items th { text-align:left; font-size:8px; text-transform:uppercase; letter-spacing:.05em; color:#9A8C88; padding:0 6px 5px; border-bottom:2px solid #A9606B; }
+    .items td { padding:8px 6px; border-bottom:1px solid #EFE6E1; vertical-align:top; }
     .r { text-align:right; white-space:nowrap; }
-    .grp { font-weight:700; margin:12px 0 5px; } .dot { color:#1F9D57; }
-    .idesc { color:#707070; font-size:9.5px; } .deliv { color:#707070; font-size:9.5px; margin:3px 0 0; }
-    .kpi { background:#E8F7EE; border-radius:12px; padding:9px 12px; } .kpi.p { background:#F1EAFD; }
-    .kpi .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.05em; color:#707070; } .kpi .v { font-size:17px; font-weight:700; color:#1F9D57; } .kpi.p .v { color:#121826; }
-    .tot td { padding:3px 0; } .grand td { background:#121826; color:#fff; font-weight:700; font-size:12.5px; padding:9px 12px; }
-    .sign td { vertical-align:top; padding-right:18px; } .line { border-bottom:1px solid #9A9A9A; height:34px; } .cap { font-size:8px; color:#8A8A8A; margin-top:3px; }
+    .grp { font-weight:700; margin:12px 0 5px; } .dot { color:#A9606B; }
+    .idesc { color:#7A6A68; font-size:9.5px; } .deliv { color:#7A6A68; font-size:9.5px; margin:3px 0 0; }
+    .kpi { background:#F6E7E4; border-radius:12px; padding:9px 12px; } .kpi.p { background:#F3E4E1; }
+    .kpi .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.05em; color:#7A6A68; } .kpi .v { font-size:17px; font-weight:700; color:#A9606B; } .kpi.p .v { color:#3B2F2F; }
+    .tot td { padding:3px 0; } .grand td { background:#3B2F2F; color:#fff; font-weight:700; font-size:12.5px; padding:9px 12px; }
+    .sign td { vertical-align:top; padding-right:18px; } .line { border-bottom:1px solid #9A9A9A; height:34px; } .cap { font-size:8px; color:#9A8C88; margin-top:3px; }
     .tech { text-align:center; } .tech .cap { margin-bottom:5px; text-transform:uppercase; letter-spacing:.08em; }
-    .foot { border:1px solid #E8E8E8; border-radius:14px; padding:16px 18px; page-break-inside:avoid; }
-    .hold-t { font-size:8px;font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:#707070; border-bottom:1px solid #1F9D57; padding-bottom:5px; margin-bottom:8px; text-align:center; }
+    .foot { border:1px solid #E6D8D1; border-radius:14px; padding:16px 18px; page-break-inside:avoid; }
+    .hold-t { font-size:8px;font-weight:600; text-transform:uppercase; letter-spacing:.08em; color:#7A6A68; border-bottom:1px solid #A9606B; padding-bottom:5px; margin-bottom:8px; text-align:center; }
 </style>
 </head>
 <body>
 
 <table class="cover"><tr><td style="padding:24px 28px 26px;height:215px;vertical-align:top">
-    <img src="{{ $img('brand/ecortes-logo-dark.png') }}" style="height:19px" alt="ECORTESCL">
+    <img src="{{ $img('brand/vivienda-logo-dark.png') }}" style="height:19px" alt="Vivienda en Regla">
     <div style="margin-top:26px"><span class="tag">Propuesta comercial · N.º {{ $p->number }}</span></div>
-    <div style="font-size:25px;font-weight:600;line-height:1.15;margin:11px 0 5px;width:55%;color:#1F9D57">{{ $p->title }}</div>
-    <div style="font-size:12px;color:#707070">Preparada para <b style="color:#393939">{{ $company }}</b></div>
+    <div style="font-size:25px;font-weight:600;line-height:1.15;margin:11px 0 5px;width:55%;color:#A9606B">{{ $p->title }}</div>
+    <div style="font-size:12px;color:#7A6A68">Preparada para <b style="color:#3B2F2F">{{ $company }}</b></div>
     <table style="margin-top:18px;width:auto"><tr>
         <td class="chip"><div class="l">Fecha</div><div class="v">{{ $issued }}</div></td><td style="width:7px"></td>
         @if ($valid)<td class="chip"><div class="l">Válida hasta</div><div class="v">{{ $valid }}</div></td><td style="width:7px"></td>@endif
@@ -89,11 +89,11 @@
 {{-- Firma --}}
 <div class="card" style="margin-top:4px">
     <h2>Firma y aceptación</h2>
-    <p class="mut" style="margin-bottom:10px">Atentamente, el equipo de ECORTESCL. Para aceptar esta propuesta basta con firmarla y devolverla, o usar el enlace en línea.</p>
+    <p class="mut" style="margin-bottom:10px">Atentamente, el equipo de Vivienda en Regla. Para aceptar esta propuesta basta con firmarla y devolverla, o usar el enlace en línea.</p>
     <table class="sign"><tr>
         <td style="width:50%">
             <div class="line"></div>
-            <div class="b" style="margin-top:4px">{{ $owner->name ?? 'Equipo ECORTESCL' }}</div>
+            <div class="b" style="margin-top:4px">{{ $owner->name ?? 'Equipo Vivienda en Regla' }}</div>
             <div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div>
         </td>
         <td style="width:50%">
@@ -140,12 +140,14 @@
 </div>
 
 {{-- Tecnologías: al final de todo, pequeño y sutil --}}
+@if (count($tech))
 <div class="tech" style="margin-top:14px">
-    <div class="cap" style="font-size:7px;color:#A8A8A8">Tecnologías con las que trabajamos</div>
+    <div class="cap" style="font-size:7px;color:#B5A7A2">Tecnologías con las que trabajamos</div>
     <table style="width:auto;margin:0 auto"><tr>
         @foreach ($tech as $t)<td style="padding:0 6px"><img src="{{ $img('brand/tech/'.$t.'.png') }}" style="height:11px" alt="{{ $t }}"></td>@endforeach
     </tr></table>
 </div>
+@endif
 
 </body>
 </html>

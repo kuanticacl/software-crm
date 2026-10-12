@@ -18,7 +18,7 @@ class ListInvoices extends CrmTool
 
     public function description(): string
     {
-        return 'Lista cobros/facturas. status: pending (por pagar), overdue (vencidas), scheduled (por emitir: falta el PDF), paid, cancelled o all. Filtra por empresa (client_id) o texto (número, concepto).';
+        return 'Lista cobros/facturas. status: pending (por pagar), overdue (vencidas), scheduled (por emitir: falta el PDF), paid, cancelled o all. Filtra por cliente (client_id) o texto (número, concepto).';
     }
 
     public function schema(JsonSchema $schema): array
@@ -44,7 +44,7 @@ class ListInvoices extends CrmTool
         $this->ctx->record($this->name(), "Consultó cobros ({$status}): {$rows->count()}", url('/billing'));
 
         return $rows->map(fn (Invoice $i) => [
-            'id' => $i->id, 'empresa' => $i->client?->name, 'numero' => $i->number, 'concepto' => $i->concept, 'servicio' => $i->service?->name,
+            'id' => $i->id, 'cliente' => $i->client?->name, 'numero' => $i->number, 'concepto' => $i->concept, 'servicio' => $i->service?->name,
             'total' => Money::format($i->amount_total, $i->currency), 'vence' => $i->due_date->toDateString(), 'estado' => Invoice::STATUSES[$i->status] ?? $i->status,
             'vencida' => $i->isOverdue(), 'tiene_pdf' => $i->hasPdf(), 'url' => url('/billing?status=&q='.urlencode((string) ($i->number ?: $i->concept))),
         ])->all() ?: 'Sin resultados.';

@@ -17,7 +17,7 @@ class MoveLead extends CrmTool
 
     public function description(): string
     {
-        return 'Mueve un cliente a otra etapa del Kanban (por nombre de etapa). Si la etapa es de descarte, pide el motivo.';
+        return 'Mueve un prospecto a otra etapa del Kanban (por nombre de etapa). Si la etapa es de descarte, pide el motivo.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -34,7 +34,7 @@ class MoveLead extends CrmTool
         $user = $this->ctx->user;
         $lead = Lead::visibleTo($user)->find((int) $r['lead_id']);
         if (! $lead || ! $user->can('move', $lead)) {
-            return 'ERROR: cliente no encontrado o sin permiso para moverlo.';
+            return 'ERROR: prospecto no encontrado o sin permiso para moverlo.';
         }
         $stage = PipelineStage::where('name', $r['stage'])->first() ?? PipelineStage::where('name', 'like', '%'.$r['stage'].'%')->first();
         if (! $stage) {

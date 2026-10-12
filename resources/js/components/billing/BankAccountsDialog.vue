@@ -39,9 +39,9 @@ const save = () => form.put('/billing/bank-accounts', { preserveScroll: true, on
                     <FormField label="Banco" :for="`b-${i}`" required :error="err(i, 'bank')"><Input :id="`b-${i}`" v-model="a.bank" placeholder="Banco de Chile" /></FormField>
                     <FormField label="Tipo de cuenta" :for="`t-${i}`" required :error="err(i, 'account_type')"><NativeSelect :id="`t-${i}`" v-model="a.account_type"><option v-for="t in types" :key="t">{{ t }}</option></NativeSelect></FormField>
                     <FormField label="N° de cuenta" :for="`n-${i}`" required :error="err(i, 'number')"><Input :id="`n-${i}`" v-model="a.number" inputmode="numeric" placeholder="00-123-45678-90" /></FormField>
-                    <FormField label="Titular" :for="`h-${i}`" :error="err(i, 'holder')"><Input :id="`h-${i}`" v-model="a.holder" placeholder="Razón social de tu empresa" /></FormField>
+                    <FormField label="Titular" :for="`h-${i}`" :error="err(i, 'holder')"><Input :id="`h-${i}`" v-model="a.holder" placeholder="Razón social de tu negocio" /></FormField>
                     <FormField label="RUT del titular" :for="`r-${i}`" :error="err(i, 'tax_id')"><Input :id="`r-${i}`" v-model="a.tax_id" placeholder="76.123.456-7" @blur="a.tax_id = formatRut(a.tax_id)" /></FormField>
-                    <FormField label="Correo para el comprobante" :for="`e-${i}`" hint="Donde tus clientes avisan que transfirieron." :error="err(i, 'email')"><Input :id="`e-${i}`" v-model="a.email" type="email" placeholder="cobranza@ecortes.cl" /></FormField>
+                    <FormField label="Correo para el comprobante" :for="`e-${i}`" hint="Donde tus clientes avisan que transfirieron." :error="err(i, 'email')"><Input :id="`e-${i}`" v-model="a.email" type="email" placeholder="cobranza@viviendaenregla.cl" /></FormField>
                 </div>
 
                 <div><Button v-if="form.accounts.length < 5" type="button" variant="outline" size="sm" @click="form.accounts.push(blank())"><Plus /> Agregar otra cuenta</Button></div>

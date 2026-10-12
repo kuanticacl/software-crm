@@ -18,7 +18,7 @@ import type { InvoiceRow } from '@/types/billing';
 const props = defineProps<{
     invoice: InvoiceRow | null;
     defaults?: { client_id?: number | null; client_service_id?: number | null } | null;
-    clients: { id: number; name: string }[];
+    clients: { id: number; name: string; kind?: 'person' | 'company' }[];
     services: { id: number; name: string; client_id: number; currency: string; price: number }[];
     taxRate: number;
     aiAvailable?: boolean;
@@ -27,12 +27,13 @@ const { can } = usePermissions();
 const page = usePage();
 const aiOn = computed(() => props.aiAvailable ?? Boolean(page.props.ai_available));
 const open = defineModel<boolean>('open', { default: false });
+const retentionRate = computed(() => Number(page.props.retention_rate ?? 0));
 
 const blank = () => ({
     client_id: (props.defaults?.client_id ?? '') as number | string,
     client_service_id: (props.defaults?.client_service_id ?? '') as number | string,
     number: '', concept: '', period_start: '', period_end: '', issue_date: '', due_date: new Date(Date.now() + 10 * 86400000).toISOString().slice(0, 10),
-    currency: 'CLP', amount_net: '', tax_rate: String(props.taxRate), auto_remind: false, payment_link: '', notes: '', pdf: null as File | null, issue: false,
+    currency: 'CLP', amount_net: '', tax_rate: String(props.taxRate), document_type: 'boleta', kind: 'honorarios', retention_rate: String(retentionRate.value), retention_by_client: false, auto_remind: false, payment_link: '', notes: '', pdf: null as File | null, issue: false,
     paid: false, paid_at: new Date().toISOString().slice(0, 10), payment_method: 'Transferencia', payment_reference: '',
 });
 const form = useForm(blank());
@@ -46,7 +47,7 @@ watch(open, (o) => {
     Object.assign(form, i
         ? {
               client_id: i.client_id, client_service_id: i.client_service_id ?? '', number: i.number ?? '', concept: i.concept, period_start: i.period_start ?? '', period_end: i.period_end ?? '',
-              issue_date: i.issue_date ?? '', due_date: i.due_date, currency: i.currency, amount_net: String(i.amount_net), tax_rate: String(i.tax_rate), auto_remind: i.auto_remind,
+              issue_date: i.issue_date ?? '', due_date: i.due_date, currency: i.currency, amount_net: String(i.amount_net), tax_rate: String(i.tax_rate), document_type: i.document_type, kind: i.kind, retention_rate: String(i.retention_rate), retention_by_client: i.retention_by_client, auto_remind: i.auto_remind,
               payment_link: i.payment_link ?? '', notes: i.notes ?? '', pdf: null, issue: false,
               paid: i.status === 'paid', paid_at: i.paid_at ? i.paid_at.slice(0, 10) : new Date().toISOString().slice(0, 10), payment_method: i.payment_method ?? 'Transferencia', payment_reference: i.payment_reference ?? '',
           }
@@ -69,11 +70,20 @@ const fromService = () => {
     form.concept = form.concept || s.name;
 };
 
+const round = (v: number) => (form.currency === 'UF' ? Math.round(v * 100) / 100 : Math.round(v));
+const isBoleta = computed(() => form.document_type === 'boleta');
+const gross = computed(() => (form.amount_net === '' || !Number.isFinite(Number(form.amount_net)) ? null : Number(form.amount_net)));
+const retention = computed(() => (gross.value === null || !isBoleta.value ? 0 : round((gross.value * (Number(form.retention_rate) || 0)) / 100)));
 const total = computed(() => {
-    const net = Number(form.amount_net);
-    if (!Number.isFinite(net) || form.amount_net === '') return null;
-    const t = net * (1 + (Number(form.tax_rate) || 0) / 100);
-    return form.currency === 'UF' ? Math.round(t * 100) / 100 : Math.round(t);
+    if (gross.value === null) return null;
+    if (isBoleta.value) return round(form.retention_by_client ? gross.value - retention.value : gross.value);
+    return round(gross.value * (1 + (Number(form.tax_rate) || 0) / 100));
+});
+
+// Si el cliente es una empresa, normalmente retiene; una persona paga el bruto.
+watch(() => form.client_id, (id) => {
+    if (props.invoice) return;
+    form.retention_by_client = props.clients.find((c) => c.id === Number(id))?.kind === 'company';
 });
 
 // ---- lectura del PDF con IA ----
@@ -101,6 +111,8 @@ const readWithAi = async () => {
         if (f.currency) form.currency = String(f.currency);
         if (f.amount_net !== undefined) form.amount_net = String(f.amount_net);
         if (f.tax_rate !== undefined) form.tax_rate = String(f.tax_rate);
+        if (f.document_type) form.document_type = String(f.document_type);
+        if (f.retention_rate !== undefined) form.retention_rate = String(f.retention_rate);
         if (f.issue_date) form.issue_date = String(f.issue_date);
         if (f.due_date) form.due_date = String(f.due_date);
         else if (f.issue_date) form.due_date = String(f.issue_date);
@@ -108,7 +120,7 @@ const readWithAi = async () => {
         if (f.period_end) form.period_end = String(f.period_end);
         if (f.paid_indicated && canPay.value && !props.invoice) { form.paid = true; form.paid_at = String(f.issue_date ?? form.paid_at); }
         aiWarnings.value = d.warnings;
-        aiNote.value = d.client ? `Leí la factura ${f.number ?? ''} de ${d.client.name}. Revisa los datos antes de guardar.` : `Leí la factura ${f.number ?? ''}. Revisa los datos antes de guardar.`;
+        aiNote.value = d.client ? `Leí el documento ${f.number ?? ''} de ${d.client.name}. Revisa los datos antes de guardar.` : `Leí el documento ${f.number ?? ''}. Revisa los datos antes de guardar.`;
     } catch (e) {
         aiWarnings.value = [e instanceof HttpError ? (e.body?.message ?? 'No pude leer el PDF.') : 'No pude leer el PDF.'];
     } finally {
@@ -133,36 +145,48 @@ const submit = () => {
         <DialogContent class="max-h-[92vh] overflow-y-auto sm:max-w-2xl">
             <DialogHeader>
                 <DialogTitle>{{ invoice ? 'Editar cobro' : 'Nuevo cobro' }}</DialogTitle>
-                <DialogDescription>La factura la emites en tu sistema de facturación: aquí registras el cobro y adjuntas su PDF.</DialogDescription>
+                <DialogDescription>La boleta o factura la emites en el SII: aquí registras el cobro y adjuntas su PDF.</DialogDescription>
             </DialogHeader>
 
             <form class="grid gap-4 sm:grid-cols-2" @submit.prevent="submit">
-                <FormField label="Empresa" for="inv-client" required :error="form.errors.client_id">
+                <FormField label="Cliente" for="inv-client" required :error="form.errors.client_id">
                     <NativeSelect id="inv-client" v-model="form.client_id" :disabled="!!invoice"><option value="">Selecciona…</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
                 </FormField>
                 <FormField label="Servicio" for="inv-service" hint="Opcional." :error="form.errors.client_service_id">
                     <NativeSelect id="inv-service" v-model="form.client_service_id" :disabled="!form.client_id" @update:model-value="fromService"><option value="">Sin servicio</option><option v-for="s in clientServices" :key="s.id" :value="s.id">{{ s.name }}</option></NativeSelect>
                 </FormField>
-                <FormField label="Concepto" for="inv-concept" required class="sm:col-span-2" :error="form.errors.concept"><Input id="inv-concept" v-model="form.concept" placeholder="Diseño web · 50% de anticipo" /></FormField>
+                <FormField label="Concepto" for="inv-concept" required class="sm:col-span-2" :error="form.errors.concept"><Input id="inv-concept" v-model="form.concept" placeholder="Regularización · 50% de anticipo" /></FormField>
 
+                <FormField label="Documento" for="inv-doc" :error="form.errors.document_type"><NativeSelect id="inv-doc" v-model="form.document_type"><option value="boleta">Boleta de honorarios</option><option value="factura">Factura</option><option value="otro">Otro documento</option></NativeSelect></FormField>
+                <FormField label="Tipo de cobro" for="inv-kind" :error="form.errors.kind"><NativeSelect id="inv-kind" v-model="form.kind"><option value="honorarios">Honorarios</option><option value="obra">Obra</option></NativeSelect></FormField>
                 <FormField label="Moneda" for="inv-cur"><NativeSelect id="inv-cur" v-model="form.currency"><option value="CLP">Pesos (CLP)</option><option value="UF">UF</option></NativeSelect></FormField>
-                <FormField label="Monto neto" for="inv-net" required :error="form.errors.amount_net"><Input id="inv-net" v-model="form.amount_net" type="number" min="0" :step="form.currency === 'UF' ? 0.01 : 1" /></FormField>
-                <FormField label="IVA %" for="inv-tax" :error="form.errors.tax_rate"><Input id="inv-tax" v-model="form.tax_rate" type="number" min="0" max="100" step="0.01" /></FormField>
-                <div class="flex items-end pb-1 text-sm"><span class="text-muted-foreground">Total a cobrar:&nbsp;</span><strong class="text-base tabular-nums">{{ total === null ? '—' : money(total, form.currency) }}</strong></div>
+                <FormField :label="isBoleta ? 'Honorarios brutos' : 'Monto neto'" for="inv-net" required :error="form.errors.amount_net"><Input id="inv-net" v-model="form.amount_net" type="number" min="0" :step="form.currency === 'UF' ? 0.01 : 1" /></FormField>
+                <template v-if="isBoleta">
+                    <FormField label="Retención %" for="inv-ret" :error="form.errors.retention_rate" hint="Tasa vigente del año (editable)."><Input id="inv-ret" v-model="form.retention_rate" type="number" min="0" max="100" step="0.01" /></FormField>
+                    <label class="flex items-start gap-3 rounded-xl border p-3 text-sm">
+                        <Switch :model-value="form.retention_by_client" @update:model-value="(v: boolean) => (form.retention_by_client = v)" />
+                        <span><strong>El cliente retiene</strong><span class="block text-xs text-muted-foreground">Empresas: pagan el líquido y entregan la retención al SII. Personas: pagan el bruto.</span></span>
+                    </label>
+                </template>
+                <FormField v-else label="IVA %" for="inv-tax" :error="form.errors.tax_rate"><Input id="inv-tax" v-model="form.tax_rate" type="number" min="0" max="100" step="0.01" /></FormField>
+                <div class="flex flex-col justify-end gap-0.5 pb-1 text-sm">
+                    <span v-if="isBoleta && gross !== null" class="text-xs text-muted-foreground">Retención {{ form.retention_rate || 0 }}%: {{ money(retention, form.currency) }}<template v-if="!form.retention_by_client"> (a cargo de quien emite)</template></span>
+                    <span><span class="text-muted-foreground">{{ isBoleta && form.retention_by_client ? 'Líquido a cobrar' : 'Total a cobrar' }}:&nbsp;</span><strong class="text-base tabular-nums">{{ total === null ? '—' : money(total, form.currency) }}</strong></span>
+                </div>
 
-                <FormField label="N° de factura" for="inv-number" hint="Folio del documento emitido." :error="form.errors.number"><Input id="inv-number" v-model="form.number" placeholder="F-1024" /></FormField>
+                <FormField label="N° de documento" for="inv-number" hint="Folio de la boleta o factura emitida." :error="form.errors.number"><Input id="inv-number" v-model="form.number" placeholder="F-1024" /></FormField>
                 <FormField label="Vencimiento" for="inv-due" required :error="form.errors.due_date"><Input id="inv-due" v-model="form.due_date" type="date" /></FormField>
                 <FormField label="Emisión" for="inv-issue" :error="form.errors.issue_date"><Input id="inv-issue" v-model="form.issue_date" type="date" /></FormField>
                 <FormField label="Período desde" for="inv-ps" :error="form.errors.period_start"><Input id="inv-ps" v-model="form.period_start" type="date" /></FormField>
                 <FormField label="Período hasta" for="inv-pe" :error="form.errors.period_end"><Input id="inv-pe" v-model="form.period_end" type="date" /></FormField>
                 <FormField label="Enlace de pago" for="inv-link" class="sm:col-span-2" hint="Opcional (Flow, Webpay, transferencia…)." :error="form.errors.payment_link"><Input id="inv-link" v-model="form.payment_link" type="url" placeholder="https://" /></FormField>
 
-                <FormField label="PDF de la factura" for="inv-pdf" class="sm:col-span-2" :hint="invoice?.has_pdf ? `Ya hay un PDF adjunto (${invoice.pdf_name}). Elige otro para reemplazarlo.` : 'Máx. 10 MB.'" :error="form.errors.pdf">
+                <FormField label="PDF de la boleta o factura" for="inv-pdf" class="sm:col-span-2" :hint="invoice?.has_pdf ? `Ya hay un PDF adjunto (${invoice.pdf_name}). Elige otro para reemplazarlo.` : 'Máx. 10 MB.'" :error="form.errors.pdf">
                     <input id="inv-pdf" ref="fileInput" type="file" accept="application/pdf" class="block w-full text-sm file:mr-3 file:rounded-full file:border-0 file:bg-primary/10 file:px-4 file:py-2 file:text-sm file:font-medium file:text-primary" @change="onFile" />
                 </FormField>
-                <p v-if="form.pdf && !aiOn" class="text-xs text-muted-foreground sm:col-span-2">Para que la IA lea la factura y complete los datos, configura un proveedor en <strong>Proveedores de IA</strong> (y que tu rol tenga el permiso «Usar IA»).</p>
+                <p v-if="form.pdf && !aiOn" class="text-xs text-muted-foreground sm:col-span-2">Para que la IA lea el documento y complete los datos, configura un proveedor en <strong>Proveedores de IA</strong> (y que tu rol tenga el permiso «Usar IA»).</p>
                 <div v-if="form.pdf && aiOn" class="flex flex-wrap items-center gap-2 sm:col-span-2">
-                    <Button type="button" size="sm" variant="outline" :disabled="reading" @click="readWithAi"><Spinner v-if="reading" /><Sparkles v-else /> {{ reading ? 'Leyendo la factura…' : 'Leer datos del PDF con IA' }}</Button>
+                    <Button type="button" size="sm" variant="outline" :disabled="reading" @click="readWithAi"><Spinner v-if="reading" /><Sparkles v-else /> {{ reading ? 'Leyendo el documento…' : 'Leer datos del PDF con IA' }}</Button>
                     <span v-if="aiNote" class="text-xs text-brand-green">{{ aiNote }}</span>
                 </div>
                 <ul v-if="aiWarnings.length" class="grid gap-1 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-xs text-amber-800 sm:col-span-2 dark:text-amber-300">
@@ -172,7 +196,7 @@ const submit = () => {
                 <div v-if="canPay" class="grid gap-3 rounded-xl border p-3 text-sm sm:col-span-2">
                     <label class="flex items-start gap-3">
                         <Switch :model-value="form.paid" :disabled="isPaidInvoice" @update:model-value="(v: boolean) => (form.paid = v)" />
-                        <span><strong>{{ isPaidInvoice ? 'Factura pagada' : 'Ya está pagada (factura antigua)' }}</strong><span v-if="!isPaidInvoice" class="block text-xs text-muted-foreground">Para llevar el historial: queda como pagada, sin recordatorios ni avisos al cliente.</span></span>
+                        <span><strong>{{ isPaidInvoice ? 'Cobro pagado' : 'Ya está pagado (documento antiguo)' }}</strong><span v-if="!isPaidInvoice" class="block text-xs text-muted-foreground">Para llevar el historial: queda como pagada, sin recordatorios ni avisos al cliente.</span></span>
                     </label>
                     <div v-if="form.paid" class="grid gap-3 sm:grid-cols-3">
                         <FormField label="Fecha de pago" for="inv-paid-at" :error="form.errors.paid_at"><Input id="inv-paid-at" v-model="form.paid_at" type="date" /></FormField>

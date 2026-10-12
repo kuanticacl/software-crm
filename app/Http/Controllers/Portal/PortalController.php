@@ -19,7 +19,7 @@ use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Portal de clientes. IMPORTANTE: todo se arma con campos explícitos y acotado a la empresa del usuario;
+ * Portal de clientes. IMPORTANTE: todo se arma con campos explícitos y acotado a el cliente del usuario;
  * costos, gastos, notas internas y precios de servicios nunca se incluyen.
  */
 class PortalController extends Controller
@@ -101,7 +101,7 @@ class PortalController extends Controller
     {
         $preview = $this->preview($request);
         // En la vista previa se muestra el acceso elegido (o un contacto de ejemplo), nunca los datos del usuario del equipo.
-        $user = $preview ? (\App\Models\User::where('client_id', $preview['client_id'])->find($preview['user_id']) ?? new \App\Models\User(['name' => 'Contacto de la empresa', 'email' => 'contacto@empresa.cl'])) : $request->user();
+        $user = $preview ? (\App\Models\User::where('client_id', $preview['client_id'])->find($preview['user_id']) ?? new \App\Models\User(['name' => 'Contacto del cliente', 'email' => 'contacto@cliente.cl'])) : $request->user();
         $client = $this->client($request);
         $lead = $user->lead_id ? Lead::find($user->lead_id) : null;
 
@@ -145,7 +145,7 @@ class PortalController extends Controller
         return back();
     }
 
-    /** Empresa que se muestra: la del acceso, o la elegida en la vista previa del equipo. */
+    /** Cliente que se muestra: la del acceso, o la elegida en la vista previa del equipo. */
     private function client(Request $request): Client
     {
         if ($preview = $this->preview($request)) {
@@ -212,6 +212,8 @@ class PortalController extends Controller
             'period_start' => $i->period_start?->toDateString(), 'period_end' => $i->period_end?->toDateString(),
             'issue_date' => $i->issue_date?->toDateString(), 'due_date' => $i->due_date?->toDateString(),
             'currency' => $i->currency, 'amount_total' => $i->amount_total, 'total_clp' => $i->total_clp,
+            'document_label' => $i->documentLabel(), 'is_boleta' => $i->document_type === 'boleta', 'amount_net' => $i->amount_net, 'tax_rate' => $i->tax_rate,
+            'retention_rate' => $i->retention_rate, 'retention_amount' => $i->retention_amount, 'retention_by_client' => $i->retention_by_client,
             'status' => $i->displayStatus(), 'paid_at' => $i->paid_at?->toDateString(),
             'payment_link' => $i->status === 'issued' ? ($i->payment_link ?: null) : null,
             'has_pdf' => $i->hasPdf(),

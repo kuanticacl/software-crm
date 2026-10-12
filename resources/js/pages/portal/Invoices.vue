@@ -20,10 +20,10 @@ const tabs = computed(() => [
 </script>
 
 <template>
-    <Head title="Facturas" />
+    <Head title="Cobros" />
 
     <div class="flex flex-col gap-5">
-        <div><h1 class="text-2xl font-semibold tracking-tight">Facturas</h1><p class="mt-1 text-sm text-muted-foreground">Facturas emitidas a {{ company.name }}: por pagar y pagadas. Descarga el PDF de cada una.</p></div>
+        <div><h1 class="text-2xl font-semibold tracking-tight">Cobros</h1><p class="mt-1 text-sm text-muted-foreground">Boletas y cobros de {{ company.name }}: por pagar y pagados. Descarga el documento de cada uno.</p></div>
 
         <div class="flex gap-1 overflow-x-auto rounded-2xl border bg-card p-1.5">
             <button v-for="t in tabs" :key="t.k" type="button" :class="cn('inline-flex flex-1 items-center justify-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium whitespace-nowrap transition-colors', tab === t.k ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-muted')" @click="tab = t.k">
@@ -31,7 +31,7 @@ const tabs = computed(() => [
             </button>
         </div>
 
-        <p v-if="!list.length" class="rounded-2xl border border-dashed bg-card p-8 text-center text-sm text-muted-foreground">{{ tab === 'pending' ? 'No tienes facturas por pagar. ¡Estás al día!' : 'No hay facturas para mostrar.' }}</p>
+        <p v-if="!list.length" class="rounded-2xl border border-dashed bg-card p-8 text-center text-sm text-muted-foreground">{{ tab === 'pending' ? 'No tienes cobros por pagar. ¡Estás al día!' : 'No hay cobros para mostrar.' }}</p>
         <div class="grid gap-3"><InvoiceCard v-for="i in list" :key="i.id" :invoice="i" /></div>
 
         <BankAccountsCard v-if="tab !== 'paid'" :bank="bank" />

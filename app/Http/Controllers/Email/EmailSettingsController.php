@@ -94,7 +94,7 @@ class EmailSettingsController extends Controller
             from: MailSettings::fromHeader(),
             to: $data['to'],
             subject: 'Prueba de conexión · '.MailSettings::companyName(),
-            html: '<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:24px"><h2 style="color:#3DBB6C">¡Funciona!</h2><p>Este es un correo de prueba enviado desde el CRM de '.e(MailSettings::companyName()).' usando <strong>'.e($provider->name()).'</strong>.</p></div>',
+            html: '<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;padding:24px"><h2 style="color:#A9606B">¡Funciona!</h2><p>Este es un correo de prueba enviado desde el CRM de '.e(MailSettings::companyName()).' usando <strong>'.e($provider->name()).'</strong>.</p></div>',
         );
 
         $message = EmailMessage::create(['kind' => 'test', 'to_email' => $data['to'], 'from_email' => MailSettings::fromEmail(), 'subject' => $email->subject, 'status' => 'sending', 'html' => $email->html]);

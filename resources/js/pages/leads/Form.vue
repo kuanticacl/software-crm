@@ -40,7 +40,7 @@ const props = defineProps<{
     can: { assign: boolean; move: boolean };
 }>();
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Clientes', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Prospectos', href: index() }] } });
 
 const isEdit = computed(() => !!props.lead);
 const l = props.lead;
@@ -88,10 +88,10 @@ const customError = (key: string) => (form.errors as Record<string, string>)[`cu
 </script>
 
 <template>
-    <Head :title="isEdit ? 'Editar cliente' : 'Nuevo cliente'" />
+    <Head :title="isEdit ? 'Editar prospecto' : 'Nuevo prospecto'" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader :title="isEdit ? `Editar a ${lead?.first_name} ${lead?.last_name ?? ''}` : 'Nuevo cliente'" description="Datos de contacto, gestión comercial y campos personalizados." />
+        <PageHeader :title="isEdit ? `Editar a ${lead?.first_name} ${lead?.last_name ?? ''}` : 'Nuevo prospecto'" description="Datos de contacto, gestión comercial y campos personalizados." />
 
         <form class="flex max-w-4xl flex-col gap-5" @submit.prevent="submit">
             <DataCard class="p-6">
@@ -102,7 +102,7 @@ const customError = (key: string) => (form.errors as Record<string, string>)[`cu
                     <FormField label="Correo" for="email" :error="form.errors.email"><Input id="email" v-model="form.email" type="email" /></FormField>
                     <FormField label="Teléfono" for="phone" :error="form.errors.phone"><Input id="phone" v-model="form.phone" placeholder="+56 9 1234 5678" /></FormField>
                     <FormField label="Cargo" for="job_title" :error="form.errors.job_title"><Input id="job_title" v-model="form.job_title" /></FormField>
-                    <FormField label="Empresa" for="company" :error="form.errors.company"><Input id="company" v-model="form.company" /></FormField>
+                    <FormField label="Cliente" for="company" :error="form.errors.company"><Input id="company" v-model="form.company" /></FormField>
                     <FormField label="Mensaje o requerimiento" for="message" :error="form.errors.message" class="sm:col-span-2">
                         <Textarea id="message" v-model="form.message" rows="3" />
                     </FormField>
@@ -129,9 +129,9 @@ const customError = (key: string) => (form.errors as Record<string, string>)[`cu
                             <option v-for="u in users" :key="u.id" :value="u.id">{{ u.name }}</option>
                         </NativeSelect>
                     </FormField>
-                    <FormField label="Empresa" for="client_id" :error="form.errors.client_id" hint="Opcional: vincula el cliente a una empresa de tu base.">
+                    <FormField label="Cliente" for="client_id" :error="form.errors.client_id" hint="Opcional: vincula el prospecto a un cliente de tu base.">
                         <NativeSelect id="client_id" v-model="form.client_id">
-                            <option value="">Sin empresa</option>
+                            <option value="">Sin cliente</option>
                             <option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option>
                         </NativeSelect>
                     </FormField>
@@ -151,7 +151,7 @@ const customError = (key: string) => (form.errors as Record<string, string>)[`cu
             <div class="flex items-center justify-end gap-2">
                 <Button variant="outline" as-child><Link :href="lead ? show(lead.id) : index()">Cancelar</Link></Button>
                 <Button type="submit" :disabled="form.processing">
-                    <Spinner v-if="form.processing" /> {{ isEdit ? 'Guardar cambios' : 'Crear cliente' }}
+                    <Spinner v-if="form.processing" /> {{ isEdit ? 'Guardar cambios' : 'Crear prospecto' }}
                 </Button>
             </div>
         </form>

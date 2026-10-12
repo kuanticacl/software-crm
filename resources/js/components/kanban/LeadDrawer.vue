@@ -41,7 +41,7 @@ const onChanged = async () => {
             <SheetHeader class="sticky top-0 z-10 border-b bg-background px-5 py-4 pr-12">
                 <SheetTitle class="truncate text-lg">{{ data?.lead.full_name ?? 'Cargando…' }}</SheetTitle>
                 <SheetDescription class="flex items-center gap-3 text-xs">
-                    <span>{{ [data?.lead.job_title, data?.lead.company].filter(Boolean).join(' · ') || 'Cliente' }}</span>
+                    <span>{{ [data?.lead.job_title, data?.lead.company].filter(Boolean).join(' · ') || 'Prospecto' }}</span>
                     <Link v-if="leadId" :href="show(leadId)" class="inline-flex items-center gap-1 text-primary hover:underline">
                         <ExternalLink class="size-3" /> Abrir ficha completa
                     </Link>
@@ -50,7 +50,7 @@ const onChanged = async () => {
 
             <div class="p-5">
                 <div v-if="error" class="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm">
-                    No se pudo cargar el cliente. <button class="underline" @click="load()">Reintentar</button>
+                    No se pudo cargar el prospecto. <button class="underline" @click="load()">Reintentar</button>
                 </div>
                 <div v-else-if="!data" class="flex flex-col gap-3">
                     <Skeleton class="h-40 w-full rounded-2xl" />

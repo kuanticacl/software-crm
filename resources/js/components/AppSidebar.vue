@@ -85,8 +85,8 @@ const groups: NavGroup[] = [
                 permission: 'dashboard.view',
             },
             { title: 'Kanban', href: kanbanIndex(), icon: Columns3, permission: 'dashboard.view' },
-            { title: 'Clientes', href: leads(), icon: Users, permission: 'leads.view' },
-            { title: 'Empresas', href: clients(), icon: Building2, permission: 'clients.view' },
+            { title: 'Prospectos', href: leads(), icon: Users, permission: 'leads.view' },
+            { title: 'Clientes', href: clients(), icon: Building2, permission: 'clients.view' },
             { title: 'Propuestas', href: proposals(), icon: FileSignature, permission: 'proposals.view' },
             { title: 'Catálogo', href: services(), icon: Package, permission: 'services.view' },
         ],
@@ -96,8 +96,8 @@ const groups: NavGroup[] = [
         items: [
             { title: 'Dashboard de cuentas', href: '/accounts', icon: ChartColumn, permission: 'contracts.view' },
             { title: 'Kanban de cuentas', href: '/accounts/kanban', icon: Columns3, permission: 'contracts.view' },
-            { title: 'Servicios', href: '/contracts', icon: PackageCheck, permission: 'contracts.view' },
-            { title: 'Facturación', href: '/billing', icon: Receipt, permission: 'billing.view' },
+            { title: 'Proyectos', href: '/contracts', icon: PackageCheck, permission: 'contracts.view' },
+            { title: 'Cobros y boletas', href: '/billing', icon: Receipt, permission: 'billing.view' },
         ],
     },
     {
@@ -151,7 +151,7 @@ const visibleGroups = computed(() =>
 );
 
 const footerNavItems: NavItem[] = [
-    { title: 'ecortes.cl', href: 'https://www.ecortes.cl', icon: Globe },
+    { title: 'viviendaenregla.cl', href: 'https://www.viviendaenregla.cl', icon: Globe },
 ];
 </script>
 

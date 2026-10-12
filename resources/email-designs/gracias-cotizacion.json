@@ -15,14 +15,14 @@
     {
       "key": "site_url",
       "label": "Sitio web",
-      "default": "https://www.ecortes.cl",
-      "sample": "https://www.ecortes.cl"
+      "default": "https://www.viviendaenregla.cl",
+      "sample": "https://www.viviendaenregla.cl"
     },
     {
       "key": "tipo_servicio",
       "label": "Servicio de interés",
       "default": "",
-      "sample": "Sitio web"
+      "sample": "Regularización"
     },
     {
       "key": "fecha_preferida",
@@ -33,23 +33,23 @@
   ],
   "design": {
     "settings": {
-      "bg": "#F4F4F4",
+      "bg": "#F6EFEB",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#393939",
-      "linkColor": "#15803D",
+      "textColor": "#3B2F2F",
+      "linkColor": "#8A4A55",
       "radius": 16
     },
     "blocks": [
       {
-        "id": "b000000n",
+        "id": "b000001c",
         "type": "header",
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "ECORTESCL",
-          "brandColor": "#3DBB6C",
+          "brandText": "Vivienda en Regla",
+          "brandColor": "#A9606B",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -57,12 +57,12 @@
         }
       },
       {
-        "id": "b000000o",
+        "id": "b000001d",
         "type": "heading",
         "props": {
           "text": "Gracias por tu solicitud, {{ first_name }}",
           "size": 26,
-          "color": "#393939",
+          "color": "#3B2F2F",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -71,7 +71,7 @@
         }
       },
       {
-        "id": "b000000p",
+        "id": "b000001e",
         "type": "text",
         "props": {
           "text": "Recibimos tu solicitud de cotización. **Pronto te estaremos confirmando** y contactando para acelerar el proceso.",
@@ -85,12 +85,12 @@
         }
       },
       {
-        "id": "b000000q",
+        "id": "b000001f",
         "type": "text",
         "props": {
-          "text": "{{#if tipo_servicio}}Servicio de interés: **{{ tipo_servicio }}**{{/if}}{{#if fecha_preferida}}\nReunión preferida: **{{ fecha_preferida }}**{{/if}}",
+          "text": "{{#if tipo_servicio}}Servicio de interés: **{{ tipo_servicio }}**{{/if}}{{#if fecha_preferida}}\nVisita o reunión preferida: **{{ fecha_preferida }}**{{/if}}",
           "size": 15,
-          "color": "#707070",
+          "color": "#7A6A68",
           "lineHeight": 1.6,
           "align": "left",
           "padY": 8,
@@ -99,12 +99,12 @@
         }
       },
       {
-        "id": "b000000r",
+        "id": "b000001g",
         "type": "heading",
         "props": {
           "text": "Qué sigue",
           "size": 18,
-          "color": "#393939",
+          "color": "#3B2F2F",
           "weight": "700",
           "align": "left",
           "padY": 8,
@@ -113,10 +113,10 @@
         }
       },
       {
-        "id": "b000000s",
+        "id": "b000001h",
         "type": "text",
         "props": {
-          "text": "**1.** Un ejecutivo de ECORTESCL revisa tu solicitud.\n\n**2.** Te escribimos o llamamos para confirmar la reunión.\n\n**3.** Preparamos una propuesta a la medida de tu proyecto.",
+          "text": "**1.** El equipo de Vivienda en Regla revisa tu solicitud.\n\n**2.** Te escribimos o llamamos para coordinar la visita o reunión.\n\n**3.** Preparamos una propuesta a la medida de tu propiedad o tu espacio.",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -127,13 +127,13 @@
         }
       },
       {
-        "id": "b000000t",
+        "id": "b000001i",
         "type": "button",
         "props": {
-          "label": "Conoce ECORTESCL",
+          "label": "Conoce Vivienda en Regla",
           "href": "{{ site_url }}",
-          "bg": "#64D989",
-          "color": "#0B1220",
+          "bg": "#A9606B",
+          "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
           "align": "center",
@@ -144,23 +144,23 @@
         }
       },
       {
-        "id": "b000000u",
+        "id": "b000001j",
         "type": "footer",
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en ECORTESCL.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
-          "color": "#8A8A8A",
+          "color": "#9A8C88",
           "align": "center",
           "padY": 24,
           "padX": 32,
-          "bg": "#FAFAFA"
+          "bg": "#FBF8F6"
         }
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#15803D}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F4F4F4;font-family:Arial, Helvetica, sans-serif;color:#393939\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F4F4F4\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"ECORTESCL\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">Gracias por tu solicitud, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Recibimos tu solicitud de cotización. <strong>Pronto te estaremos confirmando</strong> y contactando para acelerar el proceso.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#707070;text-align:left\">{{#if tipo_servicio}}Servicio de interés: <strong>{{ tipo_servicio }}</strong>{{/if}}{{#if fecha_preferida}}<br>Reunión preferida: <strong>{{ fecha_preferida }}</strong>{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">Qué sigue</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\"><strong>1.</strong> Un ejecutivo de ECORTESCL revisa tu solicitud.<br><br><strong>2.</strong> Te escribimos o llamamos para confirmar la reunión.<br><br><strong>3.</strong> Preparamos una propuesta a la medida de tu proyecto.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#64D989\" style=\"background-color:#64D989;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#0B1220;text-decoration:none;border-radius:999px\">Conoce ECORTESCL</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en ECORTESCL.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#8A4A55}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F6EFEB;font-family:Arial, Helvetica, sans-serif;color:#3B2F2F\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F6EFEB\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Vivienda en Regla\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Gracias por tu solicitud, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\">Recibimos tu solicitud de cotización. <strong>Pronto te estaremos confirmando</strong> y contactando para acelerar el proceso.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#7A6A68;text-align:left\">{{#if tipo_servicio}}Servicio de interés: <strong>{{ tipo_servicio }}</strong>{{/if}}{{#if fecha_preferida}}<br>Visita o reunión preferida: <strong>{{ fecha_preferida }}</strong>{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#3B2F2F;text-align:left\">Qué sigue</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#3B2F2F;text-align:left\"><strong>1.</strong> El equipo de Vivienda en Regla revisa tu solicitud.<br><br><strong>2.</strong> Te escribimos o llamamos para coordinar la visita o reunión.<br><br><strong>3.</strong> Preparamos una propuesta a la medida de tu propiedad o tu espacio.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#A9606B\" style=\"background-color:#A9606B;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Conoce Vivienda en Regla</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FBF8F6;\"><div style=\"font-size:12px;line-height:1.7;color:#9A8C88;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Vivienda en Regla.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

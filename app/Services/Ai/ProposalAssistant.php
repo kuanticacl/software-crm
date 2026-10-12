@@ -31,7 +31,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'proposal_draft',
-            $this->system("Redactas el contenido de propuestas comerciales de ECORTESCL, una software factory y agencia de growth marketing, para empresas que necesitan tecnología a medida y/o estrategias de crecimiento y captación de clientes.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen ejecutivo», «Objetivos», «Alcance de los servicios», «Plan de trabajo y plazos».\n- Resumen ejecutivo: 2 párrafos cortos que muestren que entendemos el contexto del cliente y cómo lo ayudaremos.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Plan de trabajo y plazos: viñetas por semana/etapa, en términos relativos (semana 1, semana 2…) y marcado como referencial.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte."),
+            $this->system("Redactas el contenido de propuestas comerciales de Vivienda en Regla, un estudio de arquitectura (regularizaciones, planos y diseño de interiores), para personas y empresas que necesitan regularizar una propiedad, obtener planos o diseñar un espacio.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen del proyecto», «Objetivos», «Alcance de los servicios», «Etapas y plazos».\n- Resumen del proyecto: 2 párrafos cortos que muestren que entendemos la propiedad o el espacio y lo que el cliente necesita.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Etapas y plazos: viñetas por etapa (levantamiento, anteproyecto, ingreso a la municipalidad, ejecución, entrega…), en términos relativos y marcados como referenciales; los plazos municipales dependen del organismo.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte. No prometas aprobaciones municipales ni plazos exactos."),
             $this->context($in)."\nTono: ".($in['tone'] ?? 'Cercano y profesional')."\nInstrucciones adicionales: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1200),
             fn (JsonSchema $s) => [
                 'title' => $s->string()->description('Título corto de la propuesta, sin nombre del cliente')->required(),
@@ -42,7 +42,7 @@ class ProposalAssistant
             ],
         );
 
-        $allowed = ['Resumen ejecutivo', 'Objetivos', 'Alcance de los servicios', 'Plan de trabajo y plazos'];
+        $allowed = ['Resumen del proyecto', 'Objetivos', 'Alcance de los servicios', 'Etapas y plazos'];
         $sections = collect($result['sections'] ?? [])->map(fn ($s) => ['title' => BrandedEmailDesign::clean($s['title'] ?? '', 120), 'body' => ProposalText::html($this->clean($s['body'] ?? '', 4000))])
             ->filter(fn ($s) => $s['title'] !== '' && $s['body'] !== '')->take(6)->values()->all();
 
@@ -63,8 +63,8 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'proposal_improve',
-            $this->system('Mejoras textos de propuestas comerciales de ECORTESCL. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
-            "Sección: ".mb_substr((string) ($in['title'] ?? ''), 0, 120)."\nGiro del cliente: ".($in['recipient']['activity'] ?? 'no informado')."\n{$instruction}\n\nTexto actual:\n".(mb_substr(ProposalText::toMarkdown($in['text'] ?? ''), 0, 5000) ?: '(vacío: redáctalo desde cero según el título de la sección)'),
+            $this->system('Mejoras textos de propuestas comerciales de Vivienda en Regla. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
+            "Sección: ".mb_substr((string) ($in['title'] ?? ''), 0, 120)."\nTipo de cliente / giro: ".($in['recipient']['activity'] ?? 'no informado')."\n{$instruction}\n\nTexto actual:\n".(mb_substr(ProposalText::toMarkdown($in['text'] ?? ''), 0, 5000) ?: '(vacío: redáctalo desde cero según el título de la sección)'),
             fn (JsonSchema $s) => ['text' => $s->string()->required()],
         );
 
@@ -103,7 +103,7 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'service_suggest',
-            $this->system('Eres un consultor comercial de ECORTESCL. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza el impacto en ventas y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
+            $this->system('Eres la asistente comercial de Vivienda en Regla, estudio de arquitectura. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza lo que resuelve el problema del cliente y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
             $this->context($in)."\nNecesidad: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1000)."\n\nCatálogo:\n".$catalog->map(fn ($s) => "#{$s->id} [{$s->category}] {$s->name} ({$s->billing}) — ".mb_substr((string) $s->description, 0, 140))->implode("\n"),
             fn (JsonSchema $s) => ['suggestions' => $s->array()->items($s->object([
                 'service_id' => $s->integer()->required(),
@@ -127,12 +127,12 @@ class ProposalAssistant
     private function context(array $in): string
     {
         $r = $in['recipient'] ?? [];
-        $lines = ['Giro del cliente: '.($r['activity'] ?? 'no informado')];
+        $lines = ['Tipo de cliente / giro: '.($r['activity'] ?? 'no informado')];
 
         if (! empty($in['lead_id']) && ($lead = Lead::with(['source', 'stage'])->find($in['lead_id']))) {
             $lines[] = 'Cargo del contacto: '.($lead->job_title ?: 'no informado');
-            $lines[] = 'Mensaje original del cliente: '.($lead->message ? mb_substr($lead->message, 0, 800) : 'sin mensaje');
-            $lines[] = 'Origen del cliente: '.($lead->source?->name ?? '—').($lead->utm_campaign ? " · campaña {$lead->utm_campaign}" : '');
+            $lines[] = 'Mensaje original del prospecto: '.($lead->message ? mb_substr($lead->message, 0, 800) : 'sin mensaje');
+            $lines[] = 'Origen del prospecto: '.($lead->source?->name ?? '—').($lead->utm_campaign ? " · campaña {$lead->utm_campaign}" : '');
             $lines[] = 'Ubicación: '.collect([$lead->city, $lead->country])->filter()->implode(', ');
         }
 

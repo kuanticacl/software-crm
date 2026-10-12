@@ -148,7 +148,7 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <PageHeader
             title="Orígenes y API"
-            description="Cada origen tiene su propia API key: el origen del cliente se reconoce por la key con la que llega."
+            description="Cada origen tiene su propia API key: el origen del prospecto se reconoce por la key con la que llega."
         >
             <template #actions>
                 <Button @click="openCreate"><Plus /> Nuevo origen</Button>
@@ -212,7 +212,7 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
             </div>
 
             <div class="flex h-fit flex-col gap-3 rounded-2xl border bg-card p-5 shadow-sm shadow-black/[0.03]">
-                <h3 class="font-semibold">Enviar clientes por API</h3>
+                <h3 class="font-semibold">Enviar prospectos por API</h3>
                 <p class="text-sm text-muted-foreground">
                     Envía un <code>POST</code> con la API key del origen en el header
                     <code>X-Api-Key</code>. La IP, el navegador y la ubicación (si el servidor
@@ -232,9 +232,9 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
                     <code>country</code>, <code>region</code>, <code>city</code>,
                     <code>latitude</code>, <code>longitude</code>, y <code>custom</code> con los
                     campos personalizados por su clave. Cualquier otro dato se guarda en los
-                    metadatos del cliente y queda disponible como variable en los emails.
+                    metadatos del prospecto y queda disponible como variable en los emails.
                     Con <code>email_template</code> (slug de una plantilla) se le envía además
-                    un correo al cliente; para reglas sin código usa Email → Automatizaciones.
+                    un correo al prospecto; para reglas sin código usa Email → Automatizaciones.
                 </p>
             </div>
         </div>
@@ -268,12 +268,12 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
                         </button>
                     </div>
                 </FormField>
-                <FormField label="Calidad del origen para el puntaje (0–10)" :error="form.errors.score_weight" hint="Suma al puntaje de cada cliente de este origen. Ej: referidos y demos = 8–10, formularios fríos = 2–4.">
+                <FormField label="Calidad del origen para el puntaje (0–10)" :error="form.errors.score_weight" hint="Suma al puntaje de cada prospecto de este origen. Ej: referidos y demos = 8–10, formularios fríos = 2–4.">
                     <Input v-model.number="form.score_weight" type="number" min="0" max="10" step="1" />
                 </FormField>
                 <label v-if="!editing?.is_system" class="flex items-center gap-3 text-sm">
                     <Switch :model-value="form.is_active" @update:model-value="(v: boolean) => (form.is_active = v)" />
-                    Activo (acepta clientes)
+                    Activo (acepta prospectos)
                 </label>
                 <DialogFooter class="gap-2">
                     <Button type="button" variant="outline" @click="dialogOpen = false">Cancelar</Button>

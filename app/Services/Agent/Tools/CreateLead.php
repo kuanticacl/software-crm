@@ -18,7 +18,7 @@ class CreateLead extends CrmTool
 
     public function description(): string
     {
-        return 'Crea un cliente nuevo (origen «Manual») en la primera etapa del Kanban. Requiere nombre y al menos correo o teléfono. Antes busca con search_leads para no duplicar.';
+        return 'Crea un prospecto nuevo (origen «Manual») en la primera etapa del Kanban. Requiere nombre y al menos correo o teléfono. Antes busca con search_leads para no duplicar.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -30,8 +30,8 @@ class CreateLead extends CrmTool
             'phone' => $schema->string(),
             'company' => $schema->string(),
             'job_title' => $schema->string(),
-            'message' => $schema->string()->description('Contexto o necesidad del cliente.'),
-            'client_id' => $schema->integer()->description('Empresa (client_id) a la que se asocia el cliente, si ya existe.'),
+            'message' => $schema->string()->description('Contexto o necesidad del prospecto.'),
+            'client_id' => $schema->integer()->description('Cliente (client_id) al que se asocia el prospecto, si ya existe.'),
             'estimated_value' => $schema->number()->description('Valor estimado en pesos (opcional).'),
         ];
     }
@@ -51,7 +51,7 @@ class CreateLead extends CrmTool
 
         $source = LeadSource::where('slug', LeadSource::MANUAL_SLUG)->first() ?? LeadSource::first();
         $lead = app(LeadService::class)->create([...$data, 'source_id' => $source->id, 'assigned_to' => $this->ctx->user->id], $this->ctx->user);
-        $this->ctx->record($this->name(), "Creó el cliente {$lead->full_name}", url('/leads/'.$lead->id));
+        $this->ctx->record($this->name(), "Creó el prospecto {$lead->full_name}", url('/leads/'.$lead->id));
 
         return ['id' => $lead->id, 'name' => $lead->full_name, 'url' => url('/leads/'.$lead->id)];
     }

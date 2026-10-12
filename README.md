@@ -177,6 +177,16 @@ Integrada con el SDK oficial `laravel/ai`. Todo es opcional: sin proveedor el si
 - **Datos bancarios:** hasta 5 cuentas para transferencias, visibles en el portal (con botón copiar) y en los correos de cobro.
 - **Dashboard y Kanban de cuentas:** ingreso recurrente mensual y anual, cuentas activas, por cobrar, vencido, cobrado, facturado vs cobrado, antigüedad de la deuda, renovaciones y rentabilidad; el Kanban de **cuentas** clasifica cada empresa por su situación (En mora, Por facturar, Por cobrar, Renovación próxima, Al día…) y el de **cobros** permite arrastrar una factura a «Pagadas» o a «Por pagar».
 
+### 5.6 Variante para estudios de arquitectura y servicios profesionales (rama `viviendaenregla`)
+
+Esta rama adapta el CRM para un estudio de arquitectura que cobra **honorarios** (no recurrentes) y atiende tanto a **personas** como a **empresas**:
+
+- **Prospectos y clientes:** el Kanban trabaja con *prospectos*; un *cliente* puede ser **persona** o **empresa** (RUT validado; la razón social y el giro solo aplican a empresas).
+- **Proyectos:** servicios de pago único con **modalidad** «solo honorarios» u «honorarios + obra completa», dirección del proyecto, presupuesto de obra (informativo) y **plan de pagos** por hitos (50/50, 40/30/30 o a medida) que genera cobros «por emitir».
+- **Boleta de honorarios:** los cobros son por defecto **boletas de honorarios** (sin IVA). La **retención** se calcula con la tasa vigente (Ley 21.133: 2026 = 15,25 %, 2027 = 16 %, 2028 = 17 %; editable por cobro o con el ajuste `billing.retention_rate`). Si el cliente es una empresa, la retiene y paga el **líquido**; si es una persona, paga el bruto y la retención queda informada. También admite factura (con IVA) y «otro documento» para cobros de obra.
+- **Lectura de documentos con IA:** precarga boletas y facturas en PDF (folio, receptor, bruto, retención y líquido).
+- **Marca:** paleta oro rosa, tipografías Jost y Cormorant Garamond; el catálogo inicial incluye regularizaciones, planos, diseño de interiores y gestión de obra (valores referenciales editables en *Catálogo*).
+
 ---
 
 ## 6. API

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# CRM ECORTESCL · PHP 8.4 (php-fpm) + Nginx + Supervisor en una sola imagen.
+# CRM Vivienda en Regla · PHP 8.4 (php-fpm) + Nginx + Supervisor en una sola imagen.
 # Multi-stage: compila assets (Vite + Wayfinder) en "build" y deja la imagen final sin Node.
 
 # ---------------------------------------------------------------- base PHP

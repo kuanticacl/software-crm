@@ -111,7 +111,7 @@ const aiWrite = async () => {
                 <article v-for="s in list" :key="s.id" :class="cn('flex flex-col gap-2 rounded-2xl border bg-card p-4 shadow-sm shadow-black/[0.03]', !s.is_active && 'opacity-60')">
                     <div class="flex items-start justify-between gap-2">
                         <h3 class="font-semibold leading-tight">{{ s.name }}</h3>
-                        <Badge :class="s.billing === 'monthly' ? 'border-transparent bg-[#121826]/10 text-[#121826]' : 'border-transparent bg-primary/10 text-primary'">
+                        <Badge :class="s.billing === 'monthly' ? 'border-transparent bg-[#3B2F2F]/10 text-[#3B2F2F]' : 'border-transparent bg-primary/10 text-primary'">
                             <Repeat v-if="s.billing === 'monthly'" class="size-3" />{{ s.billing === 'monthly' ? 'Mensual' : 'Pago único' }}
                         </Badge>
                     </div>

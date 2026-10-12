@@ -46,7 +46,7 @@ const submit = async () => {
         emit('created', res.id);
         emit('update:open', false);
     } catch (e) {
-        errors.value = e instanceof HttpError ? e.fieldErrors : { first_name: 'No se pudo crear el cliente.' };
+        errors.value = e instanceof HttpError ? e.fieldErrors : { first_name: 'No se pudo crear el prospecto.' };
     } finally {
         busy.value = false;
     }
@@ -57,8 +57,8 @@ const submit = async () => {
     <Dialog :open="open" @update:open="(v: boolean) => emit('update:open', v)">
         <DialogContent class="sm:max-w-lg">
             <DialogHeader>
-                <DialogTitle>Nuevo cliente en «{{ stageName }}»</DialogTitle>
-                <DialogDescription>Creación rápida. Podrás completar el resto desde el panel del cliente.</DialogDescription>
+                <DialogTitle>Nuevo prospecto en «{{ stageName }}»</DialogTitle>
+                <DialogDescription>Creación rápida. Podrás completar el resto desde el panel del prospecto.</DialogDescription>
             </DialogHeader>
             <form class="grid gap-4 sm:grid-cols-2" @submit.prevent="submit">
                 <FormField label="Nombre" for="qc-first" :error="errors.first_name" required><Input id="qc-first" v-model="f.first_name" autofocus /></FormField>
@@ -72,7 +72,7 @@ const submit = async () => {
                 </FormField>
                 <DialogFooter class="gap-2 sm:col-span-2">
                     <Button type="button" variant="outline" @click="emit('update:open', false)">Cancelar</Button>
-                    <Button type="submit" :disabled="busy || !f.first_name.trim()"><Spinner v-if="busy" /> Crear cliente</Button>
+                    <Button type="submit" :disabled="busy || !f.first_name.trim()"><Spinner v-if="busy" /> Crear prospecto</Button>
                 </DialogFooter>
             </form>
         </DialogContent>

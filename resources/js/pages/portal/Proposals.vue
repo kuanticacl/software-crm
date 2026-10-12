@@ -14,7 +14,7 @@ defineProps<{
     <Head title="Propuestas" />
 
     <div class="flex flex-col gap-5">
-        <div><h1 class="text-2xl font-semibold tracking-tight">Propuestas</h1><p class="mt-1 text-sm text-muted-foreground">Las propuestas comerciales que ECORTESCL preparó para {{ company.name }}.</p></div>
+        <div><h1 class="text-2xl font-semibold tracking-tight">Propuestas</h1><p class="mt-1 text-sm text-muted-foreground">Las propuestas comerciales que Vivienda en Regla preparó para {{ company.name }}.</p></div>
 
         <p v-if="!proposals.length" class="rounded-2xl border border-dashed bg-card p-8 text-center text-sm text-muted-foreground">Aún no tienes propuestas.</p>
         <div class="grid gap-3">

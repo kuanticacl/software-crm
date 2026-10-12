@@ -20,7 +20,7 @@ class DemoSeeder extends Seeder
         mt_srand(7);
 
         $comercial = Role::where('slug', 'comercial')->value('id');
-        $team = collect([['Camila Rojas', 'camila@ecortes.cl'], ['Diego Fuentes', 'diego@ecortes.cl'], ['Valentina Mora', 'valentina@ecortes.cl']])
+        $team = collect([['Camila Rojas', 'camila@viviendaenregla.cl'], ['Diego Fuentes', 'diego@viviendaenregla.cl'], ['Valentina Mora', 'valentina@viviendaenregla.cl']])
             ->map(fn ($u) => User::firstOrCreate(['email' => $u[1]], [
                 'name' => $u[0], 'password' => 'password', 'role_id' => $comercial, 'email_verified_at' => now(), 'job_title' => 'Ejecutivo comercial',
             ]));

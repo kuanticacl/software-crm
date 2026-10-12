@@ -33,7 +33,7 @@ const props = defineProps<{
     taxRate: number;
 }>();
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Servicios', href: '/contracts' }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Proyectos', href: '/contracts' }] } });
 const { can } = usePermissions();
 const canCosts = computed(() => props.can.costs);
 
@@ -67,7 +67,10 @@ const destroy = () => router.delete(`/contracts/${props.service.id}`, { onFinish
             <DataCard class="h-fit p-5">
                 <p v-if="service.description" class="mb-4 text-sm whitespace-pre-line">{{ service.description }}</p>
                 <dl class="grid gap-3 text-sm">
-                    <div><dt class="text-xs text-muted-foreground">Valor neto</dt><dd class="font-medium tabular-nums">{{ money(service.price, service.currency) }} <span class="text-xs font-normal text-muted-foreground">{{ cyclePer[service.billing_cycle] }}</span></dd></div>
+                    <div><dt class="text-xs text-muted-foreground">Modalidad</dt><dd>{{ service.modality === 'honorarios_obra' ? 'Honorarios + obra completa' : 'Solo honorarios' }}</dd></div>
+                    <div v-if="service.project_address"><dt class="text-xs text-muted-foreground">Dirección del proyecto</dt><dd>{{ service.project_address }}</dd></div>
+                    <div v-if="service.works_budget"><dt class="text-xs text-muted-foreground">Presupuesto de obra (informativo)</dt><dd class="tabular-nums">{{ money(service.works_budget, service.currency) }}</dd></div>
+                    <div><dt class="text-xs text-muted-foreground">Honorarios</dt><dd class="font-medium tabular-nums">{{ money(service.price, service.currency) }} <span class="text-xs font-normal text-muted-foreground">{{ cyclePer[service.billing_cycle] }}</span></dd></div>
                     <div><dt class="text-xs text-muted-foreground">Ciclo de cobro</dt><dd>{{ cycleLabels[service.billing_cycle] }}<span v-if="service.billing_day"> · día {{ service.billing_day }}</span></dd></div>
                     <div><dt class="flex items-center gap-1 text-xs text-muted-foreground"><CalendarDays class="size-3" /> Vigencia</dt><dd>{{ fmtDate(service.start_date) }} → {{ service.end_date ? fmtDate(service.end_date) : 'sin término' }}</dd></div>
                     <div><dt class="flex items-center gap-1 text-xs text-muted-foreground"><RefreshCw class="size-3" /> Renovación</dt><dd>{{ service.auto_renew ? 'Automática' : 'No se renueva sola' }}</dd></div>

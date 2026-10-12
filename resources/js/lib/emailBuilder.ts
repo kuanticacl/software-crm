@@ -54,12 +54,12 @@ export const FONTS = [
 ];
 
 export const defaultSettings = (): DesignSettings => ({
-    bg: '#F4F4F4',
+    bg: '#F6EFEB',
     contentBg: '#FFFFFF',
     width: 600,
     font: FONTS[0].value,
-    textColor: '#393939',
-    linkColor: '#3DBB6C',
+    textColor: '#3B2F2F',
+    linkColor: '#A9606B',
     radius: 16,
 });
 
@@ -80,7 +80,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Encabezado',
         description: 'Logo o nombre de marca',
         icon: 'panel-top',
-        props: () => ({ logoUrl: '', logoWidth: 140, brandText: 'ECORTESCL', brandColor: '#3DBB6C', align: 'center', padY: 24, padX: 32, bg: '' }),
+        props: () => ({ logoUrl: '', logoWidth: 140, brandText: 'Vivienda en Regla', brandColor: '#A9606B', align: 'center', padY: 24, padX: 32, bg: '' }),
         fields: [
             { key: 'logoUrl', label: 'Logo (imagen PNG/JPG)', type: 'image', hint: 'Si lo dejas vacío se muestra el nombre de marca en texto.' },
             { key: 'logoWidth', label: 'Ancho del logo (px)', type: 'number', min: 40, max: 400 },
@@ -108,7 +108,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Texto',
         description: 'Párrafo con **negrita**, *cursiva* y [enlaces](url)',
         icon: 'align-left',
-        props: () => ({ text: 'Escribe aquí tu mensaje. Puedes usar **negrita**, *cursiva*, [enlaces](https://www.ecortes.cl) y variables como {{ first_name }}.', size: 16, color: '', lineHeight: 1.6, align: 'left', padY: 8, padX: 32, bg: '' }),
+        props: () => ({ text: 'Escribe aquí tu mensaje. Puedes usar **negrita**, *cursiva*, [enlaces](https://www.viviendaenregla.cl) y variables como {{ first_name }}.', size: 16, color: '', lineHeight: 1.6, align: 'left', padY: 8, padX: 32, bg: '' }),
         fields: [
             { key: 'text', label: 'Contenido', type: 'rich', variables: true, hint: 'Usa la barra para negrita, listas y enlaces. Inserta variables con { }.' },
             { key: 'size', label: 'Tamaño (px)', type: 'number', min: 11, max: 28 },
@@ -137,7 +137,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Botón',
         description: 'Llamado a la acción',
         icon: 'mouse-pointer-click',
-        props: () => ({ label: 'Agenda tu demo', href: 'https://www.ecortes.cl', bg: '#64D989', color: '#0B1220', radius: 999, size: 16, align: 'center', fullWidth: false, padY: 16, padX: 32, rowBg: '' }),
+        props: () => ({ label: 'Agenda tu demo', href: 'https://www.viviendaenregla.cl', bg: '#A9606B', color: '#FFFFFF', radius: 999, size: 16, align: 'center', fullWidth: false, padY: 16, padX: 32, rowBg: '' }),
         fields: [
             { key: 'label', label: 'Texto del botón', type: 'text', variables: true },
             { key: 'href', label: 'Enlace', type: 'url', variables: true },
@@ -156,7 +156,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Imagen + texto',
         description: 'Dos columnas que se apilan en móvil',
         icon: 'columns-2',
-        props: () => ({ imageUrl: '', imageSide: 'left', title: 'Destacado', text: 'Cuenta algo breve y atractivo aquí.', buttonLabel: 'Ver más', buttonUrl: 'https://www.ecortes.cl', buttonBg: '#3DBB6C', padY: 16, padX: 32, bg: '' }),
+        props: () => ({ imageUrl: '', imageSide: 'left', title: 'Destacado', text: 'Cuenta algo breve y atractivo aquí.', buttonLabel: 'Ver más', buttonUrl: 'https://www.viviendaenregla.cl', buttonBg: '#A9606B', padY: 16, padX: 32, bg: '' }),
         fields: [
             { key: 'imageUrl', label: 'Imagen', type: 'image', variables: true },
             { key: 'imageSide', label: 'Posición de la imagen', type: 'select', options: [{ value: 'left', label: 'Izquierda' }, { value: 'right', label: 'Derecha' }] },
@@ -172,7 +172,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Lista dinámica',
         description: 'Repite una tarjeta por cada elemento recibido (proyectos, propiedades…)',
         icon: 'list-ordered',
-        props: () => ({ collection: 'proyectos', imageKey: 'imagen', titleKey: 'nombre', textKey: 'descripcion', priceKey: 'precio', urlKey: 'url', buttonLabel: 'Ver detalle', buttonBg: '#3DBB6C', emptyText: '', padY: 12, padX: 32, bg: '' }),
+        props: () => ({ collection: 'proyectos', imageKey: 'imagen', titleKey: 'nombre', textKey: 'descripcion', priceKey: 'precio', urlKey: 'url', buttonLabel: 'Ver detalle', buttonBg: '#A9606B', emptyText: '', padY: 12, padX: 32, bg: '' }),
         fields: [
             { key: 'collection', label: 'Variable con la lista', type: 'text', hint: 'En la API envía un arreglo: "proyectos": [{ "nombre": "…", "imagen": "…" }]' },
             { key: 'imageKey', label: 'Campo de imagen', type: 'text' },
@@ -190,7 +190,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Divisor',
         description: 'Línea horizontal',
         icon: 'minus',
-        props: () => ({ color: '#E4E4E4', thickness: 1, padY: 12, padX: 32, bg: '' }),
+        props: () => ({ color: '#E6D8D1', thickness: 1, padY: 12, padX: 32, bg: '' }),
         fields: [
             { key: 'color', label: 'Color', type: 'color' },
             { key: 'thickness', label: 'Grosor (px)', type: 'number', min: 1, max: 8 },
@@ -211,7 +211,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Redes sociales',
         description: 'Enlaces a tus redes',
         icon: 'share-2',
-        props: () => ({ web: 'https://www.ecortes.cl', instagram: '', facebook: '', linkedin: '', youtube: '', align: 'center', color: '#707070', padY: 12, padX: 32, bg: '' }),
+        props: () => ({ web: 'https://www.viviendaenregla.cl', instagram: '', facebook: '', linkedin: '', youtube: '', align: 'center', color: '#7A6A68', padY: 12, padX: 32, bg: '' }),
         fields: [
             { key: 'web', label: 'Sitio web', type: 'url' },
             { key: 'instagram', label: 'Instagram', type: 'url' },
@@ -227,7 +227,7 @@ export const BLOCKS: Record<BlockType, Meta> = {
         label: 'Pie de página',
         description: 'Datos legales y enlace de baja',
         icon: 'panel-bottom',
-        props: () => ({ company: '{{ company_name }}', address: '', legal: 'Recibes este correo porque te registraste en nuestro sitio.', showUnsubscribe: true, unsubscribeText: 'Darme de baja', showView: false, color: '#8A8A8A', align: 'center', padY: 24, padX: 32, bg: '#FAFAFA' }),
+        props: () => ({ company: '{{ company_name }}', address: '', legal: 'Recibes este correo porque te registraste en nuestro sitio.', showUnsubscribe: true, unsubscribeText: 'Darme de baja', showView: false, color: '#9A8C88', align: 'center', padY: 24, padX: 32, bg: '#FBF8F6' }),
         fields: [
             { key: 'company', label: 'Empresa', type: 'text', variables: true },
             { key: 'address', label: 'Dirección', type: 'text' },
@@ -334,15 +334,15 @@ function compileBlock(b: Block, ctx: Ctx): string {
         }
         case 'list': {
             const k = (key: string) => (key ? `this.${key}` : '');
-            const card = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;border:1px solid #E4E4E4;border-radius:12px;overflow:hidden"><tr><td>
+            const card = `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 16px;border:1px solid #E6D8D1;border-radius:12px;overflow:hidden"><tr><td>
 ${p.imageKey ? `{{#if ${k(p.imageKey)}}}<img src="{{ ${k(p.imageKey)} }}" alt="" width="100%" style="display:block;width:100%;height:auto;border:0">{{/if}}` : ''}
 <div style="padding:16px">
 ${p.titleKey ? `<div style="font-size:18px;font-weight:700;color:${s.textColor}">{{ ${k(p.titleKey)} }}</div>` : ''}
 ${p.priceKey ? `{{#if ${k(p.priceKey)}}}<div style="margin-top:4px;font-size:16px;font-weight:700;color:${s.linkColor}">{{ ${k(p.priceKey)} | money }}</div>{{/if}}` : ''}
-${p.textKey ? `<div style="margin-top:6px;font-size:14px;line-height:1.5;color:#707070">{{ ${k(p.textKey)} }}</div>` : ''}
+${p.textKey ? `<div style="margin-top:6px;font-size:14px;line-height:1.5;color:#7A6A68">{{ ${k(p.textKey)} }}</div>` : ''}
 ${p.buttonLabel && p.urlKey ? `{{#if ${k(p.urlKey)}}}<div style="margin-top:12px">${button(p.buttonLabel, `{{ ${k(p.urlKey)} }}`, p.buttonBg, '#FFFFFF', 999, 14, 'left')}</div>{{/if}}` : ''}
 </div></td></tr></table>`;
-            const empty = p.emptyText ? `{{else}}<div style="font-size:14px;color:#707070;text-align:center">${escHtml(p.emptyText)}</div>` : '';
+            const empty = p.emptyText ? `{{else}}<div style="font-size:14px;color:#7A6A68;text-align:center">${escHtml(p.emptyText)}</div>` : '';
 
             return row(b, ctx, `{{#each ${p.collection || 'items'}}}${card}${empty}{{/each}}`);
         }

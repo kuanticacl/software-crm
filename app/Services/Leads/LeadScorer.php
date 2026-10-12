@@ -89,10 +89,10 @@ class LeadScorer
 
         if ($stage?->type === 'won') {
             $score = 100;
-            $note = 'Cliente concretado: puntaje máximo.';
+            $note = 'Prospecto concretado: puntaje máximo.';
         } elseif ($stage?->type === 'lost') {
             $score = min($score, 20);
-            $note = 'Cliente descartado: el puntaje se limita a 20.';
+            $note = 'Prospecto descartado: el puntaje se limita a 20.';
         }
 
         $completeness = $this->completeness($lead);
@@ -250,7 +250,7 @@ class LeadScorer
     // --------------------------------------------------------------------------------------- señales
 
     /**
-     * Datos inferidos que enriquecen el perfil sin pedirlos al cliente.
+     * Datos inferidos que enriquecen el perfil sin pedirlos al prospecto.
      *
      * @return array<int, array{key: string, label: string, value: string}>
      */

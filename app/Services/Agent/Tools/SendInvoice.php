@@ -18,7 +18,7 @@ class SendInvoice extends CrmTool
 
     public function description(): string
     {
-        return 'Envía por correo el COBRO (o un recordatorio si ya se envió) de una factura «por pagar» a los contactos con acceso al portal de la empresa. Es una acción hacia el cliente: confirma con el usuario antes de ejecutarla.';
+        return 'Envía por correo el COBRO (o un recordatorio si ya se envió) de una factura «por pagar» a los contactos con acceso al portal del cliente. Es una acción hacia el cliente: confirma con el usuario antes de ejecutarla.';
     }
 
     public function schema(JsonSchema $schema): array

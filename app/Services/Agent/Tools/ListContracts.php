@@ -18,13 +18,13 @@ class ListContracts extends CrmTool
 
     public function description(): string
     {
-        return 'Lista los SERVICIOS CONTRATADOS por las empresas (no el catálogo): ciclo de cobro, valor neto, vigencia, renovación, estado y servicios asociados. Filtra por empresa (client_id), texto o estado.';
+        return 'Lista los SERVICIOS CONTRATADOS por los clientes (no el catálogo): ciclo de cobro, valor neto, vigencia, renovación, estado y servicios asociados. Filtra por cliente (client_id), texto o estado.';
     }
 
     public function schema(JsonSchema $schema): array
     {
         return [
-            'client_id' => $schema->integer()->description('Id de la empresa (search_clients).'),
+            'client_id' => $schema->integer()->description('Id del cliente (search_clients).'),
             'query' => $schema->string()->description('Texto del nombre del servicio.'),
             'status' => $schema->string()->enum(['active', 'pending_payment', 'blocked', 'cancelled']),
             'limit' => $schema->integer(),
@@ -41,7 +41,7 @@ class ListContracts extends CrmTool
         $this->ctx->record($this->name(), "Consultó servicios contratados: {$rows->count()}", url('/contracts'));
 
         return $rows->map(fn (ClientService $s) => [
-            'id' => $s->id, 'empresa' => $s->client?->name, 'servicio' => $s->name, 'ciclo' => ClientService::CYCLES[$s->billing_cycle] ?? $s->billing_cycle,
+            'id' => $s->id, 'cliente' => $s->client?->name, 'servicio' => $s->name, 'ciclo' => ClientService::CYCLES[$s->billing_cycle] ?? $s->billing_cycle,
             'valor_neto' => Money::format($s->price, $s->currency), 'inicio' => $s->start_date?->toDateString(), 'termino' => $s->end_date?->toDateString(),
             'renovacion_automatica' => $s->auto_renew, 'estado' => ClientService::STATUSES[$s->effectiveStatus()] ?? $s->status, 'proximo_cobro' => $s->next_charge_on?->toDateString(),
             'asociado_a' => $s->parent?->name, 'url' => url('/contracts/'.$s->id),

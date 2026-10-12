@@ -17,7 +17,7 @@ import { usePermissions } from '@/composables/usePermissions';
 import { create, destroy, edit, index, show } from '@/routes/clients';
 import type { ClientRow, Paginated } from '@/types';
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Empresas', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Clientes', href: index() }] } });
 
 const props = defineProps<{
     clients: Paginated<ClientRow>;
@@ -50,13 +50,13 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
 </script>
 
 <template>
-    <Head title="Empresas" />
+    <Head title="Clientes" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Empresas" description="Base de datos de las empresas con las que trabajamos.">
+        <PageHeader title="Clientes" description="Base de datos de tus clientes (personas y empresas).">
             <template #actions>
                 <Button v-if="can('clients.create')" as-child>
-                    <Link :href="create()"><Plus /> Nueva empresa</Link>
+                    <Link :href="create()"><Plus /> Nuevo cliente</Link>
                 </Button>
             </template>
         </PageHeader>
@@ -77,16 +77,16 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
             <Table>
                 <TableHeader>
                     <TableRow class="hover:bg-transparent">
-                        <TableHead>Empresa</TableHead>
+                        <TableHead>Cliente</TableHead>
                         <TableHead>RUT</TableHead>
                         <TableHead>Contacto</TableHead>
-                        <TableHead>Clientes</TableHead>
+                        <TableHead>Prospectos</TableHead>
                         <TableHead>Estado</TableHead>
                         <TableHead class="text-right">Acciones</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableEmpty v-if="!clients.data.length" :colspan="6">No hay empresas que coincidan.</TableEmpty>
+                    <TableEmpty v-if="!clients.data.length" :colspan="6">No hay clientes que coincidan.</TableEmpty>
                     <TableRow v-for="c in clients.data" :key="c.id">
                         <TableCell>
                             <Link :href="show(c.id)" class="flex items-center gap-3">
@@ -95,7 +95,7 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
                                 </div>
                                 <div class="min-w-0">
                                     <p class="truncate font-medium hover:text-primary">{{ c.name }}</p>
-                                    <p v-if="c.legal_name" class="truncate text-xs text-muted-foreground">{{ c.legal_name }}</p>
+                                    <p class="truncate text-xs text-muted-foreground">{{ c.kind === 'company' ? (c.legal_name || 'Empresa') : 'Persona' }}</p>
                                 </div>
                             </Link>
                         </TableCell>
@@ -126,7 +126,7 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
 
     <ConfirmDialog
         :open="!!toDelete && !hasRelated"
-        title="Eliminar empresa"
+        title="Eliminar cliente"
         :description="`Se eliminará «${toDelete?.name}».`"
         confirm-label="Eliminar"
         @update:open="(v: boolean) => !v && (toDelete = null)"
@@ -134,10 +134,10 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
     />
     <DeleteWithRelatedDialog
         :open="!!toDelete && hasRelated"
-        :title="`Eliminar empresa «${toDelete?.name}»`"
+        :title="`Eliminar cliente «${toDelete?.name}»`"
         :summary="deleteSummary"
         :targets="deleteTargets"
-        transfer-label="Transferirlos a otra empresa"
+        transfer-label="Transferirlos a otro cliente"
         @update:open="(v: boolean) => !v && (toDelete = null)"
         @confirm="(o) => confirmDelete(o)"
     />

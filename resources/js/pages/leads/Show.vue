@@ -11,7 +11,7 @@ import { destroy, edit, index } from '@/routes/leads';
 import type { PanelData } from '@/types';
 
 const props = defineProps<PanelData>();
-defineOptions({ layout: { breadcrumbs: [{ title: 'Clientes', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Prospectos', href: index() }] } });
 
 const data = computed<PanelData>(() => ({
     lead: props.lead,
@@ -30,7 +30,7 @@ const data = computed<PanelData>(() => ({
 
 const confirmDelete = ref(false);
 const proposalCount = computed(() => props.proposals?.length ?? 0);
-const deleteText = computed(() => `Se eliminará «${props.lead.full_name}» con su historial.${proposalCount.value ? ` También se enviarán a la papelera ${proposalCount.value === 1 ? '1 propuesta' : `${proposalCount.value} propuestas`} de este cliente. ¿Confirmas?` : ''}`);
+const deleteText = computed(() => `Se eliminará «${props.lead.full_name}» con su historial.${proposalCount.value ? ` También se enviarán a la papelera ${proposalCount.value === 1 ? '1 propuesta' : `${proposalCount.value} propuestas`} de este prospecto. ¿Confirmas?` : ''}`);
 const deleteLead = () => router.delete(destroy(props.lead.id).url, { data: { confirm_related: 1 } });
 // El panel guarda por fetch; aquí solo se recarga la ficha.
 const reload = () => router.reload();
@@ -52,5 +52,5 @@ const reload = () => router.reload();
         </LeadPanel>
     </div>
 
-    <ConfirmDialog v-model:open="confirmDelete" title="Eliminar cliente" :description="deleteText" confirm-label="Eliminar" @confirm="deleteLead" />
+    <ConfirmDialog v-model:open="confirmDelete" title="Eliminar prospecto" :description="deleteText" confirm-label="Eliminar" @confirm="deleteLead" />
 </template>

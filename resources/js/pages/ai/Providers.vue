@@ -38,7 +38,7 @@ const props = defineProps<{
 
 defineOptions({ layout: { breadcrumbs: [{ title: 'Proveedores de IA', href: index() }] } });
 
-const featureLabel: Record<string, string> = { email_design: 'Diseño de mailings', email_design_fallback: 'Diseño de mailings', subjects: 'Asuntos de correo', subjects_fallback: 'Asuntos de correo', lead_analysis: 'Análisis de clientes', lead_analysis_fallback: 'Análisis de clientes', test: 'Pruebas de conexión' };
+const featureLabel: Record<string, string> = { email_design: 'Diseño de mailings', email_design_fallback: 'Diseño de mailings', subjects: 'Asuntos de correo', subjects_fallback: 'Asuntos de correo', lead_analysis: 'Análisis de prospectos', lead_analysis_fallback: 'Análisis de prospectos', test: 'Pruebas de conexión' };
 
 // ---------------------------------------------------------------- configurar
 const editing = ref<Provider | null>(null);
@@ -192,9 +192,9 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
         <DataCard class="p-6">
             <h2 class="mb-1 font-semibold">Preferencias</h2>
             <form class="grid gap-5" @submit.prevent="savePrefs">
-                <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Analizar clientes nuevos automáticamente</span><br /><span class="text-xs text-muted-foreground">Al ingresar un cliente se genera su perfil y recomendaciones en segundo plano (consume tokens del proveedor por defecto).</span></span><Switch :model-value="prefs.auto_analyze" @update:model-value="(v: boolean) => (prefs.auto_analyze = v)" /></label>
+                <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Analizar prospectos nuevos automáticamente</span><br /><span class="text-xs text-muted-foreground">Al ingresar un prospecto se genera su perfil y recomendaciones en segundo plano (consume tokens del proveedor por defecto).</span></span><Switch :model-value="prefs.auto_analyze" @update:model-value="(v: boolean) => (prefs.auto_analyze = v)" /></label>
                 <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Enviar correo y teléfono completos a la IA</span><br /><span class="text-xs text-muted-foreground">Desactivado: la IA solo recibe nombre, empresa, cargo, dominio del correo y datos comerciales (más privado). Actívalo solo si el proveedor está autorizado para tratar datos personales.</span></span><Switch :model-value="prefs.share_contact" @update:model-value="(v: boolean) => (prefs.share_contact = v)" /></label>
-                <FormField label="Contexto de marca (lo que la IA sabe de ECORTESCL)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
+                <FormField label="Contexto de marca (lo que la IA sabe de Vivienda en Regla)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
                     <Textarea id="bc" v-model="prefs.brand_context" rows="7" />
                 </FormField>
                 <div class="flex items-center justify-between">

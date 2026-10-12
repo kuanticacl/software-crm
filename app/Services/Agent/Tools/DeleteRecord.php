@@ -15,7 +15,7 @@ class DeleteRecord extends CrmTool
 
     public function description(): string
     {
-        return 'Propone ELIMINAR un registro (entity: lead=cliente persona, client=empresa, proposal, contract=servicio contratado, invoice=cobro/factura no pagada, expense=gasto de un servicio). '
+        return 'Propone ELIMINAR un registro (entity: lead=prospecto, client=cliente (persona o empresa), proposal, contract=proyecto/servicio contratado, invoice=cobro/boleta no pagada, expense=gasto de un servicio). '
             .'NO elimina: muestra al usuario qué se va a eliminar (con lo que arrastra) y botones Confirmar/Cancelar; solo se elimina si él confirma. Casi todo va a la Papelera y se puede restaurar. '
             .'Úsalo solo cuando el usuario pida eliminar de forma explícita; busca primero el registro para tener su id.';
     }

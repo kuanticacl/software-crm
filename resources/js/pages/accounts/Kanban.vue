@@ -72,7 +72,7 @@ const totalAmount = computed(() => (props.pipeline ?? []).filter((c) => c.key !=
     <Head title="Kanban de cuentas" />
 
     <div class="flex h-[calc(100svh-4rem)] min-h-0 flex-col gap-4 p-4 md:p-6">
-        <PageHeader :title="view === 'accounts' ? 'Kanban de cuentas' : 'Kanban de cobros'" :description="view === 'accounts' ? 'Cada empresa con servicios, ordenada sola según su situación: mora, por facturar, por cobrar, renovación…' : 'Cada cobro según su estado. Arrastra una factura a «Pagadas» para registrar el pago, o de «Por emitir» a «Por pagar» para emitirla.'">
+        <PageHeader :title="view === 'accounts' ? 'Kanban de cuentas' : 'Kanban de cobros'" :description="view === 'accounts' ? 'Cada cliente con servicios, ordenada sola según su situación: mora, por facturar, por cobrar, renovación…' : 'Cada cobro según su estado. Arrastra una factura a «Pagadas» para registrar el pago, o de «Por emitir» a «Por pagar» para emitirla.'">
             <template #actions>
                 <div class="inline-flex rounded-xl border bg-card p-0.5">
                     <button type="button" :class="cn('rounded-[10px] px-3.5 py-1.5 text-sm font-medium', view === 'accounts' ? 'bg-primary text-primary-foreground' : 'text-muted-foreground hover:text-foreground')" @click="setView('accounts')">Cuentas</button>
@@ -83,7 +83,7 @@ const totalAmount = computed(() => (props.pipeline ?? []).filter((c) => c.key !=
         </PageHeader>
 
         <div class="flex flex-wrap items-center gap-3">
-            <div class="relative w-full sm:w-80"><Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" /><Input v-model="search" :placeholder="view === 'accounts' ? 'Buscar empresa o RUT…' : 'Buscar factura, concepto o empresa…'" class="pl-9" /></div>
+            <div class="relative w-full sm:w-80"><Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" /><Input v-model="search" :placeholder="view === 'accounts' ? 'Buscar cliente o RUT…' : 'Buscar factura, concepto o cliente…'" class="pl-9" /></div>
             <p v-if="view === 'accounts' && accounts" class="text-sm text-muted-foreground"><strong class="text-foreground">{{ accounts.totals.accounts }}</strong> cuentas · ingreso recurrente <strong class="text-foreground">{{ money(accounts.totals.mrr) }}</strong>/mes</p>
             <p v-else-if="pipeline" class="text-sm text-muted-foreground">Pendiente de cobro <strong class="text-foreground">{{ money(totalAmount) }}</strong></p>
         </div>

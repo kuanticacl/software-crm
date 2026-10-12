@@ -13,12 +13,14 @@ use Carbon\CarbonInterface;
  * Servicio contratado por una empresa (con fechas, ciclo de cobro, renovación y servicios asociados).
  * «price», «internal_notes», costos y gastos son internos: el portal nunca los expone.
  */
-#[Fillable(['client_id', 'proposal_id', 'catalog_service_id', 'parent_id', 'name', 'description', 'billing_cycle', 'currency', 'price', 'start_date', 'end_date', 'auto_renew', 'status', 'billing_day', 'next_charge_on', 'reminder_offsets', 'payment_link', 'internal_notes', 'created_by'])]
+#[Fillable(['client_id', 'proposal_id', 'catalog_service_id', 'parent_id', 'name', 'description', 'billing_cycle', 'modality', 'currency', 'price', 'works_budget', 'project_address', 'start_date', 'end_date', 'auto_renew', 'status', 'billing_day', 'next_charge_on', 'reminder_offsets', 'payment_link', 'internal_notes', 'created_by'])]
 class ClientService extends Model
 {
     use SoftDeletes;
 
     public const CYCLES = ['one_time' => 'Pago único', 'monthly' => 'Mensual', 'quarterly' => 'Trimestral', 'yearly' => 'Anual'];
+
+    public const MODALITIES = ['honorarios' => 'Solo honorarios', 'honorarios_obra' => 'Honorarios + obra completa'];
 
     /** Estados que se eligen a mano. «Por iniciar» y «Finalizado» se deducen de las fechas (ver effectiveStatus). */
     public const STATUSES = ['active' => 'Activo', 'pending_payment' => 'Pendiente de pago', 'blocked' => 'Bloqueado', 'cancelled' => 'Cancelado'];
@@ -34,6 +36,7 @@ class ClientService extends Model
             'next_charge_on' => 'date',
             'auto_renew' => 'boolean',
             'price' => 'float',
+            'works_budget' => 'float',
             'reminder_offsets' => 'array',
         ];
     }

@@ -25,8 +25,8 @@ const run = () => {
     });
 };
 const rows = (c: Counts) => [
-    ['Clientes (con sus notas y actividad)', c.leads],
-    ['Empresas', c.clients],
+    ['Prospectos (con sus notas y actividad)', c.leads],
+    ['Clientes', c.clients],
     ['Propuestas', c.proposals],
     ['Correos del historial asociados', c.emails],
     ['Usuarios de demostración', c.users],
@@ -49,8 +49,8 @@ const rows = (c: Counts) => [
 
         <div class="grid gap-4 lg:grid-cols-2">
             <section v-for="o in [
-                { key: 'demo' as const, title: 'Solo datos de muestra', text: 'Lo que crearon los datos de demostración (correos @ejemplo.cl y @correo.cl, clientes «de demostración» y ejecutivos de ejemplo). Conserva todo lo que ingresó de verdad.', counts: demo, danger: false },
-                { key: 'all' as const, title: 'Todos los clientes, empresas y propuestas', text: 'Vacía por completo la operación (incluye lo que esté en la papelera). Úsalo si todo lo que hay hoy es de prueba.', counts: all, danger: true },
+                { key: 'demo' as const, title: 'Solo datos de muestra', text: 'Lo que crearon los datos de demostración (correos @ejemplo.cl y @correo.cl, prospectos «de demostración» y ejecutivos de ejemplo). Conserva todo lo que ingresó de verdad.', counts: demo, danger: false },
+                { key: 'all' as const, title: 'Todos los prospectos, clientes y propuestas', text: 'Vacía por completo la operación (incluye lo que esté en la papelera). Úsalo si todo lo que hay hoy es de prueba.', counts: all, danger: true },
             ]" :key="o.key" class="flex flex-col gap-4 rounded-2xl border bg-card p-5">
                 <div>
                     <h2 class="font-semibold">{{ o.title }}</h2>
@@ -69,7 +69,7 @@ const rows = (c: Counts) => [
     <Dialog :open="!!mode" @update:open="(v: boolean) => !v && (mode = null)">
         <DialogContent class="sm:max-w-md">
             <DialogHeader>
-                <DialogTitle>{{ mode === 'all' ? 'Borrar todos los clientes, empresas y propuestas' : 'Borrar los datos de muestra' }}</DialogTitle>
+                <DialogTitle>{{ mode === 'all' ? 'Borrar todos los prospectos, clientes y propuestas' : 'Borrar los datos de muestra' }}</DialogTitle>
                 <DialogDescription>Esta acción es definitiva y no se puede deshacer. Escribe <strong>LIMPIAR</strong> para confirmar.</DialogDescription>
             </DialogHeader>
             <Input v-model="confirm" placeholder="LIMPIAR" autocomplete="off" />

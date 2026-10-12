@@ -27,6 +27,10 @@ class InvoiceRequest extends FormRequest
             'currency' => ['required', Rule::in(['CLP', 'UF'])],
             'amount_net' => ['required', 'numeric', 'min:0', 'max:99999999999'],
             'tax_rate' => ['nullable', 'numeric', 'between:0,100'],
+            'document_type' => ['required', Rule::in(array_keys(\App\Models\Invoice::DOCUMENTS))],
+            'kind' => ['required', Rule::in(array_keys(\App\Models\Invoice::KINDS))],
+            'retention_rate' => ['nullable', 'numeric', 'between:0,100'],
+            'retention_by_client' => ['boolean'],
             'auto_remind' => ['boolean'],
             'payment_link' => ['nullable', 'url', 'max:500'],
             'notes' => ['nullable', 'string', 'max:3000'],
@@ -41,7 +45,7 @@ class InvoiceRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        foreach (['paid_at', 'payment_method', 'payment_reference', 'client_service_id', 'number', 'period_start', 'period_end', 'issue_date', 'payment_link', 'notes', 'tax_rate'] as $k) {
+        foreach (['paid_at', 'payment_method', 'payment_reference', 'client_service_id', 'number', 'period_start', 'period_end', 'issue_date', 'payment_link', 'notes', 'tax_rate', 'retention_rate'] as $k) {
             if ($this->input($k) === '') {
                 $this->merge([$k => null]);
             }

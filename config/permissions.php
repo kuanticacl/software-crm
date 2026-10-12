@@ -26,27 +26,27 @@ return [
             ],
         ],
         'leads' => [
-            'label' => 'Clientes',
+            'label' => 'Prospectos',
             'icon' => 'users',
             'permissions' => [
-                'leads.view' => 'Ver clientes asignados a él/ella',
-                'leads.view_all' => 'Ver todos los clientes',
-                'leads.create' => 'Crear clientes',
-                'leads.update' => 'Editar clientes',
+                'leads.view' => 'Ver prospectos asignados a él/ella',
+                'leads.view_all' => 'Ver todos los prospectos',
+                'leads.create' => 'Crear prospectos',
+                'leads.update' => 'Editar prospectos',
                 'leads.move' => 'Mover entre etapas',
                 'leads.assign' => 'Asignar a otros usuarios',
-                'leads.delete' => 'Eliminar clientes',
+                'leads.delete' => 'Eliminar prospectos',
                 'leads.notes' => 'Agregar notas y seguimientos',
             ],
         ],
         'clients' => [
-            'label' => 'Empresas',
+            'label' => 'Clientes',
             'icon' => 'building-2',
             'permissions' => [
-                'clients.view' => 'Ver empresas',
-                'clients.create' => 'Crear empresas',
-                'clients.update' => 'Editar empresas',
-                'clients.delete' => 'Eliminar empresas',
+                'clients.view' => 'Ver clientes',
+                'clients.create' => 'Crear clientes',
+                'clients.update' => 'Editar clientes',
+                'clients.delete' => 'Eliminar clientes',
             ],
         ],
         'proposals' => [
@@ -139,7 +139,7 @@ return [
                 'stages.manage' => 'Gestionar etapas del Kanban',
                 'fields.manage' => 'Gestionar campos personalizados',
                 'trash.manage' => 'Ver la papelera y restaurar datos eliminados',
-                'demo.purge' => 'Limpiar datos de prueba (borrado definitivo de clientes, empresas y propuestas)',
+                'demo.purge' => 'Limpiar datos de prueba (borrado definitivo de prospectos, clientes y propuestas)',
             ],
         ],
     ],
@@ -157,7 +157,7 @@ return [
         ],
         'comercial' => [
             'name' => 'Ejecutivo comercial',
-            'description' => 'Gestiona sus clientes asignados y consulta empresas.',
+            'description' => 'Gestiona sus prospectos asignados y consulta clientes.',
             'is_system' => false,
             'permissions' => [
                 'dashboard.view',
@@ -167,7 +167,7 @@ return [
         ],
         'supervisor' => [
             'name' => 'Supervisor',
-            'description' => 'Ve y asigna todos los clientes; administra empresas.',
+            'description' => 'Ve y asigna todos los prospectos; administra clientes.',
             'is_system' => false,
             'permissions' => [
                 'dashboard.view',

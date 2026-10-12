@@ -9,12 +9,33 @@ use App\Services\UfService;
 
 class ContractService
 {
+    public function __construct(private InvoiceService $invoices) {}
+
     /** @param  array<string, mixed>  $data */
     public function create(array $data, ?User $actor = null): ClientService
     {
+        $plan = $data['payment_plan'] ?? [];
+        unset($data['payment_plan']);
+
         $service = new ClientService([...$data, 'created_by' => $actor?->id]);
         $this->syncSchedule($service, true);
         $service->save();
+
+        // Plan de pagos: un cobro «por emitir» por hito (honorarios → boleta; obra → otro documento).
+        foreach ($plan as $hito) {
+            $this->invoices->create([
+                'client_id' => $service->client_id,
+                'client_service_id' => $service->id,
+                'kind' => $hito['kind'],
+                'document_type' => $hito['kind'] === 'obra' ? 'otro' : 'boleta',
+                'concept' => $service->name.' · '.$hito['concept'],
+                'due_date' => $hito['due_date'],
+                'currency' => $service->currency,
+                'amount_net' => $hito['amount'],
+                'auto_remind' => false,
+                'payment_link' => $service->payment_link,
+            ], $actor);
+        }
 
         return $service;
     }
@@ -22,6 +43,7 @@ class ContractService
     /** @param  array<string, mixed>  $data */
     public function update(ClientService $service, array $data): ClientService
     {
+        unset($data['payment_plan']);
         $service->fill($data);
         $reschedule = $service->isDirty(['billing_cycle', 'billing_day', 'start_date', 'status']);
         $this->syncSchedule($service, $reschedule);

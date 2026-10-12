@@ -88,7 +88,7 @@ const groups: NavGroup[] = [
         ],
     },
     {
-        label: 'Cobranza',
+        label: 'Cuentas y cobranza',
         items: [
             { title: 'Dashboard de cuentas', href: '/accounts', icon: ChartColumn, permission: 'contracts.view' },
             { title: 'Kanban de cuentas', href: '/accounts/kanban', icon: Columns3, permission: 'contracts.view' },

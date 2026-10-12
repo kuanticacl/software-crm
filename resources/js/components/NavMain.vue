@@ -59,7 +59,7 @@ const open = computed({
     },
 });
 
-// En modo íconos el tooltip incluye el grupo («Cobranza · Dashboard»), porque no se ve el título.
+// En modo íconos el tooltip incluye el grupo («Comercial · Kanban»), porque no se ve el título.
 const tooltip = (title: string) =>
     props.label ? `${props.label} · ${title}` : title;
 </script>

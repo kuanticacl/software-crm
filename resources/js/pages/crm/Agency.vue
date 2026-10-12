@@ -11,17 +11,17 @@ import { formatRut } from '@/lib/rut';
 import { edit, update } from '@/routes/agency';
 
 const props = defineProps<{ agency: Record<string, string>; socials: Record<string, string>; holding: { name: string; url: string; logo: string }[]; taxDocuments: Record<string, string> }>();
-defineOptions({ layout: { breadcrumbs: [{ title: 'Datos de la agencia', href: edit() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Datos de mi empresa', href: edit() }] } });
 
 const form = useForm({ ...props.agency });
 const ph: Record<string, string> = { instagram: 'https://www.instagram.com/…', linkedin: 'https://www.linkedin.com/company/…', facebook: 'https://www.facebook.com/…', youtube: 'https://www.youtube.com/@…', tiktok: 'https://www.tiktok.com/@…' };
 </script>
 
 <template>
-    <Head title="Datos de la agencia" />
+    <Head title="Datos de mi empresa" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Datos de la agencia" description="Aparecen en la firma y el pie de las propuestas comerciales (PDF y enlace público)." />
+        <PageHeader title="Datos de mi empresa" description="Los datos de tu empresa: aparecen en la firma y el pie de las propuestas comerciales (PDF y enlace público)." />
 
         <form class="grid max-w-4xl gap-5" @submit.prevent="form.put(update().url, { preserveScroll: true })">
             <section class="rounded-2xl border bg-card p-5">

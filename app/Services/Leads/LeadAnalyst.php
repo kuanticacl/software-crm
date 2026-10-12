@@ -196,6 +196,6 @@ TXT;
 
     private function brand(): string
     {
-        return "Contexto de la agencia:\n".BrandContext::text();
+        return "Contexto de la empresa:\n".BrandContext::text();
     }
 }

@@ -4,7 +4,7 @@ namespace App\Support;
 
 use App\Models\Setting;
 
-/** Datos de la agencia que aparecen en la firma y el pie de las propuestas (editables en «Datos de la agencia»). */
+/** Datos de mi empresa que aparecen en la firma y el pie de las propuestas (editables en «Datos de mi empresa»). */
 class Agency
 {
     public const FIELDS = [
@@ -37,7 +37,7 @@ class Agency
         return collect(self::SOCIALS)->filter(fn ($l, $k) => $p[$k] !== '')->map(fn ($l, $k) => ['label' => $l, 'url' => $p[$k]])->all();
     }
 
-    /** Logos de tecnologías que usa la agencia (archivo en public/brand/tech). @return array<int, string> */
+    /** Logos de tecnologías que usa la empresa (archivo en public/brand/tech). @return array<int, string> */
     public static function tech(): array
     {
         return ['google', 'laravel', 'vuejs', 'nuxtjs', 'node', 'vercel', 'notion', 'trello', 'metricool', 'semrush', 'mailchimp', 'brevo'];

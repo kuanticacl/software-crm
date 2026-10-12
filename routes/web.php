@@ -183,8 +183,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('hero', [\App\Http\Controllers\BrandController::class, 'hero'])->middleware('throttle:20,1')->name('hero');
         Route::delete('hero', [\App\Http\Controllers\BrandController::class, 'removeHero'])->name('hero.remove');
     });
-    Route::get('agency', [AgencyController::class, 'edit'])->middleware('can:agency.manage')->name('agency.edit');
-    Route::put('agency', [AgencyController::class, 'update'])->middleware('can:agency.manage')->name('agency.update');
+    Route::get('mi-empresa', [AgencyController::class, 'edit'])->middleware('can:agency.manage')->name('agency.edit');
+    Route::put('mi-empresa', [AgencyController::class, 'update'])->middleware('can:agency.manage')->name('agency.update');
+    Route::redirect('agency', '/mi-empresa', 301); // dirección anterior
     Route::prefix('services')->group(function () {
         Route::get('/', [ServiceController::class, 'index'])->middleware('can:services.view')->name('services.index');
         Route::middleware('can:services.manage')->group(function () {

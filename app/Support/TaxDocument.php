@@ -5,7 +5,7 @@ namespace App\Support;
 use App\Models\Setting;
 
 /**
- * Documento tributario con que trabaja este CRM (Datos de la agencia → Documento tributario):
+ * Documento tributario con que trabaja este CRM (Datos de mi empresa → Documento tributario):
  * define cómo se calculan las propuestas y el documento por defecto de los cobros.
  * Cada propuesta puede cambiarlo para un caso puntual.
  */

@@ -59,7 +59,7 @@ return [
                 'proposals.delete' => 'Eliminar propuestas',
                 'services.view' => 'Ver el catálogo de servicios',
                 'services.manage' => 'Administrar el catálogo de servicios y tarifas',
-                'agency.manage' => 'Editar los datos de la agencia (firma y pie de propuestas)',
+                'agency.manage' => 'Editar los datos de mi empresa (firma y pie de propuestas)',
             ],
         ],
         'users' => [

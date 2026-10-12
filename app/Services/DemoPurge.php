@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  * Limpieza de datos de prueba para empezar a usar el CRM «de verdad».
  * Borra DEFINITIVAMENTE (no va a la papelera) solo datos operativos; nunca toca
  * configuración: orígenes y API keys, etapas, campos, plantillas, audiencias,
- * automatizaciones, servicios, datos de la agencia, proveedores (Resend/IA),
+ * automatizaciones, servicios, datos de mi empresa, proveedores (Resend/IA),
  * usuarios reales ni roles.
  *
  * Modos:

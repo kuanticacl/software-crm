@@ -120,7 +120,7 @@ class ProposalAssistant
 
     private function system(string $task): string
     {
-        return $task."\n\nContexto de la agencia:\n".BrandContext::text()."\n\nReglas generales: español de Chile, trato profesional y cercano; no inventes clientes, cifras, plazos contractuales ni garantías de resultados; refiérete al cliente solo con el marcador [CLIENTE] y a la persona de contacto con [CONTACTO]; sin HTML.";
+        return $task."\n\nContexto de la empresa:\n".BrandContext::text()."\n\nReglas generales: español de Chile, trato profesional y cercano; no inventes clientes, cifras, plazos contractuales ni garantías de resultados; refiérete al cliente solo con el marcador [CLIENTE] y a la persona de contacto con [CONTACTO]; sin HTML.";
     }
 
     /** @param array<string, mixed> $in */

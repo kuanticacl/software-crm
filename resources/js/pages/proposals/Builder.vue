@@ -385,7 +385,7 @@ const money = (n: number) => formatAmount(n, form.currency);
                             <FormField label="Descuento">
                                 <div class="flex gap-2"><NativeSelect v-model="form.discount_type" class="w-24"><option value="percent">%</option><option value="amount">{{ form.currency === 'UF' ? 'UF' : '$' }}</option></NativeSelect><Input v-model.number="form.discount_value" type="number" min="0" /></div>
                             </FormField>
-                            <FormField label="Documento tributario" hint="Por defecto, el configurado en Datos de la agencia; cámbialo solo para esta propuesta si hace falta." class="sm:col-span-2 lg:col-span-5">
+                            <FormField label="Documento tributario" hint="Por defecto, el configurado en Datos de mi empresa; cámbialo solo para esta propuesta si hace falta." class="sm:col-span-2 lg:col-span-5">
                                 <div class="flex flex-wrap gap-2">
                                     <NativeSelect v-model="form.tax_mode" class="min-w-64 flex-1" @change="onTaxMode"><option v-for="(label, k) in taxModes" :key="k" :value="k">{{ label }}</option></NativeSelect>
                                     <div v-if="form.tax_mode === 'iva' || form.tax_mode === 'honorarios'" class="flex items-center gap-1.5"><Input v-model.number="form.tax_rate" type="number" min="0" max="30" step="0.01" class="w-24" /><span class="text-sm text-muted-foreground">%</span></div>

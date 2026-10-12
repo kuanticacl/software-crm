@@ -138,7 +138,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
     <Head title="Proveedores de IA" />
 
     <div class="flex max-w-6xl flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Inteligencia artificial" description="Conecta el modelo que prefieras (Claude, OpenAI, OpenRouter, MiniMax…) para crear mailings y analizar leads.">
+        <PageHeader title="Proveedores de IA" description="Conecta el modelo que prefieras (Claude, OpenAI, OpenRouter, MiniMax…) para crear mailings y analizar leads.">
             <template #actions>
                 <Badge :class="available ? 'border-transparent bg-brand-green/10 text-brand-green' : 'border-transparent bg-[#FFA165]/20 text-[#9A4B00]'">{{ available ? 'IA lista para usar' : 'Sin proveedor activo' }}</Badge>
             </template>

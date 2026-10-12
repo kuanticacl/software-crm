@@ -25,7 +25,7 @@ const props = defineProps<{
     messages: Paginated<Row>; filters: Record<string, string | undefined>; statuses: Record<string, string>; kinds: Record<string, string>;
     campaigns: { id: number; name: string }[]; templates: { id: number; name: string }[];
 }>();
-defineOptions({ layout: { breadcrumbs: [{ title: 'Historial de mensajes', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Historial de envíos', href: index() }] } });
 
 const filters = ref({ q: props.filters.q ?? '', status: props.filters.status ?? '', kind: props.filters.kind ?? '', campaign: props.filters.campaign ?? '', template: props.filters.template ?? '', from: props.filters.from ?? '', to: props.filters.to ?? '' });
 useDebouncedFilters(index().url, filters, ['messages', 'filters']);
@@ -41,10 +41,10 @@ const eventLabel: Record<string, string> = { sent: 'Enviado', delivered: 'Entreg
 </script>
 
 <template>
-    <Head title="Historial de mensajes" />
+    <Head title="Historial de envíos" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Historial de mensajes" description="Todos los correos enviados por boletines, API y automatizaciones, con su estado de entrega." />
+        <PageHeader title="Historial de envíos" description="Todos los correos enviados por boletines, API y automatizaciones, con su estado de entrega." />
 
         <DataCard>
             <div class="grid gap-3 border-b p-4 md:grid-cols-3 xl:grid-cols-7">

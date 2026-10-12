@@ -24,7 +24,7 @@ import { destroy, index, store, update } from '@/routes/services';
 type Service = { id: number; name: string; category: string; description: string | null; deliverables: string[] | null; billing: 'one_time' | 'monthly'; unit: string; currency: 'UF' | 'CLP'; price: number; is_active: boolean };
 
 const props = defineProps<{ services: Service[]; categories: string[]; uf: { value: number; date: string } | null; ai: { enabled: boolean }; can: { manage: boolean } }>();
-defineOptions({ layout: { breadcrumbs: [{ title: 'Catálogo', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Catálogo de servicios', href: index() }] } });
 
 const q = ref('');
 const billing = ref('');
@@ -86,10 +86,10 @@ const aiWrite = async () => {
 </script>
 
 <template>
-    <Head title="Catálogo" />
+    <Head title="Catálogo de servicios" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Catálogo" description="Catálogo de servicios pre armados de la agencia. Al armar una propuesta puedes usarlos tal cual o crear servicios únicos para ese cliente.">
+        <PageHeader title="Catálogo de servicios" description="Catálogo de servicios pre armados de la agencia. Al armar una propuesta puedes usarlos tal cual o crear servicios únicos para ese cliente.">
             <template #actions>
                 <Button v-if="can.manage" @click="openCreate"><Plus /> Nuevo servicio</Button>
             </template>

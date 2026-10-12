@@ -28,12 +28,13 @@ const page = usePage();
 const aiOn = computed(() => props.aiAvailable ?? Boolean(page.props.ai_available));
 const open = defineModel<boolean>('open', { default: false });
 const retentionRate = computed(() => Number(page.props.retention_rate ?? 0));
+const billingDefaults = page.props.billing_defaults as { document_type: string; tax_rate: number } | null | undefined;
 
 const blank = () => ({
     client_id: (props.defaults?.client_id ?? '') as number | string,
     client_service_id: (props.defaults?.client_service_id ?? '') as number | string,
     number: '', concept: '', period_start: '', period_end: '', issue_date: '', due_date: new Date(Date.now() + 10 * 86400000).toISOString().slice(0, 10),
-    currency: 'CLP', amount_net: '', tax_rate: String(props.taxRate), document_type: 'boleta', kind: 'honorarios', retention_rate: String(retentionRate.value), retention_by_client: false, auto_remind: false, payment_link: '', notes: '', pdf: null as File | null, issue: false,
+    currency: 'CLP', amount_net: '', tax_rate: String(billingDefaults?.tax_rate ?? props.taxRate), document_type: billingDefaults?.document_type ?? 'boleta', kind: 'honorarios', retention_rate: String(retentionRate.value), retention_by_client: false, auto_remind: false, payment_link: '', notes: '', pdf: null as File | null, issue: false,
     paid: false, paid_at: new Date().toISOString().slice(0, 10), payment_method: 'Transferencia', payment_reference: '',
 });
 const form = useForm(blank());

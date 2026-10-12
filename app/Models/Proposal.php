@@ -34,14 +34,10 @@ class Proposal extends Model
     ];
 
     /**
-     * Cómo se cobra: en honorarios el monto se habla neto y se suma la retención de la boleta
-     * (el cliente paga el bruto); con IVA se suma el IVA; sin impuesto, el total es el neto.
+     * Cómo se cobra (ver App\Support\TaxDocument): en honorarios el monto se habla neto y se suma la retención
+     * de la boleta (el cliente paga el bruto); con factura afecta se suma el IVA; exenta o sin documento, el total es el neto.
      */
-    public const TAX_MODES = [
-        'honorarios' => 'Neto + retención boleta de honorarios',
-        'iva' => 'Neto + IVA (factura)',
-        'none' => 'Sin impuesto',
-    ];
+    public const TAX_MODES = \App\Support\TaxDocument::MODES;
 
     protected function casts(): array
     {
@@ -90,6 +86,7 @@ class Proposal extends Model
 
         return match ($this->tax_mode) {
             'iva' => ['net' => 'Total neto', 'tax' => "IVA {$rate}%", 'gross' => 'Total con IVA'],
+            'exenta' => ['net' => 'Total', 'tax' => null, 'gross' => 'Total (exento de IVA)'],
             'none' => ['net' => 'Total', 'tax' => null, 'gross' => 'Total'],
             default => ['net' => 'Honorarios netos', 'tax' => "Retención boleta de honorarios {$rate}%", 'gross' => 'Total boleta de honorarios'],
         };

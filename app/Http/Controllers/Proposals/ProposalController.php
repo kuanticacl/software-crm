@@ -12,7 +12,7 @@ use App\Services\Ai\AiGateway;
 use App\Services\LeadService;
 use App\Services\Proposals\ProposalBuilder;
 use App\Services\UfService;
-use App\Support\Honorarios;
+use App\Support\TaxDocument;
 use App\Support\ProposalText;
 use App\Services\Proposals\ProposalMailer;
 use App\Services\Proposals\ProposalPdf;
@@ -71,8 +71,8 @@ class ProposalController extends Controller
             'contract_months' => 12,
             'discount_type' => 'percent',
             'discount_value' => 0,
-            'tax_mode' => 'honorarios',
-            'tax_rate' => Honorarios::rate(),
+            'tax_mode' => TaxDocument::default(),
+            'tax_rate' => TaxDocument::rate(TaxDocument::default()),
             'items' => [],
             'internal_notes' => null,
         ]));
@@ -429,7 +429,7 @@ class ProposalController extends Controller
             'initial' => $initial,
             'uf' => app(UfService::class)->today(),
             'taxModes' => Proposal::TAX_MODES,
-            'retentionRate' => Honorarios::rate(),
+            'taxRates' => collect(array_keys(Proposal::TAX_MODES))->mapWithKeys(fn ($m) => [$m => TaxDocument::rate($m)]),
             'services' => Service::where('is_active', true)->orderBy('category')->orderBy('sort_order')->get()
                 ->map(fn (Service $s) => $s->only(['id', 'name', 'category', 'description', 'deliverables', 'billing', 'unit', 'currency', 'price'])),
             'clients' => Client::where('is_active', true)->orderBy('name')->get()->map(fn (Client $c) => [

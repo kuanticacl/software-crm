@@ -14,7 +14,7 @@ class AutomationRunner
 
     /**
      * @param  array<string, mixed>  $context  variables extra del evento (p. ej. etapa anterior)
-     * @param  string|null  $channel  por dónde llegó el cliente al crearse: «api» (web/formularios) o «manual»
+     * @param  string|null  $channel  «api» (web/formularios), «api+template» (la web ya pidió su plantilla) o «manual»; por dónde llegó el cliente al crearse: «api» (web/formularios) o «manual»
      */
     public function fire(string $trigger, Lead $lead, array $context = [], ?string $channel = null): void
     {

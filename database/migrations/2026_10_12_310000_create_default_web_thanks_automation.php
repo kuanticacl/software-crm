@@ -16,7 +16,17 @@ return new class extends Migration
             return;
         }
 
-        $template = app(DefaultTemplates::class)->ensure('gracias-contacto');
+        // Plantilla de agradecimiento disponible en este CRM («Gracias por contactarnos» o, si no existe, la de asesoría).
+        $slug = collect(['gracias-contacto', 'confirmacion-asesoria'])->first(fn ($s) => in_array($s, DefaultTemplates::SLUGS, true));
+        if (! $slug) {
+            return;
+        }
+
+        try {
+            $template = app(DefaultTemplates::class)->ensure($slug);
+        } catch (\Throwable) {
+            return; // sin plantilla no se crea la automatización (se puede armar a mano en Email → Automatizaciones)
+        }
 
         Automation::create([
             'name' => 'Gracias por tu registro (web)',

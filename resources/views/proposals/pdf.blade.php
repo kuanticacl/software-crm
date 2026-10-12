@@ -5,6 +5,7 @@
     $ufFmt = ProposalView::ufValue((float) $p->uf_value);
     $clpGross = ProposalView::clp($p->clp($p->total_gross));
     $img = fn ($path) => 'file://'.$public.'/'.$path;
+    $heroFile = \App\Support\Theme::heroPath();
     $n = 0;
     $icon = ['instagram' => 'Instagram', 'linkedin' => 'LinkedIn', 'facebook' => 'Facebook', 'youtube' => 'YouTube', 'tiktok' => 'TikTok'];
 @endphp
@@ -28,7 +29,7 @@
       .h2t .num { width:22px; height:22px; border-radius:7px; background:#E8F7EE; color:#1F9D57; font-size:10px; font-weight:700; text-align:center; vertical-align:middle; line-height:1; padding:0 0 0 0; }
     .h2t .tt { padding-left:8px; font-size:15px; font-weight:700; color:#393939; line-height:1.2; }
     table { width:100%; border-collapse:collapse; }
-    .cover { width:100%; border-radius:18px; background-color:#F4F4F4; background-image:url('{{ $img('brand/proposal-cover.jpg') }}'); background-repeat:no-repeat; background-position:right center; background-size:auto 100%; margin-bottom:12px; }
+    .cover { width:100%; border-radius:18px; background-color:#F4F4F4; background-image:url('{{ $heroFile ? 'file://'.$heroFile : $img('brand/proposal-cover.jpg') }}'); background-repeat:no-repeat; background-position:right center; background-size:auto 100%; margin-bottom:12px; }
     .chip { background:rgba(255,255,255,.75); border:1px solid #E6E6E6; border-radius:10px; padding:6px 10px; }
     .chip .l { font-size:7.5px; text-transform:uppercase; letter-spacing:.06em; color:#8A8A8A; } .chip .v { font-size:11px; font-weight:700; color:#393939; }
     .chip.pu { background:rgba(18,24,38,.88); border-color:rgba(255,255,255,.3); } .chip.pu .l { color:#E4D6FB; } .chip.pu .v { color:#fff; }

@@ -37,6 +37,8 @@
         @fonts
 
         @vite(['resources/css/app.css', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+        {{-- Identidad visual personalizada (Identidad visual): sobrescribe las variables del tema --}}
+        {!! \App\Support\Theme::head() !!}
         <x-inertia::head>
             <title>{{ config('app.name', 'Laravel') }}</title>
         </x-inertia::head>

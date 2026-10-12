@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import QuiebreLogo from '@/components/QuiebreLogo.vue';
 import { home } from '@/routes';
@@ -8,17 +9,26 @@ defineProps<{
     title?: string;
     description?: string;
 }>();
+
+// Imagen hero personalizada (Identidad visual): fondo del inicio de sesión.
+const hero = computed(() => (usePage().props.brand as { hero: string | null } | undefined)?.hero ?? null);
 </script>
 
 <template>
     <div
         class="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-[#f4f4f4] to-white p-6 md:p-10 dark:from-[#141414] dark:to-[#1c1c1c]"
     >
+        <template v-if="hero">
+            <img :src="hero" alt="" class="pointer-events-none absolute inset-0 size-full object-cover" />
+            <div class="pointer-events-none absolute inset-0 bg-background/65 backdrop-blur-[1px]" />
+        </template>
         <!-- Q de fondo, como en quiebre.cl -->
         <AppLogoIcon
+            v-if="!hero"
             class="pointer-events-none absolute -top-24 -right-24 size-[34rem] text-black/[0.035] dark:text-white/[0.04]"
         />
         <div
+            v-if="!hero"
             class="pointer-events-none absolute -bottom-40 -left-40 size-[28rem] rounded-full bg-primary/10 blur-3xl"
         />
 

@@ -19,6 +19,7 @@ import {
     Plug,
     Trash2,
     Cable,
+    Palette,
     ChartColumn,
     Eraser,
     ShieldCheck,
@@ -50,6 +51,7 @@ import { index as clients } from '@/routes/clients';
 import { index as fields } from '@/routes/fields';
 import { index as kanbanIndex } from '@/routes/kanban';
 import { index as leads } from '@/routes/leads';
+import { index as brandIndex } from '@/routes/brand';
 import { index as ai, usage as aiUsage } from '@/routes/ai';
 import { index as mcpIndex } from '@/routes/ai/mcp';
 import { index as apiKeys } from '@/routes/api-keys';
@@ -117,6 +119,7 @@ const groups: NavGroup[] = [
             { title: 'Etapas del Kanban', href: stages(), icon: Columns3, permission: 'stages.manage' },
             { title: 'Campos personalizados', href: fields(), icon: ListPlus, permission: 'fields.manage' },
             { title: 'Datos de la agencia', href: agencyEdit(), icon: Building, permission: 'agency.manage' },
+            { title: 'Identidad visual', href: brandIndex(), icon: Palette, permission: 'brand.manage' },
             { title: 'Papelera', href: trash(), icon: Trash2, permission: 'trash.manage' },
             { title: 'Datos de prueba', href: demoData(), icon: Eraser, permission: 'demo.purge' },
         ],

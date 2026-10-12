@@ -115,6 +115,7 @@ return [
                 'sources.manage' => 'Gestionar orígenes y API',
                 'stages.manage' => 'Gestionar etapas del Kanban',
                 'fields.manage' => 'Gestionar campos personalizados',
+                'brand.manage' => 'Cambiar la identidad visual (colores, tipografías e imagen hero)',
                 'trash.manage' => 'Ver la papelera y restaurar datos eliminados',
                 'demo.purge' => 'Limpiar datos de prueba (borrado definitivo de clientes, empresas y propuestas)',
             ],

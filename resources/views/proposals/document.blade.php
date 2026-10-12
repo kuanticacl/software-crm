@@ -28,6 +28,7 @@
     $owner = $p->owner;
     $pdfUrl = ($public ?? false) ? route('proposals.public.pdf', $p->public_token) : (($preview ?? false) ? null : route('proposals.pdf', $p->id));
     $asset = fn ($f) => asset($f);
+    $heroUrl = \App\Support\Theme::heroUrl();
 @endphp
 <!doctype html>
 <html lang="es">
@@ -39,7 +40,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --o:#FF5300; --o2:#FFA165; --ink:#393939; --mut:#707070; --line:#E8E8E8; --bg:#F4F4F4; --soft:#FFF3EC; }
+        :root { --o:{{ \App\Support\Theme::primary() ?? '#FF5300' }}; --o2:#FFA165; --ink:#393939; --mut:#707070; --line:#E8E8E8; --bg:#F4F4F4; --soft:{{ \App\Support\Theme::accent() ?? '#FFF3EC' }}; }
         * { box-sizing: border-box; }
         html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         body { margin:0; background:var(--bg); color:var(--ink); font-family:'Asap',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
@@ -50,7 +51,7 @@
         .pill.primary { background:var(--o); border-color:var(--o); color:#fff; }
         .pill:hover { filter:brightness(.97); }
         .card { background:#fff; border-radius:24px; padding:32px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:#F4F4F4 url('{{ $asset('brand/proposal-cover.jpg') }}') no-repeat right center / auto 100%; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:#F4F4F4 url('{{ $heroUrl ?: $asset('brand/proposal-cover.jpg') }}') no-repeat right center / auto 100%; box-shadow:0 1px 2px rgba(0,0,0,.05); }
         .cover::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.94) 42%,rgba(244,244,244,0) 74%); }
         .cover > * { position:relative; }
         @media (max-width:760px) { .cover { background-size:auto 70%; background-position:right bottom; } .cover::before { background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.85) 40%,rgba(244,244,244,0) 78%); } }

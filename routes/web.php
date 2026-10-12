@@ -176,6 +176,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('trash/{type}/{id}/restore', [TrashController::class, 'restore'])->name('trash.restore');
     });
 
+    Route::prefix('identidad-visual')->name('brand.')->middleware('can:brand.manage')->group(function () {
+        Route::get('/', [\App\Http\Controllers\BrandController::class, 'index'])->name('index');
+        Route::put('/', [\App\Http\Controllers\BrandController::class, 'update'])->name('update');
+        Route::post('reset', [\App\Http\Controllers\BrandController::class, 'reset'])->name('reset');
+        Route::post('hero', [\App\Http\Controllers\BrandController::class, 'hero'])->middleware('throttle:20,1')->name('hero');
+        Route::delete('hero', [\App\Http\Controllers\BrandController::class, 'removeHero'])->name('hero.remove');
+    });
     Route::get('agency', [AgencyController::class, 'edit'])->middleware('can:agency.manage')->name('agency.edit');
     Route::put('agency', [AgencyController::class, 'update'])->middleware('can:agency.manage')->name('agency.update');
     Route::prefix('services')->group(function () {

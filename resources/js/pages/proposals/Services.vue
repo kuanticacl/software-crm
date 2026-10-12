@@ -137,7 +137,7 @@ const aiWrite = async () => {
         <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle>{{ editing ? 'Editar servicio' : 'Nuevo servicio' }}</DialogTitle>
-                <DialogDescription>La tarifa es la de referencia (honorarios netos; la propuesta suma la retención de la boleta). En cada propuesta se puede ajustar sin afectar el catálogo.</DialogDescription>
+                <DialogDescription>La tarifa es la de referencia (neta; la propuesta suma el impuesto según el documento tributario). En cada propuesta se puede ajustar sin afectar el catálogo.</DialogDescription>
             </DialogHeader>
             <form class="grid gap-4" @submit.prevent="save">
                 <FormField label="Nombre del servicio" for="sv-name" :error="form.errors.name" required><Input id="sv-name" v-model="form.name" placeholder="Gestión de campañas Meta Ads" /></FormField>

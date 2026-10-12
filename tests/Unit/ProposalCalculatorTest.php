@@ -36,7 +36,7 @@ class ProposalCalculatorTest extends TestCase
     {
         $t = ProposalCalculator::totals([['billing' => 'one_time', 'quantity' => 1, 'unit_price' => 847500]], 'percent', 0, null, 15.25, 0, 'honorarios');
 
-        // El estudio recibe el neto; la boleta va por el bruto, cuya retención (15,25%) cubre la diferencia.
+        // Se recibe el neto; la boleta va por el bruto, cuya retención (15,25%) cubre la diferencia.
         $this->assertEquals(847500, $t['total_net']);
         $this->assertEquals(1000000, $t['total_gross']);
         $this->assertEquals(152500, $t['total_tax']);

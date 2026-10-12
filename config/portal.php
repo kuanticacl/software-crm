@@ -17,7 +17,7 @@ return [
      * Documento tributario por defecto de este CRM (se puede cambiar en Datos de la agencia):
      * iva (factura afecta), exenta (factura exenta), honorarios (boleta de honorarios) o none (sin documento).
      */
-    'tax_document' => env('BILLING_TAX_DOCUMENT', 'honorarios'),
+    'tax_document' => env('BILLING_TAX_DOCUMENT', 'iva'),
 
     /** IVA por defecto de los cobros (Chile). */
     'tax_rate' => (float) env('BILLING_TAX_RATE', 19),

@@ -86,7 +86,7 @@ class ProposalDemoSeeder extends Seeder
                     'recipient' => ProposalBuilder::recipientFor($client, $lead),
                     'sections' => $this->sections($c),
                     'valid_until' => now()->subDays($days)->addDays(15)->toDateString(),
-                    'contract_months' => 6, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'honorarios', 'tax_rate' => \App\Support\Honorarios::rate(),
+                    'contract_months' => 6, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'iva', 'tax_rate' => 19,
                     'items' => $items, 'internal_notes' => '<p>Propuesta de ejemplo del seed demo.</p>',
                 ], null, $owner?->id);
 

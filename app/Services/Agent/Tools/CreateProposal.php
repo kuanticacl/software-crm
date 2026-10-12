@@ -40,7 +40,7 @@ class CreateProposal extends CrmTool
             'contract_months' => $schema->integer()->description('Meses de contrato si hay servicios mensuales.'),
             'discount_type' => $schema->string()->enum(['percent', 'amount']),
             'discount_value' => $schema->number(),
-            'tax_mode' => $schema->string()->enum(array_keys(\App\Support\TaxDocument::MODES))->description('Documento tributario. Omítelo para usar el del estudio («'.\App\Support\TaxDocument::MODES[\App\Support\TaxDocument::default()].'»); cámbialo solo si el texto lo pide.'),
+            'tax_mode' => $schema->string()->enum(array_keys(\App\Support\TaxDocument::MODES))->description('Documento tributario. Omítelo para usar el de la empresa («'.\App\Support\TaxDocument::MODES[\App\Support\TaxDocument::default()].'»); cámbialo solo si el texto lo pide.'),
             'items' => $schema->array()->items($schema->object([
                 'service_id' => $schema->integer()->description('ID del catálogo si corresponde.'),
                 'name' => $schema->string()->required(),

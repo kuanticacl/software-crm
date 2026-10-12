@@ -59,6 +59,7 @@ class HandleInertiaRequests extends Middleware
             'portal_preview' => fn () => $user && ! $user->isPortal() && ($pv = $request->session()->get('portal_preview'))
                 ? ['client' => \App\Models\Client::withTrashed()->whereKey($pv['client_id'])->value('name'), 'user' => $pv['user_id'] ? \App\Models\User::whereKey($pv['user_id'])->value('name') : null]
                 : null,
+            'brand' => fn () => ['hero' => \App\Support\Theme::heroUrl()],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
         ];
     }

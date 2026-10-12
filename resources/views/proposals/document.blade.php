@@ -28,6 +28,7 @@
     $owner = $p->owner;
     $pdfUrl = ($public ?? false) ? route('proposals.public.pdf', $p->public_token) : (($preview ?? false) ? null : route('proposals.pdf', $p->id));
     $asset = fn ($f) => asset($f);
+    $heroUrl = \App\Support\Theme::heroUrl();
 @endphp
 <!doctype html>
 <html lang="es">
@@ -39,7 +40,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --o:#A9606B; --o2:#E3B5AE; --ink:#3B2F2F; --mut:#7A6A68; --line:#E6D8D1; --bg:#F6EFEB; --soft:#F6E7E4; }
+        :root { --o:{{ \App\Support\Theme::primary() ?? '#A9606B' }}; --o2:#E3B5AE; --ink:#3B2F2F; --mut:#7A6A68; --line:#E6D8D1; --bg:#F6EFEB; --soft:{{ \App\Support\Theme::accent() ?? '#F6E7E4' }}; }
         * { box-sizing: border-box; }
         html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         body { margin:0; background:var(--bg); color:var(--ink); font-family:'Jost',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
@@ -50,8 +51,8 @@
         .pill.primary { background:var(--o); border-color:var(--o); color:#fff; }
         .pill:hover { filter:brightness(.97); }
         .card { background:#fff; border-radius:24px; padding:32px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:linear-gradient(120deg,#F6EFEB 0%,#EFD9D3 55%,#E3B5AE 100%); box-shadow:0 1px 2px rgba(0,0,0,.05); }
-                .cover::before { content:''; position:absolute; right:-60px; bottom:-70px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,.28); }
+        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:{!! $heroUrl ? "#F6EFEB url('".$heroUrl."') center/cover no-repeat" : 'linear-gradient(120deg,#F6EFEB 0%,#EFD9D3 55%,#E3B5AE 100%)' !!}; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+        .cover::before { content:''; position:absolute; {!! $heroUrl ? 'inset:0; background:linear-gradient(90deg,rgba(246,239,235,.94) 0%,rgba(246,239,235,.78) 48%,rgba(246,239,235,.15) 100%);' : 'right:-60px; bottom:-70px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,.28);' !!} }
         .cover > * { position:relative; }
         .cover .logo { height:24px; width:auto; display:block; }
         .cover .tag { display:inline-block; margin-top:34px; background:rgba(255,255,255,.6); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.9); box-shadow:0 2px 10px rgba(0,0,0,.05); border-radius:999px; padding:4px 14px; font-size:13px; font-weight:600; color:var(--mut); }

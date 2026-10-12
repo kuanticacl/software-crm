@@ -32,7 +32,7 @@ const exitPreview = () => router.post('/portal-preview/exit');
         <header :class="['sticky z-30 border-b bg-card/95 text-foreground backdrop-blur', preview ? 'top-[2.4rem]' : 'top-0']">
             <div class="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 md:px-6">
                 <Link href="/portal" class="flex items-center gap-3">
-                    <BrandLogo class="h-10 w-[14rem] shrink-0 text-foreground" />
+                    <BrandLogo class="h-12 shrink-0 text-foreground" />
                     <span class="hidden rounded-full bg-primary/10 px-2.5 py-0.5 text-primary text-[10px] font-semibold tracking-wide uppercase sm:inline">Portal de clientes</span>
                 </Link>
 

@@ -6,7 +6,7 @@ import BrandLogo from '@/components/BrandLogo.vue';
 <template>
     <!-- Expandido: logo completo. Colapsado: isotipo -->
     <span class="flex items-center group-data-[collapsible=icon]:hidden">
-        <BrandLogo class="h-10 w-[14rem] shrink-0 text-foreground" />
+        <BrandLogo class="h-12 shrink-0 text-foreground" />
     </span>
     <span
         class="hidden items-center justify-center group-data-[collapsible=icon]:flex"

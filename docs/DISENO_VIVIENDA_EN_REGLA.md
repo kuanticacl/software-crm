@@ -23,7 +23,7 @@ Sistema visual del CRM (`crm.viviendaenregla.cl`) para replicarlo tal cual en el
 | **Oro rosa (acento)** | `#A9606B` | Botón principal, enlaces, íconos activos, foco |
 | **Oro rosa intenso** | `#8A4A55` | Hover/pressed del acento, texto sobre fondos tinte |
 | **Oro rosa claro** | `#D9A0A5` | Acento en modo oscuro, detalles, líneas decorativas |
-| **Oro rosa marca (logo)** | `#B76E79` | Isotipo, tagline del logo, ilustraciones |
+| **Oro rosa marca** | `#B76E79` | Ilustraciones y detalles decorativos |
 | **Champagne** | `#C9A66B` | Detalle secundario (etiquetas, estrellas, divisores) |
 | **Rosa pálido (tinte)** | `#F6E7E4` | Fondo de elementos activos, chips, hover suave |
 | **Arena** | `#F6EFEB` | Barra lateral, secciones alternas |
@@ -280,29 +280,32 @@ Fondo `#F6EFEB`, borde superior `#E6D8D1`, logo a 160 px, enlaces en `#7A6A68` q
 
 ## 6. Logo
 
-Isotipo: casa de línea fina con una "V" en el interior, trazo con degradado oro rosa. Wordmark: **Vivienda en Regla** en Cormorant Garamond 600, color `#3B2F2F`, y debajo el tagline `ARQUITECTURA · REGULARIZACIONES` en Jost 500, MAYÚSCULAS, tracking 0.3em, color `#B76E79`.
+**Logo oficial:** casa en línea fina con escuadra y lápiz, junto al wordmark **VIVIENDA / EN REGLA** en mayúsculas muy espaciadas. El archivo maestro es el logo **blanco con fondo transparente** entregado por la marca; las demás versiones son el mismo dibujo recoloreado, sin modificar la forma.
 
-| Archivo (en el repositorio, `public/brand/`) | Uso |
-| --- | --- |
-| `vivienda-logo.png` / `vivienda-logo-dark.png` | Fondos claros (960 × 192, fondo transparente) |
-| `vivienda-logo-white.png` | Fondos oscuros o sobre foto |
-| `resources/js/components/BrandLogo.vue` | Logo en SVG vivo (hereda el color de texto) |
-| `resources/js/components/AppLogoIcon.vue` | Isotipo en SVG |
+| Archivo (en el repositorio, `public/brand/`) | Tamaño | Color | Uso |
+| --- | --- | --- | --- |
+| `vivienda-logo-white.png` | 742 × 199 | Blanco `#FFFFFF` | Fondos oscuros, sobre fotografía o sobre el hero |
+| `vivienda-logo-dark.png` / `vivienda-logo.png` | 742 × 199 | Carbón `#3B2F2F` | Fondos claros (web, correos, propuestas) |
+| `vivienda-mark-white.png` | 207 × 195 | Blanco | Isotipo (solo la casa) sobre fondos oscuros |
+| `vivienda-mark.png` | 207 × 195 | Carbón `#3B2F2F` | Isotipo sobre fondos claros, favicon, redes |
 
-SVG del isotipo (viewBox 64 × 64):
+- Todos tienen fondo transparente. Para usarlos en la web con el color que corresponda (claro u oscuro) se pueden aplicar como máscara CSS, así toman el color del texto:
 
-```svg
-<svg viewBox="0 0 64 64" fill="none" stroke="url(#g)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-    <stop offset="0" stop-color="#D9A89E"/><stop offset=".55" stop-color="#B76E79"/><stop offset="1" stop-color="#9C5560"/>
-  </linearGradient></defs>
-  <path d="M8 31 32 9l24 22"/><path d="M14 27v26h36V27"/><path d="M24 53V40l8 9 8-9v13"/>
-</svg>
+```css
+.logo {
+  display: inline-block;
+  aspect-ratio: 742 / 199;
+  height: 48px;
+  background: currentColor;                 /* el color lo define el texto: #3B2F2F en claro, #FFFFFF en oscuro */
+  -webkit-mask: url('/brand/vivienda-logo-white.png') no-repeat center / contain;
+          mask: url('/brand/vivienda-logo-white.png') no-repeat center / contain;
+}
 ```
 
-Zona de respeto: el alto de la "V" alrededor del logo. Tamaño mínimo: 120 px de ancho (isotipo solo: 24 px). No deformar, no recolorear fuera de la paleta, no usar sobre fondos con poco contraste.
-
----
+- **Favicon / ícono de app:** isotipo en oro rosa `#A9606B` centrado sobre `#FBF8F6` (ocupa ~70 % del lado).
+- **Tamaño mínimo:** 120 px de ancho para el logo completo; 24 px para el isotipo solo. Las líneas son finas: evitar tamaños menores y fondos con textura.
+- **Zona de respeto:** el alto de la casa alrededor del logo.
+- **No hacer:** deformar, recolorear fuera de blanco, carbón u oro rosa, agregar sombras o ponerlo sobre fondos de bajo contraste.
 
 ## 7. Variables para Tailwind (si el sitio lo usa)
 
@@ -337,7 +340,7 @@ export default {
 - [ ] Campos con borde `#E3D6CF`, foco `#C98B93` y anillo suave.
 - [ ] Tarjetas con borde fino, radio 16 px y sombra casi nula.
 - [ ] Un solo color de acento por pantalla; resto neutro cálido.
-- [ ] Logo en PNG/SVG según el fondo; favicon con el isotipo sobre `#FBF8F6`.
+- [ ] Logo oficial en blanco o carbón según el fondo; favicon con el isotipo sobre `#FBF8F6`.
 - [ ] Verificar contraste y estados de foco en teclado.
 
-> Fuente de verdad en el código: `resources/css/app.css` (variables), `resources/js/components/ui/*` (botones, campos, tarjetas) y `resources/js/components/BrandLogo.vue`.
+> Fuente de verdad en el código: `resources/css/app.css` (variables), `resources/js/components/ui/*` (botones, campos, tarjetas) y `resources/js/components/BrandLogo.vue` y `AppLogoIcon.vue` (logo oficial como máscara).

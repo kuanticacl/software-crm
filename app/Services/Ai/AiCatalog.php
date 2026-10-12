@@ -70,7 +70,7 @@ class AiCatalog
         $driver = self::PROVIDERS[$slug]['driver'] ?? $slug;
 
         return match ($driver) {
-            'openai' => ['supported' => true, 'suggest' => ['gpt-4o-mini-transcribe', 'gpt-4o-transcribe', 'whisper-1'], 'default' => null],
+            'openai' => ['supported' => true, 'suggest' => ['gpt-4o-transcribe', 'gpt-4o-mini-transcribe', 'whisper-1'], 'default' => 'gpt-4o-transcribe'],
             'groq' => ['supported' => true, 'suggest' => ['whisper-large-v3-turbo', 'whisper-large-v3'], 'default' => null],
             'mistral' => ['supported' => true, 'suggest' => ['voxtral-mini-latest'], 'default' => null],
             'gemini', 'openrouter' => ['supported' => true, 'suggest' => [], 'default' => null],

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, router, useForm } from '@inertiajs/vue3';
-import { CheckCircle2, CircleAlert, ExternalLink, KeyRound, Lock, Mic, Plug, RefreshCw, RotateCcw, ShieldCheck, Sparkles, Star, Trash2, Zap } from '@lucide/vue';
+import { CheckCircle2, CircleAlert, ExternalLink, KeyRound, Lock, Mic, Plug, RefreshCw, RotateCcw, ShieldCheck, SlidersHorizontal, Sparkles, Star, Trash2, Zap } from '@lucide/vue';
 import { computed, reactive, ref } from 'vue';
 import { toast } from 'vue-sonner';
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { index } from '@/routes/ai';
 import { defaultMethod as makeDefault, destroy, models as modelsRoute, test as testRoute, testVoice as testVoiceRoute, update } from '@/routes/ai/providers';
 import { update as updateSettings } from '@/routes/ai/settings';
+import { update as updateTuning } from '@/routes/ai/tuning';
 
 type Provider = {
     slug: string; name: string; color: string; description: string; keys_url: string | null; key_hint_format: string; url_editable: boolean; url_required: boolean;
@@ -32,6 +33,10 @@ type Provider = {
 const props = defineProps<{
     providers: Provider[]; available: boolean;
     settings: { auto_analyze: boolean; share_contact: boolean; brand_context: string; brand_context_is_default: boolean };
+    tuning: { instructions: string; agent_instructions: string; temperature: string; reasoning_effort: string; max_tokens: number | null; agent_max_steps: number | null; transcription_prompt: string };
+    tuningOptions: { temperatures: Record<string, string>; reasoning: Record<string, string> };
+    defaultModel: string | null;
+    reasoningModel: boolean;
     usage: { feature: string; runs: number; input_tokens: number; output_tokens: number; errors: number }[];
     recentErrors: { feature: string; provider: string | null; error: string | null; created_at: string }[];
 }>();
@@ -121,6 +126,9 @@ const toDelete = ref<Provider | null>(null);
 const confirmDelete = () => toDelete.value && router.delete(destroy(toDelete.value.slug).url, { preserveScroll: true, onFinish: () => (toDelete.value = null) });
 
 // ---------------------------------------------------------------- preferencias
+const tuning = useForm({ ...props.tuning, max_tokens: (props.tuning.max_tokens ?? '') as number | '', agent_max_steps: (props.tuning.agent_max_steps ?? '') as number | '' });
+const saveTuning = () => tuning.transform((d) => ({ ...d, max_tokens: d.max_tokens || null, agent_max_steps: d.agent_max_steps || null })).put(updateTuning().url, { preserveScroll: true });
+
 const prefs = useForm({ auto_analyze: props.settings.auto_analyze, share_contact: props.settings.share_contact, brand_context: props.settings.brand_context });
 const savePrefs = () => prefs.submit(updateSettings(), { preserveScroll: true });
 
@@ -201,6 +209,39 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
                     <Button type="button" variant="ghost" size="sm" @click="router.put(updateSettings().url, { auto_analyze: prefs.auto_analyze, share_contact: prefs.share_contact, brand_context: '' }, { preserveScroll: true })"><RotateCcw /> Restablecer contexto de marca</Button>
                     <Button type="submit" :disabled="prefs.processing"><Spinner v-if="prefs.processing" /> Guardar preferencias</Button>
                 </div>
+            </form>
+        </DataCard>
+
+        <DataCard class="p-6">
+            <h2 class="mb-1 flex items-center gap-2 font-semibold"><SlidersHorizontal class="size-4 text-primary" /> Comportamiento de la IA</h2>
+            <p class="mb-5 text-sm text-muted-foreground">Ajusta cómo responde la IA en todo el CRM. Las reglas base de cada función (seguridad, herramientas y formato) siempre se mantienen; lo que escribas aquí se suma a ellas.</p>
+            <form class="grid gap-5" @submit.prevent="saveTuning">
+                <div class="grid gap-5 lg:grid-cols-2">
+                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y al Agent. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
+                        <Textarea id="ti" v-model="tuning.instructions" rows="5" placeholder="Ej.: Usa siempre «usted» con empresas y «tú» con personas. Nunca prometas plazos municipales." />
+                    </FormField>
+                    <FormField label="Instrucciones solo para el Agent (chat)" for="ta" :error="tuning.errors.agent_instructions" hint="Cómo quieres que converse y actúe el asistente del chat.">
+                        <Textarea id="ta" v-model="tuning.agent_instructions" rows="5" placeholder="Ej.: Responde corto y en viñetas. Antes de crear una propuesta, confirma el monto neto." />
+                    </FormField>
+                </div>
+                <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <FormField label="Creatividad" for="tt" :error="tuning.errors.temperature" :hint="reasoningModel ? `El modelo ${defaultModel} no usa creatividad: ajusta el razonamiento.` : 'Precisa para datos y cobros; creativa para textos de marketing.'">
+                        <NativeSelect id="tt" v-model="tuning.temperature" :disabled="reasoningModel"><option v-for="(label, k) in tuningOptions.temperatures" :key="k" :value="k">{{ label }}</option></NativeSelect>
+                    </FormField>
+                    <FormField label="Razonamiento" for="tr" :error="tuning.errors.reasoning_effort" :hint="reasoningModel ? 'Más razonamiento = respuestas más pensadas, pero más lentas y caras.' : 'Solo para modelos de razonamiento de OpenAI (GPT-5, o3, o4-mini).'">
+                        <NativeSelect id="tr" v-model="tuning.reasoning_effort" :disabled="!reasoningModel"><option v-for="(label, k) in tuningOptions.reasoning" :key="k" :value="k">{{ label }}</option></NativeSelect>
+                    </FormField>
+                    <FormField label="Largo máximo de respuesta" for="tm" :error="tuning.errors.max_tokens" hint="En tokens (≈ 0,75 palabras). Vacío = sin límite propio.">
+                        <Input id="tm" v-model.number="tuning.max_tokens" type="number" min="256" max="32000" step="256" placeholder="Sin límite" />
+                    </FormField>
+                    <FormField label="Pasos máximos del Agent" for="ts" :error="tuning.errors.agent_max_steps" hint="Cuántas herramientas puede usar por mensaje (buscar, crear…). Vacío = predeterminado.">
+                        <Input id="ts" v-model.number="tuning.agent_max_steps" type="number" min="2" max="30" placeholder="Predeterminado" />
+                    </FormField>
+                </div>
+                <FormField label="Contexto para el dictado por voz" for="tv" :error="tuning.errors.transcription_prompt" hint="Palabras y nombres que suelen aparecer en tus audios (comunas, clientes, términos). Ayuda a que la transcripción en español de Chile salga bien. Vacío = texto por defecto.">
+                    <Textarea id="tv" v-model="tuning.transcription_prompt" rows="2" placeholder="Ej.: Nota de voz en español de Chile. Comunas: Ñuñoa, Providencia, La Florida. Términos: DOM, recepción final, ampliación, UF." />
+                </FormField>
+                <div class="flex justify-end"><Button type="submit" :disabled="tuning.processing"><Spinner v-if="tuning.processing" /> Guardar comportamiento</Button></div>
             </form>
         </DataCard>
 

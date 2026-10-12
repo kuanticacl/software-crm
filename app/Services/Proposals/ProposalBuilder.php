@@ -7,6 +7,7 @@ use App\Models\Lead;
 use App\Models\Proposal;
 use App\Models\ProposalItem;
 use App\Services\UfService;
+use App\Support\Honorarios;
 use App\Support\ProposalText;
 use App\Support\Rut;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,7 @@ class ProposalBuilder
             ['title' => 'Objetivos', 'body' => "- Resolver la necesidad planteada con un proyecto claro, bien documentado y ajustado a la normativa\n- Dar tranquilidad: trámites ordenados, plazos informados y comunicación fluida\n- Entregar espacios y planos que se puedan usar, habitar y mostrar con confianza"],
             ['title' => 'Alcance de los servicios', 'body' => 'A continuación se detallan los servicios incluidos, sus entregables y los honorarios de cada uno.'],
             ['title' => 'Etapas y plazos', 'body' => "- **Etapa 1:** visita, levantamiento y revisión de antecedentes\n- **Etapa 2:** anteproyecto o planos, con revisión contigo\n- **Etapa 3:** ingreso y seguimiento de trámites (si corresponde) o ejecución\n- **Cierre:** entrega de planos, documentos y recepción\n\nLos plazos son referenciales; los de la municipalidad u otros organismos dependen de ellos."],
-            ['title' => 'Condiciones comerciales', 'body' => "- Honorarios expresados en la moneda indicada (UF o pesos), respaldados con boleta de honorarios; se aplica la retención vigente cuando corresponde\n- La UF de referencia es la del día de emisión de esta propuesta (queda indicada en el documento)\n- Forma de pago habitual: 50% al aceptar y 50% al entregar (se puede pactar por etapas)\n- Derechos municipales, certificados, copias, topografía y otros gastos de terceros no están incluidos, salvo que se indique\n- Si el proyecto incluye ejecución de obra, esta se cotiza y se paga aparte, por etapas"],
+            ['title' => 'Condiciones comerciales', 'body' => "- Honorarios expresados netos en la moneda indicada (UF o pesos); el total incluye la retención de la boleta de honorarios, que se emite por ese monto (sin IVA)\n- La UF de referencia es la del día de emisión de esta propuesta (queda indicada en el documento)\n- Forma de pago habitual: 50% al aceptar y 50% al entregar (se puede pactar por etapas)\n- Derechos municipales, certificados, copias, topografía y otros gastos de terceros no están incluidos, salvo que se indique\n- Si el proyecto incluye ejecución de obra, esta se cotiza y se paga aparte, por etapas"],
             ['title' => 'Aceptación', 'body' => 'Para aceptar esta propuesta, ingrese al enlace recibido y presione «Aceptar propuesta», o responda este correo indicando su conformidad.'],
         ];
     }
@@ -78,7 +79,12 @@ class ProposalBuilder
             'discount_type' => $data['discount_type'] ?? 'percent',
             'discount_value' => (float) ($data['discount_value'] ?? 0),
             'currency' => in_array($data['currency'] ?? 'UF', ['UF', 'CLP'], true) ? $data['currency'] : 'UF',
-            'tax_rate' => (int) ($data['tax_rate'] ?? 19),
+            'tax_mode' => $mode = (array_key_exists($data['tax_mode'] ?? '', Proposal::TAX_MODES) ? $data['tax_mode'] : 'honorarios'),
+            'tax_rate' => match ($mode) {
+                'none' => 0,
+                'honorarios' => isset($data['tax_rate']) && (float) $data['tax_rate'] > 0 ? (float) $data['tax_rate'] : Honorarios::rate(),
+                default => (float) ($data['tax_rate'] ?? 19),
+            },
             'internal_notes' => isset($data['internal_notes']) ? ProposalText::sanitize((string) $data['internal_notes']) : null,
         ]);
         if (! empty($data['user_id'])) {
@@ -123,8 +129,9 @@ class ProposalBuilder
             (string) $p->discount_type,
             (float) $p->discount_value,
             $p->contract_months,
-            (int) $p->tax_rate,
+            (float) $p->tax_rate,
             $p->decimals(),
+            (string) ($p->tax_mode ?: 'honorarios'),
         );
         $p->forceFill([
             'total_one_time' => $t['total_one_time'], 'total_monthly' => $t['total_monthly'],
@@ -167,6 +174,7 @@ class ProposalBuilder
             'contract_months' => $source->contract_months,
             'discount_type' => $source->discount_type,
             'discount_value' => $source->discount_value,
+            'tax_mode' => $source->tax_mode,
             'tax_rate' => $source->tax_rate,
             'items' => $source->items->map(fn ($i) => $i->only(['service_id', 'name', 'description', 'deliverables', 'billing', 'unit', 'quantity', 'unit_price', 'discount_pct']))->all(),
         ];

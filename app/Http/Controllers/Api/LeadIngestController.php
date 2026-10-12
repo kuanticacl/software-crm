@@ -180,6 +180,11 @@ class LeadIngestController extends Controller
             return ['template' => $slug, 'status' => 'suppressed'];
         }
 
+        // Si una automatización ya le envió esta misma plantilla al registrarse, no se duplica.
+        if (\App\Models\EmailMessage::where('lead_id', $lead->id)->where('template_id', $template->id)->exists()) {
+            return ['template' => $slug, 'status' => 'already_sent'];
+        }
+
         app(\App\Services\Email\EmailService::class)->queueTemplate($template, $lead->email, $lead->full_name, $vars, ['lead_id' => $lead->id, 'track_opens' => $template->category === 'marketing', 'track_clicks' => $template->category === 'marketing']);
 
         return ['template' => $slug, 'status' => 'queued'];

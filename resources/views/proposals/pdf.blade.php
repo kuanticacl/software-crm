@@ -61,7 +61,7 @@
         @if ($valid)<td class="chip"><div class="l">Válida hasta</div><div class="v">{{ $valid }}</div></td><td style="width:7px"></td>@endif
         @if ($owner)<td class="chip"><div class="l">Responsable</div><div class="v">{{ $owner->name }}</div></td><td style="width:7px"></td>@endif
         @if ($isUf)<td class="chip"><div class="l">UF de referencia · {{ $ufDate }}</div><div class="v">{{ $ufFmt }}</div></td><td style="width:7px"></td>@endif
-        @if ($p->total_gross > 0)<td class="chip pu"><div class="l">Total con IVA</div><div class="v">{{ $m($p->total_gross) }}</div></td>@endif
+        @if ($p->total_gross > 0)<td class="chip pu"><div class="l">{{ $p->taxLabels()['gross'] }}</div><div class="v">{{ $m($p->total_gross) }}</div></td>@endif
     </tr></table>
 </td></tr></table>
 

@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
 import { destroy, index, store, update } from '@/routes/automations';
 
 type Auto = {
-    id: number; name: string; trigger: string; conditions: { source_ids?: number[]; stage_ids?: number[] } | null; subject: string | null;
+    id: number; name: string; trigger: string; conditions: { source_ids?: number[]; stage_ids?: number[]; web_only?: boolean } | null; subject: string | null;
     to_mode: 'lead' | 'fixed'; to_email: string | null; delay_minutes: number; variables: Record<string, string> | null; is_active: boolean;
     runs_count: number; last_run_at: string | null; template_id: number; template: { id: number; name: string; slug: string } | null; sent: number; failed: number;
 };
@@ -31,20 +31,20 @@ defineOptions({ layout: { breadcrumbs: [{ title: 'Automatizaciones', href: index
 const open = ref(false);
 const editing = ref<Auto | null>(null);
 const form = useForm({
-    name: '', trigger: 'lead.created', conditions: { source_ids: [] as number[], stage_ids: [] as number[] },
+    name: '', trigger: 'lead.created', conditions: { source_ids: [] as number[], stage_ids: [] as number[], web_only: true },
     template_id: '' as number | string, subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [] as { key: string; value: string }[], is_active: true,
 });
 
 const openCreate = () => {
     editing.value = null;
-    form.defaults({ name: '', trigger: 'lead.created', conditions: { source_ids: [], stage_ids: [] }, template_id: props.templates[0]?.id ?? '', subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [], is_active: true }).reset();
+    form.defaults({ name: '', trigger: 'lead.created', conditions: { source_ids: [], stage_ids: [], web_only: true }, template_id: props.templates[0]?.id ?? '', subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [], is_active: true }).reset();
     form.clearErrors();
     open.value = true;
 };
 const openEdit = (a: Auto) => {
     editing.value = a;
     form.defaults({
-        name: a.name, trigger: a.trigger, conditions: { source_ids: [...(a.conditions?.source_ids ?? [])], stage_ids: [...(a.conditions?.stage_ids ?? [])] },
+        name: a.name, trigger: a.trigger, conditions: { source_ids: [...(a.conditions?.source_ids ?? [])], stage_ids: [...(a.conditions?.stage_ids ?? [])], web_only: !!a.conditions?.web_only },
         template_id: a.template_id, subject: a.subject ?? '', to_mode: a.to_mode, to_email: a.to_email ?? '', delay_minutes: a.delay_minutes,
         variables: Object.entries(a.variables ?? {}).map(([key, value]) => ({ key, value })), is_active: a.is_active,
     }).reset();
@@ -94,6 +94,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
 
                 <div class="flex flex-wrap items-center gap-1.5 text-xs">
                     <Badge variant="outline">{{ a.trigger === 'lead.created' ? 'Ingresa un prospecto' : 'Cambia de etapa' }}</Badge>
+                    <Badge v-if="a.conditions?.web_only && a.trigger === 'lead.created'" variant="secondary">desde la web</Badge>
                     <template v-if="a.conditions?.source_ids?.length"><span class="text-muted-foreground">de</span><Badge variant="secondary">{{ names(a.conditions.source_ids, sources) }}</Badge></template>
                     <template v-if="a.conditions?.stage_ids?.length"><span class="text-muted-foreground">a</span><Badge variant="secondary">{{ names(a.conditions.stage_ids, stages) }}</Badge></template>
                     <ArrowRight class="size-3.5 text-muted-foreground" />
@@ -126,6 +127,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 <div class="grid gap-3 rounded-xl border p-4">
                     <p class="text-sm font-medium">Condiciones <span class="text-xs font-normal text-muted-foreground">(sin marcar = cualquiera)</span></p>
                     <div><p class="mb-1.5 text-xs text-muted-foreground">Origen del prospecto</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(form.conditions.source_ids.includes(s.id))" @click="toggleIn(form.conditions.source_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
+                    <label v-if="form.trigger === 'lead.created'" class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Solo registros de la web</span><br /><span class="text-xs text-muted-foreground">Prospectos que llegan por formularios o la API (no los que ingresas a mano).</span></span><Switch :model-value="form.conditions.web_only" @update:model-value="(v: boolean) => (form.conditions.web_only = v)" /></label>
                     <div v-if="form.trigger === 'lead.stage_changed'"><p class="mb-1.5 text-xs text-muted-foreground">Pasa a la etapa</p><div class="flex flex-wrap gap-2"><button v-for="s in stages" :key="s.id" type="button" :class="chip(form.conditions.stage_ids.includes(s.id))" @click="toggleIn(form.conditions.stage_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                 </div>
 

@@ -7,7 +7,6 @@ import {
     FileText,
     History,
     ListChecks,
-    Mail,
     MailX,
     Newspaper,
     Settings,
@@ -80,17 +79,12 @@ const groups: NavGroup[] = [
     {
         label: 'Comercial',
         items: [
-            {
-                title: 'Dashboard',
-                href: dashboard(),
-                icon: LayoutDashboard,
-                permission: 'dashboard.view',
-            },
+            { title: 'Dashboard', href: dashboard(), icon: LayoutDashboard, permission: 'dashboard.view' },
             { title: 'Kanban', href: kanbanIndex(), icon: Columns3, permission: 'dashboard.view' },
             { title: 'Prospectos', href: leads(), icon: Users, permission: 'leads.view' },
             { title: 'Clientes', href: clients(), icon: Building2, permission: 'clients.view' },
             { title: 'Propuestas', href: proposals(), icon: FileSignature, permission: 'proposals.view' },
-            { title: 'Catálogo', href: services(), icon: Package, permission: 'services.view' },
+            { title: 'Catálogo de servicios', href: services(), icon: Package, permission: 'services.view' },
         ],
     },
     {
@@ -103,7 +97,7 @@ const groups: NavGroup[] = [
         ],
     },
     {
-        label: 'Email marketing',
+        label: 'Email',
         items: [
             { title: 'Boletines', href: campaigns(), icon: Newspaper, permission: 'campaigns.view' },
             { title: 'Plantillas', href: templates(), icon: FileText, permission: 'templates.view' },
@@ -111,14 +105,14 @@ const groups: NavGroup[] = [
             { title: 'Automatizaciones', href: automations(), icon: Zap, permission: 'automations.manage' },
             { title: 'Historial de envíos', href: messages(), icon: History, permission: 'email_logs.view' },
             { title: 'Bajas y rebotes', href: suppressions(), icon: MailX, permission: 'email_settings.manage' },
-            { title: 'API e integraciones', href: apiKeys(), icon: Plug, permission: 'email_settings.manage' },
-            { title: 'Configuración de email', href: emailSettings(), icon: Settings, permission: 'email_settings.manage' },
+            { title: 'API de envío', href: apiKeys(), icon: Plug, permission: 'email_settings.manage' },
+            { title: 'Configuración', href: emailSettings(), icon: Settings, permission: 'email_settings.manage' },
         ],
     },
     {
         label: 'Inteligencia artificial',
         items: [
-            { title: 'Proveedores de IA', href: ai(), icon: Sparkles, permission: 'ai.manage' },
+            { title: 'Proveedores', href: ai(), icon: Sparkles, permission: 'ai.manage' },
             { title: 'Consumo y gastos', href: aiUsage(), icon: ChartColumn, permission: 'ai.manage' },
             { title: 'Herramientas MCP', href: mcpIndex(), icon: Cable, permission: 'mcp.manage' },
         ],
@@ -126,13 +120,11 @@ const groups: NavGroup[] = [
     {
         label: 'Configuración CRM',
         items: [
-            { title: 'Orígenes y API', href: sources(), icon: Plug, permission: 'sources.manage' },
             { title: 'Etapas del Kanban', href: stages(), icon: Columns3, permission: 'stages.manage' },
             { title: 'Campos personalizados', href: fields(), icon: ListPlus, permission: 'fields.manage' },
+            { title: 'Orígenes de prospectos', href: sources(), icon: Cable, permission: 'sources.manage' },
             { title: 'Datos de la agencia', href: agencyEdit(), icon: Building, permission: 'agency.manage' },
             { title: 'Identidad visual', href: brandIndex(), icon: Palette, permission: 'brand.manage' },
-            { title: 'Papelera', href: trash(), icon: Trash2, permission: 'trash.manage' },
-            { title: 'Datos de prueba', href: demoData(), icon: Eraser, permission: 'demo.purge' },
         ],
     },
     {
@@ -140,6 +132,8 @@ const groups: NavGroup[] = [
         items: [
             { title: 'Usuarios', href: users(), icon: UserCog, permission: 'users.view' },
             { title: 'Roles y permisos', href: roles(), icon: ShieldCheck, permission: 'roles.view' },
+            { title: 'Papelera', href: trash(), icon: Trash2, permission: 'trash.manage' },
+            { title: 'Datos de prueba', href: demoData(), icon: Eraser, permission: 'demo.purge' },
         ],
     },
 ];
@@ -178,6 +172,7 @@ const footerNavItems: NavItem[] = [
                 :key="g.label"
                 :label="g.label"
                 :items="g.items"
+                collapsible
             />
         </SidebarContent>
 

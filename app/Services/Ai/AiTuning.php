@@ -9,7 +9,7 @@ use Laravel\Ai\Contracts\Agent;
 use Laravel\Ai\StructuredAnonymousAgent;
 
 /**
- * Comportamiento de la IA configurable por el estudio: instrucciones propias (para todo o solo para el Agent),
+ * Comportamiento de la IA configurable por la empresa: instrucciones propias (para todo o solo para el Agent),
  * creatividad, largo de respuesta, pasos del Agent y nivel de razonamiento (modelos GPT-5 / o-series).
  * Las reglas base de cada función (seguridad, herramientas, formato) se mantienen siempre.
  */
@@ -42,7 +42,7 @@ class AiTuning
 
         $s = self::settings();
         $extra = trim($s['instructions']."\n\n".($feature === 'agent' ? $s['agent_instructions'] : ''));
-        $instructions = $agent->instructions.($extra !== '' ? "\n\nInstrucciones adicionales del estudio (respétalas, salvo que contradigan las reglas anteriores):\n".$extra : '');
+        $instructions = $agent->instructions.($extra !== '' ? "\n\nInstrucciones adicionales de la empresa (respétalas, salvo que contradigan las reglas anteriores):\n".$extra : '');
 
         if ($agent instanceof StructuredAnonymousAgent) {
             $tuned = new TunedStructuredAgent($instructions, $agent->messages, $agent->tools);

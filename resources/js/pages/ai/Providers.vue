@@ -217,7 +217,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
             <p class="mb-5 text-sm text-muted-foreground">Ajusta cómo responde la IA en todo el CRM. Las reglas base de cada función (seguridad, herramientas y formato) siempre se mantienen; lo que escribas aquí se suma a ellas.</p>
             <form class="grid gap-5" @submit.prevent="saveTuning">
                 <div class="grid gap-5 lg:grid-cols-2">
-                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y al Agent. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
+                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de clientes y al Agent. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
                         <Textarea id="ti" v-model="tuning.instructions" rows="5" placeholder="Ej.: Usa siempre «usted» con empresas y «tú» con personas. Nunca prometas plazos municipales." />
                     </FormField>
                     <FormField label="Instrucciones solo para el Agent (chat)" for="ta" :error="tuning.errors.agent_instructions" hint="Cómo quieres que converse y actúe el asistente del chat.">

@@ -144,7 +144,7 @@ const totals = computed(() => {
     const tMon = r(mon * f);
     const net = r(tOne + tMon * m);
     const rate = form.tax_mode === 'iva' || form.tax_mode === 'honorarios' ? form.tax_rate || 0 : 0;
-    // Honorarios: el neto es lo que recibe el estudio; la boleta va por el bruto y la retención se suma.
+    // Honorarios: el neto es lo que recibe la empresa; la boleta va por el bruto y la retención se suma.
     const tax = form.tax_mode === 'honorarios' ? (rate > 0 && rate < 100 ? r(net / (1 - rate / 100) - net) : 0) : r((net * rate) / 100);
     return { one: tOne, monthly: tMon, months: m, discount: r(discount), net, tax, gross: r(net + tax), hasMonthly: mon > 0 };
 });
@@ -401,7 +401,7 @@ const money = (n: number) => formatAmount(n, form.currency);
                                 <div class="flex justify-between"><dt class="text-muted-foreground">{{ taxLabels.tax }}</dt><dd>{{ money(totals.tax) }}</dd></div>
                             </template>
                             <div class="flex justify-between text-base font-bold text-primary" :class="{ 'border-t pt-1.5': !taxLabels.tax }"><dt>{{ taxLabels.gross }}</dt><dd>{{ money(totals.gross) }}</dd></div>
-                            <p v-if="form.tax_mode === 'honorarios'" class="text-xs text-muted-foreground">Los honorarios se hablan netos: la boleta se emite por el total y la retención la paga el cliente (si es empresa) o el estudio con ese mismo monto.</p>
+                            <p v-if="form.tax_mode === 'honorarios'" class="text-xs text-muted-foreground">Los honorarios se hablan netos: la boleta se emite por el total y la retención la paga el cliente (si es empresa) o tú con ese mismo monto.</p>
                             <div v-if="form.currency === 'UF' && uf" class="mt-1 rounded-lg bg-background/70 p-2.5 text-xs text-muted-foreground">Equivalente ≈ <strong class="text-foreground">{{ formatMoney(grossClp) || '$0' }}</strong> · 1 UF = {{ formatUfValue(uf.value) }} ({{ uf.date }}). Al enviar la propuesta, la UF del día queda guardada como valor de referencia.</div>
                         </dl>
                     </section>

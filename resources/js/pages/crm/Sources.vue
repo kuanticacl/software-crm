@@ -51,7 +51,7 @@ type Source = {
 };
 
 defineOptions({
-    layout: { breadcrumbs: [{ title: 'Orígenes y API', href: index() }] },
+    layout: { breadcrumbs: [{ title: 'Orígenes de clientes', href: index() }] },
 });
 
 const props = defineProps<{ sources: Source[]; endpoint: string }>();
@@ -143,11 +143,11 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
 </script>
 
 <template>
-    <Head title="Orígenes y API" />
+    <Head title="Orígenes de clientes" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
         <PageHeader
-            title="Orígenes y API"
+            title="Orígenes de clientes"
             description="Cada origen tiene su propia API key: el origen del cliente se reconoce por la key con la que llega."
         >
             <template #actions>

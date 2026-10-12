@@ -155,7 +155,7 @@ class LeadScorer
         $intent = min(7, $hits * 2);
 
         return $this->group('intent', 'Intención y origen', 20, [
-            ['label' => 'Calidad del origen'.($lead->source ? ' ('.$lead->source->name.')' : ''), 'points' => $weight, 'max' => 10, 'ok' => $weight > 0, 'hint' => $weight === 0 ? 'Configura el peso del origen en «Orígenes y API»' : null],
+            ['label' => 'Calidad del origen'.($lead->source ? ' ('.$lead->source->name.')' : ''), 'points' => $weight, 'max' => 10, 'ok' => $weight > 0, 'hint' => $weight === 0 ? 'Configura el peso del origen en «Configuración CRM → Orígenes de clientes»' : null],
             ['label' => 'Señales de intención en el mensaje', 'points' => $intent, 'max' => 7, 'ok' => $intent > 0, 'hint' => null],
             $this->item('Llegó con campaña (UTM)', 3, filled($lead->utm_campaign) || filled($lead->utm_source)),
         ]);

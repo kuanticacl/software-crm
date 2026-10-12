@@ -22,7 +22,7 @@ type Tpl = { id: number; name: string; slug: string; category: string; variables
 
 const props = defineProps<{ keys: Key[]; abilities: Record<string, string>; endpoint: string; templates: Tpl[] }>();
 
-defineOptions({ layout: { breadcrumbs: [{ title: 'Email · API e integraciones', href: index() }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Email · API de envío', href: index() }] } });
 
 const open = ref(false);
 const name = ref('');
@@ -72,10 +72,10 @@ const sample = computed(() => Object.fromEntries((tpl.value?.variables ?? []).ma
 </script>
 
 <template>
-    <Head title="API e integraciones" />
+    <Head title="API de envío" />
 
     <div class="flex max-w-5xl flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="API e integraciones" description="Envía plantillas desde landings, formularios, Zapier/Make o tu propio backend.">
+        <PageHeader title="API de envío" description="Envía plantillas desde landings, formularios, Zapier/Make o tu propio backend.">
             <template #actions><Button @click="open = true"><Plus /> Nueva API key</Button></template>
         </PageHeader>
 
@@ -121,7 +121,7 @@ const sample = computed(() => Object.fromEntries((tpl.value?.variables ?? []).ma
             <h3 class="mt-6 font-semibold"><code>GET /emails/{id}</code> <span class="text-xs font-normal text-muted-foreground">· requiere <code>emails.read</code></span></h3>
             <p class="text-sm text-muted-foreground">Estado de un envío (<code>queued → sent → delivered</code>, <code>bounced</code>, <code>complained</code>, <code>failed</code>), aperturas, clics y eventos.</p>
 
-            <h3 class="mt-6 font-semibold"><code>POST /leads</code> + plantilla <span class="text-xs font-normal text-muted-foreground">· key de origen (Orígenes y API)</span></h3>
+            <h3 class="mt-6 font-semibold"><code>POST /leads</code> + plantilla <span class="text-xs font-normal text-muted-foreground">· key de origen (Configuración CRM → Orígenes de clientes)</span></h3>
             <p class="text-sm text-muted-foreground">Al crear un cliente puedes agregar <code>"email_template": "slug"</code> para enviarle una plantilla al instante con los mismos datos del cliente (nombre, UTM, campos personalizados…). Para reglas sin código, usa <strong>Automatizaciones</strong>.</p>
         </DataCard>
 

@@ -14,7 +14,7 @@ Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:lead-i
 });
 
 /*
-| API de email: autenticada con API keys del CRM (Email → API e integraciones).
+| API de email: autenticada con API keys del CRM (Email → API de envío).
 */
 Route::prefix('v1')->middleware('throttle:email-api')->group(function () {
     Route::post('emails/send', [EmailSendController::class, 'send'])->middleware(AuthenticateApiKey::class.':emails.send')->name('api.emails.send');

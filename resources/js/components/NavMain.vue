@@ -1,39 +1,106 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
+import { ChevronRight } from '@lucide/vue';
+import { useStorage } from '@vueuse/core';
+import { computed, watch } from 'vue';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import type { NavItem } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     items: NavItem[];
     label?: string;
+    /** Muestra el grupo como desplegable (cerrado por defecto, abierto si contiene la página actual). */
+    collapsible?: boolean;
 }>();
 
 const { isCurrentOrParentUrl } = useCurrentUrl();
+const { state, isMobile } = useSidebar();
+
+/** Grupos abiertos por el usuario, por navegador. */
+const openGroups = useStorage<Record<string, boolean>>('qb-sidebar-groups', {});
+
+const hasActive = computed(() =>
+    props.items.some((i) => isCurrentOrParentUrl(i.href)),
+);
+
+// Al entrar a una página de un grupo cerrado, se abre para que se vea dónde estás.
+watch(
+    hasActive,
+    (active) => {
+        if (active && props.label) openGroups.value[props.label] = true;
+    },
+    { immediate: true },
+);
+
+// Con el sidebar en modo íconos no hay títulos de grupo: se muestran todos los ítems.
+const iconMode = computed(() => state.value === 'collapsed' && !isMobile.value);
+
+const open = computed({
+    get: () =>
+        !props.collapsible ||
+        !props.label ||
+        iconMode.value ||
+        !!openGroups.value[props.label],
+    set: (v: boolean) => {
+        if (props.label) openGroups.value[props.label] = v;
+    },
+});
+
+// En modo íconos el tooltip incluye el grupo («Cobranza · Dashboard»), porque no se ve el título.
+const tooltip = (title: string) =>
+    props.label ? `${props.label} · ${title}` : title;
 </script>
 
 <template>
-    <SidebarGroup class="px-2 py-0">
-        <SidebarGroupLabel v-if="label">{{ label }}</SidebarGroupLabel>
-        <SidebarMenu>
-            <SidebarMenuItem v-for="item in items" :key="item.title">
-                <SidebarMenuButton
-                    as-child
-                    :is-active="isCurrentOrParentUrl(item.href)"
-                    :tooltip="item.title"
-                >
-                    <Link :href="item.href" prefetch>
-                        <component :is="item.icon" />
-                        <span>{{ item.title }}</span>
-                    </Link>
-                </SidebarMenuButton>
-            </SidebarMenuItem>
-        </SidebarMenu>
-    </SidebarGroup>
+    <Collapsible v-model:open="open" as-child>
+        <SidebarGroup class="px-2 py-0">
+            <SidebarGroupLabel v-if="label && !collapsible">{{
+                label
+            }}</SidebarGroupLabel>
+            <SidebarGroupLabel
+                v-else-if="label"
+                as-child
+                class="w-full cursor-pointer text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            >
+                <CollapsibleTrigger>
+                    <span :class="hasActive ? 'text-sidebar-foreground' : ''">{{
+                        label
+                    }}</span>
+                    <ChevronRight
+                        class="ml-auto transition-transform duration-200"
+                        :class="open ? 'rotate-90' : ''"
+                    />
+                </CollapsibleTrigger>
+            </SidebarGroupLabel>
+            <CollapsibleContent>
+                <SidebarMenu>
+                    <SidebarMenuItem v-for="item in items" :key="item.title">
+                        <SidebarMenuButton
+                            as-child
+                            :is-active="isCurrentOrParentUrl(item.href)"
+                            :tooltip="tooltip(item.title)"
+                        >
+                            <Link :href="item.href" prefetch>
+                                <component :is="item.icon" />
+                                <span>{{ item.title }}</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </CollapsibleContent>
+        </SidebarGroup>
+    </Collapsible>
 </template>

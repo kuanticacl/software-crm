@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { Head, useForm } from '@inertiajs/vue3';
-import { Building2, Globe, Save, Share2 } from '@lucide/vue';
+import { Building2, Globe, Receipt, Save, Share2 } from '@lucide/vue';
 import FormField from '@/components/FormField.vue';
 import PageHeader from '@/components/PageHeader.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { NativeSelect } from '@/components/ui/native-select';
 import { Spinner } from '@/components/ui/spinner';
 import { formatRut } from '@/lib/rut';
 import { edit, update } from '@/routes/agency';
 
-const props = defineProps<{ agency: Record<string, string>; socials: Record<string, string>; holding: { name: string; url: string; logo: string }[] }>();
+const props = defineProps<{ agency: Record<string, string>; socials: Record<string, string>; holding: { name: string; url: string; logo: string }[]; taxDocuments: Record<string, string> }>();
 defineOptions({ layout: { breadcrumbs: [{ title: 'Datos de la agencia', href: edit() }] } });
 
 const form = useForm({ ...props.agency });
@@ -33,6 +34,20 @@ const ph: Record<string, string> = { instagram: 'https://www.instagram.com/…',
                     <FormField label="Teléfono" for="a-tel" :error="form.errors.phone"><Input id="a-tel" v-model="form.phone" placeholder="+56 2 …" /></FormField>
                     <FormField label="Sitio web" for="a-web" :error="form.errors.website" required class="sm:col-span-2"><Input id="a-web" v-model="form.website" /></FormField>
                 </div>
+            </section>
+
+            <section class="rounded-2xl border bg-card p-5">
+                <h2 class="mb-1 flex items-center gap-2 font-semibold"><Receipt class="size-4 text-primary" /> Documento tributario</h2>
+                <p class="mb-4 text-xs text-muted-foreground">Cómo se calculan los totales de las propuestas y qué documento se sugiere en cada cobro nuevo. Cada propuesta puede cambiarlo para un caso puntual.</p>
+                <FormField label="Documento con que trabajas" for="a-taxdoc" :error="form.errors.tax_document" class="max-w-md">
+                    <NativeSelect id="a-taxdoc" v-model="form.tax_document"><option v-for="(label, k) in taxDocuments" :key="k" :value="k">{{ label }}</option></NativeSelect>
+                </FormField>
+                <p class="mt-3 text-xs text-muted-foreground">
+                    <template v-if="form.tax_document === 'iva'">Ej.: 1.000.000 neto + IVA 19% = 1.190.000.</template>
+                    <template v-else-if="form.tax_document === 'honorarios'">Ej.: 847.500 neto + retención = boleta por 1.000.000 (recibes el neto completo).</template>
+                    <template v-else-if="form.tax_document === 'exenta'">Ej.: 1.000.000 exento de IVA = 1.000.000.</template>
+                    <template v-else>Los montos son finales, sin impuestos.</template>
+                </p>
             </section>
 
             <section class="rounded-2xl border bg-card p-5">

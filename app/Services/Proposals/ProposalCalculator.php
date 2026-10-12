@@ -39,7 +39,7 @@ class ProposalCalculator
         // Honorarios: el neto es lo que recibe el profesional; la boleta se emite por el bruto, cuya retención lo cubre.
         $tax = match ($taxMode) {
             'honorarios' => $taxRate > 0 && $taxRate < 100 ? $r($net / (1 - $taxRate / 100) - $net) : 0.0,
-            'none' => 0.0,
+            'none', 'exenta' => 0.0,
             default => $r($net * $taxRate / 100),
         };
 

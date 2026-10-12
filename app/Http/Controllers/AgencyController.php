@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Setting;
 use App\Support\Agency;
 use App\Support\Rut;
+use App\Support\TaxDocument;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,12 @@ class AgencyController extends Controller
 {
     public function edit(): Response
     {
-        return Inertia::render('crm/Agency', ['agency' => Agency::profile(), 'socials' => Agency::SOCIALS, 'holding' => Agency::holding()]);
+        return Inertia::render('crm/Agency', [
+            'agency' => [...Agency::profile(), 'tax_document' => TaxDocument::default()],
+            'socials' => Agency::SOCIALS,
+            'holding' => Agency::holding(),
+            'taxDocuments' => TaxDocument::MODES,
+        ]);
     }
 
     public function update(Request $request): RedirectResponse
@@ -28,6 +34,7 @@ class AgencyController extends Controller
             'email' => ['required', 'email:rfc', 'max:200'],
             'phone' => ['nullable', 'string', 'max:40'],
             'website' => ['required', 'url:http,https', 'max:300'],
+            'tax_document' => ['required', 'in:'.implode(',', array_keys(TaxDocument::MODES))],
             'instagram' => $url, 'linkedin' => $url, 'facebook' => $url, 'youtube' => $url, 'tiktok' => $url,
         ], ['url' => 'Ingresa una URL completa que empiece con https://']);
 
@@ -35,6 +42,8 @@ class AgencyController extends Controller
         foreach (array_keys(Agency::FIELDS) as $key) {
             Setting::put("agency.{$key}", $data[$key] ?? null);
         }
+
+        Setting::put('billing.tax_document', $data['tax_document']);
 
         $this->toast('Datos de la agencia guardados.');
 

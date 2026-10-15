@@ -105,6 +105,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::middleware('can:sources.manage')->group(function () {
             Route::get('sources', [SourceController::class, 'index'])->name('sources.index');
             Route::post('sources', [SourceController::class, 'store'])->name('sources.store');
+            Route::put('sources/defaults', [SourceController::class, 'defaults'])->name('sources.defaults');
             Route::put('sources/{source}', [SourceController::class, 'update'])->name('sources.update');
             Route::post('sources/{source}/regenerate-key', [SourceController::class, 'regenerateKey'])->name('sources.regenerate-key');
             Route::delete('sources/{source}', [SourceController::class, 'destroy'])->name('sources.destroy');

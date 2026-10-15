@@ -74,7 +74,7 @@ class AutomationController extends Controller
             'conditions.web_only' => ['nullable', 'boolean'],
             'template_id' => ['required', 'integer', Rule::exists('email_templates', 'id')],
             'subject' => ['nullable', 'string', 'max:300'],
-            'to_mode' => ['required', Rule::in(['lead', 'fixed'])],
+            'to_mode' => ['required', Rule::in(['lead', 'fixed', 'team'])],
             'to_email' => ['required_if:to_mode,fixed', 'nullable', 'email:rfc'],
             'delay_minutes' => ['nullable', 'integer', 'min:0', 'max:43200'],
             'variables' => ['nullable', 'array'],

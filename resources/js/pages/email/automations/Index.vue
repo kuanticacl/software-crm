@@ -18,7 +18,7 @@ import { destroy, index, store, update } from '@/routes/automations';
 
 type Auto = {
     id: number; name: string; trigger: string; conditions: { source_ids?: number[]; stage_ids?: number[]; web_only?: boolean } | null; subject: string | null;
-    to_mode: 'lead' | 'fixed'; to_email: string | null; delay_minutes: number; variables: Record<string, string> | null; is_active: boolean;
+    to_mode: 'lead' | 'fixed' | 'team'; to_email: string | null; delay_minutes: number; variables: Record<string, string> | null; is_active: boolean;
     runs_count: number; last_run_at: string | null; template_id: number; template: { id: number; name: string; slug: string } | null; sent: number; failed: number;
 };
 const props = defineProps<{
@@ -102,7 +102,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 </div>
                 <p class="flex items-center gap-3 text-xs text-muted-foreground">
                     <span class="flex items-center gap-1"><Clock class="size-3.5" />{{ delayText(a.delay_minutes) }}</span>
-                    <span>a {{ a.to_mode === 'lead' ? 'el correo del cliente' : a.to_email }}</span>
+                    <span>a {{ a.to_mode === 'lead' ? 'el correo del cliente' : a.to_mode === 'team' ? 'el equipo (responsable asignado y del origen)' : a.to_email }}</span>
                 </p>
 
                 <div class="mt-auto flex items-center justify-between border-t pt-3 text-xs text-muted-foreground">
@@ -134,7 +134,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 <div class="grid gap-4 sm:grid-cols-2">
                     <FormField label="Plantilla" for="atp" :error="form.errors.template_id" required><NativeSelect id="atp" v-model="form.template_id"><option v-for="t in templates" :key="t.id" :value="t.id">{{ t.name }}</option></NativeSelect></FormField>
                     <FormField label="Asunto (opcional)" for="as" hint="Reemplaza el de la plantilla. Admite variables."><Input id="as" v-model="form.subject" /></FormField>
-                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del cliente</option><option value="fixed">Una dirección fija (aviso interno)</option></NativeSelect></FormField>
+                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del cliente</option><option value="fixed">Una dirección fija (aviso interno)</option><option value="team">El equipo: responsable asignado, responsables del origen y correos por defecto</option></NativeSelect></FormField>
                     <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@quiebre.cl" /></FormField>
                 </div>
 

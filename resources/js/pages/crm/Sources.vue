@@ -30,11 +30,13 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
+import { NativeSelect } from '@/components/ui/native-select';
 import { Spinner } from '@/components/ui/spinner';
 import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { sourceIconNames } from '@/lib/sourceIcons';
 import { cn } from '@/lib/utils';
-import { destroy, index, regenerateKey, store, update } from '@/routes/sources';
+import { defaults as defaultsRoute, destroy, index, regenerateKey, store, update } from '@/routes/sources';
 
 type Source = {
     id: number;
@@ -48,17 +50,27 @@ type Source = {
     leads_count: number;
     proposals_count: number;
     api_key: string;
+    owner_ids: number[];
 };
+type Person = { id: number; name: string; email: string };
 
 defineOptions({
     layout: { breadcrumbs: [{ title: 'Orígenes de clientes', href: index() }] },
 });
 
-const props = defineProps<{ sources: Source[]; endpoint: string }>();
+const props = defineProps<{ sources: Source[]; endpoint: string; users: Person[]; defaults: { assignee_id: number | null; notify_emails: string } }>();
 
 const dialogOpen = ref(false);
 const editing = ref<Source | null>(null);
-const form = useForm({ name: '', color: '#1AA0E4', icon: 'globe', is_active: true, score_weight: 0 });
+const form = useForm({ name: '', color: '#1AA0E4', icon: 'globe', is_active: true, score_weight: 0, owner_ids: [] as number[] });
+
+// Valores por defecto: responsable de todo cliente sin responsable de origen y correos que reciben cada alerta.
+const defaultsForm = useForm({ assignee_id: (props.defaults.assignee_id ?? '') as number | '', notify_emails: props.defaults.notify_emails });
+const saveDefaults = () =>
+    defaultsForm
+        .transform((d) => ({ ...d, assignee_id: d.assignee_id || null }))
+        .put(defaultsRoute().url, { preserveScroll: true });
+const ownerNames = (s: Source) => props.users.filter((u) => s.owner_ids.includes(u.id)).map((u) => u.name);
 
 const openCreate = () => {
     editing.value = null;
@@ -68,7 +80,7 @@ const openCreate = () => {
 };
 const openEdit = (s: Source) => {
     editing.value = s;
-    form.defaults({ name: s.name, color: s.color, icon: s.icon, is_active: s.is_active, score_weight: s.score_weight }).reset();
+    form.defaults({ name: s.name, color: s.color, icon: s.icon, is_active: s.is_active, score_weight: s.score_weight, owner_ids: [...s.owner_ids] }).reset();
     form.clearErrors();
     dialogOpen.value = true;
 };
@@ -155,6 +167,27 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
             </template>
         </PageHeader>
 
+        <form class="grid gap-4 rounded-2xl border bg-card p-4 shadow-sm shadow-black/[0.03] md:grid-cols-2" @submit.prevent="saveDefaults">
+            <div class="md:col-span-2">
+                <h3 class="font-semibold">Asignación y alertas por defecto</h3>
+                <p class="text-xs text-muted-foreground">
+                    Ningún cliente queda sin asignar: va al responsable de su origen (si son varios, se reparten parejo) o, si el origen no tiene, al responsable por defecto. Cada cliente nuevo avisa por correo al responsable asignado, a los responsables del origen y a los correos de abajo (automatización «Alerta de cliente nuevo al equipo»).
+                </p>
+            </div>
+            <FormField label="Responsable por defecto" for="d-assignee" :error="defaultsForm.errors.assignee_id">
+                <NativeSelect id="d-assignee" v-model="defaultsForm.assignee_id">
+                    <option value="">Sin responsable por defecto</option>
+                    <option v-for="u in users" :key="u.id" :value="u.id">{{ u.name }} · {{ u.email }}</option>
+                </NativeSelect>
+            </FormField>
+            <FormField label="Correos que reciben todas las alertas" for="d-emails" :error="defaultsForm.errors.notify_emails" hint="Separados por coma o salto de línea. Ej: arossi@quiebre.cl">
+                <Textarea id="d-emails" v-model="defaultsForm.notify_emails" rows="2" placeholder="arossi@quiebre.cl" />
+            </FormField>
+            <div class="md:col-span-2">
+                <Button type="submit" :disabled="defaultsForm.processing"><Spinner v-if="defaultsForm.processing" /> Guardar valores por defecto</Button>
+            </div>
+        </form>
+
         <div class="grid gap-4 xl:grid-cols-3">
             <div class="flex flex-col gap-3 xl:col-span-2">
                 <div
@@ -180,6 +213,10 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
                                 {{ s.leads_count }}
                                 {{ s.leads_count === 1 ? 'lead' : 'leads' }} · identificador
                                 <code>{{ s.slug }}</code>
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                Responsable{{ ownerNames(s).length > 1 ? 's' : '' }}:
+                                <span class="text-foreground">{{ ownerNames(s).length ? ownerNames(s).join(', ') : 'el responsable por defecto' }}</span>
                             </p>
                         </div>
                         <Button variant="ghost" size="icon-sm" title="Editar" @click="openEdit(s)"><Pencil /></Button>
@@ -270,6 +307,15 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
                 </FormField>
                 <FormField label="Calidad del origen para el puntaje (0–10)" :error="form.errors.score_weight" hint="Suma al puntaje de cada cliente de este origen. Ej: referidos y demos = 8–10, formularios fríos = 2–4.">
                     <Input v-model.number="form.score_weight" type="number" min="0" max="10" step="1" />
+                </FormField>
+                <FormField label="Responsables del origen" :error="form.errors.owner_ids" hint="Reciben la alerta de cada cliente nuevo de este origen y se les asignan sus clientes (si eliges varios, se reparten parejo). Sin responsables, se usa el responsable por defecto.">
+                    <div class="grid max-h-44 gap-1 overflow-y-auto rounded-xl border p-2">
+                        <label v-for="u in users" :key="u.id" class="flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 text-sm hover:bg-muted">
+                            <input v-model="form.owner_ids" type="checkbox" :value="u.id" class="size-4 accent-primary" />
+                            <span class="min-w-0 flex-1 truncate">{{ u.name }}</span>
+                            <span class="truncate text-xs text-muted-foreground">{{ u.email }}</span>
+                        </label>
+                    </div>
                 </FormField>
                 <label v-if="!editing?.is_system" class="flex items-center gap-3 text-sm">
                     <Switch :model-value="form.is_active" @update:model-value="(v: boolean) => (form.is_active = v)" />

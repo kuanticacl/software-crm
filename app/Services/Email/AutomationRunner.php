@@ -4,7 +4,9 @@ namespace App\Services\Email;
 
 use App\Models\Automation;
 use App\Models\EmailSuppression;
+use App\Models\EmailTemplate;
 use App\Models\Lead;
+use App\Services\Leads\LeadAssignment;
 use Illuminate\Support\Facades\Log;
 
 /** Ejecuta las automatizaciones de email cuando ocurre un evento de lead. Nunca interrumpe el flujo del lead. */
@@ -53,6 +55,57 @@ class AutomationRunner
         return true;
     }
 
+    /**
+     * Aviso interno: un correo a cada integrante del equipo vinculado al cliente (responsable asignado, responsables
+     * del origen y correos por defecto de «Orígenes»), sin repetir direcciones y sin seguimiento de aperturas.
+     *
+     * @param  array<string, mixed>  $vars
+     */
+    private function runForTeam(Automation $a, Lead $lead, EmailTemplate $template, array $vars): void
+    {
+        $recipients = app(LeadAssignment::class)->recipients($lead);
+        $vars = [...$vars, ...$this->teamVariables($lead)];
+        $queued = 0;
+
+        foreach ($recipients as $email => $name) {
+            if (EmailSuppression::isSuppressed($email)) {
+                continue;
+            }
+
+            $this->emails->queueTemplate($template, $email, $name, [...$vars, 'recipient_name' => $name ? (explode(' ', trim($name))[0] ?: $name) : 'equipo'], [
+                'subject' => $a->subject ?: null,
+                'lead_id' => $lead->id,
+                'automation_id' => $a->id,
+                'delay_minutes' => $a->delay_minutes,
+                'track_opens' => false,
+                'track_clicks' => false,
+            ]);
+            $queued++;
+        }
+
+        if ($queued > 0) {
+            $a->forceFill(['runs_count' => $a->runs_count + 1, 'last_run_at' => now()])->saveQuietly();
+        }
+    }
+
+    /** Variables de la alerta: datos del cliente con prefijo «lead_» para no chocar con las del destinatario. @return array<string, string> */
+    private function teamVariables(Lead $lead): array
+    {
+        return [
+            'lead_name' => (string) ($lead->full_name ?: 'Sin nombre'),
+            'lead_email' => (string) $lead->email,
+            'lead_phone' => (string) $lead->phone,
+            'lead_company' => (string) $lead->company,
+            'lead_job_title' => (string) $lead->job_title,
+            'lead_message' => mb_substr((string) $lead->message, 0, 600),
+            'lead_source' => (string) ($lead->source?->name ?? ''),
+            'lead_stage' => (string) ($lead->stage?->name ?? ''),
+            'lead_url' => url('/leads/'.$lead->id),
+            'assignee_name' => (string) ($lead->assignee?->name ?? 'Sin asignar'),
+            'lead_created_at' => ($lead->created_at ?? now())->timezone('America/Santiago')->format('d-m-Y H:i'),
+        ];
+    }
+
     /** @param array<string, mixed> $context */
     public function run(Automation $a, Lead $lead, array $context = []): void
     {
@@ -61,12 +114,7 @@ class AutomationRunner
             return;
         }
 
-        $to = $a->to_mode === 'fixed' ? $a->to_email : $lead->email;
-        if (! $to || ! filter_var($to, FILTER_VALIDATE_EMAIL) || EmailSuppression::isSuppressed($to)) {
-            return;
-        }
-
-        $lead->loadMissing(['source:id,name', 'stage:id,name']);
+        $lead->loadMissing(['source:id,name', 'stage:id,name', 'assignee:id,name,email']);
 
         $defaults = collect($template->variables ?? [])->filter(fn ($v) => ($v['default'] ?? '') !== '')->mapWithKeys(fn ($v) => [$v['key'] => $v['default']])->all();
         $vars = [
@@ -76,6 +124,17 @@ class AutomationRunner
             ...AudienceBuilder::leadVariables($lead),
             ...$context,
         ];
+
+        if ($a->to_mode === 'team') {
+            $this->runForTeam($a, $lead, $template, $vars);
+
+            return;
+        }
+
+        $to = $a->to_mode === 'fixed' ? $a->to_email : $lead->email;
+        if (! $to || ! filter_var($to, FILTER_VALIDATE_EMAIL) || EmailSuppression::isSuppressed($to)) {
+            return;
+        }
 
         $this->emails->queueTemplate($template, $to, $a->to_mode === 'fixed' ? null : $lead->full_name, $vars, [
             'subject' => $a->subject ?: null,

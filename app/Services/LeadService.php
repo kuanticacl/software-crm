@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Jobs\AnalyzeLead;
 use App\Models\Lead;
+use App\Services\Leads\LeadAssignment;
 use App\Services\Leads\LeadScorer;
 use App\Models\LeadActivity;
 use App\Models\LeadField;
@@ -57,6 +58,8 @@ class LeadService
      */
     public function create(array $attributes, ?User $actor = null, array $activity = []): Lead
     {
+        $attributes = $this->withDefaultAssignee($attributes);
+
         $lead = DB::transaction(function () use ($attributes, $actor, $activity) {
             $stageId = $attributes['stage_id'] ?? PipelineStage::initial()?->id;
 
@@ -84,6 +87,31 @@ class LeadService
         app(AutomationRunner::class)->fire('lead.created', $lead->fresh(['source', 'stage']), [], $channel);
 
         return $lead;
+    }
+
+    /**
+     * Ningún cliente queda sin asignar: si no viene responsable, se asigna al del origen (reparto parejo si son
+     * varios) o al responsable por defecto. Un fallo aquí nunca debe impedir el alta del cliente.
+     *
+     * @param  array<string, mixed>  $attributes
+     * @return array<string, mixed>
+     */
+    private function withDefaultAssignee(array $attributes): array
+    {
+        if (! empty($attributes['assigned_to'])) {
+            return $attributes;
+        }
+
+        try {
+            $user = app(LeadAssignment::class)->assigneeFor(isset($attributes['source_id']) ? (int) $attributes['source_id'] : null);
+            if ($user) {
+                $attributes['assigned_to'] = $user->id;
+            }
+        } catch (\Throwable $e) {
+            report($e);
+        }
+
+        return $attributes;
     }
 
     /**

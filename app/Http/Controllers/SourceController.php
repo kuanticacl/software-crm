@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\LeadSource;
+use App\Models\Setting;
+use App\Models\User;
 use App\Services\CascadeDelete;
+use App\Services\Leads\LeadAssignment;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -15,7 +18,7 @@ class SourceController extends Controller
     public function index(CascadeDelete $cascade): Response
     {
         return Inertia::render('crm/Sources', [
-            'sources' => LeadSource::withCount('leads')
+            'sources' => LeadSource::withCount('leads')->with('owners')
                 ->orderBy('sort_order')->orderBy('id')
                 ->get()
                 ->map(fn (LeadSource $s) => [
@@ -30,7 +33,13 @@ class SourceController extends Controller
                     'leads_count' => $s->leads_count,
                     'proposals_count' => $s->leads_count ? $cascade->sourceImpact($s)['proposals'] : 0,
                     'api_key' => $s->api_key, // visible solo para quienes gestionan orígenes
+                    'owner_ids' => $s->owners->pluck('id')->values()->all(),
                 ]),
+            'users' => User::where('is_active', true)->orderBy('name')->get(['id', 'name', 'email'])->map(fn (User $u) => ['id' => $u->id, 'name' => $u->name, 'email' => $u->email])->all(),
+            'defaults' => [
+                'assignee_id' => (int) Setting::get(LeadAssignment::DEFAULT_ASSIGNEE, 0) ?: null,
+                'notify_emails' => (string) Setting::get(LeadAssignment::NOTIFY_EMAILS, ''),
+            ],
             'endpoint' => url('/api/v1/leads'),
         ]);
     }
@@ -38,6 +47,8 @@ class SourceController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $data = $this->validated($request);
+        $owners = $data['owner_ids'] ?? [];
+        unset($data['owner_ids']);
 
         $source = LeadSource::create([
             ...$data,
@@ -45,6 +56,8 @@ class SourceController extends Controller
             'api_key' => LeadSource::generateKey(),
             'sort_order' => (int) LeadSource::max('sort_order') + 1,
         ]);
+
+        $source->owners()->sync($owners);
 
         $this->toast("Origen «{$source->name}» creado.");
 
@@ -54,12 +67,18 @@ class SourceController extends Controller
     public function update(Request $request, LeadSource $source): RedirectResponse
     {
         $data = $this->validated($request, $source);
+        $owners = $data['owner_ids'] ?? null;
+        unset($data['owner_ids']);
 
         if ($source->is_system) {
             unset($data['is_active']); // el origen "Manual" siempre debe estar activo
         }
 
         $source->update($data);
+
+        if ($request->has('owner_ids')) {
+            $source->owners()->sync($owners ?? []);
+        }
 
         if ($source->wasChanged('score_weight')) {
             // La calidad del origen cambió: se refleja en el puntaje de sus leads.
@@ -68,6 +87,29 @@ class SourceController extends Controller
         }
 
         $this->toast("Origen «{$source->name}» actualizado.");
+
+        return back();
+    }
+
+    /** Responsable por defecto y correos que reciben la alerta de TODO cliente nuevo (cualquier origen). */
+    public function defaults(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'assignee_id' => ['nullable', 'integer', Rule::exists('users', 'id')->where('is_active', true)],
+            'notify_emails' => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $raw = (string) ($data['notify_emails'] ?? '');
+        $emails = LeadAssignment::parseEmails($raw);
+        // Cada dirección escrita debe ser válida: si alguna no lo es, se avisa en vez de descartarla en silencio.
+        if (count($emails) !== count(preg_split('/[\s,;]+/', trim($raw), -1, PREG_SPLIT_NO_EMPTY))) {
+            return back()->withErrors(['notify_emails' => 'Hay una dirección de correo inválida o repetida. Sepáralas con coma o salto de línea.']);
+        }
+
+        Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, ! empty($data['assignee_id']) ? (string) $data['assignee_id'] : null);
+        Setting::put(LeadAssignment::NOTIFY_EMAILS, $emails ? implode(', ', $emails) : null);
+
+        $this->toast('Asignación y alertas por defecto guardadas.');
 
         return back();
     }
@@ -127,6 +169,8 @@ class SourceController extends Controller
             'icon' => ['required', 'string', 'max:40', 'regex:/^[a-z0-9-]+$/'],
             'is_active' => ['boolean'],
             'score_weight' => ['nullable', 'integer', 'between:0,10'],
+            'owner_ids' => ['nullable', 'array'],
+            'owner_ids.*' => ['integer', Rule::exists('users', 'id')->where('is_active', true)],
         ]);
         $data['score_weight'] = (int) ($data['score_weight'] ?? 0);
 

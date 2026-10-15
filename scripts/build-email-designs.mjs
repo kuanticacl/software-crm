@@ -167,6 +167,37 @@ const templates = {
             footer(true),
         ],
     },
+    'alerta-nuevo-cliente': {
+        name: 'Alerta de cliente nuevo',
+        description: 'Aviso interno al equipo (responsable asignado, responsables del origen y correos por defecto) cuando ingresa un cliente nuevo al CRM.',
+        category: 'transactional',
+        subject: 'Nuevo cliente: {{ lead_name }}{{#if lead_company}} · {{ lead_company }}{{/if}} ({{ lead_source }})',
+        preheader: 'Ingresó desde {{ lead_source }} y quedó asignado a {{ assignee_name }}',
+        variables: [
+            ['recipient_name', 'Quien recibe el aviso', 'equipo', 'Angelo'],
+            ['lead_name', 'Cliente', '', 'Camila Soto'],
+            ['lead_email', 'Correo del cliente', '', 'camila@inmobiliaria.cl'],
+            ['lead_phone', 'Teléfono', '', '+56 9 1234 5678'],
+            ['lead_company', 'Empresa', '', 'Inmobiliaria Sur'],
+            ['lead_job_title', 'Cargo', '', 'Gerente comercial'],
+            ['lead_message', 'Mensaje', '', 'Quiero conocer sus servicios.'],
+            ['lead_source', 'Origen', '', 'Sitio web'],
+            ['lead_stage', 'Etapa', '', 'Ingreso'],
+            ['assignee_name', 'Asignado a', 'Sin asignar', 'Angelo Rossi'],
+            ['lead_created_at', 'Fecha y hora de ingreso', '', '16-10-2026 10:30'],
+            ['lead_url', 'Enlace al cliente en el CRM', '', 'https://crm.quiebre.cl/leads/1'],
+        ],
+        blocks: [
+            header(),
+            heading('Nuevo cliente: {{ lead_name }}'),
+            text('Hola {{ recipient_name }}, ingresó un cliente nuevo desde **{{ lead_source }}** y quedó asignado a **{{ assignee_name }}**.'),
+            text('**{{ lead_name }}**{{#if lead_job_title}} · {{ lead_job_title }}{{/if}}{{#if lead_company}}\n{{ lead_company }}{{/if}}\n\nCorreo: {{ lead_email }}{{#if lead_phone}}\nTeléfono: {{ lead_phone }}{{/if}}\nEtapa: {{ lead_stage }} · {{ lead_created_at }}', { bg: '#FAFAFA', padY: 16, size: 15 }),
+            text('{{#if lead_message}}Mensaje:\n\n«{{ lead_message }}»{{/if}}', { color: '#707070', size: 15 }),
+            button('Ver cliente en el CRM', '{{ lead_url }}'),
+            note('Responder rápido marca la diferencia: contáctalo cuanto antes.'),
+            footer(true),
+        ],
+    },
 };
 
 for (const [slug, t] of Object.entries(templates)) {

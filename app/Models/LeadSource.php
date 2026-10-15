@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -28,6 +29,12 @@ class LeadSource extends Model
     public function leads(): HasMany
     {
         return $this->hasMany(Lead::class, 'source_id');
+    }
+
+    /** Responsables del origen (uno o varios): reciben la alerta y se les asignan sus clientes. */
+    public function owners(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'lead_source_user')->withTimestamps();
     }
 
     public static function generateKey(): string

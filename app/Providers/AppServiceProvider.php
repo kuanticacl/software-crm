@@ -33,6 +33,12 @@ class AppServiceProvider extends ServiceProvider
         $this->configureAuthorization();
 
         RateLimiter::for('email-api', fn (Request $request) => Limit::perMinute(60)->by(($request->bearerToken() ?: $request->header('X-Api-Key')) ?: $request->ip()));
+        // Alfred: por visitante (IP que informa el sitio) y un tope global por origen para acotar el gasto de IA.
+        RateLimiter::for('alfred-chat', fn (Request $request) => [
+            Limit::perMinute(10)->by('alfred:'.$request->header('X-Api-Key').'|'.($request->input('ip') ?: $request->ip())),
+            Limit::perDay(150)->by('alfred-day:'.$request->header('X-Api-Key').'|'.($request->input('ip') ?: $request->ip())),
+            Limit::perDay(3000)->by('alfred-all:'.$request->header('X-Api-Key')),
+        ]);
         RateLimiter::for('lead-ingest', fn (Request $request) => Limit::perMinute(120)->by($request->header('X-Api-Key') ?: $request->ip()));
     }
 

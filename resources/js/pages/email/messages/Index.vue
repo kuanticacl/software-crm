@@ -75,9 +75,9 @@ const eventLabel: Record<string, string> = { sent: 'Enviado', delivered: 'Entreg
     </div>
 
     <Sheet v-model:open="open">
-        <SheetContent side="right" class="w-full gap-0 overflow-y-auto p-0 sm:max-w-xl">
-            <SheetHeader class="border-b px-5 py-4 pr-12"><SheetTitle class="truncate">{{ detail?.to_email ?? 'Cargando…' }}</SheetTitle><SheetDescription class="truncate">{{ detail?.subject }}</SheetDescription></SheetHeader>
-            <div class="grid gap-5 p-5">
+        <SheetContent side="right" class="w-full gap-0 overflow-hidden p-0 sm:max-w-xl">
+            <SheetHeader class="shrink-0 border-b px-5 py-4 pr-12"><SheetTitle class="truncate">{{ detail?.to_email ?? 'Cargando…' }}</SheetTitle><SheetDescription class="truncate">{{ detail?.subject }}</SheetDescription></SheetHeader>
+            <div class="scroll-cues grid min-h-0 flex-1 content-start gap-5 p-4 [overflow-wrap:anywhere] sm:p-5">
                 <Skeleton v-if="!detail" class="h-40 w-full rounded-2xl" />
                 <template v-else>
                     <div class="flex flex-wrap items-center gap-2">

@@ -34,12 +34,12 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
         <DataCard class="p-4">
             <h3 class="mb-3 text-sm font-semibold">Contacto</h3>
             <ul class="grid gap-2.5 text-sm">
-                <li v-if="lead.email" class="flex items-center gap-2.5"><Mail class="size-4 text-muted-foreground" /><a :href="`mailto:${lead.email}`" class="truncate hover:text-primary">{{ lead.email }}</a></li>
+                <li v-if="lead.email" class="flex items-center gap-2.5"><Mail class="size-4 shrink-0 text-muted-foreground" /><a :href="`mailto:${lead.email}`" class="min-w-0 break-all hover:text-primary">{{ lead.email }}</a></li>
                 <li v-if="lead.phone" class="flex items-center gap-2.5">
-                    <Phone class="size-4 text-muted-foreground" /><a :href="`tel:${lead.phone}`" class="hover:text-primary">{{ lead.phone }}</a>
+                    <Phone class="size-4 shrink-0 text-muted-foreground" /><a :href="`tel:${lead.phone}`" class="hover:text-primary">{{ lead.phone }}</a>
                     <a v-if="wa" :href="wa" target="_blank" rel="noopener" class="text-xs text-[#25D366] hover:underline">WhatsApp</a>
                 </li>
-                <li v-if="lead.company" class="flex items-center gap-2.5"><Building2 class="size-4 text-muted-foreground" />{{ lead.company }}</li>
+                <li v-if="lead.company" class="flex items-center gap-2.5"><Building2 class="size-4 shrink-0 text-muted-foreground" /><span class="min-w-0">{{ lead.company }}</span></li>
                 <li v-if="lead.client" class="flex items-center gap-2.5"><Building2 class="size-4 text-primary" /><span>Empresa: <Link :href="`/clients/${lead.client.id}`" class="font-medium hover:text-primary">{{ lead.client.name }}</Link></span></li>
             </ul>
             <p v-if="lead.message" class="mt-3 border-t pt-3 text-sm whitespace-pre-line text-muted-foreground">{{ lead.message }}</p>
@@ -51,7 +51,7 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
                 <SourceIcon :name="lead.source.icon" />{{ lead.source.name }}
             </span>
             <dl v-if="utmEntries.length" class="mt-3 grid gap-1.5 text-sm">
-                <div v-for="[k, v] in utmEntries" :key="k" class="flex justify-between gap-3"><dt class="text-muted-foreground">{{ k }}</dt><dd class="truncate font-medium">{{ v }}</dd></div>
+                <div v-for="[k, v] in utmEntries" :key="k" class="flex justify-between gap-3"><dt class="shrink-0 text-muted-foreground">{{ k }}</dt><dd class="min-w-0 text-right font-medium break-words">{{ v }}</dd></div>
             </dl>
             <p v-else class="mt-3 text-xs text-muted-foreground">Sin parámetros UTM.</p>
         </DataCard>
@@ -67,7 +67,7 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
                 <li v-if="!location && !lead.capture.ip_address && !device && !lead.capture.landing_url && !lead.capture.referrer" class="text-xs text-muted-foreground">Sin datos de captura (cliente ingresado manualmente).</li>
             </ul>
             <dl v-if="metaEntries.length" class="mt-3 grid gap-1.5 border-t pt-3 text-xs">
-                <div v-for="[k, v] in metaEntries" :key="k" class="flex justify-between gap-3"><dt class="text-muted-foreground">{{ k }}</dt><dd class="max-w-[60%] truncate font-mono">{{ typeof v === 'object' ? JSON.stringify(v) : v }}</dd></div>
+                <div v-for="[k, v] in metaEntries" :key="k" class="flex justify-between gap-3"><dt class="shrink-0 text-muted-foreground">{{ k }}</dt><dd class="min-w-0 max-w-[60%] text-right font-mono break-all">{{ typeof v === 'object' ? JSON.stringify(v) : v }}</dd></div>
             </dl>
         </DataCard>
 
@@ -75,8 +75,8 @@ const wa = computed(() => whatsappUrl(lead.value.phone));
             <h3 class="mb-3 text-sm font-semibold">Campos personalizados</h3>
             <dl class="grid gap-2 text-sm">
                 <div v-for="f in data.customFields" :key="f.key" class="flex justify-between gap-3">
-                    <dt class="text-muted-foreground">{{ f.label }}</dt>
-                    <dd class="text-right font-medium">{{ f.value !== null && f.value !== '' ? showValue(f.type, f.value) : '—' }}</dd>
+                    <dt class="min-w-0 text-muted-foreground">{{ f.label }}</dt>
+                    <dd class="min-w-0 text-right font-medium break-words">{{ f.value !== null && f.value !== '' ? showValue(f.type, f.value) : '—' }}</dd>
                 </div>
             </dl>
         </DataCard>

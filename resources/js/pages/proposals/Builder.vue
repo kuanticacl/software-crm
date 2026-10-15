@@ -461,10 +461,10 @@ const money = (n: number) => formatAmount(n, form.currency);
 
     <!-- Catálogo -->
     <Dialog v-model:open="catalogOpen">
-        <DialogContent class="max-h-[85vh] overflow-hidden sm:max-w-2xl">
+        <DialogContent class="sm:max-w-2xl">
             <DialogHeader><DialogTitle>Catálogo de servicios</DialogTitle><DialogDescription>Haz clic para agregar. Puedes ajustar cantidad y valor en la propuesta sin cambiar el catálogo.</DialogDescription></DialogHeader>
             <div class="relative"><Search class="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" /><Input v-model="catalogQ" placeholder="Buscar…" class="pl-9" /></div>
-            <div class="grid max-h-[55vh] gap-4 overflow-y-auto pr-1">
+            <div class="scroll-cues grid max-h-[50dvh] content-start gap-4 pr-1">
                 <div v-for="[cat, list] in catalogGroups" :key="cat">
                     <p class="mb-1.5 text-xs font-semibold text-muted-foreground">{{ cat }}</p>
                     <div class="grid gap-2">
@@ -494,7 +494,7 @@ const money = (n: number) => formatAmount(n, form.currency);
 
     <!-- IA: sugerir servicios -->
     <Dialog v-model:open="suggestOpen">
-        <DialogContent class="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+        <DialogContent class="sm:max-w-lg">
             <DialogHeader><DialogTitle class="flex items-center gap-2"><Sparkles class="size-5 text-primary" /> Servicios sugeridos</DialogTitle><DialogDescription>La IA elige del catálogo lo que mejor calza con lo que necesita el cliente.</DialogDescription></DialogHeader>
             <FormField label="¿Qué necesita el cliente?" hint="Si hay un cliente asociado, también se usa su mensaje y etapa."><Textarea v-model="suggestBrief" rows="3" placeholder="Quiere captar compradores para un proyecto nuevo y ordenar el seguimiento de sus clientes." /></FormField>
             <Button :disabled="aiBusy === 'suggest'" class="w-fit" @click="runSuggest"><Spinner v-if="aiBusy === 'suggest'" /><Sparkles v-else /> Sugerir</Button>

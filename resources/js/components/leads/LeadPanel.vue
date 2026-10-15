@@ -283,12 +283,12 @@ const sc = computed(() => props.data.scoring);
 
                 <TabsContent value="followup" class="mt-3 flex flex-col gap-4">
                     <form v-if="can.note" class="grid gap-3 rounded-2xl border bg-card p-4" @submit.prevent="addFollowUp">
-                        <div :class="cn('grid gap-3', page ? 'sm:grid-cols-[10rem_1fr_14rem]' : 'grid-cols-2')">
+                        <div :class="cn('grid gap-3', page ? 'sm:grid-cols-[10rem_1fr_14rem]' : 'grid-cols-1 sm:grid-cols-2')">
                             <NativeSelect v-model="fu.type">
                                 <option v-for="(label, key) in data.followUpTypes" :key="key" :value="key">{{ label }}</option>
                             </NativeSelect>
                             <Input v-model="fu.occurred_at" type="datetime-local" title="Fecha (por defecto, ahora)" :class="page ? 'order-3' : ''" />
-                            <Input v-model="fu.description" placeholder="¿Qué pasó? Ej: Llamé, pidió cotización" :class="page ? '' : 'col-span-2'" />
+                            <Input v-model="fu.description" placeholder="¿Qué pasó? Ej: Llamé, pidió cotización" :class="page ? '' : 'sm:col-span-2'" />
                         </div>
                         <div class="flex justify-end">
                             <Button type="submit" size="sm" :disabled="fu.busy || !fu.description.trim()"><Spinner v-if="fu.busy" /> Registrar seguimiento</Button>
@@ -309,7 +309,7 @@ const sc = computed(() => props.data.scoring);
                 </TabsContent>
 
                 <TabsContent v-if="can.proposals" value="proposals" class="mt-3 flex flex-col gap-3">
-                    <div class="flex items-center justify-between gap-2 rounded-2xl border bg-card p-4">
+                    <div class="flex flex-col gap-3 rounded-2xl border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">
                         <p class="text-sm text-muted-foreground">{{ data.proposals.length ? 'Puedes crear otra propuesta o una nueva versión para este cliente.' : 'Este cliente aún no tiene propuestas comerciales.' }}</p>
                         <div v-if="can.create_proposal" class="flex shrink-0 flex-wrap justify-end gap-2">
                             <Button size="sm" variant="outline" @click="attachOpen = true"><Link2 /> Asociar existente</Button>
@@ -333,7 +333,7 @@ const sc = computed(() => props.data.scoring);
                 <TabsContent value="notes" class="mt-3 flex flex-col gap-4">
                     <form v-if="can.note" class="grid gap-3 rounded-2xl border bg-card p-4" @submit.prevent="addNote">
                         <RichTextEditor v-model="note.body" compact :min-height="80" placeholder="Escribe una nota interna sobre este cliente…" />
-                        <div class="flex items-center justify-between gap-3">
+                        <div class="flex flex-wrap items-center justify-between gap-3">
                             <label class="flex items-center gap-2.5 text-sm">
                                 <Switch :model-value="note.is_private" @update:model-value="(v: boolean) => (note.is_private = v)" />
                                 <Lock class="size-3.5 text-muted-foreground" /> Privada (solo yo)
@@ -344,7 +344,7 @@ const sc = computed(() => props.data.scoring);
                     <p v-if="!data.notes.length" class="rounded-2xl border border-dashed bg-card py-8 text-center text-sm text-muted-foreground">Aún no hay notas.</p>
                     <article v-for="n in data.notes" :key="n.id" class="rounded-2xl border p-4" :class="n.is_private ? 'border-primary/30 bg-accent/50' : 'bg-card'">
                         <div class="rich text-sm" v-html="n.body_html" />
-                        <div class="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                        <div class="mt-2 flex items-center justify-between gap-2 text-xs text-muted-foreground">
                             <span class="flex items-center gap-1.5">
                                 <Lock v-if="n.is_private" class="size-3 text-primary" />{{ n.author }} · {{ timeAgo(n.created_at) }}
                                 <em v-if="n.is_private" class="text-primary not-italic">· privada</em>

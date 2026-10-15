@@ -37,8 +37,8 @@ const onChanged = async () => {
 
 <template>
     <Sheet :open="!!leadId" @update:open="(v: boolean) => !v && emit('close')">
-        <SheetContent side="right" class="w-full gap-0 overflow-y-auto p-0 sm:max-w-xl">
-            <SheetHeader class="sticky top-0 z-10 border-b bg-background px-5 py-4 pr-12">
+        <SheetContent side="right" class="w-full gap-0 overflow-hidden p-0 sm:max-w-xl">
+            <SheetHeader class="shrink-0 border-b bg-background px-5 py-4 pr-12">
                 <SheetTitle class="truncate text-lg">{{ data?.lead.full_name ?? 'Cargando…' }}</SheetTitle>
                 <SheetDescription class="flex items-center gap-3 text-xs">
                     <span>{{ [data?.lead.job_title, data?.lead.company].filter(Boolean).join(' · ') || 'Cliente' }}</span>
@@ -48,7 +48,7 @@ const onChanged = async () => {
                 </SheetDescription>
             </SheetHeader>
 
-            <div class="p-5">
+            <div class="scroll-cues min-h-0 flex-1 p-4 [overflow-wrap:anywhere] sm:p-5">
                 <div v-if="error" class="rounded-xl border border-destructive/30 bg-destructive/5 p-4 text-sm">
                     No se pudo cargar el cliente. <button class="underline" @click="load()">Reintentar</button>
                 </div>

@@ -167,6 +167,35 @@
     --sidebar: #181818;
 }
 
+/*
+ * Zona con scroll que SE NOTA: sombras arriba/abajo que aparecen solo cuando queda contenido oculto (se desvanecen al
+ * llegar al borde) y barra fina siempre visible. Úsala en el cuerpo de modales y paneles laterales. Las capas «cover»
+ * (attachment: local) deben tener el color del fondo real: cámbialo con --scroll-cue-bg si el fondo no es --background.
+ */
+@utility scroll-cues {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--foreground) 30%, transparent) transparent;
+    background-image:
+        linear-gradient(var(--scroll-cue-bg, var(--background)) 30%, transparent),
+        linear-gradient(transparent, var(--scroll-cue-bg, var(--background)) 70%),
+        radial-gradient(farthest-side at 50% 0, color-mix(in srgb, var(--foreground) 22%, transparent), transparent),
+        radial-gradient(farthest-side at 50% 100%, color-mix(in srgb, var(--foreground) 22%, transparent), transparent);
+    background-position:
+        top,
+        bottom,
+        top,
+        bottom;
+    background-repeat: no-repeat;
+    background-size:
+        100% 2.5rem,
+        100% 2.5rem,
+        100% 0.9rem,
+        100% 0.9rem;
+    background-attachment: local, local, scroll, scroll;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;

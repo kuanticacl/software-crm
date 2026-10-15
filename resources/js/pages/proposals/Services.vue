@@ -134,7 +134,7 @@ const aiWrite = async () => {
     </div>
 
     <Dialog v-model:open="open">
-        <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+        <DialogContent class="sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle>{{ editing ? 'Editar servicio' : 'Nuevo servicio' }}</DialogTitle>
                 <DialogDescription>La tarifa es la de referencia (neta; la propuesta suma el impuesto según el documento tributario). En cada propuesta se puede ajustar sin afectar el catálogo.</DialogDescription>

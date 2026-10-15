@@ -114,7 +114,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
     </div>
 
     <Dialog v-model:open="open">
-        <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+        <DialogContent class="sm:max-w-2xl">
             <DialogHeader><DialogTitle>{{ editing ? 'Editar automatización' : 'Nueva automatización' }}</DialogTitle><DialogDescription>Define cuándo se dispara y qué plantilla se envía. Los datos del cliente (nombre, empresa, UTM, campos personalizados y cualquier parámetro enviado por la API) quedan disponibles como variables.</DialogDescription></DialogHeader>
             <form class="grid gap-5" @submit.prevent="save">
                 <FormField label="Nombre" for="an" :error="form.errors.name" required><Input id="an" v-model="form.name" placeholder="Ej: Bienvenida landing Proyecto Norte" /></FormField>

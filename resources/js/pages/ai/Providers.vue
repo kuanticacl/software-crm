@@ -254,7 +254,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
     </div>
 
     <Dialog :open="!!editing" @update:open="(v: boolean) => !v && (editing = null)">
-        <DialogContent v-if="editing" class="max-h-[90vh] overflow-y-auto sm:max-w-lg">
+        <DialogContent v-if="editing" class="sm:max-w-lg">
             <DialogHeader><DialogTitle>{{ editing.name }}</DialogTitle><DialogDescription>{{ editing.description }}</DialogDescription></DialogHeader>
             <form class="grid gap-4" @submit.prevent="save(false)">
                 <FormField label="API key" for="k" :error="form.errors.api_key" :hint="editing.has_key ? `Guardada (${editing.key_masked}). Déjalo vacío para conservarla o escribe una nueva para reemplazarla.` : `Formato: ${editing.key_hint_format}`">

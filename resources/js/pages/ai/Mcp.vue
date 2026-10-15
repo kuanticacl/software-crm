@@ -192,7 +192,7 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
 
     <!-- Alta / edición -->
     <Dialog v-model:open="dialogOpen">
-        <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-xl">
+        <DialogContent class="sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle>{{ editing === 'new' ? 'Agregar servidor MCP' : 'Editar servidor MCP' }}</DialogTitle>
                 <DialogDescription>Servidores remotos con transporte Streamable HTTP. Las credenciales se guardan cifradas.</DialogDescription>
@@ -237,7 +237,7 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
 
     <!-- Herramientas -->
     <Dialog :open="!!toolsFor" @update:open="(v: boolean) => !v && (toolsFor = null)">
-        <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
+        <DialogContent class="sm:max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Herramientas de {{ toolsFor?.name }}</DialogTitle>
                 <DialogDescription>Habilita solo lo que el Agent necesita. En esta versión el Agent solo usa las herramientas que NO piden confirmación (desmarca la confirmación en las de lectura que quieras usar).</DialogDescription>

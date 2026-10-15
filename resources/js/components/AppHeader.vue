@@ -91,7 +91,7 @@ const rightNavItems: NavItem[] = [
                                 <Menu class="h-5 w-5" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="left" class="w-[300px] p-6">
+                        <SheetContent side="left" class="scroll-cues w-[300px] max-w-[85vw] p-6">
                             <SheetTitle class="sr-only"
                                 >Navigation menu</SheetTitle
                             >

@@ -49,6 +49,7 @@ services:
       MAIL_MAILER: ${MAIL_MAILER:-log}
       ADMIN_NAME: ${ADMIN_NAME:-Administrador MecaniQ}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mecaniq.cl}
+      LANDING_API_KEY: ${LANDING_API_KEY:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       SEED_DEMO: ${SEED_DEMO:-false}
     volumes:

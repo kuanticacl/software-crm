@@ -27,6 +27,7 @@ class CrmSeeder extends Seeder
         }
 
         $this->call(ServiceSeeder::class);
+        \App\Services\Billing\BillingDefaults::install();
 
         if (LeadSource::count() === 0) {
             $sources = [

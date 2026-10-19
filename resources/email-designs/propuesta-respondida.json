@@ -67,7 +67,7 @@
     },
     "blocks": [
       {
-        "id": "b000000v",
+        "id": "b000001r",
         "type": "header",
         "props": {
           "logoUrl": "{{LOGO_URL}}",
@@ -81,7 +81,7 @@
         }
       },
       {
-        "id": "b000000w",
+        "id": "b000001s",
         "type": "heading",
         "props": {
           "text": "{{ action }}",
@@ -95,7 +95,7 @@
         }
       },
       {
-        "id": "b000000x",
+        "id": "b000001t",
         "type": "text",
         "props": {
           "text": "Hola {{ first_name }}, **{{ responder }}** ({{ client_name }}) respondió la propuesta **{{ proposal_number }} · {{ proposal_title }}**.",
@@ -109,7 +109,7 @@
         }
       },
       {
-        "id": "b000000y",
+        "id": "b000001u",
         "type": "text",
         "props": {
           "text": "{{#if note}}Comentario del cliente:\n\n«{{ note }}»{{/if}}",
@@ -123,7 +123,7 @@
         }
       },
       {
-        "id": "b000000z",
+        "id": "b000001v",
         "type": "button",
         "props": {
           "label": "Ver propuesta en el CRM",
@@ -140,7 +140,7 @@
         }
       },
       {
-        "id": "b0000010",
+        "id": "b000001w",
         "type": "footer",
         "props": {
           "company": "{{ company_name }}",

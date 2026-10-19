@@ -55,7 +55,7 @@
     },
     "blocks": [
       {
-        "id": "b0000011",
+        "id": "b000001x",
         "type": "header",
         "props": {
           "logoUrl": "{{LOGO_URL}}",
@@ -69,7 +69,7 @@
         }
       },
       {
-        "id": "b0000012",
+        "id": "b000001y",
         "type": "heading",
         "props": {
           "text": "Hola {{ first_name }}, te compartimos tu propuesta",
@@ -83,7 +83,7 @@
         }
       },
       {
-        "id": "b0000013",
+        "id": "b000001z",
         "type": "text",
         "props": {
           "text": "{{ message }}",
@@ -97,7 +97,7 @@
         }
       },
       {
-        "id": "b0000014",
+        "id": "b0000020",
         "type": "text",
         "props": {
           "text": "**{{ proposal_title }}**\nN.º {{ proposal_number }}{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}",
@@ -111,7 +111,7 @@
         }
       },
       {
-        "id": "b0000015",
+        "id": "b0000021",
         "type": "button",
         "props": {
           "label": "Ver propuesta",
@@ -128,7 +128,7 @@
         }
       },
       {
-        "id": "b0000016",
+        "id": "b0000022",
         "type": "text",
         "props": {
           "text": "Desde el enlace puedes revisarla, descargarla en PDF y aceptarla en línea.",
@@ -142,7 +142,7 @@
         }
       },
       {
-        "id": "b0000017",
+        "id": "b0000023",
         "type": "footer",
         "props": {
           "company": "{{ company_name }}",

@@ -59,6 +59,7 @@ const info = [
                     </div>
                 </div>
                 <dl class="mb-4 grid gap-2 text-sm">
+                    <div v-if="client.customer_id"><dt class="text-xs text-muted-foreground">ID de cliente (para la app y el sitio)</dt><dd class="font-mono text-xs">{{ client.customer_id }}</dd></div>
                     <div v-if="client.legal_name"><dt class="text-xs text-muted-foreground">Razón social</dt><dd class="font-medium">{{ client.legal_name }}</dd></div>
                     <div v-if="client.activity"><dt class="text-xs text-muted-foreground">Giro</dt><dd>{{ client.activity }}</dd></div>
                     <div v-if="client.contact_name"><dt class="text-xs text-muted-foreground">Contacto</dt><dd>{{ client.contact_name }}<span v-if="client.contact_role" class="text-muted-foreground"> · {{ client.contact_role }}</span></dd></div>

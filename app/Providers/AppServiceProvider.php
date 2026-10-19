@@ -39,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
             Limit::perDay(150)->by('alfred-day:'.$request->header('X-Api-Key').'|'.($request->input('ip') ?: $request->ip())),
             Limit::perDay(3000)->by('alfred-all:'.$request->header('X-Api-Key')),
         ]);
+        RateLimiter::for('billing-api', fn (Request $request) => Limit::perMinute(120)->by(($request->bearerToken() ?: $request->header('X-Api-Key')) ?: $request->ip()));
         RateLimiter::for('lead-ingest', fn (Request $request) => Limit::perMinute(120)->by($request->header('X-Api-Key') ?: $request->ip()));
     }
 

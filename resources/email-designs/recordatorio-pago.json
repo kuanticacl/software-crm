@@ -1,0 +1,217 @@
+{
+  "slug": "recordatorio-pago",
+  "name": "Cobro: recordatorio de pago",
+  "description": "Recordatorio antes, el mismo día o después del vencimiento. El título y el mensaje se ajustan solos según los días que falten o lleven de atraso.",
+  "category": "transactional",
+  "subject": "{{ headline }} · {{ invoice_number }}",
+  "preheader": "{{ concept }}",
+  "variables": [
+    {
+      "key": "first_name",
+      "label": "Nombre",
+      "default": "",
+      "sample": "María"
+    },
+    {
+      "key": "company",
+      "label": "Empresa",
+      "default": "",
+      "sample": "Taller Los Robles"
+    },
+    {
+      "key": "plan_name",
+      "label": "Plan",
+      "default": "",
+      "sample": "Pro"
+    },
+    {
+      "key": "period",
+      "label": "Período",
+      "default": "",
+      "sample": "Mensual"
+    },
+    {
+      "key": "invoice_number",
+      "label": "N° de cobro",
+      "default": "",
+      "sample": "C-2026-00012"
+    },
+    {
+      "key": "concept",
+      "label": "Concepto",
+      "default": "",
+      "sample": "Suscripción MecaniQ · Plan Pro (Mensual)"
+    },
+    {
+      "key": "amount_net",
+      "label": "Monto neto",
+      "default": "",
+      "sample": "$39.990"
+    },
+    {
+      "key": "amount_total",
+      "label": "Total a pagar (IVA incl.)",
+      "default": "",
+      "sample": "$47.588"
+    },
+    {
+      "key": "due_date",
+      "label": "Vencimiento",
+      "default": "",
+      "sample": "15-11-2026"
+    },
+    {
+      "key": "headline",
+      "label": "Título según el vencimiento",
+      "default": "",
+      "sample": "Tu cobro vence en 5 días"
+    },
+    {
+      "key": "message",
+      "label": "Mensaje según el vencimiento",
+      "default": "",
+      "sample": "te recordamos que el cobro C-2026-00012 vence el 15-11-2026."
+    },
+    {
+      "key": "payment_link",
+      "label": "Enlace de pago",
+      "default": "",
+      "sample": ""
+    },
+    {
+      "key": "bank_details",
+      "label": "Datos para transferencia",
+      "default": "",
+      "sample": "<strong>Banco Estado</strong> · Cuenta corriente<br>N° 123456789"
+    }
+  ],
+  "design": {
+    "settings": {
+      "bg": "#F3F6F9",
+      "contentBg": "#FFFFFF",
+      "width": 600,
+      "font": "Arial, Helvetica, sans-serif",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
+      "radius": 16
+    },
+    "blocks": [
+      {
+        "id": "b0000013",
+        "type": "header",
+        "props": {
+          "logoUrl": "{{LOGO_URL}}",
+          "logoWidth": 150,
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
+          "align": "center",
+          "padY": 28,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000014",
+        "type": "heading",
+        "props": {
+          "text": "{{ headline }}",
+          "size": 26,
+          "color": "#0B1522",
+          "weight": "700",
+          "align": "left",
+          "padY": 12,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000015",
+        "type": "text",
+        "props": {
+          "text": "Hola {{ first_name }}, {{ message }}",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000016",
+        "type": "text",
+        "props": {
+          "text": "Concepto\n**{{ concept }}**\n\nTotal a pagar (IVA incluido)\n**{{ amount_total }}**\n\nVence el\n**{{ due_date }}**",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 16,
+          "padX": 32,
+          "bg": "#F3F6F9"
+        }
+      },
+      {
+        "id": "b0000017",
+        "type": "text",
+        "props": {
+          "text": "{{#if payment_link}}Puedes pagar directamente aquí: {{ payment_link }}{{/if}}",
+          "size": 14,
+          "color": "#5B6B7C",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 4,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b0000018",
+        "type": "text",
+        "props": {
+          "text": "{{#if bank_details}}**Pago por transferencia**\n\n{{{ bank_details }}}{{/if}}",
+          "size": 14,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 14,
+          "padX": 32,
+          "bg": "#F3F6F9"
+        }
+      },
+      {
+        "id": "b0000019",
+        "type": "text",
+        "props": {
+          "text": "Si ya realizaste el pago, puedes ignorar este correo.",
+          "size": 13,
+          "color": "#8A98A8",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 6,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001a",
+        "type": "footer",
+        "props": {
+          "company": "{{ company_name }}",
+          "address": "{{ADDRESS}}",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.",
+          "showUnsubscribe": false,
+          "unsubscribeText": "Darme de baja",
+          "showView": false,
+          "color": "#8A8A8A",
+          "align": "center",
+          "padY": 24,
+          "padX": 32,
+          "bg": "#FAFAFA"
+        }
+      }
+    ]
+  },
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">{{ headline }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Hola {{ first_name }}, {{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#F3F6F9;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Concepto<br><strong>{{ concept }}</strong><br><br>Total a pagar (IVA incluido)<br><strong>{{ amount_total }}</strong><br><br>Vence el<br><strong>{{ due_date }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:4px 32px;\"><div style=\"font-size:14px;line-height:1.6;color:#5B6B7C;text-align:center\">{{#if payment_link}}Puedes pagar directamente aquí: {{ payment_link }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:14px 32px;background-color:#F3F6F9;\"><div style=\"font-size:14px;line-height:1.6;color:#0B1522;text-align:left\">{{#if bank_details}}<strong>Pago por transferencia</strong><br><br>{{{ bank_details }}}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A98A8;text-align:center\">Si ya realizaste el pago, puedes ignorar este correo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+}

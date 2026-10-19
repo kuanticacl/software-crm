@@ -7,6 +7,7 @@ use App\Models\Automation;
 use App\Models\EmailMessage;
 use App\Models\EmailTemplate;
 use App\Models\LeadSource;
+use App\Models\Plan;
 use App\Models\PipelineStage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,13 +21,16 @@ class AutomationController extends Controller
     {
         return Inertia::render('email/automations/Index', [
             'automations' => Automation::with('template:id,name,slug')->orderByDesc('id')->get()->map(fn (Automation $a) => [
-                ...$a->only(['id', 'name', 'trigger', 'conditions', 'subject', 'to_mode', 'to_email', 'delay_minutes', 'variables', 'is_active', 'runs_count', 'template_id']),
+                ...$a->only(['id', 'name', 'trigger', 'conditions', 'subject', 'to_mode', 'to_email', 'delay_minutes', 'offset_days', 'variables', 'is_active', 'runs_count', 'template_id']),
                 'last_run_at' => $a->last_run_at?->toIso8601String(),
                 'template' => $a->template?->only(['id', 'name', 'slug']),
                 'sent' => EmailMessage::where('automation_id', $a->id)->whereIn('status', ['sent', 'delivered'])->count(),
                 'failed' => EmailMessage::where('automation_id', $a->id)->whereIn('status', ['failed', 'bounced'])->count(),
             ]),
             'triggers' => Automation::TRIGGERS,
+            'billingTriggers' => Automation::BILLING_TRIGGERS,
+            'offsetTriggers' => Automation::OFFSET_TRIGGERS,
+            'plans' => Plan::orderBy('sort_order')->get(['id', 'name']),
             'templates' => EmailTemplate::where('is_active', true)->orderBy('name')->get(['id', 'name', 'slug', 'category', 'variables']),
             'sources' => LeadSource::orderBy('sort_order')->get(['id', 'name', 'color']),
             'stages' => PipelineStage::orderBy('sort_order')->get(['id', 'name', 'color']),
@@ -72,6 +76,9 @@ class AutomationController extends Controller
             'conditions.stage_ids' => ['nullable', 'array'],
             'conditions.stage_ids.*' => ['integer'],
             'conditions.web_only' => ['nullable', 'boolean'],
+            'conditions.plan_ids' => ['nullable', 'array'],
+            'conditions.plan_ids.*' => ['integer'],
+            'offset_days' => ['nullable', 'integer', 'min:-90', 'max:365'],
             'template_id' => ['required', 'integer', Rule::exists('email_templates', 'id')],
             'subject' => ['nullable', 'string', 'max:300'],
             'to_mode' => ['required', Rule::in(['lead', 'fixed', 'team'])],
@@ -86,6 +93,15 @@ class AutomationController extends Controller
         // El editor envía [{key, value}]; se guarda como mapa clave => valor.
         $data['variables'] = collect($data['variables'] ?? [])->mapWithKeys(fn ($v) => [$v['key'] => $v['value'] ?? ''])->all() ?: null;
         $data['delay_minutes'] = (int) ($data['delay_minutes'] ?? 0);
+
+        // Cobranza: el destinatario es la empresa (o una dirección fija), nunca «el equipo» de un lead; los días solo aplican a algunos disparadores.
+        if (in_array($data['trigger'], Automation::BILLING_TRIGGERS, true)) {
+            $data['to_mode'] = $data['to_mode'] === 'fixed' ? 'fixed' : 'lead';
+            $data['conditions'] = ['plan_ids' => array_map('intval', $data['conditions']['plan_ids'] ?? [])];
+        } else {
+            unset($data['conditions']['plan_ids']);
+        }
+        $data['offset_days'] = in_array($data['trigger'], Automation::OFFSET_TRIGGERS, true) ? (int) ($data['offset_days'] ?? 0) : null;
 
         return $data;
     }

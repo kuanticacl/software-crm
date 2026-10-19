@@ -24,7 +24,18 @@ class ProposalView
         $subMonthly = round($monthly->sum(fn ($i) => $i->lineTotal($dec)), $dec);
         $date = fn ($d) => $d ? Carbon::parse($d)->locale('es')->translatedFormat('d \d\e F \d\e Y') : null;
 
+        $plan = $p->plan_id ? $p->loadMissing('plan.limits')->plan : null;
+        $subscription = $plan ? [
+            'plan' => $plan->name,
+            'period' => \App\Support\BillingPeriod::LABELS[$p->plan_period] ?? '',
+            'auto_renew' => (bool) $p->auto_renew,
+            'start' => $date($p->start_date),
+            'limits' => $plan->limitsList(),
+            'contract' => ProposalText::html(\App\Services\Billing\BillingSettings::contract()),
+        ] : null;
+
         return [
+            'subscription' => $subscription,
             'p' => $p,
             'r' => $r,
             'status' => $p->effectiveStatus(),

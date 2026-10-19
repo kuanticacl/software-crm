@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Proposals;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Lead;
+use App\Models\Plan;
 use App\Models\Proposal;
 use App\Models\Service;
 use App\Models\User;
@@ -62,7 +63,7 @@ class ProposalController extends Controller
 
         return Inertia::render('proposals/Builder', $this->builderProps($request, null, [
             'title' => $title,
-            'currency' => 'UF',
+            'currency' => 'CLP',
             'client_id' => $client?->id,
             'lead_id' => $lead?->id,
             'recipient' => ProposalBuilder::recipientFor($client, $lead),
@@ -74,6 +75,7 @@ class ProposalController extends Controller
             'tax_mode' => TaxDocument::default(),
             'tax_rate' => TaxDocument::rate(TaxDocument::default()),
             'items' => [],
+            'plan_id' => null, 'plan_period' => 'monthly', 'auto_renew' => true, 'start_date' => null,
             'internal_notes' => null,
         ]));
     }
@@ -83,9 +85,10 @@ class ProposalController extends Controller
         $this->authorizeView($request, $proposal);
 
         return Inertia::render('proposals/Builder', $this->builderProps($request, $proposal, [
-            ...$proposal->only(['title', 'currency', 'client_id', 'lead_id', 'recipient', 'sections', 'contract_months', 'discount_type', 'discount_value', 'tax_mode', 'tax_rate', 'internal_notes']),
+            ...$proposal->only(['title', 'currency', 'client_id', 'lead_id', 'recipient', 'sections', 'contract_months', 'discount_type', 'discount_value', 'tax_mode', 'tax_rate', 'internal_notes', 'plan_id']),
+            'plan_period' => $proposal->plan_period ?? 'monthly', 'auto_renew' => (bool) $proposal->auto_renew, 'start_date' => $proposal->start_date?->toDateString(),
             'valid_until' => $proposal->valid_until?->toDateString(),
-            'items' => $proposal->items->map(fn ($i) => $i->only(['service_id', 'name', 'description', 'deliverables', 'billing', 'unit', 'quantity', 'unit_price', 'discount_pct']))->all(),
+            'items' => $proposal->items->skip($proposal->plan_id ? 1 : 0)->values()->map(fn ($i) => $i->only(['service_id', 'name', 'description', 'deliverables', 'billing', 'unit', 'quantity', 'unit_price', 'discount_pct']))->all(),
         ]));
     }
 
@@ -435,6 +438,12 @@ class ProposalController extends Controller
             'clients' => Client::where('is_active', true)->orderBy('name')->get()->map(fn (Client $c) => [
                 'id' => $c->id, 'name' => $c->name, 'recipient' => ProposalBuilder::recipientFor($c, null),
             ]),
+            'plans' => Plan::where('is_active', true)->with(['prices', 'limits'])->orderBy('sort_order')->get()->map(fn (Plan $pl) => [
+                'id' => $pl->id, 'name' => $pl->name, 'tagline' => $pl->tagline,
+                'prices' => $pl->prices->where('is_active', true)->mapWithKeys(fn ($pr) => [$pr->period => (int) $pr->amount])->all(),
+                'limits' => $pl->limitsList(),
+                'features' => $pl->features ?? [],
+            ])->values(),
             'lead' => ($initial['lead_id'] ?? null) ? Lead::visibleTo($user)->find($initial['lead_id'])?->only(['id', 'first_name', 'last_name', 'company']) : null,
             'ai' => ['enabled' => $user->hasPermission('ai.use') && app(AiGateway::class)->isAvailable(), 'can_configure' => $user->hasPermission('ai.manage')],
             'can' => $this->can($user),
@@ -448,6 +457,10 @@ class ProposalController extends Controller
             'title' => ['required', 'string', 'max:200'],
             'client_id' => ['nullable', 'integer', 'exists:clients,id'],
             'lead_id' => ['nullable', 'integer', 'exists:leads,id'],
+            'plan_id' => ['nullable', 'integer', 'exists:plans,id'],
+            'plan_period' => ['nullable', 'in:monthly,quarterly,annual'],
+            'auto_renew' => ['nullable', 'boolean'],
+            'start_date' => ['nullable', 'date'],
             'recipient' => ['nullable', 'array'],
             'recipient.company' => ['nullable', 'string', 'max:200'],
             'recipient.legal_name' => ['nullable', 'string', 'max:200'],

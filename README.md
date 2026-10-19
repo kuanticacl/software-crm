@@ -1,6 +1,6 @@
 # CRM MecaniQ
 
-> Rama `mecaniq` · **crm.mecaniq.cl** — CRM de prospección y ventas de **MecaniQ**, la app móvil para talleres mecánicos. Adaptado de CRM Suite (rama `main`): identidad azul `#027BB9` / `#040810`, catálogo de planes de suscripción, embudo de demos y landing en www.mecaniq.cl.
+> Rama `mecaniq` · **crm.mecaniq.cl** — CRM de prospección y ventas de **MecaniQ**, la app móvil para talleres mecánicos. Incluye **suscripciones**: planes con límites configurables, períodos mensual/trimestral/anual con renovación automática o no, contrato de servicios, cobros con recordatorios automáticos y una [API para la app y el sitio](docs/API_SUSCRIPCIONES.md). Adaptado de CRM Suite (rama `main`): identidad azul `#027BB9` / `#040810`, catálogo de planes de suscripción, embudo de demos y landing en www.mecaniq.cl.
 
 Plataforma web para **gestionar el ciclo comercial completo** de una empresa de servicios: captación de prospectos, seguimiento en un tablero Kanban, propuestas comerciales con firma del cliente, email marketing, y un asistente de IA que opera el sistema.
 

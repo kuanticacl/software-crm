@@ -29,8 +29,11 @@ import {
     UserCog,
     Users,
     FileSignature,
-    Package,
     Bot,
+    CreditCard,
+    Gauge,
+    Receipt,
+    Repeat,
 } from '@lucide/vue';
 import type { Component } from 'vue';
 import { computed } from 'vue';
@@ -71,7 +74,10 @@ import { index as templates } from '@/routes/templates';
 import { index as sources } from '@/routes/sources';
 import { index as stages } from '@/routes/stages';
 import { index as proposals } from '@/routes/proposals';
-import { index as services } from '@/routes/services';
+import { index as invoicesIndex } from '@/routes/billing/invoices';
+import { index as plansIndex } from '@/routes/billing/plans';
+import { edit as billingSettings } from '@/routes/billing/settings';
+import { index as subscriptionsIndex } from '@/routes/billing/subscriptions';
 import { index as users } from '@/routes/users';
 import type { NavItem } from '@/types';
 
@@ -89,7 +95,16 @@ const groups: NavGroup[] = [
             { title: 'Clientes', href: leads(), icon: Users, permission: 'leads.view' },
             { title: 'Empresas', href: clients(), icon: Building2, permission: 'clients.view' },
             { title: 'Propuestas', href: proposals(), icon: FileSignature, permission: 'proposals.view' },
-            { title: 'Servicios y tarifas', href: services(), icon: Package, permission: 'services.view' },
+        ],
+    },
+    {
+        label: 'Suscripciones',
+        icon: CreditCard,
+        items: [
+            { title: 'Suscripciones', href: subscriptionsIndex(), icon: Repeat, permission: 'billing.view' },
+            { title: 'Cobros', href: invoicesIndex(), icon: Receipt, permission: 'billing.view' },
+            { title: 'Planes y límites', href: plansIndex(), icon: Gauge, permission: 'billing.view' },
+            { title: 'Configuración de cobros', href: billingSettings(), icon: Settings, permission: 'billing.settings' },
         ],
     },
     {

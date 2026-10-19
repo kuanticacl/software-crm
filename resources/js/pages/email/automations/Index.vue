@@ -17,12 +17,12 @@ import { cn } from '@/lib/utils';
 import { destroy, index, store, update } from '@/routes/automations';
 
 type Auto = {
-    id: number; name: string; trigger: string; conditions: { source_ids?: number[]; stage_ids?: number[]; web_only?: boolean } | null; subject: string | null;
+    id: number; name: string; trigger: string; conditions: { source_ids?: number[]; stage_ids?: number[]; web_only?: boolean; plan_ids?: number[] } | null; offset_days: number | null; subject: string | null;
     to_mode: 'lead' | 'fixed' | 'team'; to_email: string | null; delay_minutes: number; variables: Record<string, string> | null; is_active: boolean;
     runs_count: number; last_run_at: string | null; template_id: number; template: { id: number; name: string; slug: string } | null; sent: number; failed: number;
 };
 const props = defineProps<{
-    automations: Auto[]; triggers: Record<string, string>;
+    automations: Auto[]; triggers: Record<string, string>; billingTriggers: string[]; offsetTriggers: string[]; plans: { id: number; name: string }[];
     templates: { id: number; name: string; slug: string; category: string; variables: { key: string }[] | null }[];
     sources: { id: number; name: string; color: string }[]; stages: { id: number; name: string; color: string }[];
 }>();
@@ -31,20 +31,20 @@ defineOptions({ layout: { breadcrumbs: [{ title: 'Automatizaciones', href: index
 const open = ref(false);
 const editing = ref<Auto | null>(null);
 const form = useForm({
-    name: '', trigger: 'lead.created', conditions: { source_ids: [] as number[], stage_ids: [] as number[], web_only: true },
+    name: '', trigger: 'lead.created', conditions: { source_ids: [] as number[], stage_ids: [] as number[], web_only: true, plan_ids: [] as number[] }, offset_days: 0 as number | string,
     template_id: '' as number | string, subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [] as { key: string; value: string }[], is_active: true,
 });
 
 const openCreate = () => {
     editing.value = null;
-    form.defaults({ name: '', trigger: 'lead.created', conditions: { source_ids: [], stage_ids: [], web_only: true }, template_id: props.templates[0]?.id ?? '', subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [], is_active: true }).reset();
+    form.defaults({ name: '', trigger: 'lead.created', conditions: { source_ids: [], stage_ids: [], web_only: true, plan_ids: [] }, offset_days: 0, template_id: props.templates[0]?.id ?? '', subject: '', to_mode: 'lead', to_email: '', delay_minutes: 0, variables: [], is_active: true }).reset();
     form.clearErrors();
     open.value = true;
 };
 const openEdit = (a: Auto) => {
     editing.value = a;
     form.defaults({
-        name: a.name, trigger: a.trigger, conditions: { source_ids: [...(a.conditions?.source_ids ?? [])], stage_ids: [...(a.conditions?.stage_ids ?? [])], web_only: !!a.conditions?.web_only },
+        name: a.name, trigger: a.trigger, conditions: { source_ids: [...(a.conditions?.source_ids ?? [])], stage_ids: [...(a.conditions?.stage_ids ?? [])], web_only: !!a.conditions?.web_only, plan_ids: [...(a.conditions?.plan_ids ?? [])] }, offset_days: a.offset_days ?? 0,
         template_id: a.template_id, subject: a.subject ?? '', to_mode: a.to_mode, to_email: a.to_email ?? '', delay_minutes: a.delay_minutes,
         variables: Object.entries(a.variables ?? {}).map(([key, value]) => ({ key, value })), is_active: a.is_active,
     }).reset();
@@ -59,7 +59,7 @@ const toggleIn = (arr: number[], v: number) => { const i = arr.indexOf(v); i >= 
 const chip = (on: boolean) => cn('inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-medium transition', on ? 'border-primary bg-accent text-accent-foreground' : 'hover:bg-muted');
 
 const toggleActive = (a: Auto) => router.put(update(a.id).url, {
-    name: a.name, trigger: a.trigger, conditions: a.conditions, template_id: a.template_id, subject: a.subject, to_mode: a.to_mode, to_email: a.to_email,
+    name: a.name, trigger: a.trigger, conditions: a.conditions, offset_days: a.offset_days, template_id: a.template_id, subject: a.subject, to_mode: a.to_mode, to_email: a.to_email,
     delay_minutes: a.delay_minutes, variables: Object.entries(a.variables ?? {}).map(([key, value]) => ({ key, value })), is_active: !a.is_active,
 }, { preserveScroll: true });
 
@@ -68,6 +68,8 @@ const confirmDelete = () => toDelete.value && router.delete(destroy(toDelete.val
 
 const tplVars = computed(() => props.templates.find((t) => t.id === Number(form.template_id))?.variables?.map((v) => v.key) ?? []);
 const names = (ids: number[] | undefined, list: { id: number; name: string }[]) => (ids ?? []).map((id) => list.find((x) => x.id === id)?.name).filter(Boolean).join(', ');
+const offsetText = (d: number) => (d === 0 ? 'el mismo día' : d < 0 ? `${-d} ${d === -1 ? 'día' : 'días'} antes` : `${d} ${d === 1 ? 'día' : 'días'} después`);
+const isBilling = computed(() => props.billingTriggers.includes(form.trigger));
 const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min después` : m < 1440 ? `${Math.round(m / 60)} h después` : `${Math.round(m / 1440)} d después`);
 </script>
 
@@ -93,7 +95,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 </div>
 
                 <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                    <Badge variant="outline">{{ a.trigger === 'lead.created' ? 'Ingresa un cliente' : 'Cambia de etapa' }}</Badge>
+                    <Badge variant="outline">{{ triggers[a.trigger] }}<template v-if="offsetTriggers.includes(a.trigger)"> · {{ offsetText(a.offset_days ?? 0) }}</template></Badge>
                     <Badge v-if="a.conditions?.web_only && a.trigger === 'lead.created'" variant="secondary">desde la web</Badge>
                     <template v-if="a.conditions?.source_ids?.length"><span class="text-muted-foreground">de</span><Badge variant="secondary">{{ names(a.conditions.source_ids, sources) }}</Badge></template>
                     <template v-if="a.conditions?.stage_ids?.length"><span class="text-muted-foreground">a</span><Badge variant="secondary">{{ names(a.conditions.stage_ids, stages) }}</Badge></template>
@@ -124,9 +126,12 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                     <FormField label="Enviar con un retraso de (minutos)" for="ad" hint="0 = al instante · 60 = 1 hora · 1440 = 1 día" :error="form.errors.delay_minutes"><Input id="ad" v-model.number="form.delay_minutes" type="number" min="0" /></FormField>
                 </div>
 
+                <FormField v-if="offsetTriggers.includes(form.trigger)" label="Cuántos días" for="ao" :error="form.errors.offset_days" :hint="form.trigger === 'invoice.due' ? 'Respecto del vencimiento del cobro: -5 = 5 días antes · 0 = el día del vencimiento · 3 = 3 días después.' : 'Respecto del término o renovación del período: -10 = 10 días antes.'"><Input id="ao" v-model.number="form.offset_days" type="number" min="-90" max="365" /></FormField>
+
                 <div class="grid gap-3 rounded-xl border p-4">
                     <p class="text-sm font-medium">Condiciones <span class="text-xs font-normal text-muted-foreground">(sin marcar = cualquiera)</span></p>
-                    <div><p class="mb-1.5 text-xs text-muted-foreground">Origen del cliente</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(form.conditions.source_ids.includes(s.id))" @click="toggleIn(form.conditions.source_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
+                    <div v-if="isBilling"><p class="mb-1.5 text-xs text-muted-foreground">Plan de la suscripción</p><div class="flex flex-wrap gap-2"><button v-for="p in plans" :key="p.id" type="button" :class="chip(form.conditions.plan_ids.includes(p.id))" @click="toggleIn(form.conditions.plan_ids, p.id)">{{ p.name }}</button></div></div>
+                    <div v-if="!isBilling"><p class="mb-1.5 text-xs text-muted-foreground">Origen del cliente</p><div class="flex flex-wrap gap-2"><button v-for="s in sources" :key="s.id" type="button" :class="chip(form.conditions.source_ids.includes(s.id))" @click="toggleIn(form.conditions.source_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                     <label v-if="form.trigger === 'lead.created'" class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Solo registros de la web</span><br /><span class="text-xs text-muted-foreground">Clientes que llegan por formularios o la API (no los que ingresas a mano).</span></span><Switch :model-value="form.conditions.web_only" @update:model-value="(v: boolean) => (form.conditions.web_only = v)" /></label>
                     <div v-if="form.trigger === 'lead.stage_changed'"><p class="mb-1.5 text-xs text-muted-foreground">Pasa a la etapa</p><div class="flex flex-wrap gap-2"><button v-for="s in stages" :key="s.id" type="button" :class="chip(form.conditions.stage_ids.includes(s.id))" @click="toggleIn(form.conditions.stage_ids, s.id)"><span class="size-2 rounded-full" :style="{ backgroundColor: s.color }" />{{ s.name }}</button></div></div>
                 </div>
@@ -134,7 +139,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                 <div class="grid gap-4 sm:grid-cols-2">
                     <FormField label="Plantilla" for="atp" :error="form.errors.template_id" required><NativeSelect id="atp" v-model="form.template_id"><option v-for="t in templates" :key="t.id" :value="t.id">{{ t.name }}</option></NativeSelect></FormField>
                     <FormField label="Asunto (opcional)" for="as" hint="Reemplaza el de la plantilla. Admite variables."><Input id="as" v-model="form.subject" /></FormField>
-                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del cliente</option><option value="fixed">Una dirección fija (aviso interno)</option><option value="team">El equipo: responsable asignado, responsables del origen y correos por defecto</option></NativeSelect></FormField>
+                    <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">{{ isBilling ? 'El correo de la empresa cliente' : 'El correo del cliente' }}</option><option value="fixed">Una dirección fija (aviso interno)</option><option v-if="!isBilling" value="team">El equipo: responsable asignado, responsables del origen y correos por defecto</option></NativeSelect></FormField>
                     <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@mecaniq.cl" /></FormField>
                 </div>
 

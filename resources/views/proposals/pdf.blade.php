@@ -87,6 +87,20 @@
 @endforeach
 @if ($servicesAt === false || $servicesAt === null) @include('proposals._pdf_services') @php $n++; @endphp @endif
 
+@if ($subscription)
+    @php $n++; @endphp
+    <div class="card">
+        <table class="h2t"><tr><td class="num">{{ $n }}</td><td class="tt">Suscripción</td></tr></table>
+        <p>Plan <strong>{{ $subscription['plan'] }}</strong> · facturación {{ mb_strtolower($subscription['period']) }} · {{ $subscription['auto_renew'] ? 'renovación automática hasta que se cancele' : 'sin renovación automática (termina al fin del período)' }}@if ($subscription['start']) · inicio {{ $subscription['start'] }}@endif.</p>
+        @foreach ($subscription['limits'] as $l)<div>• {{ $l['name'] }}: <strong>{{ $l['value'] === null ? 'Ilimitado' : number_format($l['value'], 0, ',', '.').($l['unit'] ? ' '.$l['unit'] : '') }}</strong></div>@endforeach
+    </div>
+    @php $n++; @endphp
+    <div class="card">
+        <table class="h2t"><tr><td class="num">{{ $n }}</td><td class="tt">Contrato de servicios</td></tr></table>
+        <div>{!! $subscription['contract'] !!}</div>
+    </div>
+@endif
+
 {{-- Firma --}}
 <div class="card" style="margin-top:4px">
     <h2>Firma y aceptación</h2>

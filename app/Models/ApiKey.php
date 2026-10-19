@@ -16,6 +16,8 @@ class ApiKey extends Model
         'emails.send' => 'Enviar emails con plantillas (POST /api/v1/emails/send)',
         'emails.read' => 'Consultar estado de envíos (GET /api/v1/emails/{id})',
         'leads.create' => 'Crear leads (POST /api/v1/leads)',
+        'billing.read' => 'Leer planes, suscripción, límites, cobros y saldo de un cliente (GET /api/v1/customers/{customer_id}/…)',
+        'billing.write' => 'Registrar pagos de cobros desde la app o una pasarela (POST /api/v1/customers/{customer_id}/invoices/{n}/payments)',
     ];
 
     protected function casts(): array

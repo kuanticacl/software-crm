@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 #[Fillable([
-    'number', 'title', 'currency', 'uf_value', 'uf_date', 'client_id', 'lead_id', 'user_id', 'status', 'recipient', 'sections',
+    'number', 'title', 'currency', 'uf_value', 'uf_date', 'client_id', 'lead_id', 'plan_id', 'plan_period', 'auto_renew', 'start_date', 'user_id', 'status', 'recipient', 'sections',
     'issued_at', 'valid_until', 'contract_months', 'discount_type', 'discount_value', 'tax_rate', 'tax_mode',
     'total_one_time', 'total_monthly', 'total_net', 'total_tax', 'total_gross',
     'internal_notes', 'public_token', 'sent_at', 'viewed_at', 'view_count', 'responded_at', 'responded_by', 'signer_rut', 'response_note', 'response_ip', 'response_user_agent', 'signature_data',
@@ -45,6 +45,8 @@ class Proposal extends Model
             'recipient' => 'array',
             'sections' => 'array',
             'issued_at' => 'date',
+            'start_date' => 'date',
+            'auto_renew' => 'boolean',
             'uf_date' => 'date',
             'uf_value' => 'float',
             'discount_value' => 'float',
@@ -67,6 +69,17 @@ class Proposal extends Model
             $p->public_token ??= (string) Str::uuid();
             $p->number ??= static::nextNumber();
             $p->issued_at ??= now();
+        });
+
+        // Al aceptarse una propuesta con plan nace la suscripción y su primer cobro (idempotente).
+        static::saved(function (Proposal $p) {
+            if ($p->plan_id && $p->status === 'accepted' && $p->wasChanged('status')) {
+                try {
+                    app(\App\Services\Billing\SubscriptionService::class)->fromProposal($p->loadMissing('items', 'client'));
+                } catch (\Throwable $e) {
+                    report($e);
+                }
+            }
         });
     }
 
@@ -109,6 +122,16 @@ class Proposal extends Model
     public function items(): HasMany
     {
         return $this->hasMany(ProposalItem::class)->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function plan(): BelongsTo
+    {
+        return $this->belongsTo(Plan::class)->withTrashed();
+    }
+
+    public function subscription(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Subscription::class);
     }
 
     public function client(): BelongsTo

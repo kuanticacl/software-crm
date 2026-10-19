@@ -29,6 +29,7 @@
     $pdfUrl = ($public ?? false) ? route('proposals.public.pdf', $p->public_token) : (($preview ?? false) ? null : route('proposals.pdf', $p->id));
     $asset = fn ($f) => asset($f);
     $heroUrl = \App\Support\Theme::heroUrl();
+    $subscription = \App\Services\Proposals\ProposalView::data($p)['subscription'];
 @endphp
 <!doctype html>
 <html lang="es">
@@ -163,6 +164,23 @@
         @if ($servicesAt === $i) @include('proposals._services') @php $n++; @endphp @endif
     @endforeach
     @if ($servicesAt === false || $servicesAt === null) @include('proposals._services') @endif
+
+    @if ($subscription)
+        <section class="card">
+            <h2><span class="n">{{ ++$n }}</span>Suscripción</h2>
+            <dl class="info">
+                <div><dt>Plan</dt><dd>{{ $subscription['plan'] }}</dd></div>
+                <div><dt>Facturación</dt><dd>{{ $subscription['period'] }}</dd></div>
+                <div><dt>Renovación</dt><dd>{{ $subscription['auto_renew'] ? 'Automática, hasta que se cancele' : 'Sin renovación automática: termina al fin del período' }}</dd></div>
+                @if ($subscription['start'])<div><dt>Inicio</dt><dd>{{ $subscription['start'] }}</dd></div>@endif
+                @foreach ($subscription['limits'] as $l)<div><dt>{{ $l['name'] }}</dt><dd>{{ $l['value'] === null ? 'Ilimitado' : number_format($l['value'], 0, ',', '.').($l['unit'] ? ' '.$l['unit'] : '') }}</dd></div>@endforeach
+            </dl>
+        </section>
+        <section class="card">
+            <h2><span class="n">{{ ++$n }}</span>Contrato de servicios</h2>
+            <div class="body">{!! $subscription['contract'] !!}</div>
+        </section>
+    @endif
 
     @if (true)
         @if (in_array($status, ['accepted', 'rejected']))

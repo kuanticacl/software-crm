@@ -29,6 +29,10 @@ use App\Http\Controllers\LeadFieldController;
 use App\Http\Controllers\Proposals\ProposalController;
 use App\Http\Controllers\Public\ProposalViewController as PublicProposalController;
 use App\Http\Controllers\Proposals\ServiceController;
+use App\Http\Controllers\Billing\BillingSettingsController;
+use App\Http\Controllers\Billing\InvoiceController;
+use App\Http\Controllers\Billing\PlanController;
+use App\Http\Controllers\Billing\SubscriptionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\StageController;
@@ -125,6 +129,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('fields/reorder', [LeadFieldController::class, 'reorder'])->name('fields.reorder');
             Route::put('fields/{field}', [LeadFieldController::class, 'update'])->name('fields.update');
             Route::delete('fields/{field}', [LeadFieldController::class, 'destroy'])->name('fields.destroy');
+        });
+    });
+
+    // Suscripciones, cobros, planes y límites
+    Route::prefix('billing')->name('billing.')->group(function () {
+        Route::middleware('can:billing.view')->group(function () {
+            Route::get('subscriptions', [SubscriptionController::class, 'index'])->name('subscriptions.index');
+            Route::get('subscriptions/{subscription}', [SubscriptionController::class, 'show'])->whereNumber('subscription')->name('subscriptions.show');
+            Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+            Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
+        });
+        Route::middleware('can:billing.manage')->group(function () {
+            Route::post('subscriptions', [SubscriptionController::class, 'store'])->name('subscriptions.store');
+            Route::put('subscriptions/{subscription}', [SubscriptionController::class, 'update'])->whereNumber('subscription')->name('subscriptions.update');
+            Route::post('subscriptions/{subscription}/cancel', [SubscriptionController::class, 'cancel'])->name('subscriptions.cancel');
+            Route::post('subscriptions/{subscription}/suspend', [SubscriptionController::class, 'suspend'])->name('subscriptions.suspend');
+            Route::post('subscriptions/{subscription}/reactivate', [SubscriptionController::class, 'reactivate'])->name('subscriptions.reactivate');
+            Route::post('invoices/{invoice}/pay', [InvoiceController::class, 'pay'])->name('invoices.pay');
+            Route::post('invoices/{invoice}/void', [InvoiceController::class, 'void'])->name('invoices.void');
+            Route::put('invoices/{invoice}/link', [InvoiceController::class, 'link'])->name('invoices.link');
+            Route::post('invoices/{invoice}/resend', [InvoiceController::class, 'resend'])->middleware('throttle:20,1')->name('invoices.resend');
+        });
+        Route::middleware('can:plans.manage')->group(function () {
+            Route::post('plans', [PlanController::class, 'store'])->name('plans.store');
+            Route::put('plans/{plan}', [PlanController::class, 'update'])->name('plans.update');
+            Route::delete('plans/{plan}', [PlanController::class, 'destroy'])->name('plans.destroy');
+            Route::post('limits', [PlanController::class, 'storeLimit'])->name('limits.store');
+            Route::put('limits/{limit}', [PlanController::class, 'updateLimit'])->name('limits.update');
+            Route::delete('limits/{limit}', [PlanController::class, 'destroyLimit'])->name('limits.destroy');
+        });
+        Route::middleware('can:billing.settings')->group(function () {
+            Route::get('settings', [BillingSettingsController::class, 'edit'])->name('settings.edit');
+            Route::put('settings', [BillingSettingsController::class, 'update'])->name('settings.update');
         });
     });
 

@@ -1,0 +1,153 @@
+{
+  "slug": "bienvenida-suscripcion",
+  "name": "Suscripción: bienvenida",
+  "description": "Se envía al comenzar una suscripción (propuesta aceptada): plan, período, renovación y clave de cliente.",
+  "category": "transactional",
+  "subject": "Bienvenido a MecaniQ · Plan {{ plan_name }}",
+  "preheader": "Tu suscripción ya está creada",
+  "variables": [
+    {
+      "key": "first_name",
+      "label": "Nombre",
+      "default": "",
+      "sample": "María"
+    },
+    {
+      "key": "company",
+      "label": "Empresa",
+      "default": "",
+      "sample": "Taller Los Robles"
+    },
+    {
+      "key": "plan_name",
+      "label": "Plan",
+      "default": "",
+      "sample": "Pro"
+    },
+    {
+      "key": "period",
+      "label": "Período",
+      "default": "",
+      "sample": "Mensual"
+    },
+    {
+      "key": "auto_renew",
+      "label": "Renovación automática",
+      "default": "",
+      "sample": "Sí"
+    },
+    {
+      "key": "renewal_date",
+      "label": "Fin del período",
+      "default": "",
+      "sample": "15-12-2026"
+    },
+    {
+      "key": "customer_id",
+      "label": "ID de cliente",
+      "default": "",
+      "sample": "cus_abc123def456ghij"
+    }
+  ],
+  "design": {
+    "settings": {
+      "bg": "#F3F6F9",
+      "contentBg": "#FFFFFF",
+      "width": 600,
+      "font": "Arial, Helvetica, sans-serif",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
+      "radius": 16
+    },
+    "blocks": [
+      {
+        "id": "b000001g",
+        "type": "header",
+        "props": {
+          "logoUrl": "{{LOGO_URL}}",
+          "logoWidth": 150,
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
+          "align": "center",
+          "padY": 28,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001h",
+        "type": "heading",
+        "props": {
+          "text": "Bienvenido a MecaniQ, {{ first_name }}",
+          "size": 26,
+          "color": "#0B1522",
+          "weight": "700",
+          "align": "left",
+          "padY": 12,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001i",
+        "type": "text",
+        "props": {
+          "text": "Creamos tu suscripción **Plan {{ plan_name }}** ({{ period }}){{#if company}} para **{{ company }}**{{/if}}.",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001j",
+        "type": "text",
+        "props": {
+          "text": "Plan\n**{{ plan_name }}** · {{ period }}\n\nRenovación automática\n**{{ auto_renew }}**\n\nPeríodo vigente hasta\n**{{ renewal_date }}**\n\nTu ID de cliente\n**{{ customer_id }}**",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 16,
+          "padX": 32,
+          "bg": "#F3F6F9"
+        }
+      },
+      {
+        "id": "b000001k",
+        "type": "text",
+        "props": {
+          "text": "Guarda tu ID de cliente: lo usarás para vincular tu taller en la app.",
+          "size": 13,
+          "color": "#8A98A8",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 6,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000001l",
+        "type": "footer",
+        "props": {
+          "company": "{{ company_name }}",
+          "address": "{{ADDRESS}}",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.",
+          "showUnsubscribe": false,
+          "unsubscribeText": "Darme de baja",
+          "showView": false,
+          "color": "#8A8A8A",
+          "align": "center",
+          "padY": 24,
+          "padX": 32,
+          "bg": "#FAFAFA"
+        }
+      }
+    ]
+  },
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">Bienvenido a MecaniQ, {{ first_name }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Creamos tu suscripción <strong>Plan {{ plan_name }}</strong> ({{ period }}){{#if company}} para <strong>{{ company }}</strong>{{/if}}.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#F3F6F9;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Plan<br><strong>{{ plan_name }}</strong> · {{ period }}<br><br>Renovación automática<br><strong>{{ auto_renew }}</strong><br><br>Período vigente hasta<br><strong>{{ renewal_date }}</strong><br><br>Tu ID de cliente<br><strong>{{ customer_id }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A98A8;text-align:center\">Guarda tu ID de cliente: lo usarás para vincular tu taller en la app.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+}

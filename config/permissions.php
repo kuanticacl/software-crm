@@ -62,6 +62,16 @@ return [
                 'agency.manage' => 'Editar los datos de mi empresa (firma y pie de propuestas)',
             ],
         ],
+        'billing' => [
+            'label' => 'Suscripciones y cobros',
+            'icon' => 'credit-card',
+            'permissions' => [
+                'billing.view' => 'Ver suscripciones, cobros y planes',
+                'billing.manage' => 'Crear, cancelar y suspender suscripciones; registrar pagos y anular cobros',
+                'plans.manage' => 'Administrar planes, precios y límites',
+                'billing.settings' => 'Configurar cobranza (cuentas bancarias, contrato y plazos)',
+            ],
+        ],
         'users' => [
             'label' => 'Usuarios',
             'icon' => 'user-cog',
@@ -140,7 +150,7 @@ return [
             'permissions' => [
                 'dashboard.view',
                 'leads.view', 'leads.create', 'leads.update', 'leads.move', 'leads.notes',
-                'clients.view', 'ai.use', 'proposals.view', 'proposals.create', 'services.view',
+                'clients.view', 'ai.use', 'proposals.view', 'proposals.create', 'services.view', 'billing.view',
             ],
         ],
         'supervisor' => [
@@ -150,7 +160,7 @@ return [
             'permissions' => [
                 'dashboard.view',
                 'leads.view', 'leads.view_all', 'leads.create', 'leads.update', 'leads.move', 'leads.assign', 'leads.notes',
-                'clients.view', 'clients.create', 'clients.update', 'proposals.view', 'proposals.create', 'proposals.send', 'proposals.delete', 'services.view', 'services.manage', 'agency.manage',
+                'clients.view', 'clients.create', 'clients.update', 'proposals.view', 'proposals.create', 'proposals.send', 'proposals.delete', 'services.view', 'services.manage', 'agency.manage', 'billing.view', 'billing.manage',
                 'users.view',
                 'templates.view', 'campaigns.view', 'email_logs.view', 'ai.use', 'agent.use',
             ],

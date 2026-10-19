@@ -4,7 +4,9 @@ namespace App\Services\Proposals;
 
 use App\Models\Client;
 use App\Models\Lead;
+use App\Models\Plan;
 use App\Models\Proposal;
+use App\Support\BillingPeriod;
 use App\Models\ProposalItem;
 use App\Services\UfService;
 use App\Support\TaxDocument;
@@ -25,6 +27,25 @@ class ProposalBuilder
             ['title' => 'Plan de implementación', 'body' => "- **Día 1:** creación de la cuenta y configuración del taller\n- **Semana 1:** carga de clientes y vehículos, y capacitación al equipo\n- **Desde la semana 2:** uso diario con acompañamiento y soporte"],
             ['title' => 'Condiciones comerciales', 'body' => "- Valores netos expresados en la moneda indicada (pesos o UF); se agrega IVA\n- La UF de referencia es la del día de emisión de esta propuesta (queda indicada en el documento)\n- Las suscripciones mensuales se facturan por mes anticipado y se pueden cancelar con aviso previo\n- Los servicios de pago único se facturan 50% al aceptar y 50% al entregar"],
             ['title' => 'Aceptación', 'body' => 'Para aceptar esta propuesta, ingrese al enlace recibido y presione «Aceptar propuesta», o responda este correo indicando su conformidad.'],
+        ];
+    }
+
+    /** Línea de la propuesta que representa el plan elegido (precio neto del período, desde el catálogo de planes). @return array<string, mixed> */
+    public static function planItem(Plan $plan, string $period): array
+    {
+        $limits = collect($plan->limitsList())->map(fn ($l) => $l['name'].': '.($l['value'] === null ? 'ilimitado' : number_format($l['value'], 0, ',', '.').($l['unit'] ? ' '.$l['unit'] : '')))->all();
+
+        return [
+            'service_id' => null,
+            'name' => "Plan {$plan->name} · ".BillingPeriod::LABELS[$period],
+            'description' => $plan->tagline ?: $plan->description,
+            'deliverables' => [...($plan->features ?? []), ...$limits],
+            'billing' => 'one_time',
+            'unit' => BillingPeriod::PER[$period],
+            'quantity' => 1,
+            'unit_price' => (float) ($plan->priceFor($period) ?? 0),
+            'discount_pct' => 0,
+            'is_plan' => true,
         ];
     }
 
@@ -50,6 +71,13 @@ class ProposalBuilder
     public function fromPayload(array $data, ?Proposal $existing = null): Proposal
     {
         $p = $existing ?? new Proposal(['status' => 'draft']);
+        $plan = ! empty($data['plan_id']) && BillingPeriod::valid($data['plan_period'] ?? null)
+            ? Plan::with(['prices', 'limits'])->find($data['plan_id']) : null;
+        if ($plan) {
+            $data['currency'] = 'CLP';
+            $data['items'] = [self::planItem($plan, $data['plan_period']), ...collect($data['items'] ?? [])->reject(fn ($i) => ! empty($i['is_plan']))->values()->all()];
+        }
+
         $items = collect($data['items'] ?? [])->values()->map(fn ($i, $n) => new ProposalItem([
             'service_id' => $i['service_id'] ?? null,
             'name' => $i['name'],
@@ -72,6 +100,10 @@ class ProposalBuilder
             'title' => $data['title'] ?? 'Propuesta comercial',
             'client_id' => $data['client_id'] ?? null,
             'lead_id' => $data['lead_id'] ?? null,
+            'plan_id' => $plan?->id,
+            'plan_period' => $plan ? $data['plan_period'] : null,
+            'auto_renew' => $plan ? (bool) ($data['auto_renew'] ?? true) : true,
+            'start_date' => $plan ? ($data['start_date'] ?? null) : null,
             'recipient' => $recipient,
             'sections' => collect($data['sections'] ?? [])->map(fn ($s) => ['title' => trim((string) ($s['title'] ?? '')), 'body' => ProposalText::isHtml($s['body'] ?? '') ? ProposalText::sanitize((string) $s['body']) : trim((string) ($s['body'] ?? ''))])->filter(fn ($s) => $s['title'] !== '' || $s['body'] !== '')->values()->all(),
             'valid_until' => $data['valid_until'] ?? null,
@@ -161,6 +193,7 @@ class ProposalBuilder
     {
         $data = [
             'currency' => $source->currency,
+            'plan_id' => $source->plan_id, 'plan_period' => $source->plan_period, 'auto_renew' => $source->auto_renew,
             'title' => preg_replace('/ \(v\d+\)$/', '', $source->title).' (v'.(1 + Proposal::where('lead_id', $source->lead_id)->where('client_id', $source->client_id)->count()).')',
             'client_id' => $source->client_id,
             'lead_id' => $source->lead_id,

@@ -12,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Input } from '@/components/ui/input';
 import { NativeSelect } from '@/components/ui/native-select';
 import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { HttpError, sendJson } from '@/lib/http';
 import { formatAmount, formatMoney, formatUfValue } from '@/lib/leadUi';
@@ -28,6 +29,7 @@ type TaxMode = 'iva' | 'exenta' | 'honorarios' | 'none';
 type Initial = {
     title: string; currency: 'UF' | 'CLP'; client_id: number | null; lead_id: number | null; recipient: Recipient; sections: Section[]; valid_until: string | null; contract_months: number | null;
     discount_type: 'percent' | 'amount'; discount_value: number; tax_mode: TaxMode; tax_rate: number; internal_notes: string | null;
+    plan_id: number | null; plan_period: 'monthly' | 'quarterly' | 'annual'; auto_renew: boolean; start_date: string | null;
     items: Omit<ProposalItemInput, 'key'>[];
 };
 
@@ -35,6 +37,7 @@ const props = defineProps<{
     proposal: { id: number; number: string; status: string; is_final: boolean } | null;
     initial: Initial;
     services: CatalogService[];
+    plans: { id: number; name: string; tagline: string | null; prices: Partial<Record<'monthly' | 'quarterly' | 'annual', number>>; limits: { key: string; name: string; unit: string | null; value: number | null }[]; features: string[] }[];
     uf: { value: number; date: string } | null;
     taxModes: Record<TaxMode, string>;
     taxRates: Record<TaxMode, number>;
@@ -60,7 +63,23 @@ const form = reactive({
     tax_mode: i0.tax_mode,
     tax_rate: Number(i0.tax_rate),
     internal_notes: i0.internal_notes ?? '',
+    plan_id: (i0.plan_id ?? null) as number | null,
+    plan_period: (i0.plan_period ?? 'monthly') as 'monthly' | 'quarterly' | 'annual',
+    auto_renew: i0.auto_renew ?? true,
+    start_date: i0.start_date ?? '',
 });
+const periodLabels = { monthly: 'Mensual', quarterly: 'Trimestral', annual: 'Anual' } as const;
+const plan = computed(() => props.plans.find((p) => p.id === form.plan_id) ?? null);
+const planPrice = computed(() => (plan.value ? (plan.value.prices[form.plan_period] ?? 0) : 0));
+watch(
+    () => form.plan_id,
+    (id) => {
+        if (!id) return;
+        form.currency = 'CLP';
+        if (plan.value && plan.value.prices[form.plan_period] === undefined) form.plan_period = (Object.keys(plan.value.prices)[0] ?? 'monthly') as typeof form.plan_period;
+    },
+);
+const fmtInt = new Intl.NumberFormat('es-CL');
 const blank = (r: Recipient) => Object.fromEntries((['company', 'legal_name', 'rut', 'activity', 'address', 'contact_name', 'contact_role', 'email', 'phone'] as const).map((k) => [k, r[k] ?? ''])) as Record<keyof Recipient, string>;
 const recipient = reactive<Record<keyof Recipient, string>>(blank(i0.recipient));
 const sections = ref<Section[]>(JSON.parse(JSON.stringify(i0.sections)));
@@ -130,7 +149,7 @@ const setDeliv = (i: ProposalItemInput, v: string) => (i.deliverables = v.split(
 const totals = computed(() => {
     const d = decimals.value;
     const r = (n: number) => Number(n.toFixed(d));
-    let one = 0;
+    let one = planPrice.value;
     let mon = 0;
     for (const i of items.value) {
         const line = r(i.quantity * i.unit_price * (1 - (i.discount_pct || 0) / 100));
@@ -171,6 +190,7 @@ const moveSection = (i: number, d: number) => {
 const payload = () => ({
     ...form,
     valid_until: form.valid_until || null,
+    start_date: form.plan_id ? form.start_date || null : null,
     contract_months: form.contract_months || null,
     internal_notes: form.internal_notes || null,
     recipient: { ...recipient },
@@ -327,10 +347,25 @@ const money = (n: number) => formatAmount(n, form.currency);
                         </div>
                     </section>
 
+                    <!-- Plan de suscripción -->
+                    <section class="rounded-2xl border bg-card p-5">
+                        <h2 class="mb-1 flex items-center gap-2 font-semibold"><Repeat class="size-4 text-primary" /> Plan de suscripción</h2>
+                        <p class="mb-4 text-sm text-muted-foreground">MecaniQ se vende por suscripción. Al aceptarse la propuesta se crea la suscripción y su primer cobro.</p>
+                        <div class="grid items-start gap-4 sm:grid-cols-3">
+                            <FormField label="Plan"><NativeSelect v-model="form.plan_id" :disabled="locked"><option :value="null">Sin plan (propuesta libre)</option><option v-for="p in plans" :key="p.id" :value="p.id">{{ p.name }}</option></NativeSelect></FormField>
+                            <FormField label="Período de facturación"><NativeSelect v-model="form.plan_period" :disabled="locked || !plan"><option v-for="(l, k) in periodLabels" :key="k" :value="k" :disabled="!plan || plan.prices[k] === undefined">{{ l }}{{ plan && plan.prices[k] !== undefined ? ` · $${fmtInt.format(plan.prices[k]!)}` : ' · no disponible' }}</option></NativeSelect></FormField>
+                            <FormField label="Inicio de la suscripción" hint="Vacío = al aceptar"><Input v-model="form.start_date" type="date" :disabled="locked || !plan" /></FormField>
+                        </div>
+                        <template v-if="plan">
+                            <label class="mt-4 flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Renovación automática</span><br /><span class="text-xs text-muted-foreground">Activada: se cobra cada período hasta cancelar. Desactivada: termina al final del período contratado.</span></span><Switch :model-value="form.auto_renew" :disabled="locked" @update:model-value="(v: boolean) => (form.auto_renew = v)" /></label>
+                            <div class="mt-4 flex flex-wrap gap-2 text-xs"><span v-for="l in plan.limits" :key="l.key" class="rounded-full bg-muted px-2.5 py-1">{{ l.name }}: <strong>{{ l.value === null ? 'ilimitado' : fmtInt.format(l.value) }}</strong></span></div>
+                        </template>
+                    </section>
+
                     <!-- Servicios -->
                     <section class="rounded-2xl border bg-card p-5">
                         <div class="mb-4 flex flex-wrap items-center justify-between gap-2">
-                            <h2 class="flex items-center gap-2 font-semibold"><Package class="size-4 text-primary" /> Servicios e inversión</h2>
+                            <h2 class="flex items-center gap-2 font-semibold"><Package class="size-4 text-primary" /> {{ plan ? 'Cargos adicionales (opcional)' : 'Servicios e inversión' }}</h2>
                             <div class="flex flex-wrap gap-2">
                                 <Button v-if="ai.enabled" type="button" size="sm" variant="outline" class="border-primary/40 text-primary" @click="suggestOpen = true; suggestions = []"><Sparkles /> Sugerir con IA</Button>
                                 <Button type="button" size="sm" variant="outline" @click="catalogOpen = true"><Package /> Del catálogo</Button>
@@ -379,7 +414,7 @@ const money = (n: number) => formatAmount(n, form.currency);
                     <section class="rounded-2xl border bg-card p-5">
                         <h2 class="mb-4 flex items-center gap-2 font-semibold"><Receipt class="size-4 text-primary" /> Condiciones</h2>
                         <div class="grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-5">
-                            <FormField label="Moneda" :hint="form.currency === 'UF' && uf ? `UF hoy ${formatUfValue(uf.value)}` : undefined"><NativeSelect v-model="form.currency"><option value="UF">UF (recomendado)</option><option value="CLP">Pesos (CLP)</option></NativeSelect></FormField>
+                            <FormField label="Moneda" :hint="form.currency === 'UF' && uf ? `UF hoy ${formatUfValue(uf.value)}` : undefined"><NativeSelect v-model="form.currency"><option v-if="!plan" value="UF">UF (recomendado)</option><option value="CLP">Pesos (CLP)</option></NativeSelect></FormField>
                             <FormField label="Válida hasta"><Input v-model="form.valid_until" type="date" /></FormField>
                             <FormField label="Duración (meses)" hint="Para servicios mensuales"><Input v-model.number="form.contract_months" type="number" min="1" max="60" placeholder="12" /></FormField>
                             <FormField label="Descuento">

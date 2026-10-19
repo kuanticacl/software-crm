@@ -7,7 +7,6 @@ use App\Models\Lead;
 use App\Models\LeadSource;
 use App\Models\PipelineStage;
 use App\Models\Proposal;
-use App\Models\Service;
 use App\Models\User;
 use App\Services\LeadService;
 use App\Services\Proposals\ProposalBuilder;
@@ -39,7 +38,7 @@ class ProposalDemoSeeder extends Seeder
     public function run(LeadService $leads, ProposalBuilder $builder, UfService $uf): void
     {
         $owner = User::orderBy('id')->first();
-        $services = Service::all()->keyBy('name');
+        $plans = \App\Models\Plan::all();
         $stages = PipelineStage::all()->keyBy('name');
         $sources = LeadSource::all()->keyBy('name');
 
@@ -74,11 +73,9 @@ class ProposalDemoSeeder extends Seeder
                     $days = $v === 0 ? 24 : 8; // versión 1 antigua, versión 2 reciente
                 }
 
-                $items = collect($c['plan'])->map(function ($row) use ($services) {
-                    $svc = $services->get($row[0]);
-
-                    return $svc ? ['service_id' => $svc->id, 'name' => $svc->name, 'description' => $svc->description, 'deliverables' => $svc->deliverables, 'billing' => $svc->billing, 'unit' => $svc->unit, 'quantity' => $row[1], 'unit_price' => $svc->price, 'discount_pct' => $row[2]] : null;
-                })->filter()->values()->all();
+                // Cada escenario cotiza un plan (el primero de su lista que exista en el catálogo de planes).
+                $plan = collect($c['plan'])->map(fn ($row) => $plans->first(fn ($pl) => str_contains($row[0], $pl->name)))->filter()->first();
+                $items = [];
 
                 $p = $builder->save([
                     'title' => 'MecaniQ para tu taller · '.$c['company'].($v > 0 ? ' (v'.($v + 1).')' : ''),
@@ -86,8 +83,8 @@ class ProposalDemoSeeder extends Seeder
                     'recipient' => ProposalBuilder::recipientFor($client, $lead),
                     'sections' => $this->sections($c),
                     'valid_until' => now()->subDays($days)->addDays(15)->toDateString(),
-                    'contract_months' => 12, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'iva', 'tax_rate' => 19,
-                    'items' => $items, 'internal_notes' => '<p>Propuesta de ejemplo del seed demo.</p>',
+                    'contract_months' => null, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'iva', 'tax_rate' => 19,
+                    'items' => $items, 'plan_id' => $plan?->id, 'plan_period' => ['monthly', 'quarterly', 'annual'][$v % 3], 'auto_renew' => true, 'start_date' => now()->toDateString(), 'internal_notes' => '<p>Propuesta de ejemplo del seed demo.</p>',
                 ], null, $owner?->id);
 
                 $sentAt = now()->subDays($days);

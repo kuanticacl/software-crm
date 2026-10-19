@@ -2,6 +2,7 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 import QuiebreLogo from '@/components/QuiebreLogo.vue';
 import { home } from '@/routes';
 
@@ -32,6 +33,7 @@ const hero = computed(() => (usePage().props.brand as { hero: string | null } | 
             class="pointer-events-none absolute -bottom-40 -left-40 size-[28rem] rounded-full bg-primary/10 blur-3xl"
         />
 
+        <ThemeToggle class="absolute top-4 right-4 z-10" />
         <div class="relative w-full max-w-sm">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-6">

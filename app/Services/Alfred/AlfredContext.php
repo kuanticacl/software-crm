@@ -5,7 +5,7 @@ namespace App\Services\Alfred;
 use App\Models\Lead;
 use App\Models\LeadSource;
 
-/** Contexto de una conversación de Alfred: origen autenticado, datos del visitante y acciones ejecutadas. */
+/** Contexto de una conversación de Scarlett: origen autenticado, datos del visitante y acciones ejecutadas. */
 class AlfredContext
 {
     public ?Lead $lead = null;

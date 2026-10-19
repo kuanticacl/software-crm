@@ -12,12 +12,12 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-/** Ajustes de Alfred (ejecutivo virtual del sitio web): prompt, conocimiento autorizado, saludo y activación. */
+/** Ajustes de Scarlett (ejecutiva virtual del sitio web): prompt, conocimiento autorizado, saludo y activación. */
 class AlfredSettingsController extends Controller
 {
     public function edit(AiGateway $ai): Response
     {
-        return Inertia::render('ai/Alfred', [
+        return Inertia::render('ai/Scarlett', [
             'settings' => AlfredSettings::all(),
             'defaultPrompt' => AlfredSettings::DEFAULT_PROMPT,
             'safety' => AlfredSettings::SAFETY,
@@ -47,6 +47,6 @@ class AlfredSettingsController extends Controller
         Setting::put('alfred.knowledge', trim((string) ($data['knowledge'] ?? '')) ?: null);
         Setting::put('alfred.greeting', trim((string) ($data['greeting'] ?? '')) ?: null);
 
-        return back()->with('success', 'Ajustes de Alfred guardados.');
+        return back()->with('success', 'Ajustes de Scarlett guardados.');
     }
 }

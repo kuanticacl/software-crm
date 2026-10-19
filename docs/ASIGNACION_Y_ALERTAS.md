@@ -2,7 +2,7 @@
 
 ## Qué hace
 
-- **Ningún cliente queda sin asignar.** Al crearse un cliente (web, API, formularios, Alfred o a mano) sin responsable:
+- **Ningún cliente queda sin asignar.** Al crearse un cliente (web, API, formularios, Scarlett o a mano) sin responsable:
   1. se asigna a los **responsables de su origen** (uno o varios; si son varios se reparten parejo, gana quien tenga menos clientes de ese origen);
   2. si el origen no tiene responsables, al **responsable por defecto**.
 - **Alerta por correo** a cada cliente nuevo, con la plantilla *Alerta de cliente nuevo* (Email → Plantillas) y la

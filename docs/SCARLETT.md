@@ -1,7 +1,7 @@
-# Alfred — ejecutivo virtual del sitio web
+# Scarlett — ejecutiva virtual del sitio web
 
 Asistente flotante de mecaniq.cl. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
-reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permiso `ai.manage`).
+reuniones. Se administra en **Inteligencia artificial → Scarlett (web)** (permiso `ai.manage`).
 
 ## Diseño de seguridad
 
@@ -20,9 +20,9 @@ reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permis
 
 ## API (misma API key por origen que el ingreso de leads, header `X-Api-Key`)
 
-`GET /api/v1/alfred/config` → `{ data: { enabled, greeting } }` (`enabled` = activo **y** con proveedor de IA).
+`GET /api/v1/scarlett/config` → `{ data: { enabled, greeting } }` (`enabled` = activo **y** con proveedor de IA).
 
-`POST /api/v1/alfred/chat`
+`POST /api/v1/scarlett/chat`
 
 ```json
 {
@@ -33,4 +33,4 @@ reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permis
 }
 ```
 
-Responde `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Alfred está desactivado o no hay IA.
+Responde `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Scarlett está desactivado o no hay IA.

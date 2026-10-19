@@ -13,14 +13,16 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:lead-ingest'])->group(function () {
     Route::post('leads', [LeadIngestController::class, 'store'])->name('api.leads.store');
-    Route::get('alfred/config', [AlfredChatController::class, 'config'])->name('api.alfred.config');
+    Route::get('scarlett/config', [AlfredChatController::class, 'config'])->name('api.alfred.config');
+    Route::get('alfred/config', [AlfredChatController::class, 'config']); // alias anterior
 });
 
 /*
-| Alfred, el ejecutivo virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
+| Scarlett, el ejecutivo virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
 */
 Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:alfred-chat'])->group(function () {
-    Route::post('alfred/chat', [AlfredChatController::class, 'chat'])->name('api.alfred.chat');
+    Route::post('scarlett/chat', [AlfredChatController::class, 'chat'])->name('api.alfred.chat');
+    Route::post('alfred/chat', [AlfredChatController::class, 'chat']); // alias anterior
 });
 
 /*

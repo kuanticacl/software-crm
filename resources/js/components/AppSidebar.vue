@@ -126,7 +126,7 @@ const groups: NavGroup[] = [
         icon: Sparkles,
         items: [
             { title: 'Proveedores', href: ai(), icon: Sparkles, permission: 'ai.manage' },
-            { title: 'Alfred (web)', href: '/ai/alfred', icon: Bot, permission: 'ai.manage' },
+            { title: 'Scarlett (web)', href: '/ai/scarlett', icon: Bot, permission: 'ai.manage' },
             { title: 'Consumo y gastos', href: aiUsage(), icon: ChartColumn, permission: 'ai.manage' },
             { title: 'Herramientas MCP', href: mcpIndex(), icon: Cable, permission: 'mcp.manage' },
         ],

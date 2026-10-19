@@ -318,8 +318,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Inteligencia artificial: proveedores y API keys
     Route::prefix('ai')->middleware('can:ai.manage')->group(function () {
         Route::get('/', [AiSettingsController::class, 'index'])->name('ai.index');
-        Route::get('alfred', [AlfredSettingsController::class, 'edit'])->name('ai.alfred');
-        Route::put('alfred', [AlfredSettingsController::class, 'update'])->name('ai.alfred.update');
+        Route::get('scarlett', [AlfredSettingsController::class, 'edit'])->name('ai.alfred');
+        Route::put('scarlett', [AlfredSettingsController::class, 'update'])->name('ai.alfred.update');
+        Route::redirect('alfred', '/ai/scarlett');
         Route::get('usage', [AiUsageController::class, 'index'])->name('ai.usage');
         Route::put('usage/prices', [AiUsageController::class, 'prices'])->name('ai.usage.prices');
         Route::put('usage/budget', [AiUsageController::class, 'budget'])->name('ai.usage.budget');

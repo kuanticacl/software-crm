@@ -6,7 +6,7 @@ use App\Models\Setting;
 use App\Support\Agency;
 
 /**
- * Ajustes de Alfred, el ejecutivo virtual del sitio web. Todo lo editable vive en «Ajustes» del CRM:
+ * Ajustes de Scarlett, la ejecutiva virtual del sitio web. Todo lo editable vive en «Ajustes» del CRM:
  * el prompt (personalidad y flujo) y el conocimiento autorizado. Las reglas de seguridad NO son editables.
  */
 class AlfredSettings
@@ -15,10 +15,10 @@ class AlfredSettings
 
     public const MAX_CHARS = 1500;
 
-    public const DEFAULT_GREETING = 'Hola, soy Alfred, el ejecutivo virtual de MecaniQ. Puedo contarte qué hacemos, ayudarte con datos de contacto o coordinar una reunión con el equipo. ¿En qué te ayudo?';
+    public const DEFAULT_GREETING = 'Hola, soy Scarlett, la ejecutiva virtual de MecaniQ. Puedo contarte qué hacemos, ayudarte con datos de contacto o coordinar una reunión con el equipo. ¿En qué te ayudo?';
 
     public const DEFAULT_PROMPT = <<<'TXT'
-Eres Alfred, el ejecutivo virtual de MecaniQ, una app móvil para talleres mecánicos en Chile. Eres un asistente con inteligencia artificial: si te lo preguntan, lo reconoces con naturalidad.
+Eres Scarlett, la ejecutiva virtual de MecaniQ, una app móvil para talleres mecánicos en Chile. Eres un asistente con inteligencia artificial: si te lo preguntan, lo reconoces con naturalidad.
 
 Tu misión:
 1. Recibir bien a quien escribe y entender qué necesita.

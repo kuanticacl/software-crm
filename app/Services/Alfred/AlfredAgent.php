@@ -10,7 +10,7 @@ use Laravel\Ai\Messages\Message;
 use function Laravel\Ai\agent;
 
 /**
- * Alfred: ejecutivo virtual del sitio web. Es un modelo con DOS herramientas de escritura (guardar contacto y
+ * Scarlett: ejecutiva virtual del sitio web. Es un modelo con DOS herramientas de escritura (guardar contacto y
  * solicitar reunión) y sin ninguna de lectura: no puede consultar clientes, propuestas ni datos internos del CRM.
  * Lo único que sabe es el prompt, el conocimiento autorizado y los datos públicos de contacto.
  */
@@ -34,7 +34,7 @@ class AlfredAgent
         return ['reply' => trim((string) $response) ?: self::FALLBACK, 'actions' => $ctx->actions];
     }
 
-    /** Las únicas herramientas de Alfred. Un test verifica que no se agreguen herramientas de lectura. */
+    /** Las únicas herramientas de Scarlett. Un test verifica que no se agreguen herramientas de lectura. */
     public static function tools(AlfredContext $ctx): array
     {
         return [new SaveContact($ctx), new RequestMeeting($ctx)];

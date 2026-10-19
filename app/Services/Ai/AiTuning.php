@@ -41,7 +41,7 @@ class AiTuning
         }
 
         $s = self::settings();
-        // Alfred atiende a público externo: no recibe las instrucciones generales de la empresa (pensadas para uso interno).
+        // Scarlett atiende a público externo: no recibe las instrucciones generales de la empresa (pensadas para uso interno).
         $extra = $feature === 'alfred' ? '' : trim($s['instructions']."\n\n".($feature === 'agent' ? $s['agent_instructions'] : ''));
         $instructions = $agent->instructions.($extra !== '' ? "\n\nInstrucciones adicionales de la empresa (respétalas, salvo que contradigan las reglas anteriores):\n".$extra : '');
 

@@ -44,7 +44,7 @@ class AlfredTest extends TestCase
     {
         $key = $key === 'default' ? $this->source->api_key : $key;
 
-        return $this->postJson('/api/v1/alfred/chat', $payload, array_filter(['X-Api-Key' => $key]));
+        return $this->postJson('/api/v1/scarlett/chat', $payload, array_filter(['X-Api-Key' => $key]));
     }
 
     private function body(array $over = []): array
@@ -78,8 +78,8 @@ class AlfredTest extends TestCase
         $get()->assertOk()->assertJsonPath('data.enabled', false);
 
         $this->enable();
-        Setting::put('alfred.greeting', 'Hola, soy Alfred.');
-        $get()->assertOk()->assertJsonPath('data.enabled', true)->assertJsonPath('data.greeting', 'Hola, soy Alfred.');
+        Setting::put('alfred.greeting', 'Hola, soy Scarlett.');
+        $get()->assertOk()->assertJsonPath('data.enabled', true)->assertJsonPath('data.greeting', 'Hola, soy Scarlett.');
     }
 
     public function test_is_unavailable_when_disabled_or_without_ai_provider(): void
@@ -106,10 +106,10 @@ class AlfredTest extends TestCase
     {
         $this->enable();
         $this->mock(AlfredAgent::class, function ($m) {
-            $m->shouldReceive('chat')->once()->andReturn(['reply' => 'Hola, soy Alfred.', 'actions' => [['tool' => 'save_contact', 'ok' => true]]]);
+            $m->shouldReceive('chat')->once()->andReturn(['reply' => 'Hola, soy Scarlett.', 'actions' => [['tool' => 'save_contact', 'ok' => true]]]);
         });
 
-        $res = $this->chat($this->body())->assertOk()->assertJsonPath('data.reply', 'Hola, soy Alfred.')->assertJsonPath('data.contact_saved', true)->assertJsonPath('data.meeting_requested', false);
+        $res = $this->chat($this->body())->assertOk()->assertJsonPath('data.reply', 'Hola, soy Scarlett.')->assertJsonPath('data.contact_saved', true)->assertJsonPath('data.meeting_requested', false);
         $this->assertSame(['contact_saved', 'meeting_requested', 'reply'], collect($res->json('data'))->keys()->sort()->values()->all());
     }
 
@@ -122,7 +122,7 @@ class AlfredTest extends TestCase
 
     public function test_instructions_include_editable_prompt_knowledge_and_fixed_safety_rules(): void
     {
-        Setting::put('alfred.prompt', 'Eres Alfred y hablas muy formal.');
+        Setting::put('alfred.prompt', 'Eres Scarlett y hablas muy formal.');
         Setting::put('alfred.knowledge', 'SERVICIOS: Estrategia digital inmobiliaria.');
 
         $text = AlfredSettings::instructions();
@@ -170,7 +170,7 @@ class AlfredTest extends TestCase
         $this->assertSame('Gerente comercial', $lead->job_title);
         $this->assertSame('qa', $lead->utm_source);
         $this->assertStringContainsString('aviso 2026-10-15-v1', $lead->message);
-        $this->assertStringContainsString('Conversación con Alfred', $lead->notes()->first()->body);
+        $this->assertStringContainsString('Conversación con Scarlett', $lead->notes()->first()->body);
     }
 
     public function test_request_meeting_registers_a_pending_meeting_and_follow_up(): void

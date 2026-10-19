@@ -11,7 +11,7 @@ use Stringable;
 use Throwable;
 
 /**
- * Base de las herramientas de Alfred. Solo ESCRIBEN datos que la propia persona entregó (contacto y solicitud de
+ * Base de las herramientas de Scarlett. Solo ESCRIBEN datos que la propia persona entregó (contacto y solicitud de
  * reunión): ninguna herramienta lee clientes, propuestas ni configuración del CRM. Los errores vuelven como texto
  * para que el modelo los explique; nunca se exponen detalles internos.
  */

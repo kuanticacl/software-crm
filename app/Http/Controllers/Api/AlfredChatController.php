@@ -15,15 +15,15 @@ use Illuminate\Http\Request;
 use Throwable;
 
 /**
- * POST /api/v1/alfred/chat — conversación de Alfred con un visitante del sitio. Se autentica con la API key del
+ * POST /api/v1/scarlett/chat — conversación de Scarlett con un visitante del sitio. Se autentica con la API key del
  * origen (X-Api-Key), igual que el ingreso de leads. La conversación NO se guarda en el servidor: el sitio envía
  * los mensajes previos en cada llamada y aquí se validan (solo roles user/assistant, largo acotado).
  */
 class AlfredChatController extends Controller
 {
-    private const UNAVAILABLE = 'Alfred no está disponible por ahora. Puedes escribirnos a contacto@mecaniq.cl y el equipo te ayudará.';
+    private const UNAVAILABLE = 'Scarlett no está disponible por ahora. Puedes escribirnos a contacto@mecaniq.cl y el equipo te ayudará.';
 
-    /** GET /api/v1/alfred/config — el sitio muestra a Alfred solo si está activo y con IA disponible. */
+    /** GET /api/v1/scarlett/config — el sitio muestra a Scarlett solo si está activo y con IA disponible. */
     public function config(AiGateway $ai): JsonResponse
     {
         return response()->json(['data' => [

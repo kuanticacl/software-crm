@@ -217,10 +217,10 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
             <p class="mb-5 text-sm text-muted-foreground">Ajusta cómo responde la IA en todo el CRM. Las reglas base de cada función (seguridad, herramientas y formato) siempre se mantienen; lo que escribas aquí se suma a ellas.</p>
             <form class="grid gap-5" @submit.prevent="saveTuning">
                 <div class="grid gap-5 lg:grid-cols-2">
-                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y al Agent. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
+                    <FormField label="Instrucciones para toda la IA" for="ti" :error="tuning.errors.instructions" hint="Se aplican a propuestas, mailings, análisis de prospectos y a Lunita. Ej.: «Siempre habla de honorarios netos», «Firma como Catalina».">
                         <Textarea id="ti" v-model="tuning.instructions" rows="5" placeholder="Ej.: Usa siempre «usted» con empresas y «tú» con personas. Nunca prometas plazos municipales." />
                     </FormField>
-                    <FormField label="Instrucciones solo para el Agent (chat)" for="ta" :error="tuning.errors.agent_instructions" hint="Cómo quieres que converse y actúe el asistente del chat.">
+                    <FormField label="Instrucciones solo para Lunita (chat)" for="ta" :error="tuning.errors.agent_instructions" hint="Cómo quieres que converse y actúe el asistente del chat.">
                         <Textarea id="ta" v-model="tuning.agent_instructions" rows="5" placeholder="Ej.: Responde corto y en viñetas. Antes de crear una propuesta, confirma el monto neto." />
                     </FormField>
                 </div>
@@ -234,7 +234,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
                     <FormField label="Largo máximo de respuesta" for="tm" :error="tuning.errors.max_tokens" hint="En tokens (≈ 0,75 palabras). Vacío = sin límite propio.">
                         <Input id="tm" v-model.number="tuning.max_tokens" type="number" min="256" max="32000" step="256" placeholder="Sin límite" />
                     </FormField>
-                    <FormField label="Pasos máximos del Agent" for="ts" :error="tuning.errors.agent_max_steps" hint="Cuántas herramientas puede usar por mensaje (buscar, crear…). Vacío = predeterminado.">
+                    <FormField label="Pasos máximos de Lunita" for="ts" :error="tuning.errors.agent_max_steps" hint="Cuántas herramientas puede usar por mensaje (buscar, crear…). Vacío = predeterminado.">
                         <Input id="ts" v-model.number="tuning.agent_max_steps" type="number" min="2" max="30" placeholder="Predeterminado" />
                     </FormField>
                 </div>

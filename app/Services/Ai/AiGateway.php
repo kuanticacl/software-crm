@@ -154,9 +154,9 @@ class AiGateway
         }
         $custom = trim((string) \App\Models\Setting::get('ai.transcription_prompt', ''));
 
-        return ['prompt' => $custom !== '' ? mb_substr($custom, 0, 800) : 'Nota de voz en español de Chile para el CRM de Quiebre, agencia de marketing inmobiliario. '
-            .'Habla de clientes, empresas, inmobiliarias, constructoras, corredoras, proyectos, propuestas, Meta Ads, '
-            .'Google Ads, leads, cotizaciones, salas de venta, integraleads, UF, IVA, RUT, comunas y seguimientos. '
+        return ['prompt' => $custom !== '' ? mb_substr($custom, 0, 800) : 'Nota de voz en español de Chile para el CRM de MecaniQ, app móvil para talleres mecánicos. '
+            .'Habla de clientes, talleres, mecánicos, vehículos, órdenes de trabajo, cotizaciones, repuestos, propuestas, Meta Ads, '
+            .'Google Ads, prospectos, demos, suscripciones, WhatsApp, UF, IVA, RUT, comunas y seguimientos. '
             .'Transcribe con puntuación y tildes, tal como se dice.'];
     }
 

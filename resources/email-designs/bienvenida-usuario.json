@@ -3,7 +3,7 @@
   "name": "Bienvenida de usuario",
   "description": "Se envía al crear un usuario del CRM, con su correo, contraseña inicial y enlace de acceso.",
   "category": "transactional",
-  "subject": "Tu acceso al CRM de Quiebre",
+  "subject": "Tu acceso al CRM de MecaniQ",
   "preheader": "Aquí tienes tus datos para ingresar",
   "variables": [
     {
@@ -16,7 +16,7 @@
       "key": "email",
       "label": "Correo de acceso",
       "default": "",
-      "sample": "maria@quiebre.cl"
+      "sample": "maria@mecaniq.cl"
     },
     {
       "key": "password",
@@ -33,18 +33,18 @@
     {
       "key": "login_url",
       "label": "Enlace de acceso",
-      "default": "https://crm.quiebre.cl/login",
-      "sample": "https://crm.quiebre.cl/login"
+      "default": "https://crm.mecaniq.cl/login",
+      "sample": "https://crm.mecaniq.cl/login"
     }
   ],
   "design": {
     "settings": {
-      "bg": "#F4F4F4",
+      "bg": "#F3F6F9",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#393939",
-      "linkColor": "#FF5300",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
       "radius": 16
     },
     "blocks": [
@@ -54,8 +54,8 @@
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Quiebre",
-          "brandColor": "#FF5300",
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -68,7 +68,7 @@
         "props": {
           "text": "¡Bienvenido/a, {{ first_name }}!",
           "size": 26,
-          "color": "#393939",
+          "color": "#0B1522",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -80,7 +80,7 @@
         "id": "b0000003",
         "type": "text",
         "props": {
-          "text": "Te creamos un acceso al CRM de Quiebre{{#if role}} con el rol **{{ role }}**{{/if}}. Estos son tus datos para ingresar:",
+          "text": "Te creamos un acceso al CRM de MecaniQ{{#if role}} con el rol **{{ role }}**{{/if}}. Estos son tus datos para ingresar:",
           "size": 16,
           "color": "",
           "lineHeight": 1.6,
@@ -101,7 +101,7 @@
           "align": "left",
           "padY": 16,
           "padX": 32,
-          "bg": "#FAFAFA"
+          "bg": "#F3F6F9"
         }
       },
       {
@@ -110,7 +110,7 @@
         "props": {
           "label": "Ingresar al CRM",
           "href": "{{ login_url }}",
-          "bg": "#FF5300",
+          "bg": "#027BB9",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -127,7 +127,7 @@
         "props": {
           "text": "Por seguridad, cambia tu contraseña después de ingresar (Configuración → Seguridad). Si no esperabas este correo, ignóralo.",
           "size": 13,
-          "color": "#8A8A8A",
+          "color": "#8A98A8",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 6,
@@ -141,7 +141,7 @@
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Quiebre.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -154,5 +154,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#FF5300}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F4F4F4;font-family:Arial, Helvetica, sans-serif;color:#393939\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F4F4F4\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Quiebre\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">¡Bienvenido/a, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Te creamos un acceso al CRM de Quiebre{{#if role}} con el rol <strong>{{ role }}</strong>{{/if}}. Estos son tus datos para ingresar:</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#FAFAFA;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Usuario (correo)<br><strong>{{ email }}</strong><br><br>Contraseña inicial<br><strong>{{ password }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#FF5300\" style=\"background-color:#FF5300;border-radius:999px\"><a href=\"{{ login_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ingresar al CRM</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A8A8A;text-align:center\">Por seguridad, cambia tu contraseña después de ingresar (Configuración → Seguridad). Si no esperabas este correo, ignóralo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Quiebre.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">¡Bienvenido/a, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Te creamos un acceso al CRM de MecaniQ{{#if role}} con el rol <strong>{{ role }}</strong>{{/if}}. Estos son tus datos para ingresar:</div></td></tr>\n<tr><td class=\"px\" style=\"padding:16px 32px;background-color:#F3F6F9;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Usuario (correo)<br><strong>{{ email }}</strong><br><br>Contraseña inicial<br><strong>{{ password }}</strong></div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#027BB9\" style=\"background-color:#027BB9;border-radius:999px\"><a href=\"{{ login_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ingresar al CRM</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A98A8;text-align:center\">Por seguridad, cambia tu contraseña después de ingresar (Configuración → Seguridad). Si no esperabas este correo, ignóralo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

@@ -34,7 +34,7 @@ defineOptions({ layout: { breadcrumbs: [{ title: 'Dashboard', href: dashboard() 
 const setPeriod = (v: string | number | null) => router.get(dashboard().url, { period: v === 'all' ? undefined : v }, { preserveState: true, preserveScroll: true, replace: true });
 
 const kpis = computed(() => [
-    { label: 'Clientes', value: props.stats.total, icon: Layers, color: '#FF5300', hint: props.periods[props.filters.period] },
+    { label: 'Clientes', value: props.stats.total, icon: Layers, color: '#027BB9', hint: props.periods[props.filters.period] },
     { label: 'Nuevos hoy', value: props.stats.today, icon: CalendarPlus, color: '#1AA0E4', hint: 'Ingresados hoy' },
     { label: 'Conversión', value: `${props.stats.conversion}%`, icon: Percent, color: '#DF1E79', hint: `${props.stats.won} concretados de ${props.stats.total}` },
     { label: 'Valor en pipeline', value: formatMoneyShort(props.stats.pipeline_value) || '$0', icon: TrendingUp, color: '#4A8CFF', hint: 'Clientes en gestión' },

@@ -142,7 +142,7 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
     "last_name": "González",
     "email": "maria@ejemplo.cl",
     "phone": "+56912345678",
-    "company": "Inmobiliaria Ejemplo",
+    "company": "Taller Ejemplo",
     "job_title": "Gerente comercial",
     "message": "Quiero cotizar una campaña",
     "utm_source": "google",
@@ -180,8 +180,8 @@ const sample = (s?: Source) => `curl -X POST ${props.endpoint} \\
                     <option v-for="u in users" :key="u.id" :value="u.id">{{ u.name }} · {{ u.email }}</option>
                 </NativeSelect>
             </FormField>
-            <FormField label="Correos que reciben todas las alertas" for="d-emails" :error="defaultsForm.errors.notify_emails" hint="Separados por coma o salto de línea. Ej: arossi@quiebre.cl">
-                <Textarea id="d-emails" v-model="defaultsForm.notify_emails" rows="2" placeholder="arossi@quiebre.cl" />
+            <FormField label="Correos que reciben todas las alertas" for="d-emails" :error="defaultsForm.errors.notify_emails" hint="Separados por coma o salto de línea. Ej: admin@mecaniq.cl">
+                <Textarea id="d-emails" v-model="defaultsForm.notify_emails" rows="2" placeholder="admin@mecaniq.cl" />
             </FormField>
             <div class="md:col-span-2">
                 <Button type="submit" :disabled="defaultsForm.processing"><Spinner v-if="defaultsForm.processing" /> Guardar valores por defecto</Button>

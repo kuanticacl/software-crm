@@ -16,7 +16,7 @@ class SaveContact extends AlfredTool
 
     public function description(): string
     {
-        return 'Guarda los datos de contacto de la persona para que el equipo de Quiebre la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
+        return 'Guarda los datos de contacto de la persona para que el equipo de MecaniQ la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -26,7 +26,7 @@ class SaveContact extends AlfredTool
             'last_name' => $schema->string()->description('Apellido, si lo dio.'),
             'email' => $schema->string()->description('Correo electrónico.'),
             'phone' => $schema->string()->description('Teléfono.'),
-            'company' => $schema->string()->description('Empresa o inmobiliaria.'),
+            'company' => $schema->string()->description('Nombre del taller o empresa.'),
             'job_title' => $schema->string()->description('Cargo.'),
             'interest' => $schema->string()->description('Qué necesita o le interesa, en una frase (etapa del proyecto, servicio, etc.).'),
             'consent' => $schema->boolean()->required()->description('true solo si la persona aceptó de forma explícita que guardes sus datos para que el equipo la contacte.'),
@@ -48,6 +48,6 @@ class SaveContact extends AlfredTool
 
         app(AlfredLeads::class)->upsert($this->ctx, $d);
 
-        return 'OK: datos guardados. Dile a la persona que el equipo de Quiebre la contactará.';
+        return 'OK: datos guardados. Dile a la persona que el equipo de MecaniQ la contactará.';
     }
 }

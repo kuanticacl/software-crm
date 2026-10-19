@@ -52,28 +52,28 @@
       "key": "proposal_url",
       "label": "Enlace interno",
       "default": "",
-      "sample": "https://crm.quiebre.cl/proposals/1"
+      "sample": "https://crm.mecaniq.cl/proposals/1"
     }
   ],
   "design": {
     "settings": {
-      "bg": "#F4F4F4",
+      "bg": "#F3F6F9",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#393939",
-      "linkColor": "#FF5300",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
       "radius": 16
     },
     "blocks": [
       {
-        "id": "b000000w",
+        "id": "b000000v",
         "type": "header",
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Quiebre",
-          "brandColor": "#FF5300",
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -81,12 +81,12 @@
         }
       },
       {
-        "id": "b000000x",
+        "id": "b000000w",
         "type": "heading",
         "props": {
           "text": "{{ action }}",
           "size": 26,
-          "color": "#393939",
+          "color": "#0B1522",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -95,7 +95,7 @@
         }
       },
       {
-        "id": "b000000y",
+        "id": "b000000x",
         "type": "text",
         "props": {
           "text": "Hola {{ first_name }}, **{{ responder }}** ({{ client_name }}) respondió la propuesta **{{ proposal_number }} · {{ proposal_title }}**.",
@@ -109,12 +109,12 @@
         }
       },
       {
-        "id": "b000000z",
+        "id": "b000000y",
         "type": "text",
         "props": {
           "text": "{{#if note}}Comentario del cliente:\n\n«{{ note }}»{{/if}}",
           "size": 15,
-          "color": "#707070",
+          "color": "#5B6B7C",
           "lineHeight": 1.6,
           "align": "left",
           "padY": 8,
@@ -123,12 +123,12 @@
         }
       },
       {
-        "id": "b0000010",
+        "id": "b000000z",
         "type": "button",
         "props": {
           "label": "Ver propuesta en el CRM",
           "href": "{{ proposal_url }}",
-          "bg": "#FF5300",
+          "bg": "#027BB9",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -140,12 +140,12 @@
         }
       },
       {
-        "id": "b0000011",
+        "id": "b0000010",
         "type": "footer",
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Quiebre.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -158,5 +158,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#FF5300}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F4F4F4;font-family:Arial, Helvetica, sans-serif;color:#393939\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F4F4F4\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Quiebre\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">{{ action }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">Hola {{ first_name }}, <strong>{{ responder }}</strong> ({{ client_name }}) respondió la propuesta <strong>{{ proposal_number }} · {{ proposal_title }}</strong>.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#707070;text-align:left\">{{#if note}}Comentario del cliente:<br><br>«{{ note }}»{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#FF5300\" style=\"background-color:#FF5300;border-radius:999px\"><a href=\"{{ proposal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver propuesta en el CRM</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Quiebre.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">{{ action }}</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Hola {{ first_name }}, <strong>{{ responder }}</strong> ({{ client_name }}) respondió la propuesta <strong>{{ proposal_number }} · {{ proposal_title }}</strong>.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#5B6B7C;text-align:left\">{{#if note}}Comentario del cliente:<br><br>«{{ note }}»{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#027BB9\" style=\"background-color:#027BB9;border-radius:999px\"><a href=\"{{ proposal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver propuesta en el CRM</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

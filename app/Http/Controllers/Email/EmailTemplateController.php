@@ -267,7 +267,7 @@ class EmailTemplateController extends Controller
         return [
             'unsubscribe_url' => '#baja', 'view_url' => '#ver-en-navegador', 'current_year' => date('Y'),
             'company_name' => MailSettings::companyName(), 'to_email' => 'persona@ejemplo.cl', 'to_name' => 'Persona de Ejemplo',
-            'first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'email' => 'persona@ejemplo.cl', 'company' => 'Inmobiliaria Ejemplo',
+            'first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'email' => 'persona@ejemplo.cl', 'company' => 'Taller Ejemplo',
         ];
     }
 

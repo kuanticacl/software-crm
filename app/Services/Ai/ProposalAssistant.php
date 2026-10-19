@@ -31,7 +31,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'proposal_draft',
-            $this->system("Redactas el contenido de propuestas comerciales de Quiebre para inmobiliarias.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen ejecutivo», «Objetivos», «Alcance de los servicios», «Plan de trabajo y plazos».\n- Resumen ejecutivo: 2 párrafos cortos que muestren que entendemos el contexto del cliente y cómo lo ayudaremos.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Plan de trabajo y plazos: viñetas por semana/etapa, en términos relativos (semana 1, semana 2…) y marcado como referencial.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte."),
+            $this->system("Redactas el contenido de propuestas comerciales de MecaniQ para talleres mecánicos.\n\nEntrega SOLO estas 4 secciones, en este orden y con estos títulos: «Resumen ejecutivo», «Objetivos», «Alcance de los servicios», «Plan de trabajo y plazos».\n- Resumen ejecutivo: 2 párrafos cortos que muestren que entendemos el contexto del cliente y cómo lo ayudaremos.\n- Objetivos: 3 a 5 viñetas (con «- ») medibles y realistas, sin cifras inventadas.\n- Alcance de los servicios: 1 párrafo que introduzca los servicios elegidos (una tabla con detalle y precios se agrega automáticamente debajo; no repitas precios).\n- Plan de trabajo y plazos: viñetas por semana/etapa, en términos relativos (semana 1, semana 2…) y marcado como referencial.\nNo escribas condiciones comerciales, formas de pago ni valores: se agregan aparte."),
             $this->context($in)."\nTono: ".($in['tone'] ?? 'Cercano y profesional')."\nInstrucciones adicionales: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1200),
             fn (JsonSchema $s) => [
                 'title' => $s->string()->description('Título corto de la propuesta, sin nombre del cliente')->required(),
@@ -63,8 +63,8 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'proposal_improve',
-            $this->system('Mejoras textos de propuestas comerciales de Quiebre. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
-            "Sección: ".mb_substr((string) ($in['title'] ?? ''), 0, 120)."\nGiro del cliente: ".($in['recipient']['activity'] ?? 'inmobiliario')."\n{$instruction}\n\nTexto actual:\n".(mb_substr(ProposalText::toMarkdown($in['text'] ?? ''), 0, 5000) ?: '(vacío: redáctalo desde cero según el título de la sección)'),
+            $this->system('Mejoras textos de propuestas comerciales de MecaniQ. Conserva los marcadores [CLIENTE] y [CONTACTO], los datos y cifras que ya estén escritos (no inventes nuevos) y el formato (**negrita**, viñetas «- »). Devuelves solo el texto resultante.'),
+            "Sección: ".mb_substr((string) ($in['title'] ?? ''), 0, 120)."\nGiro del cliente: ".($in['recipient']['activity'] ?? 'taller mecánico')."\n{$instruction}\n\nTexto actual:\n".(mb_substr(ProposalText::toMarkdown($in['text'] ?? ''), 0, 5000) ?: '(vacío: redáctalo desde cero según el título de la sección)'),
             fn (JsonSchema $s) => ['text' => $s->string()->required()],
         );
 
@@ -81,7 +81,7 @@ class ProposalAssistant
     {
         $result = $this->ai->structured(
             'service_describe',
-            $this->system('Redactas la descripción de servicios de una agencia de marketing inmobiliario para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
+            $this->system('Redactas la descripción de servicios de la app móvil MecaniQ para talleres mecánicos (planes, servicios de implementación y soporte) para el catálogo y las propuestas. Descripción: 2 a 3 frases claras, orientadas al beneficio. Entregables: 3 a 6 ítems concretos y verificables, sin inventar cantidades que el usuario no haya indicado.'),
             'Servicio: '.mb_substr((string) $in['name'], 0, 160)."\nCategoría: ".($in['category'] ?? '—')."\nModalidad: ".(($in['billing'] ?? '') === 'monthly' ? 'mensual recurrente' : 'pago único')."\nNotas del usuario: ".mb_substr((string) ($in['hint'] ?? '—'), 0, 800),
             fn (JsonSchema $s) => [
                 'description' => $s->string()->required(),
@@ -103,7 +103,7 @@ class ProposalAssistant
 
         $result = $this->ai->structured(
             'service_suggest',
-            $this->system('Eres un consultor comercial de Quiebre. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza el impacto en ventas y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
+            $this->system('Eres un consultor comercial de MecaniQ. Eliges, del catálogo entregado, los servicios que mejor responden a lo que necesita el cliente. Elige entre 2 y 5, prioriza el impacto en ventas y justifica cada uno en una frase. Usa SOLO ids del catálogo.'),
             $this->context($in)."\nNecesidad: ".mb_substr((string) ($in['brief'] ?? '—'), 0, 1000)."\n\nCatálogo:\n".$catalog->map(fn ($s) => "#{$s->id} [{$s->category}] {$s->name} ({$s->billing}) — ".mb_substr((string) $s->description, 0, 140))->implode("\n"),
             fn (JsonSchema $s) => ['suggestions' => $s->array()->items($s->object([
                 'service_id' => $s->integer()->required(),

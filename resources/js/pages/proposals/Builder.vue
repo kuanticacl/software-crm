@@ -316,7 +316,7 @@ const money = (n: number) => formatAmount(n, form.currency);
                                 <NativeSelect v-model="form.client_id" @update:model-value="onClient"><option :value="null">— Sin empresa registrada —</option><option v-for="c in clients" :key="c.id" :value="c.id">{{ c.name }}</option></NativeSelect>
                             </FormField>
                             <FormField label="Nombre de fantasía"><Input v-model="recipient.company" placeholder="Los Robles" /></FormField>
-                            <FormField label="Razón social"><Input v-model="recipient.legal_name" placeholder="Inmobiliaria Los Robles SpA" /></FormField>
+                            <FormField label="Razón social"><Input v-model="recipient.legal_name" placeholder="Taller Mecánico Los Robles SpA" /></FormField>
                             <FormField label="RUT"><Input v-model="recipient.rut" placeholder="76.123.456-7" @blur="recipient.rut = formatRut(recipient.rut)" /></FormField>
                             <FormField label="Giro"><Input v-model="recipient.activity" /></FormField>
                             <FormField label="Dirección" class="sm:col-span-2"><Input v-model="recipient.address" placeholder="Av. Apoquindo 4500, of. 801, Las Condes" /></FormField>

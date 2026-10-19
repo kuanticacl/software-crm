@@ -84,7 +84,7 @@ class LeadAnalyst
         $result = $this->ai->structured(
             'lead_analysis',
             $this->instructions(),
-            "Analiza este cliente de una inmobiliaria/constructora que nos contactó:\n".json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
+            "Analiza este prospecto (taller mecánico u otro negocio automotriz) que nos contactó:\n".json_encode($ctx, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT),
             fn (JsonSchema $s) => [
                 'summary' => $s->string()->description('Resumen de 1–2 frases: quién es y qué busca')->required(),
                 'temperature' => $s->string()->enum(['hot', 'warm', 'cold'])->description('Qué tan cerca está de comprar')->required(),
@@ -98,7 +98,7 @@ class LeadAnalyst
                     'when' => $s->string()->enum(['today', 'this_week', 'later'])->required(),
                     'why' => $s->string()->description('Motivo en una frase')->required(),
                 ]))->description('1 a 4 próximos pasos priorizados')->required(),
-                'suggested_message' => $s->string()->description('Borrador de primer mensaje (correo o WhatsApp) en español de Chile, tono Quiebre, máx. 90 palabras. Sin datos inventados')->required(),
+                'suggested_message' => $s->string()->description('Borrador de primer mensaje (correo o WhatsApp) en español de Chile, tono MecaniQ, máx. 90 palabras. Sin datos inventados')->required(),
                 'questions_to_ask' => $s->array()->items($s->string())->description('2–4 preguntas de calificación para completar el perfil')->required(),
                 'profile_suggestions' => $s->array()->items($s->object([
                     'field' => $s->string()->enum(self::APPLICABLE)->required(),
@@ -181,7 +181,7 @@ class LeadAnalyst
     private function instructions(): string
     {
         return <<<TXT
-Eres un analista comercial senior de Quiebre, agencia de marketing para el sector inmobiliario en Chile. Tu trabajo es ayudar al equipo comercial a prospectar mejor cada lead: entender su potencial, decidir el siguiente paso y completar su perfil.
+Eres un analista comercial senior de MecaniQ, app móvil de gestión para talleres mecánicos en Chile. Tu trabajo es ayudar al equipo comercial a prospectar mejor cada lead: entender su potencial, decidir el siguiente paso y completar su perfil.
 
 {$this->brand()}
 

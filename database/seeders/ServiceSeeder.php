@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 class ServiceSeeder extends Seeder
 {
-    /** Catálogo inicial de la agencia (tarifas netas en UF; editables en Servicios). */
+    /** Catálogo inicial de planes y servicios de MecaniQ (valores netos en CLP, referenciales; editables en Servicios). */
     public function run(): void
     {
         if (Service::count() > 0) {
@@ -15,20 +15,16 @@ class ServiceSeeder extends Seeder
         }
 
         $catalog = [
-            ['Marketing digital', 'Gestión de campañas Meta Ads', 'Campañas de generación de clientes en Facebook e Instagram: estrategia, creatividades, segmentación y optimización semanal.', ['Estrategia y segmentación', 'Hasta 6 creatividades al mes', 'Optimización semanal', 'Informe mensual de resultados'], 'monthly', 'mes', 16],
-            ['Marketing digital', 'Gestión de campañas Google Ads', 'Campañas de búsqueda y display para captar compradores con intención activa.', ['Investigación de palabras clave', 'Campañas de búsqueda y display', 'Seguimiento de conversiones', 'Informe mensual'], 'monthly', 'mes', 15],
-            ['Marketing digital', 'Landing page de proyecto', 'Página de aterrizaje optimizada para conversión, conectada al CRM y a la medición de campañas.', ['Diseño con identidad del proyecto', 'Formulario conectado al CRM', 'Píxeles y analítica', 'Versión móvil'], 'one_time', 'proyecto', 22],
-            ['Redes sociales', 'Community management', 'Planificación, creación y publicación de contenido, y gestión de la comunidad.', ['Calendario editorial', '12 publicaciones al mes', 'Respuesta a mensajes y comentarios', 'Reporte mensual'], 'monthly', 'mes', 12],
-            ['Redes sociales', 'Producción de contenido audiovisual', 'Fotografía y video para proyectos inmobiliarios (reels, recorridos y piezas de venta).', ['Jornada de producción', 'Edición de video y reels', 'Fotografía de proyecto'], 'one_time', 'jornada', 18],
-            ['Branding', 'Identidad de marca de proyecto', 'Naming, logotipo y lineamientos gráficos del proyecto inmobiliario.', ['Concepto y logotipo', 'Paleta y tipografías', 'Manual de marca resumido'], 'one_time', 'proyecto', 30],
-            ['Datos e inteligencia', 'Reporting y dashboard comercial', 'Tablero de resultados con inversión, clientes, costo por cliente y avance de ventas.', ['Conexión de fuentes de datos', 'Dashboard personalizado', 'Reunión mensual de resultados'], 'monthly', 'mes', 8.5],
-            ['Datos e inteligencia', 'Big data inmobiliario', 'Análisis de mercado, oferta y demanda de la zona para posicionar el proyecto.', ['Estudio de competencia', 'Análisis de precios y absorción', 'Recomendaciones comerciales'], 'one_time', 'estudio', 23],
-            ['Gestión comercial', 'Aceleración de ventas', 'Acompañamiento a la sala de ventas y al equipo comercial con seguimiento de clientes en integraleads.', ['Diagnóstico del proceso comercial', 'Configuración de embudo y automatizaciones', 'Seguimiento semanal'], 'monthly', 'mes', 20],
-            ['Gestión comercial', 'Implementación de integraleads', 'Puesta en marcha de la plataforma de gestión de leads: configuración, integraciones y capacitación.', ['Configuración inicial', 'Integración con campañas y landing', 'Capacitación al equipo'], 'one_time', 'proyecto', 15],
+            ['Planes MecaniQ', 'Plan Taller Inicial', 'Para talleres pequeños que quieren dejar el cuaderno: órdenes de trabajo, clientes y vehículos en el celular.', ['1 sucursal y hasta 3 usuarios', 'Órdenes de trabajo y cotizaciones', 'Ficha de cliente y vehículo con historial', 'Avisos por WhatsApp y correo', 'Soporte por chat'], 'monthly', 'mes', 19990],
+            ['Planes MecaniQ', 'Plan Taller Pro', 'Para talleres en crecimiento: inventario de repuestos, cobros y reportes de gestión.', ['1 sucursal y hasta 10 usuarios', 'Todo lo del plan Inicial', 'Inventario y control de repuestos', 'Cobros, abonos y cuentas por cobrar', 'Recordatorios de mantención', 'Reportes de ventas y productividad'], 'monthly', 'mes', 39990],
+            ['Planes MecaniQ', 'Plan Multi-sucursal', 'Para redes de talleres y flotas: varias sucursales con control central.', ['Sucursales y usuarios a convenir', 'Todo lo del plan Pro', 'Panel consolidado por sucursal', 'Roles y permisos avanzados', 'Soporte prioritario'], 'monthly', 'mes', 89990],
+            ['Implementación', 'Puesta en marcha y capacitación', 'Configuración inicial del taller, carga de clientes y vehículos, y capacitación al equipo.', ['Configuración de la cuenta', 'Importación de clientes y vehículos', 'Capacitación al equipo (hasta 2 horas)', 'Acompañamiento la primera semana'], 'one_time', 'taller', 59990],
+            ['Implementación', 'Integración con WhatsApp Business', 'Conexión del número del taller para enviar cotizaciones, avisos de vehículo listo y recordatorios.', ['Configuración del número', 'Plantillas de mensajes', 'Pruebas y capacitación'], 'one_time', 'taller', 49990],
+            ['Marketing', 'Landing page del taller', 'Página web simple para que el taller reciba reservas y consultas, conectada a MecaniQ.', ['Diseño con identidad del taller', 'Formulario de reserva', 'Botón de WhatsApp y mapa', 'Publicación en dominio propio'], 'one_time', 'sitio', 149990],
         ];
 
         foreach ($catalog as $i => [$category, $name, $description, $deliverables, $billing, $unit, $price]) {
-            Service::create(compact('category', 'name', 'description', 'deliverables', 'billing', 'unit', 'price') + ['currency' => 'UF', 'sort_order' => $i]);
+            Service::create(compact('category', 'name', 'description', 'deliverables', 'billing', 'unit', 'price') + ['currency' => 'CLP', 'sort_order' => $i]);
         }
     }
 }

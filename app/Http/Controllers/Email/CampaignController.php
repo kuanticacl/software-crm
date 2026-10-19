@@ -230,7 +230,7 @@ class CampaignController extends Controller
         $data = $request->validate(['template_id' => ['required', 'integer', 'exists:email_templates,id'], 'subject' => ['nullable', 'string'], 'preheader' => ['nullable', 'string']]);
         $t = EmailTemplate::findOrFail($data['template_id']);
 
-        $vars = ['first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'email' => 'persona@ejemplo.cl', 'company' => 'Inmobiliaria Ejemplo', 'unsubscribe_url' => '#baja', 'view_url' => '#', 'current_year' => date('Y'), 'company_name' => MailSettings::companyName(), 'to_email' => 'persona@ejemplo.cl', 'to_name' => 'María González'];
+        $vars = ['first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'email' => 'persona@ejemplo.cl', 'company' => 'Taller Ejemplo', 'unsubscribe_url' => '#baja', 'view_url' => '#', 'current_year' => date('Y'), 'company_name' => MailSettings::companyName(), 'to_email' => 'persona@ejemplo.cl', 'to_name' => 'María González'];
         foreach ($t->variables ?? [] as $v) {
             $vars[$v['key']] ??= $v['sample'] ?: ($v['default'] ?? '');
         }
@@ -252,7 +252,7 @@ class CampaignController extends Controller
         }
 
         $t = EmailTemplate::findOrFail($data['template_id']);
-        $vars = ['first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'company' => 'Inmobiliaria Ejemplo', 'email' => $data['to'], 'unsubscribe_url' => '#baja', 'view_url' => '#', 'current_year' => date('Y'), 'company_name' => MailSettings::companyName(), 'to_email' => $data['to']];
+        $vars = ['first_name' => 'María', 'last_name' => 'González', 'name' => 'María González', 'company' => 'Taller Ejemplo', 'email' => $data['to'], 'unsubscribe_url' => '#baja', 'view_url' => '#', 'current_year' => date('Y'), 'company_name' => MailSettings::companyName(), 'to_email' => $data['to']];
         foreach ($t->variables ?? [] as $v) {
             $vars[$v['key']] ??= $v['sample'] ?: ($v['default'] ?? '');
         }

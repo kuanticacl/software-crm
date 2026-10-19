@@ -51,7 +51,7 @@ class LeadAssignmentTest extends TestCase
 
     public function test_lead_goes_to_the_default_assignee_when_the_source_has_no_owners(): void
     {
-        $angelo = $this->person('angelo@quiebre.test', ['name' => 'Angelo Rossi']);
+        $angelo = $this->person('angelo@mecaniq.test', ['name' => 'Angelo Rossi']);
         Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $angelo->id);
 
         $lead = $this->leadOf($this->ingest());
@@ -62,7 +62,7 @@ class LeadAssignmentTest extends TestCase
 
     public function test_manually_created_leads_are_also_assigned_by_default(): void
     {
-        $angelo = $this->person('angelo@quiebre.test');
+        $angelo = $this->person('angelo@mecaniq.test');
         Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $angelo->id);
 
         $lead = app(LeadService::class)->create(['first_name' => 'Manual', 'email' => 'manual@x.cl', 'source_id' => $this->source->id]);
@@ -72,8 +72,8 @@ class LeadAssignmentTest extends TestCase
 
     public function test_an_explicit_assignee_is_never_overridden(): void
     {
-        $angelo = $this->person('angelo@quiebre.test');
-        $other = $this->person('otra@quiebre.test');
+        $angelo = $this->person('angelo@mecaniq.test');
+        $other = $this->person('otra@mecaniq.test');
         Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $angelo->id);
 
         $lead = app(LeadService::class)->create(['first_name' => 'Manual', 'email' => 'manual@x.cl', 'source_id' => $this->source->id, 'assigned_to' => $other->id]);
@@ -83,8 +83,8 @@ class LeadAssignmentTest extends TestCase
 
     public function test_source_owner_takes_precedence_over_the_default(): void
     {
-        $angelo = $this->person('angelo@quiebre.test');
-        $owner = $this->person('ana@quiebre.test');
+        $angelo = $this->person('angelo@mecaniq.test');
+        $owner = $this->person('ana@mecaniq.test');
         Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $angelo->id);
         $this->source->owners()->sync([$owner->id]);
 
@@ -93,8 +93,8 @@ class LeadAssignmentTest extends TestCase
 
     public function test_several_owners_share_the_leads_evenly(): void
     {
-        $a = $this->person('a@quiebre.test');
-        $b = $this->person('b@quiebre.test');
+        $a = $this->person('a@mecaniq.test');
+        $b = $this->person('b@mecaniq.test');
         $this->source->owners()->sync([$a->id, $b->id]);
 
         $assigned = collect(range(1, 4))->map(fn () => $this->leadOf($this->ingest())->assigned_to);
@@ -105,8 +105,8 @@ class LeadAssignmentTest extends TestCase
 
     public function test_inactive_owners_are_ignored(): void
     {
-        $angelo = $this->person('angelo@quiebre.test');
-        $gone = $this->person('baja@quiebre.test', ['is_active' => false]);
+        $angelo = $this->person('angelo@mecaniq.test');
+        $gone = $this->person('baja@mecaniq.test', ['is_active' => false]);
         Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $angelo->id);
         $this->source->owners()->sync([$gone->id]);
 
@@ -122,15 +122,15 @@ class LeadAssignmentTest extends TestCase
         $this->assertSame('team', $automation->to_mode);
         $this->assertTrue($automation->is_active);
         $this->assertSame('alerta-nuevo-cliente', $automation->template->slug);
-        $this->assertSame(['arossi@quiebre.cl'], app(LeadAssignment::class)->notifyEmails());
+        $this->assertSame(['arossi@mecaniq.cl'], app(LeadAssignment::class)->notifyEmails());
     }
 
     public function test_new_lead_alerts_assignee_owners_and_default_emails_without_duplicates(): void
     {
-        $a = $this->person('a@quiebre.test', ['name' => 'Ana Pérez']);
-        $b = $this->person('b@quiebre.test', ['name' => 'Beto Soto']);
+        $a = $this->person('a@mecaniq.test', ['name' => 'Ana Pérez']);
+        $b = $this->person('b@mecaniq.test', ['name' => 'Beto Soto']);
         $this->source->owners()->sync([$a->id, $b->id]);
-        Setting::put(LeadAssignment::NOTIFY_EMAILS, 'arossi@quiebre.cl, A@quiebre.test');
+        Setting::put(LeadAssignment::NOTIFY_EMAILS, 'arossi@mecaniq.cl, A@mecaniq.test');
 
         $lead = $this->leadOf($this->ingest(['message' => '<b>hola</b> quiero una demo']));
 
@@ -138,8 +138,8 @@ class LeadAssignmentTest extends TestCase
         $messages = EmailMessage::where('automation_id', $automation->id)->get();
         $emails = $messages->pluck('to_email')->sort()->values()->all();
 
-        $this->assertSame(['a@quiebre.test', 'arossi@quiebre.cl', 'b@quiebre.test'], $emails, 'cada persona recibe un solo correo');
-        $first = $messages->firstWhere('to_email', 'a@quiebre.test');
+        $this->assertSame(['a@mecaniq.test', 'arossi@mecaniq.cl', 'b@mecaniq.test'], $emails, 'cada persona recibe un solo correo');
+        $first = $messages->firstWhere('to_email', 'a@mecaniq.test');
         $this->assertSame('Camila Soto', $first->variables['lead_name']);
         $this->assertSame($lead->assignee->name, $first->variables['assignee_name']);
         $this->assertStringContainsString('/leads/'.$lead->id, $first->variables['lead_url']);
@@ -152,14 +152,14 @@ class LeadAssignmentTest extends TestCase
         $this->ingest();
 
         $automation = Automation::where('name', 'Alerta de cliente nuevo al equipo')->first();
-        $this->assertSame(['arossi@quiebre.cl'], EmailMessage::where('automation_id', $automation->id)->pluck('to_email')->all());
+        $this->assertSame(['arossi@mecaniq.cl'], EmailMessage::where('automation_id', $automation->id)->pluck('to_email')->all());
     }
 
     public function test_admin_manages_owners_and_defaults_from_sources(): void
     {
         $admin = $this->userWithRole('admin');
-        $a = $this->person('a@quiebre.test');
-        $b = $this->person('b@quiebre.test');
+        $a = $this->person('a@mecaniq.test');
+        $b = $this->person('b@mecaniq.test');
         $base = ['name' => $this->source->name, 'color' => $this->source->color ?: '#1AA0E4', 'icon' => $this->source->icon ?: 'globe', 'is_active' => true];
 
         $this->actingAs($admin)->put(route('sources.update', $this->source), [...$base, 'owner_ids' => [$a->id, $b->id]])->assertRedirect();
@@ -168,19 +168,19 @@ class LeadAssignmentTest extends TestCase
         $this->actingAs($admin)->put(route('sources.update', $this->source), [...$base, 'owner_ids' => [$b->id]])->assertRedirect();
         $this->assertSame([$b->id], $this->source->owners()->pluck('users.id')->all());
 
-        $this->actingAs($admin)->put(route('sources.defaults'), ['assignee_id' => $a->id, 'notify_emails' => "arossi@quiebre.cl\nventas@quiebre.cl"])->assertRedirect();
+        $this->actingAs($admin)->put(route('sources.defaults'), ['assignee_id' => $a->id, 'notify_emails' => "arossi@mecaniq.cl\nventas@mecaniq.cl"])->assertRedirect();
         $this->assertSame($a->id, (int) Setting::get(LeadAssignment::DEFAULT_ASSIGNEE));
-        $this->assertSame(['arossi@quiebre.cl', 'ventas@quiebre.cl'], app(LeadAssignment::class)->notifyEmails());
+        $this->assertSame(['arossi@mecaniq.cl', 'ventas@mecaniq.cl'], app(LeadAssignment::class)->notifyEmails());
     }
 
     public function test_defaults_reject_invalid_emails_and_inactive_users(): void
     {
         $admin = $this->userWithRole('admin');
-        $gone = $this->person('baja@quiebre.test', ['is_active' => false]);
+        $gone = $this->person('baja@mecaniq.test', ['is_active' => false]);
 
         $this->actingAs($admin)->put(route('sources.defaults'), ['assignee_id' => null, 'notify_emails' => 'no-es-un-correo'])->assertSessionHasErrors('notify_emails');
         $this->actingAs($admin)->put(route('sources.defaults'), ['assignee_id' => $gone->id, 'notify_emails' => ''])->assertSessionHasErrors('assignee_id');
-        $this->assertSame(['arossi@quiebre.cl'], app(LeadAssignment::class)->notifyEmails(), 'no se pisó la configuración anterior');
+        $this->assertSame(['arossi@mecaniq.cl'], app(LeadAssignment::class)->notifyEmails(), 'no se pisó la configuración anterior');
     }
 
     public function test_users_without_permission_cannot_change_defaults(): void

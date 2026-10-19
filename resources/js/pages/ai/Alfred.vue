@@ -27,7 +27,7 @@ const save = () => form.put('/ai/alfred', { preserveScroll: true, onSuccess: () 
 <template>
     <Head title="Alfred (ejecutivo virtual)" />
     <div class="flex max-w-5xl flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Alfred, ejecutivo virtual" description="Asistente flotante de quiebre.cl: conversa con los visitantes, responde sobre la agencia, capta sus datos y solicita reuniones. Aquí defines qué dice y qué sabe.">
+        <PageHeader title="Alfred, ejecutivo virtual" description="Asistente flotante de mecaniq.cl: conversa con los visitantes, responde sobre la agencia, capta sus datos y solicita reuniones. Aquí defines qué dice y qué sabe.">
             <template #actions>
                 <Badge :variant="form.enabled ? 'default' : 'secondary'"><Bot class="size-3.5" /> {{ form.enabled ? 'Activo' : 'Desactivado' }}</Badge>
             </template>
@@ -56,8 +56,8 @@ const save = () => form.put('/ai/alfred', { preserveScroll: true, onSuccess: () 
                 <div><Button type="button" variant="outline" size="sm" @click="form.prompt = defaultPrompt"><RotateCcw /> Restaurar prompt predeterminado</Button></div>
             </FormField>
 
-            <FormField label="Conocimiento autorizado" for="knowledge" :error="form.errors.knowledge" hint="Lo ÚNICO que Alfred puede afirmar sobre Quiebre: servicios y en qué consisten, cómo trabajan, equipo, horarios, diferenciadores, preguntas frecuentes. Redáctalo tú: si algo no está aquí, Alfred no lo inventa. No pongas información interna ni datos de clientes.">
-                <Textarea id="knowledge" v-model="form.knowledge" rows="16" maxlength="20000" placeholder="Ej.:&#10;SERVICIOS&#10;- Marketing digital: campañas en Meta y Google para proyectos inmobiliarios…&#10;&#10;EQUIPO&#10;- Angelo Rossi, Director General…" />
+            <FormField label="Conocimiento autorizado" for="knowledge" :error="form.errors.knowledge" hint="Lo ÚNICO que Alfred puede afirmar sobre MecaniQ: servicios y en qué consisten, cómo trabajan, equipo, horarios, diferenciadores, preguntas frecuentes. Redáctalo tú: si algo no está aquí, Alfred no lo inventa. No pongas información interna ni datos de clientes.">
+                <Textarea id="knowledge" v-model="form.knowledge" rows="16" maxlength="20000" placeholder="Ej.:&#10;PLANES&#10;- Taller Inicial: órdenes de trabajo, clientes y vehículos en el celular…&#10;&#10;PREGUNTAS FRECUENTES&#10;- ¿Funciona sin internet? …" />
             </FormField>
 
             <div class="grid gap-4 md:grid-cols-2">

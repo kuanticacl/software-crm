@@ -40,9 +40,9 @@ export const sourceIcons: Record<string, Component> = {
 
 export const sourceIconNames = Object.keys(sourceIcons);
 
-/** Paleta de la marca Quiebre para elegir colores rápido. */
+/** Paleta de la marca MecaniQ para elegir colores rápido. */
 export const brandColors = [
-    '#FF5300',
+    '#027BB9',
     '#1AA0E4',
     '#0D9F85',
     '#6419DB',

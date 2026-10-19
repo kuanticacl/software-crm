@@ -238,7 +238,7 @@ const chip = (on: boolean) => cn('inline-flex items-center gap-1.5 rounded-full 
                         </div>
 
                         <div class="rounded-xl border p-4">
-                            <label class="flex items-center justify-between text-sm font-medium">Empresas (inmobiliarias)<Switch :model-value="audience.clients.enabled" @update:model-value="(v: boolean) => (audience.clients.enabled = v)" /></label>
+                            <label class="flex items-center justify-between text-sm font-medium">Empresas (talleres)<Switch :model-value="audience.clients.enabled" @update:model-value="(v: boolean) => (audience.clients.enabled = v)" /></label>
                             <label v-if="audience.clients.enabled" class="mt-3 flex items-center gap-2 text-sm text-muted-foreground"><Switch :model-value="audience.clients.only_active" @update:model-value="(v: boolean) => (audience.clients.only_active = v)" /> Solo clientes activos</label>
                         </div>
                     </div>

@@ -158,7 +158,7 @@ const addNote = async () => {
 const removeNote = (n: LeadNote) => run(() => sendJson('DELETE', destroyNote({ lead: lead.value.id, note: n.id }).url), 'Nota eliminada');
 
 const typeMeta: Record<string, { icon: typeof Phone; color: string }> = {
-    created: { icon: Sparkles, color: '#FF5300' },
+    created: { icon: Sparkles, color: '#027BB9' },
     stage_changed: { icon: ArrowRightLeft, color: '#6419DB' },
     assigned: { icon: UserCheck, color: '#1AA0E4' },
     updated: { icon: Pencil, color: '#8A8A8A' },
@@ -167,7 +167,7 @@ const typeMeta: Record<string, { icon: typeof Phone; color: string }> = {
     whatsapp: { icon: MessageCircle, color: '#25D366' },
     meeting: { icon: CalendarDays, color: '#DF1E79' },
     task: { icon: ListChecks, color: '#FFA165' },
-    proposal: { icon: FileSignature, color: '#FF5300' },
+    proposal: { icon: FileSignature, color: '#027BB9' },
     other: { icon: CircleDot, color: '#8A8A8A' },
 };
 const meta = (t: string) => typeMeta[t] ?? typeMeta.other;

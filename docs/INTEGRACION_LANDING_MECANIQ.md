@@ -1,6 +1,6 @@
-# Integración de top-inmobiliario.quiebre.cl (Nuxt 4) con el CRM
+# Integración de www.mecaniq.cl (Nuxt 4) con el CRM
 
-La landing ya existe. Este documento deja lo necesario para conectarla al CRM (https://crm.quiebre.cl) y trae el **prompt listo
+La landing ya existe. Este documento deja lo necesario para conectarla al CRM (https://crm.mecaniq.cl) y trae el **prompt listo
 para pegar en el proyecto de la landing**.
 
 ## 1. Lo que el CRM deja creado
@@ -13,17 +13,17 @@ También se puede correr a mano.
 | Origen **Landing Top Inmobiliario – Boletín** | Su API key está en *Configuración CRM → Orígenes y API* |
 | Origen **Landing Top Inmobiliario – Asesoría** | Su API key está en *Configuración CRM → Orígenes y API* |
 | Audiencia **Boletín Top Inmobiliario** | En *Email marketing → Audiencias* |
-| Plantilla `bienvenida-top-inmobiliario` | Gracias por suscribirte + cómo funciona el ranking (marketing) |
-| Plantilla `confirmacion-asesoria` | Gracias por agendar, pronto confirmamos y contactamos (transaccional) |
+| Plantilla `bienvenida-boletin` | Gracias por suscribirte + cómo funciona el ranking (marketing) |
+| Plantilla `confirmacion-demo` | Gracias por agendar, pronto confirmamos y contactamos (transaccional) |
 | Campos del lead | `tipo_solicitud`, `fecha_preferida`, `horario_preferido`, `etapa_proyecto`, `interes` |
 
 Las plantillas se pueden editar en *Email marketing → Plantillas*. Variables: `first_name`, `site_url`
-(por defecto https://top-inmobiliario.quiebre.cl), y en la de asesoría `fecha_preferida` y `horario_preferido`.
+(por defecto https://www.mecaniq.cl), y en la de asesoría `fecha_preferida` y `horario_preferido`.
 Requisito: Resend configurado y el worker de colas activo (ya lo está en Docker).
 
 ## 2. API
 
-`POST https://crm.quiebre.cl/api/v1/leads`
+`POST https://crm.mecaniq.cl/api/v1/leads`
 
 Headers: `X-Api-Key: <key del origen>` · `Content-Type: application/json` · `Accept: application/json`
 
@@ -45,7 +45,7 @@ Respuesta `201`:
 
 ```json
 { "data": { "id": 12, "source": "landing-top-inmobiliario-boletin", "stage": "Ingreso",
-  "email": { "template": "bienvenida-top-inmobiliario", "status": "queued" },
+  "email": { "template": "bienvenida-boletin", "status": "queued" },
   "audience": { "name": "Boletín Top Inmobiliario", "status": "subscribed" },
   "created_at": "2026-10-08T18:55:33-03:00" } }
 ```
@@ -60,9 +60,9 @@ si falta la plantilla viene `error`.
 { "first_name": "María", "email": "maria@inmobiliaria.cl",
   "message": "Suscripción al boletín Top Inmobiliario",
   "audience": "Boletín Top Inmobiliario",
-  "email_template": "bienvenida-top-inmobiliario",
+  "email_template": "bienvenida-boletin",
   "custom": { "interes": "boletin_top_inmobiliario" },
-  "utm_source": "linkedin", "landing_url": "https://top-inmobiliario.quiebre.cl/", "ip": "200.1.2.3" }
+  "utm_source": "linkedin", "landing_url": "https://www.mecaniq.cl/", "ip": "200.1.2.3" }
 ```
 
 ### Payload de agenda tu asesoría (origen Asesoría)
@@ -71,11 +71,11 @@ si falta la plantilla viene `error`.
 { "first_name": "María", "last_name": "González", "email": "maria@inmobiliaria.cl", "phone": "+56912345678",
   "company": "Inmobiliaria Demo", "job_title": "Gerente comercial",
   "message": "Quiero agendar una asesoría. Preferencia: 2026-10-15, tarde. Mensaje: quiero subir en el ranking.",
-  "email_template": "confirmacion-asesoria",
+  "email_template": "confirmacion-demo",
   "email_variables": { "fecha_preferida": "15-10-2026", "horario_preferido": "tarde" },
   "custom": { "tipo_solicitud": "asesoria", "fecha_preferida": "2026-10-15", "horario_preferido": "tarde",
               "etapa_proyecto": "en venta", "interes": "asesoria_top_inmobiliario" },
-  "utm_source": "linkedin", "landing_url": "https://top-inmobiliario.quiebre.cl/", "ip": "200.1.2.3" }
+  "utm_source": "linkedin", "landing_url": "https://www.mecaniq.cl/", "ip": "200.1.2.3" }
 ```
 
 No envíes `audience` en la asesoría salvo que la persona marque un checkbox explícito para recibir el boletín.
@@ -85,22 +85,22 @@ No envíes `audience` en la asesoría salvo que la persona marque un checkbox ex
 Pega esto tal cual en el proyecto de la landing. Reemplaza nada: las keys se configuran como variables de entorno.
 
 ````markdown
-# Tarea: conectar los formularios "Boletín" y "Agenda tu asesoría" de esta landing (Nuxt 4) al CRM de Quiebre
+# Tarea: conectar los formularios "Boletín" y "Agenda tu asesoría" de esta landing (Nuxt 4) al CRM de MecaniQ
 
-Contexto: el sitio es https://top-inmobiliario.quiebre.cl ("Top Inmobiliarias de Chile", ranking digital de 50 inmobiliarias).
+Contexto: el sitio es https://www.mecaniq.cl ("Top Inmobiliarias de Chile", ranking digital de 50 inmobiliarias).
 Ya tiene sección de boletín (suscripción gratuita) y debe tener un formulario aparte para agendar una asesoría.
-Cada formulario crea un lead en el CRM (https://crm.quiebre.cl) con su propio origen, y el CRM envía solo el correo de
+Cada formulario crea un lead en el CRM (https://crm.mecaniq.cl) con su propio origen, y el CRM envía solo el correo de
 agradecimiento (las plantillas ya existen en el CRM; no las recrees en la landing).
 
 ## 0. Antes de empezar
 1. Lee el proyecto: `nuxt.config.ts`, `app/` (o `components/`, `pages/`), `server/`, `package.json`, `.env.example`, el
    formulario de boletín existente y cómo se despliega (Vercel, Cloudflare, Node, Docker…). Resume en 5 líneas lo que encontraste
    antes de escribir código y respeta las convenciones del proyecto (librería de UI, estilos, idioma, manejador de estado).
-2. No rediseñes la landing. Respeta la identidad de QUIEBRE: Asap, naranja #FF5300, botones tipo píldora, estilo glass de quiebre.cl.
+2. No rediseñes la landing. Respeta la identidad de MECANIQ: Asap, naranja #027BB9, botones tipo píldora, estilo glass de mecaniq.cl.
 3. Instala solo lo necesario (`zod` si no está).
 
 ## 1. API del CRM
-`POST https://crm.quiebre.cl/api/v1/leads` con headers `X-Api-Key: <key del origen>`, `Content-Type: application/json`, `Accept: application/json`.
+`POST https://crm.mecaniq.cl/api/v1/leads` con headers `X-Api-Key: <key del origen>`, `Content-Type: application/json`, `Accept: application/json`.
 
 Campos: `first_name` (obligatorio), `last_name`, `email`, `phone` (al menos email o phone), `company`, `job_title`, `message`,
 `utm_source|medium|campaign|term|content`, `landing_url`, `referrer`, `ip`, `user_agent`, `custom` (objeto), `audience`, `email_template`, `email_variables`.
@@ -110,7 +110,7 @@ Respuestas: `201` creado (`data.audience.status` = `subscribed` | `already_subsc
 ### Boletín → key `NUXT_CRM_KEY_NEWSLETTER`
 ```json
 { "first_name": "...", "email": "...", "message": "Suscripción al boletín Top Inmobiliario",
-  "audience": "Boletín Top Inmobiliario", "email_template": "bienvenida-top-inmobiliario",
+  "audience": "Boletín Top Inmobiliario", "email_template": "bienvenida-boletin",
   "custom": { "interes": "boletin_top_inmobiliario" } }
 ```
 Si el formulario solo pide correo (sin nombre), usa como `first_name` la parte local del correo (antes de la @) o "Suscriptor".
@@ -119,7 +119,7 @@ Si el formulario solo pide correo (sin nombre), usa como `first_name` la parte l
 ```json
 { "first_name": "...", "last_name": "...", "email": "...", "phone": "+569XXXXXXXX", "company": "...", "job_title": "...",
   "message": "Quiero agendar una asesoría. Preferencia: AAAA-MM-DD, tarde. Mensaje: <texto libre>",
-  "email_template": "confirmacion-asesoria",
+  "email_template": "confirmacion-demo",
   "email_variables": { "fecha_preferida": "DD-MM-AAAA", "horario_preferido": "tarde" },
   "custom": { "tipo_solicitud": "asesoria", "fecha_preferida": "AAAA-MM-DD", "horario_preferido": "tarde",
               "etapa_proyecto": "...", "interes": "asesoria_top_inmobiliario" } }
@@ -127,7 +127,7 @@ Si el formulario solo pide correo (sin nombre), usa como `first_name` la parte l
 No envíes `audience` en la asesoría, salvo que la persona marque un checkbox explícito "Quiero recibir el boletín".
 
 ## 2. Arquitectura (las keys NUNCA llegan al navegador)
-- `nuxt.config.ts`: `runtimeConfig: { crmApiUrl: 'https://crm.quiebre.cl/api/v1/leads', crmKeyNewsletter: '', crmKeyAdvisory: '' }`
+- `nuxt.config.ts`: `runtimeConfig: { crmApiUrl: 'https://crm.mecaniq.cl/api/v1/leads', crmKeyNewsletter: '', crmKeyAdvisory: '' }`
   (privado, sin `public`). Variables: `NUXT_CRM_API_URL`, `NUXT_CRM_KEY_NEWSLETTER`, `NUXT_CRM_KEY_ADVISORY`.
   Agrégalas a `.env.example` sin valores reales y documenta en el README dónde copiar las keys
   (CRM → Configuración CRM → Orígenes y API → "Landing Top Inmobiliario – Boletín / Asesoría"). No commitees keys.
@@ -172,9 +172,9 @@ Con `npm run dev` y `/?utm_source=test&utm_medium=manual&utm_campaign=top-inmobi
   `tipo_solicitud`; NO queda en ninguna audiencia (salvo checkbox); llega "Recibimos tu solicitud de asesoría".
 - Prueba directa de la API:
 ```bash
-curl -X POST https://crm.quiebre.cl/api/v1/leads \
+curl -X POST https://crm.mecaniq.cl/api/v1/leads \
   -H "X-Api-Key: $NUXT_CRM_KEY_ADVISORY" -H "Content-Type: application/json" \
-  -d '{"first_name":"Prueba","email":"prueba@ejemplo.cl","phone":"+56912345678","company":"Demo","message":"Prueba asesoría","email_template":"confirmacion-asesoria","custom":{"tipo_solicitud":"asesoria"}}'
+  -d '{"first_name":"Prueba","email":"prueba@ejemplo.cl","phone":"+56912345678","company":"Demo","message":"Prueba asesoría","email_template":"confirmacion-demo","custom":{"tipo_solicitud":"asesoria"}}'
 ```
 Al terminar, lista los archivos cambiados y cualquier decisión que hayas tomado distinta a este documento.
 ````

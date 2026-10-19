@@ -27,11 +27,11 @@ class UserEmailsTest extends TestCase
         $admin = $this->userWithRole('admin');
 
         $this->actingAs($admin)->post(route('users.store'), [
-            'name' => 'Ana Pérez', 'email' => 'ana@quiebre.cl', 'role_id' => Role::first()->id, 'is_active' => true,
+            'name' => 'Ana Pérez', 'email' => 'ana@mecaniq.cl', 'role_id' => Role::first()->id, 'is_active' => true,
             'password' => 'Qb-Clave-Segura-1', 'password_confirmation' => 'Qb-Clave-Segura-1',
         ])->assertRedirect();
 
-        $m = EmailMessage::where('to_email', 'ana@quiebre.cl')->firstOrFail();
+        $m = EmailMessage::where('to_email', 'ana@mecaniq.cl')->firstOrFail();
         $this->assertSame('Qb-Clave-Segura-1', $m->variables['password']);
         $this->assertStringEndsWith('/login', $m->variables['login_url']);
         $this->assertSame('bienvenida-usuario', $m->template->slug);
@@ -41,14 +41,14 @@ class UserEmailsTest extends TestCase
 
     public function test_password_reset_request_queues_the_branded_email()
     {
-        $user = User::factory()->create(['email' => 'beto@quiebre.cl']);
+        $user = User::factory()->create(['email' => 'beto@mecaniq.cl']);
 
-        $this->post('/forgot-password', ['email' => 'beto@quiebre.cl']);
+        $this->post('/forgot-password', ['email' => 'beto@mecaniq.cl']);
 
-        $m = EmailMessage::where('to_email', 'beto@quiebre.cl')->firstOrFail();
+        $m = EmailMessage::where('to_email', 'beto@mecaniq.cl')->firstOrFail();
         $this->assertSame('recuperar-password', $m->template->slug);
         $this->assertStringContainsString('/reset-password/', $m->variables['reset_url']);
-        $this->assertStringContainsString('email=beto%40quiebre.cl', $m->variables['reset_url']);
+        $this->assertStringContainsString('email=beto%40mecaniq.cl', $m->variables['reset_url']);
     }
 
     public function test_every_email_gets_the_holding_footer_once()
@@ -75,11 +75,11 @@ class UserEmailsTest extends TestCase
     public function test_credentials_are_redacted_even_when_the_recipient_is_suppressed()
     {
         Bus::fake()->except([]);
-        $user = User::factory()->create(['email' => 'baja@quiebre.cl']);
-        \App\Models\EmailSuppression::create(['email' => 'baja@quiebre.cl', 'reason' => 'bounce']);
+        $user = User::factory()->create(['email' => 'baja@mecaniq.cl']);
+        \App\Models\EmailSuppression::create(['email' => 'baja@mecaniq.cl', 'reason' => 'bounce']);
 
         app(\App\Services\Email\UserMailer::class)->sendWelcome($user, 'Qb-Clave-Segura-1');
-        $m = EmailMessage::where('to_email', 'baja@quiebre.cl')->firstOrFail();
+        $m = EmailMessage::where('to_email', 'baja@mecaniq.cl')->firstOrFail();
         (new \App\Jobs\SendEmailMessage($m->id))->handle(app(\App\Services\Email\EmailComposer::class));
 
         $this->assertSame('suppressed', $m->fresh()->status);

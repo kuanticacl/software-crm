@@ -19,7 +19,7 @@ const snippets = computed(() => ({
 const res = await fetch('${url.value}', {
   method: 'POST',
   headers: {
-    Authorization: 'Bearer ' + process.env.QUIEBRE_API_KEY,
+    Authorization: 'Bearer ' + process.env.MECANIQ_API_KEY,
     'Content-Type': 'application/json',
   },
   body: JSON.stringify(${json.value.replace(/\n/g, '\n  ')}),
@@ -34,7 +34,7 @@ curl_setopt_array($ch, [
     CURLOPT_POST => true,
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_HTTPHEADER => [
-        'Authorization: Bearer ' . getenv('QUIEBRE_API_KEY'),
+        'Authorization: Bearer ' . getenv('MECANIQ_API_KEY'),
         'Content-Type: application/json',
     ],
     CURLOPT_POSTFIELDS => json_encode($payload),

@@ -8,14 +8,13 @@ use App\Services\Leads\LeadAssignment;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * Valores por defecto de Quiebre: todo cliente nuevo se asigna a Angelo Rossi (si no tiene otro responsable) y el
+ * Valores por defecto: todo prospecto nuevo se asigna al administrador (si no tiene otro responsable) y el
  * equipo recibe una alerta por correo con la plantilla «Alerta de cliente nuevo». Todo se puede cambiar desde
  * Orígenes de clientes y Email → Automatizaciones. Defensiva: un fallo aquí nunca debe impedir el despliegue.
  */
 return new class extends Migration
 {
-    private const ADMIN_EMAIL = 'arossi@quiebre.cl';
-
+    
     private const AUTOMATION = 'Alerta de cliente nuevo al equipo';
 
     public function up(): void
@@ -40,13 +39,13 @@ return new class extends Migration
 
         try {
             if (! Setting::has(LeadAssignment::DEFAULT_ASSIGNEE)) {
-                $user = User::whereRaw('lower(email) = ?', [self::ADMIN_EMAIL])->where('is_active', true)->first();
+                $user = User::whereRaw('lower(email) = ?', [strtolower((string) env('ADMIN_EMAIL', 'admin@mecaniq.cl'))])->where('is_active', true)->first();
                 if ($user) {
                     Setting::put(LeadAssignment::DEFAULT_ASSIGNEE, (string) $user->id);
                 }
             }
             if (! Setting::has(LeadAssignment::NOTIFY_EMAILS)) {
-                Setting::put(LeadAssignment::NOTIFY_EMAILS, self::ADMIN_EMAIL);
+                Setting::put(LeadAssignment::NOTIFY_EMAILS, strtolower((string) env('ADMIN_EMAIL', 'admin@mecaniq.cl')));
             }
         } catch (\Throwable $e) {
             report($e);

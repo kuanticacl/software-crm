@@ -17,7 +17,7 @@ return new class extends Migration
         }
 
         // Plantilla de agradecimiento disponible en este CRM («Gracias por contactarnos» o, si no existe, la de asesoría).
-        $slug = collect(['gracias-contacto', 'confirmacion-asesoria'])->first(fn ($s) => in_array($s, DefaultTemplates::SLUGS, true));
+        $slug = collect(['gracias-contacto', 'confirmacion-demo'])->first(fn ($s) => in_array($s, DefaultTemplates::SLUGS, true));
         if (! $slug) {
             return;
         }

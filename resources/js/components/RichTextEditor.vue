@@ -111,9 +111,9 @@ const btn = (active: boolean) => cn('size-8 rounded-lg text-muted-foreground', a
 .rte .rte-content p.is-editor-empty:first-child::before { content: attr(data-placeholder); float: left; height: 0; pointer-events: none; color: var(--muted-foreground, #8a8a8a); }
 .rte .rte-content ul { list-style: disc; padding-left: 1.25rem; }
 .rte .rte-content ol { list-style: decimal; padding-left: 1.25rem; }
-.rte .rte-content li::marker { color: #ff5300; }
+.rte .rte-content li::marker { color: #027BB9; }
 .rte .rte-content h3 { font-size: 1rem; font-weight: 700; margin-top: 0.75rem; }
 .rte .rte-content h4 { font-weight: 600; }
-.rte .rte-content a { color: #ff5300; text-decoration: underline; }
-.rte .rte-content blockquote { border-left: 3px solid #ff5300; padding-left: 0.75rem; color: #707070; }
+.rte .rte-content a { color: #027BB9; text-decoration: underline; }
+.rte .rte-content blockquote { border-left: 3px solid #027BB9; padding-left: 0.75rem; color: #707070; }
 </style>

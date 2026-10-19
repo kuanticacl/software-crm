@@ -13,12 +13,12 @@ class CrmSeeder extends Seeder
     {
         if (PipelineStage::count() === 0) {
             $stages = [
-                ['Ingreso', '#1AA0E4', 'open', false],
-                ['Contactado', '#6419DB', 'open', false],
-                ['Agendado', '#DF1E79', 'open', false],
-                ['Propuesta', '#FF5300', 'open', true],
-                ['Concretado', '#0D9F85', 'won', true],
-                ['Descartado', '#8A8A8A', 'lost', false],
+                ['Ingreso', '#38BDF8', 'open', false],
+                ['Contactado', '#6366F1', 'open', false],
+                ['Demo agendada', '#F59E0B', 'open', false],
+                ['Propuesta', '#027BB9', 'open', true],
+                ['Taller activo', '#0D9F85', 'won', true],
+                ['Descartado', '#8A98A8', 'lost', false],
             ];
 
             foreach ($stages as $i => [$name, $color, $type, $needsProposal]) {
@@ -30,12 +30,12 @@ class CrmSeeder extends Seeder
 
         if (LeadSource::count() === 0) {
             $sources = [
-                ['Sitio web', '#1AA0E4', 'globe', false],
-                ['Landing page', '#6419DB', 'layout-template', false],
+                ['Sitio web', '#38BDF8', 'globe', false],
+                ['Landing page', '#6366F1', 'layout-template', false],
                 ['Meta Ads', '#4A8CFF', 'megaphone', false],
                 ['Google Ads', '#0D9F85', 'search', false],
                 ['WhatsApp', '#25D366', 'message-circle', false],
-                ['Referido', '#DF1E79', 'handshake', false],
+                ['Referido', '#F59E0B', 'handshake', false],
                 ['Manual', '#707070', 'pencil', true],
             ];
 

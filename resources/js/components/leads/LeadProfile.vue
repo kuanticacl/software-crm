@@ -61,7 +61,7 @@ const channel: Record<string, { label: string; icon: typeof Phone }> = {
 };
 const when: Record<string, string> = { today: 'Hoy', this_week: 'Esta semana', later: 'Más adelante' };
 const temp: Record<string, { label: string; color: string }> = {
-    hot: { label: 'Caliente', color: '#FF5300' },
+    hot: { label: 'Caliente', color: '#027BB9' },
     warm: { label: 'Tibio', color: '#FFA165' },
     cold: { label: 'Frío', color: '#1AA0E4' },
 };

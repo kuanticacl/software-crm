@@ -4,7 +4,7 @@
   "description": "Correo con el enlace a la propuesta comercial (se usa al enviar desde Propuestas).",
   "category": "transactional",
   "subject": "Propuesta comercial: {{ proposal_title }}",
-  "preheader": "Revisa tu propuesta de Quiebre",
+  "preheader": "Revisa tu propuesta de MecaniQ",
   "variables": [
     {
       "key": "first_name",
@@ -28,7 +28,7 @@
       "key": "proposal_url",
       "label": "Enlace",
       "default": "",
-      "sample": "https://www.quiebre.cl"
+      "sample": "https://www.mecaniq.cl"
     },
     {
       "key": "valid_until",
@@ -45,23 +45,23 @@
   ],
   "design": {
     "settings": {
-      "bg": "#F4F4F4",
+      "bg": "#F3F6F9",
       "contentBg": "#FFFFFF",
       "width": 600,
       "font": "Arial, Helvetica, sans-serif",
-      "textColor": "#393939",
-      "linkColor": "#FF5300",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
       "radius": 16
     },
     "blocks": [
       {
-        "id": "b0000012",
+        "id": "b0000011",
         "type": "header",
         "props": {
           "logoUrl": "{{LOGO_URL}}",
           "logoWidth": 150,
-          "brandText": "Quiebre",
-          "brandColor": "#FF5300",
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
           "align": "center",
           "padY": 28,
           "padX": 32,
@@ -69,12 +69,12 @@
         }
       },
       {
-        "id": "b0000013",
+        "id": "b0000012",
         "type": "heading",
         "props": {
           "text": "Hola {{ first_name }}, te compartimos tu propuesta",
           "size": 26,
-          "color": "#393939",
+          "color": "#0B1522",
           "weight": "700",
           "align": "left",
           "padY": 12,
@@ -83,7 +83,7 @@
         }
       },
       {
-        "id": "b0000014",
+        "id": "b0000013",
         "type": "text",
         "props": {
           "text": "{{ message }}",
@@ -97,12 +97,12 @@
         }
       },
       {
-        "id": "b0000015",
+        "id": "b0000014",
         "type": "text",
         "props": {
           "text": "**{{ proposal_title }}**\nN.º {{ proposal_number }}{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}",
           "size": 15,
-          "color": "#707070",
+          "color": "#5B6B7C",
           "lineHeight": 1.6,
           "align": "left",
           "padY": 8,
@@ -111,12 +111,12 @@
         }
       },
       {
-        "id": "b0000016",
+        "id": "b0000015",
         "type": "button",
         "props": {
           "label": "Ver propuesta",
           "href": "{{ proposal_url }}",
-          "bg": "#FF5300",
+          "bg": "#027BB9",
           "color": "#FFFFFF",
           "radius": 999,
           "size": 16,
@@ -128,12 +128,12 @@
         }
       },
       {
-        "id": "b0000017",
+        "id": "b0000016",
         "type": "text",
         "props": {
           "text": "Desde el enlace puedes revisarla, descargarla en PDF y aceptarla en línea.",
           "size": 13,
-          "color": "#8A8A8A",
+          "color": "#8A98A8",
           "lineHeight": 1.6,
           "align": "center",
           "padY": 6,
@@ -142,12 +142,12 @@
         }
       },
       {
-        "id": "b0000018",
+        "id": "b0000017",
         "type": "footer",
         "props": {
           "company": "{{ company_name }}",
           "address": "{{ADDRESS}}",
-          "legal": "Recibes este correo porque tienes una cuenta o solicitud en Quiebre.",
+          "legal": "Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.",
           "showUnsubscribe": false,
           "unsubscribeText": "Darme de baja",
           "showView": false,
@@ -160,5 +160,5 @@
       }
     ]
   },
-  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#FF5300}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F4F4F4;font-family:Arial, Helvetica, sans-serif;color:#393939\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F4F4F4\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"Quiebre\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#393939;text-align:left\">Hola {{ first_name }}, te compartimos tu propuesta</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#393939;text-align:left\">{{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#707070;text-align:left\"><strong>{{ proposal_title }}</strong><br>N.º {{ proposal_number }}{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#FF5300\" style=\"background-color:#FF5300;border-radius:999px\"><a href=\"{{ proposal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver propuesta</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A8A8A;text-align:center\">Desde el enlace puedes revisarla, descargarla en PDF y aceptarla en línea.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en Quiebre.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">Hola {{ first_name }}, te compartimos tu propuesta</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">{{ message }}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:15px;line-height:1.6;color:#5B6B7C;text-align:left\"><strong>{{ proposal_title }}</strong><br>N.º {{ proposal_number }}{{#if valid_until}} · válida hasta {{ valid_until }}{{/if}}</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#027BB9\" style=\"background-color:#027BB9;border-radius:999px\"><a href=\"{{ proposal_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Ver propuesta</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A98A8;text-align:center\">Desde el enlace puedes revisarla, descargarla en PDF y aceptarla en línea.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque tienes una cuenta o solicitud en MecaniQ.</div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
 }

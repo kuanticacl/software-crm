@@ -8,26 +8,26 @@ use App\Models\LeadField;
 use App\Models\LeadSource;
 
 /**
- * Recursos del CRM para la landing top-inmobiliario.quiebre.cl: orígenes (cada uno con su API key),
- * audiencia del boletín, campos personalizados y las dos plantillas de agradecimiento.
+ * Recursos del CRM para la landing www.mecaniq.cl: orígenes (cada uno con su API key),
+ * audiencia del boletín, campos personalizados y las plantillas de agradecimiento.
  * Es idempotente: solo crea lo que falta y nunca pisa lo que ya se editó en el CRM.
  */
 class LandingKit
 {
-    public const SITE = 'https://top-inmobiliario.quiebre.cl';
+    public const SITE = 'https://www.mecaniq.cl';
 
-    public const NEWSLETTER_TEMPLATE = 'bienvenida-top-inmobiliario';
+    public const NEWSLETTER_TEMPLATE = 'bienvenida-boletin';
 
-    public const ADVISORY_TEMPLATE = 'confirmacion-asesoria';
+    public const ADVISORY_TEMPLATE = 'confirmacion-demo';
 
-    public const AUDIENCE = 'Boletín Top Inmobiliario';
+    public const AUDIENCE = 'Boletín MecaniQ';
 
     /** @return array<string, string> resumen de lo creado */
     public function install(): array
     {
         $created = [];
 
-        foreach ([['Landing Top Inmobiliario – Boletín', '#FF5300', 'newspaper', 20], ['Landing Top Inmobiliario – Asesoría', '#6419DB', 'calendar-check', 21], ['Formulario Landing Kuántica', '#6419DB', 'layout-template', 22], ['Formulario Landing Be Modular', '#0D9F85', 'layout-template', 23], ['Formulario Landing integraleads', '#4A8CFF', 'layout-template', 24]] as [$name, $color, $icon, $order]) {
+        foreach ([['Landing MecaniQ – Boletín', '#027BB9', 'newspaper', 20], ['Landing MecaniQ – Demo', '#6366F1', 'calendar-check', 21], ['WhatsApp MecaniQ', '#25D366', 'message-circle', 22], ['Prospección en terreno', '#F59E0B', 'map-pin', 23]] as [$name, $color, $icon, $order]) {
             $slug = \Illuminate\Support\Str::slug($name);
             if (! LeadSource::where('slug', $slug)->exists()) {
                 LeadSource::create(['name' => $name, 'slug' => $slug, 'color' => $color, 'icon' => $icon, 'api_key' => LeadSource::generateKey(), 'sort_order' => $order]);
@@ -36,15 +36,18 @@ class LandingKit
         }
 
         if (! ContactList::where('name', self::AUDIENCE)->exists()) {
-            ContactList::create(['name' => self::AUDIENCE, 'description' => 'Suscriptores del boletín semanal del ranking Top Inmobiliarias de Chile.']);
+            ContactList::create(['name' => self::AUDIENCE, 'description' => 'Dueños y jefes de taller suscritos al boletín de novedades y consejos de MecaniQ.']);
             $created[] = 'audiencia: '.self::AUDIENCE;
         }
 
         $fields = [
             ['tipo_solicitud', 'Tipo de solicitud', 'text'],
-            ['fecha_preferida', 'Fecha preferida de la asesoría', 'date'],
+            ['fecha_preferida', 'Fecha preferida de la demo', 'date'],
             ['horario_preferido', 'Horario preferido', 'select', ['mañana', 'tarde']],
-            ['etapa_proyecto', 'Etapa del proyecto', 'text'],
+            ['tipo_taller', 'Tipo de taller', 'select', ['Mecánica general', 'Multimarca', 'Planchado y pintura', 'Neumáticos', 'Eléctrico / electrónico', 'Flota', 'Otro']],
+            ['n_mecanicos', 'N.º de mecánicos', 'text'],
+            ['ciudad', 'Ciudad o comuna', 'text'],
+            ['sistema_actual', 'Cómo gestiona hoy el taller', 'text'],
             ['interes', 'Interés', 'text'],
         ];
         foreach ($fields as $i => $f) {
@@ -57,7 +60,7 @@ class LandingKit
         }
 
         $templates = app(DefaultTemplates::class);
-        foreach ([self::NEWSLETTER_TEMPLATE => 'Bienvenida Top Inmobiliario', self::ADVISORY_TEMPLATE => 'Confirmación de asesoría', UserMailer::WELCOME => 'Bienvenida de usuario', UserMailer::RESET => 'Recuperar contraseña', \App\Services\Proposals\ProposalMailer::SLUG => 'Propuesta comercial', \App\Services\Proposals\ProposalMailer::RESPONDED => 'Propuesta respondida'] as $slug => $label) {
+        foreach ([self::NEWSLETTER_TEMPLATE => 'Bienvenida al boletín', self::ADVISORY_TEMPLATE => 'Confirmación de demo', UserMailer::WELCOME => 'Bienvenida de usuario', UserMailer::RESET => 'Recuperar contraseña', \App\Services\Proposals\ProposalMailer::SLUG => 'Propuesta comercial', \App\Services\Proposals\ProposalMailer::RESPONDED => 'Propuesta respondida'] as $slug => $label) {
             $before = EmailTemplate::where('slug', $slug)->first();
             $templates->ensure($slug, upgrade: true);
             if (! $before || $before->editor !== 'blocks') {

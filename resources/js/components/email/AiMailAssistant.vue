@@ -30,7 +30,7 @@ watch(() => props.open, (o) => {
 
 const examples = [
     'Boletín mensual para inmobiliarias con 3 novedades de marketing inmobiliario y una invitación a agendar una demo.',
-    'Correo de bienvenida para quien se registra en una landing de un proyecto inmobiliario: confirmar recepción y avisar que un ejecutivo lo contactará.',
+    'Correo de bienvenida para quien se registra en la landing de MecaniQ: confirmar recepción y avisar que un ejecutivo lo contactará.',
     'Invitación a un webinar sobre cómo mejorar la conversión de clientes inmobiliarios.',
 ];
 
@@ -66,12 +66,12 @@ const generate = async () => {
         <DialogContent class="sm:max-w-xl">
             <DialogHeader>
                 <DialogTitle class="flex items-center gap-2"><Sparkles class="size-5 text-primary" /> Asistente de IA para mailings</DialogTitle>
-                <DialogDescription>Cuéntame qué quieres comunicar. Redacto el asunto y el contenido; el diseño siempre usa la identidad oficial de Quiebre (logo, naranja, tipografía y botones).</DialogDescription>
+                <DialogDescription>Cuéntame qué quieres comunicar. Redacto el asunto y el contenido; el diseño siempre usa la identidad oficial de MecaniQ (logo, naranja, tipografía y botones).</DialogDescription>
             </DialogHeader>
 
             <div class="grid gap-4">
                 <FormField label="¿De qué trata el correo?" :error="errors.brief">
-                    <Textarea v-model="form.brief" rows="4" placeholder="Ej: Invitar a inmobiliarias a una demo de integraleads, destacando el seguimiento de clientes y los reportes." />
+                    <Textarea v-model="form.brief" rows="4" placeholder="Ej: Invitar a talleres mecánicos a una demo de MecaniQ, destacando órdenes de trabajo y cobros desde el celular" />
                     <div class="mt-2 flex flex-wrap gap-1.5">
                         <button v-for="(ex, i) in examples" :key="i" type="button" class="rounded-full border bg-muted/40 px-2.5 py-1 text-[11px] text-muted-foreground transition hover:border-primary/50 hover:text-foreground" @click="form.brief = ex">Ejemplo {{ i + 1 }}</button>
                     </div>
@@ -91,7 +91,7 @@ const generate = async () => {
 
                 <div class="grid gap-3 sm:grid-cols-2">
                     <FormField label="Texto del botón (opcional)" :error="errors.cta_label"><Input v-model="form.cta_label" placeholder="Agenda una demo" /></FormField>
-                    <FormField label="Enlace del botón (opcional)" :error="errors.cta_url"><Input v-model="form.cta_url" placeholder="https://www.quiebre.cl" /></FormField>
+                    <FormField label="Enlace del botón (opcional)" :error="errors.cta_url"><Input v-model="form.cta_url" placeholder="https://www.mecaniq.cl" /></FormField>
                 </div>
 
                 <FormField label="Imágenes (opcional)" :error="errors.images" hint="Una URL https por línea. La IA solo usa las que entregues; no inventa imágenes.">

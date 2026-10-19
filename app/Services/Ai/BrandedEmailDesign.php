@@ -3,13 +3,13 @@
 namespace App\Services\Ai;
 
 /**
- * Convierte lo que propone la IA en un diseño de bloques que SIEMPRE respeta la marca Quiebre.
+ * Convierte lo que propone la IA en un diseño de bloques que SIEMPRE respeta la marca MecaniQ.
  * La IA solo aporta textos y la elección/orden de bloques; el diseño (colores, tipografía, logo,
  * botones en píldora, pie con baja) se impone aquí y no puede ser alterado por el modelo.
  */
 class BrandedEmailDesign
 {
-    public const ORANGE = '#FF5300';
+    public const ORANGE = '#027BB9';
 
     public const TEXT = '#393939';
 
@@ -18,14 +18,14 @@ class BrandedEmailDesign
 
     public static function logoUrl(): string
     {
-        return url('/brand/quiebre-logo-dark.png');
+        return url('/brand/mecaniq-logo.png');
     }
 
     /** @return array<string, mixed> */
     public static function settings(): array
     {
         return [
-            'bg' => '#F4F4F4',
+            'bg' => '#F3F6F9',
             'contentBg' => '#FFFFFF',
             'width' => 600,
             'font' => 'Arial, Helvetica, sans-serif',
@@ -82,10 +82,10 @@ class BrandedEmailDesign
         return match ($type) {
             'heading' => $text !== '' || $title !== '' ? self::make('heading', ['text' => $title ?: $text, 'size' => 28]) : null,
             'text' => $text !== '' ? self::make('text', ['text' => $text]) : null,
-            'button' => $label !== '' ? self::make('button', ['label' => $label, 'href' => $url ?: 'https://www.quiebre.cl']) : null,
+            'button' => $label !== '' ? self::make('button', ['label' => $label, 'href' => $url ?: 'https://www.mecaniq.cl']) : null,
             'image' => $img ? self::make('image', ['src' => $img, 'alt' => self::clean($raw['alt'] ?? $title, 120), 'href' => '']) : null,
             'columns' => $title !== '' || $text !== ''
-                ? self::make('columns', ['imageUrl' => $img ?: '', 'title' => $title, 'text' => $text, 'buttonLabel' => $label, 'buttonUrl' => $url ?: 'https://www.quiebre.cl'])
+                ? self::make('columns', ['imageUrl' => $img ?: '', 'title' => $title, 'text' => $text, 'buttonLabel' => $label, 'buttonUrl' => $url ?: 'https://www.mecaniq.cl'])
                 : null,
             'list' => self::make('list', ['collection' => preg_replace('/[^a-z0-9_]/i', '', (string) ($raw['collection'] ?? 'proyectos')) ?: 'proyectos']),
             'divider' => self::make('divider'),
@@ -97,7 +97,7 @@ class BrandedEmailDesign
     /** @return array<string, mixed> */
     private static function header(): array
     {
-        return self::make('header', ['logoUrl' => self::logoUrl(), 'logoWidth' => 150, 'brandText' => 'Quiebre', 'align' => 'center', 'padY' => 28]);
+        return self::make('header', ['logoUrl' => self::logoUrl(), 'logoWidth' => 150, 'brandText' => 'MecaniQ', 'align' => 'center', 'padY' => 28]);
     }
 
     /** @return array<string, mixed> */
@@ -122,12 +122,12 @@ class BrandedEmailDesign
     private static function defaults(string $type): array
     {
         return match ($type) {
-            'header' => ['logoUrl' => '', 'logoWidth' => 140, 'brandText' => 'Quiebre', 'brandColor' => self::ORANGE, 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => ''],
+            'header' => ['logoUrl' => '', 'logoWidth' => 140, 'brandText' => 'MecaniQ', 'brandColor' => self::ORANGE, 'align' => 'center', 'padY' => 24, 'padX' => 32, 'bg' => ''],
             'heading' => ['text' => '', 'size' => 28, 'color' => '', 'weight' => '700', 'align' => 'left', 'padY' => 12, 'padX' => 32, 'bg' => ''],
             'text' => ['text' => '', 'size' => 16, 'color' => '', 'lineHeight' => 1.6, 'align' => 'left', 'padY' => 8, 'padX' => 32, 'bg' => ''],
             'image' => ['src' => '', 'alt' => '', 'href' => '', 'width' => 100, 'radius' => 8, 'align' => 'center', 'padY' => 12, 'padX' => 32, 'bg' => ''],
-            'button' => ['label' => '', 'href' => 'https://www.quiebre.cl', 'bg' => self::ORANGE, 'color' => '#FFFFFF', 'radius' => 999, 'size' => 16, 'align' => 'center', 'fullWidth' => false, 'padY' => 16, 'padX' => 32, 'rowBg' => ''],
-            'columns' => ['imageUrl' => '', 'imageSide' => 'left', 'title' => '', 'text' => '', 'buttonLabel' => '', 'buttonUrl' => 'https://www.quiebre.cl', 'buttonBg' => self::ORANGE, 'padY' => 16, 'padX' => 32, 'bg' => ''],
+            'button' => ['label' => '', 'href' => 'https://www.mecaniq.cl', 'bg' => self::ORANGE, 'color' => '#FFFFFF', 'radius' => 999, 'size' => 16, 'align' => 'center', 'fullWidth' => false, 'padY' => 16, 'padX' => 32, 'rowBg' => ''],
+            'columns' => ['imageUrl' => '', 'imageSide' => 'left', 'title' => '', 'text' => '', 'buttonLabel' => '', 'buttonUrl' => 'https://www.mecaniq.cl', 'buttonBg' => self::ORANGE, 'padY' => 16, 'padX' => 32, 'bg' => ''],
             'list' => ['collection' => 'proyectos', 'imageKey' => 'imagen', 'titleKey' => 'nombre', 'textKey' => 'descripcion', 'priceKey' => 'precio', 'urlKey' => 'url', 'buttonLabel' => 'Ver detalle', 'buttonBg' => self::ORANGE, 'emptyText' => '', 'padY' => 12, 'padX' => 32, 'bg' => ''],
             'divider' => ['color' => '#E4E4E4', 'thickness' => 1, 'padY' => 12, 'padX' => 32, 'bg' => ''],
             'spacer' => ['height' => 16, 'bg' => ''],
@@ -147,7 +147,7 @@ class BrandedEmailDesign
     }
 
     /**
-     * Solo https de quiebre.cl, URLs entregadas por el usuario (`$allowed`) o variables {{ }}.
+     * Solo https de mecaniq.cl, URLs entregadas por el usuario (`$allowed`) o variables {{ }}.
      * Los enlaces que la IA invente en otros dominios se descartan.
      */
     private static function safeUrl(string $url, ?array $allowed = null): string
@@ -168,7 +168,7 @@ class BrandedEmailDesign
         }
         $host = strtolower((string) parse_url($url, PHP_URL_HOST));
 
-        return $host === 'quiebre.cl' || str_ends_with($host, '.quiebre.cl') ? $url : '';
+        return $host === 'mecaniq.cl' || str_ends_with($host, '.mecaniq.cl') ? $url : '';
     }
 
     private static function imageUrl(string $url, array $images): string

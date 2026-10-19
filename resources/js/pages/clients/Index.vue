@@ -53,7 +53,7 @@ const confirmDelete = (extra: { transfer_to?: number | null } = {}) => {
     <Head title="Empresas" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Empresas" description="Base de datos de inmobiliarias y empresas con las que trabajamos.">
+        <PageHeader title="Empresas" description="Base de datos de talleres y empresas con las que trabajamos.">
             <template #actions>
                 <Button v-if="can('clients.create')" as-child>
                     <Link :href="create()"><Plus /> Nueva empresa</Link>

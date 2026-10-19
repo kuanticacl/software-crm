@@ -48,7 +48,7 @@ export function followUpInfo(iso: string | null | undefined): FollowUp | null {
 
 export const followUpClass: Record<FollowUp['state'], string> = {
     overdue: 'bg-destructive/10 text-destructive',
-    today: 'bg-[#FF5300]/10 text-[#C23F00]',
+    today: 'bg-[#027BB9]/10 text-[#C23F00]',
     soon: 'bg-[#1AA0E4]/10 text-[#0B78AE]',
     later: 'bg-muted text-muted-foreground',
 };
@@ -80,7 +80,7 @@ export function toLocalInput(iso: string | null | undefined): string {
 
 /** Temperatura del lead según su puntaje (A = más caliente). */
 export const gradeMeta: Record<string, { label: string; short: string; color: string }> = {
-    A: { label: 'A · Caliente', short: 'Caliente', color: '#FF5300' },
+    A: { label: 'A · Caliente', short: 'Caliente', color: '#027BB9' },
     B: { label: 'B · Tibio', short: 'Tibio', color: '#FFA165' },
     C: { label: 'C · Frío', short: 'Frío', color: '#1AA0E4' },
     D: { label: 'D · Bajo', short: 'Bajo', color: '#8A8A8A' },

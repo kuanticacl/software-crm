@@ -6,7 +6,7 @@ use App\Models\Proposal;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-/** Genera el PDF de una propuesta en el servidor (sin navegador), con la identidad de Quiebre. */
+/** Genera el PDF de una propuesta en el servidor (sin navegador), con la identidad de MecaniQ. */
 class ProposalPdf
 {
     public function render(Proposal $p): string
@@ -37,7 +37,7 @@ class ProposalPdf
         $font = $pdf->getFontMetrics()->getFont('Asap', 'normal');
         $w = $canvas->get_width();
         $h = $canvas->get_height();
-        $canvas->page_text(36, $h - 28, 'Propuesta '.$p->number.' · '.($d['company']).' · quiebre.cl', $font, 7.5, [0.55, 0.55, 0.55]);
+        $canvas->page_text(36, $h - 28, 'Propuesta '.$p->number.' · '.($d['company']).' · mecaniq.cl', $font, 7.5, [0.55, 0.55, 0.55]);
         $canvas->page_text($w - 90, $h - 28, 'Página {PAGE_NUM} de {PAGE_COUNT}', $font, 7.5, [0.55, 0.55, 0.55]);
 
         return $pdf->output();

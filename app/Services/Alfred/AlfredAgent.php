@@ -16,7 +16,7 @@ use function Laravel\Ai\agent;
  */
 class AlfredAgent
 {
-    public const FALLBACK = 'Perdona, tuve un problema para responder. Puedes escribirnos a contacto@quiebre.cl y el equipo te ayudará.';
+    public const FALLBACK = 'Perdona, tuve un problema para responder. Puedes escribirnos a contacto@mecaniq.cl y el equipo te ayudará.';
 
     public function __construct(private AiGateway $ai) {}
 

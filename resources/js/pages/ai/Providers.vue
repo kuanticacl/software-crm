@@ -202,7 +202,7 @@ const total = computed(() => props.usage.reduce((a, u) => a + u.runs, 0));
             <form class="grid gap-5" @submit.prevent="savePrefs">
                 <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Analizar clientes nuevos automáticamente</span><br /><span class="text-xs text-muted-foreground">Al ingresar un cliente se genera su perfil y recomendaciones en segundo plano (consume tokens del proveedor por defecto).</span></span><Switch :model-value="prefs.auto_analyze" @update:model-value="(v: boolean) => (prefs.auto_analyze = v)" /></label>
                 <label class="flex items-start justify-between gap-4 text-sm"><span><span class="font-medium">Enviar correo y teléfono completos a la IA</span><br /><span class="text-xs text-muted-foreground">Desactivado: la IA solo recibe nombre, empresa, cargo, dominio del correo y datos comerciales (más privado). Actívalo solo si el proveedor está autorizado para tratar datos personales.</span></span><Switch :model-value="prefs.share_contact" @update:model-value="(v: boolean) => (prefs.share_contact = v)" /></label>
-                <FormField label="Contexto de marca (lo que la IA sabe de Quiebre)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
+                <FormField label="Contexto de marca (lo que la IA sabe de MecaniQ)" for="bc" hint="Define la voz y los servicios. La IA lo usa al redactar mailings y propuestas de contacto.">
                     <Textarea id="bc" v-model="prefs.brand_context" rows="7" />
                 </FormField>
                 <div class="flex items-center justify-between">

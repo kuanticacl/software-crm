@@ -17,7 +17,7 @@ class SearchClients extends CrmTool
 
     public function description(): string
     {
-        return 'Busca EMPRESAS (organizaciones/inmobiliarias; no personas) por nombre, razón social, RUT, correo o contacto. Úsalo SIEMPRE antes de crear una empresa para evitar duplicados. Para buscar personas usa search_leads.';
+        return 'Busca EMPRESAS (organizaciones/talleres; no personas) por nombre, razón social, RUT, correo o contacto. Úsalo SIEMPRE antes de crear una empresa para evitar duplicados. Para buscar personas usa search_leads.';
     }
 
     public function schema(JsonSchema $schema): array

@@ -17,15 +17,15 @@ class BrandedEmailDesignTest extends TestCase
 
         $blocks = $design['blocks'];
         $this->assertSame('header', $blocks[0]['type']);
-        $this->assertStringEndsWith('/brand/quiebre-logo-dark.png', $blocks[0]['props']['logoUrl']);
+        $this->assertStringEndsWith('/brand/mecaniq-logo.png', $blocks[0]['props']['logoUrl']);
         $this->assertSame('footer', end($blocks)['type']);
         $this->assertTrue(end($blocks)['props']['showUnsubscribe']);
         $this->assertNotContains('html', array_column($blocks, 'type'));
 
         $button = collect($blocks)->firstWhere('type', 'button');
-        $this->assertSame('#FF5300', $button['props']['bg']);
+        $this->assertSame('#027BB9', $button['props']['bg']);
         $this->assertSame(999, $button['props']['radius']);
-        $this->assertSame('https://www.quiebre.cl', $button['props']['href']);
+        $this->assertSame('https://www.mecaniq.cl', $button['props']['href']);
 
         $text = collect($blocks)->firstWhere('type', 'text');
         $this->assertStringNotContainsString('javascript', $text['props']['text']);

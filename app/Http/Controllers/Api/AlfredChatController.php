@@ -21,7 +21,7 @@ use Throwable;
  */
 class AlfredChatController extends Controller
 {
-    private const UNAVAILABLE = 'Alfred no está disponible por ahora. Puedes escribirnos a contacto@quiebre.cl y el equipo te ayudará.';
+    private const UNAVAILABLE = 'Alfred no está disponible por ahora. Puedes escribirnos a contacto@mecaniq.cl y el equipo te ayudará.';
 
     /** GET /api/v1/alfred/config — el sitio muestra a Alfred solo si está activo y con IA disponible. */
     public function config(AiGateway $ai): JsonResponse

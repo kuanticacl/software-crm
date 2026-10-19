@@ -1,6 +1,6 @@
 # Alfred — ejecutivo virtual del sitio web
 
-Asistente flotante de quiebre.cl. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
+Asistente flotante de mecaniq.cl. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
 reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permiso `ai.manage`).
 
 ## Diseño de seguridad

@@ -5,7 +5,7 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { initializeFlashToast } from '@/lib/flashToast';
 
-const appName = import.meta.env.VITE_APP_NAME || 'Quiebre CRM';
+const appName = import.meta.env.VITE_APP_NAME || 'MecaniQ CRM';
 
 void createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
@@ -29,7 +29,7 @@ void createInertiaApp({
         });
     },
     progress: {
-        color: '#FF5300',
+        color: '#027BB9',
     },
 });
 

@@ -35,12 +35,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ $p->title }} · Quiebre</title>
+    <title>{{ $p->title }} · MecaniQ</title>
     @if ($public ?? false)<meta name="robots" content="noindex,nofollow">@endif
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --o:{{ \App\Support\Theme::primary() ?? '#FF5300' }}; --o2:#FFA165; --ink:#393939; --mut:#707070; --line:#E8E8E8; --bg:#F4F4F4; --soft:{{ \App\Support\Theme::accent() ?? '#FFF3EC' }}; }
+        :root { --o:{{ \App\Support\Theme::primary() ?? '#027BB9' }}; --o2:#7CD0F5; --ink:#0B1522; --mut:#5B6B7C; --line:#DFE6ED; --bg:#F3F6F9; --soft:{{ \App\Support\Theme::accent() ?? '#E1F2FA' }}; }
         * { box-sizing: border-box; }
         html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
         body { margin:0; background:var(--bg); color:var(--ink); font-family:'Asap',Arial,Helvetica,sans-serif; font-size:15px; line-height:1.6; }
@@ -51,18 +51,17 @@
         .pill.primary { background:var(--o); border-color:var(--o); color:#fff; }
         .pill:hover { filter:brightness(.97); }
         .card { background:#fff; border-radius:24px; padding:32px; margin-bottom:16px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
-        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:#F4F4F4 url('{{ $heroUrl ?: $asset('brand/proposal-cover.jpg') }}') no-repeat right center / auto 100%; box-shadow:0 1px 2px rgba(0,0,0,.05); }
-        .cover::before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.94) 42%,rgba(244,244,244,0) 74%); }
+        .cover { position:relative; overflow:hidden; border-radius:28px; margin-bottom:16px; padding:34px 40px 36px; min-height:340px; background:{!! $heroUrl ? "#F3F6F9 url('".$heroUrl."') center/cover no-repeat" : 'linear-gradient(120deg,#F3F6F9 0%,#BFE3F4 55%,#7CD0F5 100%)' !!}; box-shadow:0 1px 2px rgba(0,0,0,.05); }
+        .cover::before { content:''; position:absolute; {!! $heroUrl ? 'inset:0; background:linear-gradient(90deg,rgba(243,246,249,.94) 0%,rgba(243,246,249,.78) 48%,rgba(243,246,249,.15) 100%);' : 'right:-60px; bottom:-70px; width:300px; height:300px; border-radius:50%; background:rgba(255,255,255,.28);' !!} }
         .cover > * { position:relative; }
-        @media (max-width:760px) { .cover { background-size:auto 70%; background-position:right bottom; } .cover::before { background:linear-gradient(90deg,#F4F4F4 0%,rgba(244,244,244,.85) 40%,rgba(244,244,244,0) 78%); } }
         .cover .logo { height:24px; width:auto; display:block; }
         .cover .tag { display:inline-block; margin-top:34px; background:rgba(255,255,255,.6); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.9); box-shadow:0 2px 10px rgba(0,0,0,.05); border-radius:999px; padding:4px 14px; font-size:13px; font-weight:600; color:var(--mut); }
-        .cover h1 { margin:14px 0 6px; font-size:38px; line-height:1.12; font-weight:600; color:var(--o); max-width:520px; }
+        .cover h1 { font-family:'Asap',Arial,sans-serif; letter-spacing:-.01em; margin:14px 0 6px; font-size:38px; line-height:1.12; font-weight:600; color:var(--o); max-width:520px; }
         .cover p { margin:0; font-size:18px; color:var(--mut); max-width:520px; } .cover p strong { color:var(--ink); }
         .cover .meta { display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; max-width:640px; }
         .glass { padding:7px 12px; background:rgba(255,255,255,.55); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.9); box-shadow:0 4px 18px rgba(0,0,0,.06); border-radius:14px; padding:8px 14px; }
-        .glass.purple { background:rgba(100,25,219,.82); border-color:rgba(255,255,255,.25); box-shadow:0 8px 26px rgba(100,25,219,.28); color:#fff; }
-        .glass span { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); } .glass strong { font-size:15px; } .glass.purple span { color:#E4D6FB; }
+        .glass.purple { background:rgba(11,21,34,.82); border-color:rgba(255,255,255,.25); box-shadow:0 8px 26px rgba(11,21,34,.28); color:#fff; }
+        .glass span { display:block; font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--mut); } .glass strong { font-size:15px; } .glass.purple span { color:#B9DDEE; }
         h2 { margin:0 0 12px; font-size:21px; line-height:1.25; display:flex; align-items:center; gap:12px; }
         h2 .n { flex:none; width:32px; height:32px; border-radius:11px; background:var(--soft); color:var(--o); font-size:14px; font-weight:700; display:grid; place-items:center; }
         .body p { margin:0 0 10px; } .body ul { margin:0 0 10px; padding-left:20px; } .body li { margin:3px 0; } .body li::marker { color:var(--o); }
@@ -81,7 +80,7 @@
         .totals div { display:flex; justify-content:space-between; padding:5px 0; } .totals .sep { border-top:1px solid var(--line); margin-top:6px; padding-top:10px; }
         .totals .grand { background:var(--o); color:#fff; border-radius:16px; padding:14px 18px; margin-top:10px; font-size:18px; font-weight:700; }
         .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:8px; }
-        .kpi { background:var(--soft); border:1px solid rgba(255,83,0,.12); border-radius:18px; padding:16px 18px; } .kpi.p { background:rgba(100,25,219,.07); border-color:rgba(100,25,219,.16); } .kpi.p strong { color:#6419DB; } .kpi span { font-size:12px; color:var(--mut); text-transform:uppercase; letter-spacing:.05em; } .kpi strong { display:block; font-size:24px; color:var(--o); line-height:1.2; }
+        .kpi { background:var(--soft); border:1px solid rgba(2,123,185,.12); border-radius:18px; padding:16px 18px; } .kpi.p { background:rgba(11,21,34,.07); border-color:rgba(11,21,34,.16); } .kpi.p strong { color:#0B1522; } .kpi span { font-size:12px; color:var(--mut); text-transform:uppercase; letter-spacing:.05em; } .kpi strong { display:block; font-size:24px; color:var(--o); line-height:1.2; }
         .accept { border:2px solid var(--o); } .accept form { display:grid; gap:12px; margin-top:12px; }
         .accept input, .accept textarea { font:inherit; width:100%; border:1px solid var(--line); border-radius:14px; padding:11px 14px; background:#fff; color:var(--ink); }
         .accept input:focus, .accept textarea:focus { outline:2px solid var(--o2); border-color:var(--o); }
@@ -93,14 +92,14 @@
         .holding { display:flex; flex-wrap:nowrap; align-items:center; gap:4px; margin-left:-8px; } .holding a { display:block; } .holding img { height:40px; width:auto; display:block; }
         .hold-note { margin:12px 0 0; font-size:12.5px; color:var(--mut); }
         .where { display:grid; gap:7px; font-size:14px; } .where div { display:flex; gap:9px; align-items:flex-start; } .where svg { flex:none; width:16px; height:16px; margin-top:3px; color:var(--o); stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; } .where a { color:inherit; text-decoration:none; }
-        .soc { display:flex; gap:8px; margin-top:12px; } .soc a { width:34px; height:34px; border-radius:12px; display:grid; place-items:center; color:var(--o); background:rgba(255,83,0,.08); border:1px solid rgba(255,83,0,.18); } .soc svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-        .tech { text-align:center; margin:22px 0 4px; } .tech p { margin:0 0 10px; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:#A8A8A8; }
+        .soc { display:flex; gap:8px; margin-top:12px; } .soc a { width:34px; height:34px; border-radius:12px; display:grid; place-items:center; color:var(--o); background:rgba(2,123,185,.08); border:1px solid rgba(2,123,185,.18); } .soc svg { width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+        .tech { text-align:center; margin:22px 0 4px; } .tech p { margin:0 0 10px; font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:#A8B3BF; }
         .tech div { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:10px 22px; } .tech img { height:16px; width:auto; opacity:.9; }
-        .legal { text-align:center; color:#A8A8A8; font-size:12px; margin-top:14px; }
+        .legal { text-align:center; color:#A8B3BF; font-size:12px; margin-top:14px; }
         @media (max-width:640px) { .sign, .ficha { grid-template-columns:1fr; } }
         .flash { background:#E7F8F3; color:#0A7A66; border-radius:16px; padding:12px 18px; margin-bottom:16px; font-weight:600; }
         .err { background:#FDECEC; color:#B42318; border-radius:16px; padding:12px 18px; margin-bottom:16px; }
-        .vp { position:fixed; right:12px; bottom:12px; background:#393939; color:#fff; border-radius:999px; padding:6px 14px; font-size:12px; opacity:.85; }
+        .vp { position:fixed; right:12px; bottom:12px; background:#0B1522; color:#fff; border-radius:999px; padding:6px 14px; font-size:12px; opacity:.85; }
         @media (max-width:640px) { .card { padding:22px 18px; border-radius:20px; } .cover { padding:32px 22px; } .cover h1 { font-size:27px; } th.hide, td.hide { display:none; } }
         @media print {
             body { background:#fff; font-size:13.5px; } .wrap { max-width:none; padding:0; } .noprint, .vp { display:none !important; }
@@ -129,7 +128,7 @@
     </div>
 
     <section class="cover">
-        <img class="logo" src="{{ $asset('brand/quiebre-logo-dark.png') }}" alt="Quiebre">
+        <img class="logo" src="{{ $asset('brand/mecaniq-logo.png') }}" alt="MecaniQ">
         <span class="tag">Propuesta comercial · N.º {{ $p->number }}</span>
         <h1>{{ $p->title }}</h1>
         <p>Preparada para <strong>{{ $company }}</strong></p>
@@ -214,7 +213,7 @@
                 var ctx = c.getContext('2d'), drawing = false, dirty = false, last = null;
                 var form = document.getElementById('resp-form'), sig = document.getElementById('resp-signature'), hint = document.getElementById('resp-hint'), err = document.getElementById('resp-error');
                 var ratio = Math.max(window.devicePixelRatio || 1, 1);
-                function size() { var w = c.clientWidth || 640; c.width = w * ratio; c.height = 200 * ratio; ctx.scale(ratio, ratio); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1B1B1B'; dirty = false; sig.value = ''; hint.hidden = false; }
+                function size() { var w = c.clientWidth || 640; c.width = w * ratio; c.height = 200 * ratio; ctx.scale(ratio, ratio); ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0B1522'; dirty = false; sig.value = ''; hint.hidden = false; }
                 size();
                 function pos(e) { var r = c.getBoundingClientRect(); var t = e.touches ? e.touches[0] : e; return { x: t.clientX - r.left, y: t.clientY - r.top }; }
                 function start(e) { e.preventDefault(); drawing = true; last = pos(e); ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(last.x + 0.1, last.y + 0.1); ctx.stroke(); }
@@ -239,9 +238,9 @@
     {{-- Firma y aceptación --}}
     <section class="card">
         <h2>Firma y aceptación</h2>
-        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de Quiebre. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
+        <p style="margin:0;color:var(--mut)">Atentamente, el equipo de MecaniQ. La propuesta se acepta firmándola y devolviéndola{{ ($public ?? false) ? ' o con la firma en línea de este enlace' : '' }}.</p>
         <div class="sign">
-            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo Quiebre' }}</strong><div class="cap">{{ $agency['legal_name'] }} · RUT {{ $agency['tax_id'] }}<br>{{ $owner->email ?? $agency['email'] }}</div></div>
+            <div><div class="line"></div><strong>{{ $owner->name ?? 'Equipo MecaniQ' }}</strong><div class="cap">{{ $agency['legal_name'] }} @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $owner->email ?? $agency['email'] }}</div></div>
             <div>
                 @if ($status === 'accepted')
                     <div class="line" style="display:grid;place-items:end center;padding-bottom:4px;min-height:64px">
@@ -258,16 +257,20 @@
     {{-- Pie: holding (izquierda) · ubicación y redes (derecha) --}}
     <footer class="ficha">
         <div>
-            <h3>Parte del holding</h3>
-            <div class="holding">
-                @foreach ($holding as $h)<a href="{{ $h['url'] }}" target="_blank" rel="noopener" title="{{ $h['name'] }}"><img src="{{ $asset('brand/partners/'.$h['logo'].'.png') }}" alt="{{ $h['name'] }}"></a>@endforeach
-            </div>
-            <p class="hold-note">Quiebre es parte de un holding de empresas de tecnología y marketing para el sector inmobiliario.</p>
+            @if (count($holding))
+                <h3>Empresas relacionadas</h3>
+                <div class="holding">
+                    @foreach ($holding as $h)<a href="{{ $h['url'] }}" target="_blank" rel="noopener" title="{{ $h['name'] }}"><img src="{{ $asset('brand/partners/'.$h['logo'].'.png') }}" alt="{{ $h['name'] }}"></a>@endforeach
+                </div>
+            @else
+                <h3>Software Factory &amp; Growth Marketing</h3>
+                <p class="hold-note" style="margin-top:0">Más de 10 años transformando empresas con desarrollo web, aplicaciones móviles, automatizaciones, inteligencia artificial y growth marketing.</p>
+            @endif
         </div>
         <div>
             <h3>Dónde estamos</h3>
             <div class="where">
-                <div><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>{{ $agency['legal_name'] }}</strong> · RUT {{ $agency['tax_id'] }}<br>{{ $agency['address'] }}</span></div>
+                <div><svg viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg><span><strong>{{ $agency['legal_name'] }}</strong> @if (! empty($agency['tax_id']))· RUT {{ $agency['tax_id'] }}@endif<br>{{ $agency['address'] }}</span></div>
                 <div><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><a href="mailto:{{ $agency['email'] }}">{{ $agency['email'] }}</a></div>
                 @if ($agency['phone'])<div><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>{{ $agency['phone'] }}</span></div>@endif
                 <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><a href="{{ $agency['website'] }}" style="color:var(--o);font-weight:600">{{ preg_replace('#^https?://#', '', rtrim($agency['website'], '/')) }}</a></div>
@@ -291,10 +294,12 @@
     </footer>
 
     {{-- Tecnologías: lo último de la página, pequeño y sutil --}}
+    @if (count($tech))
     <div class="tech">
         <p>Tecnologías con las que trabajamos</p>
         <div>@foreach ($tech as $t)<img src="{{ $asset('brand/tech/'.$t.'.png') }}" alt="{{ $t }}">@endforeach</div>
     </div>
+    @endif
     <p class="legal">© {{ now()->year }} {{ $agency['legal_name'] }} · Documento confidencial para {{ $company }}</p>
 </div>
 @if ($preview ?? false)<div class="vp noprint">Vista previa</div>@endif

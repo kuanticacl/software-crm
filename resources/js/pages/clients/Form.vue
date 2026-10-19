@@ -46,7 +46,7 @@ const submit = () => {
     <Head :title="isEdit ? 'Editar empresa' : 'Nueva empresa'" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader :title="isEdit ? `Editar ${client?.name}` : 'Nueva empresa'" description="Datos de la empresa o inmobiliaria." />
+        <PageHeader :title="isEdit ? `Editar ${client?.name}` : 'Nueva empresa'" description="Datos del taller o empresa." />
 
         <form class="max-w-3xl" @submit.prevent="submit">
             <DataCard class="p-6">
@@ -56,13 +56,13 @@ const submit = () => {
                         <Input id="tax_id" v-model="form.tax_id" placeholder="76.123.456-7" @blur="form.tax_id = formatRut(form.tax_id)" />
                     </FormField>
                     <FormField label="Razón social" for="legal_name" :error="form.errors.legal_name">
-                        <Input id="legal_name" v-model="form.legal_name" placeholder="Inmobiliaria Los Robles SpA" />
+                        <Input id="legal_name" v-model="form.legal_name" placeholder="Taller Mecánico Los Robles SpA" />
                     </FormField>
                     <FormField label="Nombre de fantasía" for="name" :error="form.errors.name" required hint="Es el nombre con el que se muestra en el CRM y en las propuestas.">
                         <Input id="name" v-model="form.name" placeholder="Los Robles" />
                     </FormField>
                     <FormField label="Giro" for="activity" :error="form.errors.activity">
-                        <Input id="activity" v-model="form.activity" placeholder="Desarrollo y venta de proyectos inmobiliarios" />
+                        <Input id="activity" v-model="form.activity" placeholder="Mecánica automotriz y mantención de vehículos" />
                     </FormField>
                     <FormField label="Dirección" for="address" :error="form.errors.address">
                         <Input id="address" v-model="form.address" placeholder="Av. Apoquindo 4500, of. 801" />

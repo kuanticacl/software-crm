@@ -26,13 +26,13 @@ class ProposalDemoSeeder extends Seeder
     private function scenarios(): array
     {
         return [
-            'Sitio web' => ['company' => 'Altos del Valle', 'legal' => 'Inmobiliaria Altos del Valle SpA', 'body' => 76511230, 'activity' => 'Desarrollo y venta de proyectos habitacionales', 'address' => 'Av. Apoquindo 4501, of. 902', 'commune' => 'Las Condes', 'contact' => ['Camila', 'Rojas', 'Gerente de Marketing'], 'brief' => 'Lanzamiento de torre de 180 departamentos en preventa.', 'plan' => [['Gestión de campañas Meta Ads', 1, 0], ['Landing page de proyecto', 1, 0], ['Reporting y dashboard comercial', 1, 0]], 'states' => ['draft']],
-            'Landing page' => ['company' => 'Costa Norte', 'legal' => 'Constructora Costa Norte Ltda.', 'body' => 77124560, 'activity' => 'Construcción y venta de viviendas', 'address' => 'Av. Libertad 1350, of. 401', 'commune' => 'Viña del Mar', 'contact' => ['Matías', 'Soto', 'Gerente Comercial'], 'brief' => 'Campaña de captación para casas en Concón.', 'plan' => [['Gestión de campañas Google Ads', 1, 0], ['Gestión de campañas Meta Ads', 1, 10], ['Landing page de proyecto', 1, 0]], 'states' => ['sent']],
-            'Meta Ads' => ['company' => 'Plaza Verde', 'legal' => 'Inmobiliaria Plaza Verde S.A.', 'body' => 76890340, 'activity' => 'Inversión y desarrollo inmobiliario', 'address' => 'Av. Providencia 2653, piso 11', 'commune' => 'Providencia', 'contact' => ['Francisca', 'Mora', 'Subgerente de Ventas'], 'brief' => 'Mejorar la conversión de clientes a visitas en sala.', 'plan' => [['Aceleración de ventas', 1, 0], ['Implementación de integraleads', 1, 0], ['Reporting y dashboard comercial', 1, 0]], 'states' => ['viewed']],
-            'Google Ads' => ['company' => 'Pacífico Desarrollos', 'legal' => 'Desarrollos Pacífico SpA', 'body' => 77350120, 'activity' => 'Desarrollo de proyectos inmobiliarios', 'address' => 'Av. Andrés Bello 2425, of. 1503', 'commune' => 'Providencia', 'contact' => ['Rodrigo', 'Vega', 'Director de Proyectos'], 'brief' => 'Estrategia digital integral para dos proyectos en Ñuñoa.', 'plan' => [['Gestión de campañas Google Ads', 2, 0], ['Gestión de campañas Meta Ads', 1, 0], ['Community management', 1, 0], ['Producción de contenido audiovisual', 1, 15]], 'states' => ['accepted']],
-            'WhatsApp' => ['company' => 'Nodo Urbano', 'legal' => 'Nodo Urbano Inmobiliaria SpA', 'body' => 76673450, 'activity' => 'Venta de departamentos y oficinas', 'address' => 'Av. Nueva Costanera 3880, of. 62', 'commune' => 'Vitacura', 'contact' => ['Daniela', 'Fuentes', 'Jefa de Marketing'], 'brief' => 'Rebranding del proyecto y estudio de mercado.', 'plan' => [['Identidad de marca de proyecto', 1, 0], ['Big data inmobiliario', 1, 0]], 'states' => ['rejected']],
-            'Referido' => ['company' => 'Alameda Capital', 'legal' => 'Alameda Capital Inmobiliaria SpA', 'body' => 76244780, 'activity' => 'Gestión inmobiliaria y renta', 'address' => 'Av. Libertador Bernardo O\'Higgins 1302, of. 703', 'commune' => 'Santiago', 'contact' => ['Tomás', 'Herrera', 'Socio y Gerente General'], 'brief' => 'Ordenar la gestión comercial y el seguimiento de leads.', 'plan' => [['Aceleración de ventas', 1, 0], ['Implementación de integraleads', 1, 0]], 'states' => ['rejected', 'sent']],
-            'Manual' => ['company' => 'Cumbres del Sur', 'legal' => 'Inmobiliaria Cumbres del Sur Ltda.', 'body' => 77019340, 'activity' => 'Desarrollo de condominios', 'address' => 'Av. Alemania 0671, of. 210', 'commune' => 'Temuco', 'contact' => ['Javier', 'Contreras', 'Gerente de Operaciones'], 'brief' => 'Campañas para condominio en Temuco.', 'plan' => [['Gestión de campañas Meta Ads', 1, 0], ['Landing page de proyecto', 1, 0]], 'states' => ['expired']],
+            'Sitio web' => ['company' => 'Taller Los Robles', 'legal' => 'Taller Mecánico Los Robles SpA', 'body' => 76511230, 'activity' => 'Mecánica automotriz general', 'address' => 'Av. Vicuña Mackenna 4501', 'commune' => 'Ñuñoa', 'contact' => ['Camila', 'Rojas', 'Dueña del taller'], 'brief' => 'Quiere dejar el cuaderno y llevar las órdenes de trabajo en el celular.', 'plan' => [['Plan Taller Inicial', 1, 0], ['Puesta en marcha y capacitación', 1, 0]], 'states' => ['draft']],
+            'Landing page' => ['company' => 'Frenos del Sur', 'legal' => 'Frenos y Suspensión del Sur Ltda.', 'body' => 77124560, 'activity' => 'Frenos, suspensión y alineación', 'address' => 'Av. Libertad 1350', 'commune' => 'Viña del Mar', 'contact' => ['Matías', 'Soto', 'Jefe de taller'], 'brief' => 'Necesita cotizar más rápido y avisar a los clientes cuando el auto está listo.', 'plan' => [['Plan Taller Pro', 1, 0], ['Integración con WhatsApp Business', 1, 0]], 'states' => ['sent']],
+            'Meta Ads' => ['company' => 'AutoPlancha Plaza', 'legal' => 'Planchado y Pintura Plaza S.A.', 'body' => 76890340, 'activity' => 'Planchado y pintura', 'address' => 'Av. Providencia 2653', 'commune' => 'Providencia', 'contact' => ['Francisca', 'Mora', 'Gerenta'], 'brief' => 'Controlar repuestos y cobros por siniestro con las aseguradoras.', 'plan' => [['Plan Taller Pro', 1, 0], ['Puesta en marcha y capacitación', 1, 0]], 'states' => ['viewed']],
+            'Google Ads' => ['company' => 'Red Mecánica Pacífico', 'legal' => 'Red de Talleres Pacífico SpA', 'body' => 77350120, 'activity' => 'Red de 4 talleres multimarca', 'address' => 'Av. Andrés Bello 2425', 'commune' => 'Providencia', 'contact' => ['Rodrigo', 'Vega', 'Director de operaciones'], 'brief' => 'Quiere ver todas las sucursales en un solo panel.', 'plan' => [['Plan Multi-sucursal', 1, 0], ['Puesta en marcha y capacitación', 4, 0]], 'states' => ['rejected', 'sent']],
+            'WhatsApp' => ['company' => 'Neumáticos Nodo', 'legal' => 'Nodo Neumáticos SpA', 'body' => 76673450, 'activity' => 'Venta e instalación de neumáticos', 'address' => 'Av. Nueva Costanera 3880', 'commune' => 'Vitacura', 'contact' => ['Daniela', 'Fuentes', 'Jefa de local'], 'brief' => 'Recordatorios de rotación y una página para reservar horas.', 'plan' => [['Plan Taller Inicial', 1, 0], ['Landing page del taller', 1, 0]], 'states' => ['accepted']],
+            'Referido' => ['company' => 'Mecánica Alameda', 'legal' => 'Mecánica Alameda SpA', 'body' => 76244780, 'activity' => 'Mecánica y electricidad automotriz', 'address' => 'Av. Libertador Bernardo O\'Higgins 1302', 'commune' => 'Santiago', 'contact' => ['Tomás', 'Herrera', 'Socio y gerente'], 'brief' => 'Ordenar el historial de cada vehículo y las mantenciones.', 'plan' => [['Plan Taller Pro', 1, 0]], 'states' => ['sent']],
+            'Manual' => ['company' => 'Taller Cumbres', 'legal' => 'Taller Cumbres Ltda.', 'body' => 77019340, 'activity' => 'Mecánica general y flotas', 'address' => 'Av. Alemania 0671', 'commune' => 'Temuco', 'contact' => ['Javier', 'Contreras', 'Gerente de operaciones'], 'brief' => 'Gestionar la flota de un cliente corporativo con órdenes de trabajo.', 'plan' => [['Plan Taller Pro', 1, 0], ['Integración con WhatsApp Business', 1, 0]], 'states' => ['draft']],
         ];
     }
 
@@ -81,12 +81,12 @@ class ProposalDemoSeeder extends Seeder
                 })->filter()->values()->all();
 
                 $p = $builder->save([
-                    'title' => 'Marketing inmobiliario · '.$c['company'].($v > 0 ? ' (v'.($v + 1).')' : ''),
-                    'currency' => 'UF', 'lead_id' => $lead->id, 'client_id' => $client->id,
+                    'title' => 'MecaniQ para tu taller · '.$c['company'].($v > 0 ? ' (v'.($v + 1).')' : ''),
+                    'currency' => 'CLP', 'lead_id' => $lead->id, 'client_id' => $client->id,
                     'recipient' => ProposalBuilder::recipientFor($client, $lead),
                     'sections' => $this->sections($c),
                     'valid_until' => now()->subDays($days)->addDays(15)->toDateString(),
-                    'contract_months' => 6, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'iva', 'tax_rate' => 19,
+                    'contract_months' => 12, 'discount_type' => 'percent', 'discount_value' => $state === 'accepted' ? 5 : 0, 'tax_mode' => 'iva', 'tax_rate' => 19,
                     'items' => $items, 'internal_notes' => '<p>Propuesta de ejemplo del seed demo.</p>',
                 ], null, $owner?->id);
 
@@ -110,7 +110,7 @@ class ProposalDemoSeeder extends Seeder
 
             // Etapa del lead según la última propuesta.
             $lastState = end($proposals)[0];
-            $target = match ($lastState) { 'accepted' => 'Concretado', 'rejected' => 'Descartado', 'draft' => 'Agendado', default => 'Propuesta' };
+            $target = match ($lastState) { 'accepted' => 'Taller activo', 'rejected' => 'Descartado', 'draft' => 'Demo agendada', default => 'Propuesta' };
             if ($stage = $stages->get($target)) {
                 $leads->move($lead->fresh(), $stage->id, null, $owner, [
                     'lost_reason' => $lastState === 'rejected' ? 'Postergó la decisión' : null,
@@ -128,7 +128,7 @@ class ProposalDemoSeeder extends Seeder
     private function sections(array $c): array
     {
         $s = ProposalBuilder::defaultSections();
-        $s[0]['body'] = '<p>Gracias por la oportunidad de presentar esta propuesta a <strong>[CLIENTE]</strong>. '.$c['brief'].'</p><p>En Quiebre ayudamos a inmobiliarias a atraer y cerrar más ventas con datos y gestión comercial: dejar de adivinar y empezar a convertir.</p>';
+        $s[0]['body'] = '<p>Gracias por la oportunidad de presentar esta propuesta a <strong>[CLIENTE]</strong>. '.$c['brief'].'</p><p>MecaniQ es la app móvil que ayuda a los talleres a ordenar sus órdenes de trabajo, cotizar rápido y cobrar a tiempo.</p>';
 
         return $s;
     }

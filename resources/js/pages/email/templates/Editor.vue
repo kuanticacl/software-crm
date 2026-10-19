@@ -163,7 +163,7 @@ const applyAi = (r: AiDesignResult) => {
     started.value = true;
     selectedId.value = null;
     leftTab.value = 'structure';
-    toast.success('Correo generado con la identidad de Quiebre', { description: r.notes || 'Revisa el contenido antes de enviarlo.' });
+    toast.success('Correo generado con la identidad de MecaniQ', { description: r.notes || 'Revisa el contenido antes de enviarlo.' });
 };
 const plainContent = () =>
     design.value.blocks
@@ -280,7 +280,7 @@ const apiEndpoint = computed(() => `${window.location.origin}/api/v1`);
         </div>
         <button v-if="ai.enabled" type="button" class="flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/5 p-5 text-left transition hover:-translate-y-0.5 hover:border-primary hover:shadow-md" @click="aiOpen = true">
             <span class="grid size-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"><Sparkles class="size-5" /></span>
-            <span><span class="block font-semibold">Crear con IA <span class="ml-1 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-medium text-primary">Opcional</span></span><span class="text-sm text-muted-foreground">Describe el correo y la IA redacta asunto y contenido. El diseño siempre respeta la marca Quiebre y usa el logo oficial.</span></span>
+            <span><span class="block font-semibold">Crear con IA <span class="ml-1 rounded-full bg-primary/15 px-2 py-0.5 text-[11px] font-medium text-primary">Opcional</span></span><span class="text-sm text-muted-foreground">Describe el correo y la IA redacta asunto y contenido. El diseño siempre respeta la marca MecaniQ y usa el logo oficial.</span></span>
         </button>
         <p v-else-if="ai.can_configure" class="rounded-2xl border border-dashed p-4 text-sm text-muted-foreground"><Sparkles class="mr-1 inline size-4 text-primary" />¿Quieres redactar con IA? <Link :href="aiIndex()" class="font-medium text-primary underline-offset-2 hover:underline">Configura un proveedor</Link>.</p>
         <div class="grid gap-4 sm:grid-cols-2">

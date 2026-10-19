@@ -11,7 +11,7 @@ const ready = ref(false);
 // El iframe se carga una sola vez; el contenido se actualiza por mensajes (conserva el scroll y no parpadea).
 const shell = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <style id="qb-head"></style>
-<style>[data-bid]{cursor:pointer}[data-bid]:hover{outline:1px dashed #FF5300;outline-offset:-1px}[data-bid][data-selected]{outline:2px solid #FF5300;outline-offset:-2px}</style></head>
+<style>[data-bid]{cursor:pointer}[data-bid]:hover{outline:1px dashed #027BB9;outline-offset:-1px}[data-bid][data-selected]{outline:2px solid #027BB9;outline-offset:-2px}</style></head>
 <body></body>
 <script>
 window.addEventListener('message', function (e) {

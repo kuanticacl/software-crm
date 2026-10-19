@@ -18,7 +18,7 @@
 
 ## Valores iniciales (migración `create_default_new_lead_alert`)
 
-Responsable por defecto = usuario `arossi@quiebre.cl` (si existe y está activo) y correo de alerta `arossi@quiebre.cl`.
+Responsable por defecto = usuario `arossi@mecaniq.cl` (si existe y está activo) y correo de alerta `arossi@mecaniq.cl`.
 Los clientes que ya estaban sin asignar **no** se tocan; se pueden asignar desde el Kanban o la lista.
 
 ## Notas técnicas

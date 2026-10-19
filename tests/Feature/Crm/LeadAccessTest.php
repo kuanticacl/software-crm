@@ -55,7 +55,7 @@ class LeadAccessTest extends TestCase
     {
         $user = $this->userWithRole('supervisor');
         $lead = $this->makeLead();
-        $target = PipelineStage::where('name', 'Agendado')->first();
+        $target = PipelineStage::where('name', 'Demo agendada')->first();
 
         $this->actingAs($user)->putJson(route('leads.move', $lead), ['stage_id' => $target->id])->assertOk();
 

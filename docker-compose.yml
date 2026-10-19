@@ -1,12 +1,12 @@
-# CRM Quiebre · stack completo (app + base de datos) para Dokploy.
+# CRM MecaniQ · stack completo (app + base de datos) para Dokploy.
 #
-# - Servicios: quiebre-crm (app) y quiebre-crm-db (MariaDB).
-# - Sin puertos publicados en el host: el puerto lo asigna/ruta Traefik (dominio configurado en Dokploy → crm.quiebre.cl).
+# - Servicios: mecaniq-crm (app) y mecaniq-crm-db (MariaDB).
+# - Sin puertos publicados en el host: el puerto lo asigna/ruta Traefik (dominio configurado en Dokploy → crm.mecaniq.cl).
 # - La base de datos vive en el mismo stack y solo es accesible por la red interna.
 # - Todo se configura con variables de entorno (ver .env.dokploy.example).
 
 services:
-  quiebre-crm:
+  mecaniq-crm:
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,16 +14,16 @@ services:
     expose:
       - "80"
     depends_on:
-      quiebre-crm-db:
+      mecaniq-crm-db:
         condition: service_healthy
-      quiebre-crm-redis:
+      mecaniq-crm-redis:
         condition: service_healthy
     environment:
-      APP_NAME: ${APP_NAME:-Quiebre CRM}
+      APP_NAME: ${APP_NAME:-MecaniQ CRM}
       APP_ENV: ${APP_ENV:-production}
       APP_KEY: ${APP_KEY:?Define APP_KEY}
       APP_DEBUG: ${APP_DEBUG:-false}
-      APP_URL: ${APP_URL:-https://crm.quiebre.cl}
+      APP_URL: ${APP_URL:-https://crm.mecaniq.cl}
       ASSET_URL: ${ASSET_URL:-}
       APP_LOCALE: ${APP_LOCALE:-es}
       APP_FALLBACK_LOCALE: ${APP_FALLBACK_LOCALE:-es}
@@ -31,24 +31,24 @@ services:
       LOG_CHANNEL: ${LOG_CHANNEL:-stderr}
       LOG_LEVEL: ${LOG_LEVEL:-warning}
       DB_CONNECTION: mariadb
-      DB_HOST: quiebre-crm-db
+      DB_HOST: mecaniq-crm-db
       DB_PORT: "3306"
-      DB_DATABASE: ${DB_DATABASE:-quiebre_crm}
-      DB_USERNAME: ${DB_USERNAME:-quiebre}
+      DB_DATABASE: ${DB_DATABASE:-mecaniq_crm}
+      DB_USERNAME: ${DB_USERNAME:-mecaniq}
       DB_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD}
       SESSION_DRIVER: ${SESSION_DRIVER:-redis}
       SESSION_SECURE_COOKIE: ${SESSION_SECURE_COOKIE:-true}
       SESSION_SAME_SITE: ${SESSION_SAME_SITE:-lax}
       CACHE_STORE: ${CACHE_STORE:-redis}
       REDIS_CLIENT: phpredis
-      REDIS_HOST: quiebre-crm-redis
+      REDIS_HOST: mecaniq-crm-redis
       REDIS_PORT: "6379"
       REDIS_PASSWORD: ${REDIS_PASSWORD:-${DB_PASSWORD}}
       QUEUE_CONNECTION: database
       FILESYSTEM_DISK: local
       MAIL_MAILER: ${MAIL_MAILER:-log}
-      ADMIN_NAME: ${ADMIN_NAME:-Administrador Quiebre}
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@quiebre.cl}
+      ADMIN_NAME: ${ADMIN_NAME:-Administrador MecaniQ}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@mecaniq.cl}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       SEED_DEMO: ${SEED_DEMO:-false}
     volumes:
@@ -56,13 +56,13 @@ services:
     networks:
       - dokploy-network
 
-  quiebre-crm-db:
+  mecaniq-crm-db:
     image: mariadb:11.4
     restart: unless-stopped
     command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci", "--skip-name-resolve", "--innodb-buffer-pool-size=256M"]
     environment:
-      MARIADB_DATABASE: ${DB_DATABASE:-quiebre_crm}
-      MARIADB_USER: ${DB_USERNAME:-quiebre}
+      MARIADB_DATABASE: ${DB_DATABASE:-mecaniq_crm}
+      MARIADB_USER: ${DB_USERNAME:-mecaniq}
       MARIADB_PASSWORD: ${DB_PASSWORD:?Define DB_PASSWORD}
       MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?Define DB_ROOT_PASSWORD}
       MARIADB_AUTO_UPGRADE: "1"
@@ -80,7 +80,7 @@ services:
 
   # Redis: sesiones y caché (la cola sigue en la base de datos para no perder trabajos pendientes).
   # Persistente (AOF) para que las sesiones sobrevivan a un reinicio; solo accesible por la red del stack con contraseña.
-  quiebre-crm-redis:
+  mecaniq-crm-redis:
     image: redis:7-alpine
     restart: unless-stopped
     command: ["sh", "-c", "exec redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy volatile-lru --requirepass \"$$REDIS_PASSWORD\""]
@@ -102,7 +102,7 @@ volumes:
   crm-db-data:
   crm-redis-data:
 
-# Red compartida de Dokploy/Traefik (no crea redes nuevas). Los nombres de servicio son únicos (quiebre-crm-*)
+# Red compartida de Dokploy/Traefik (no crea redes nuevas). Los nombres de servicio son únicos (mecaniq-crm-*)
 # para no chocar con otros stacks que usan la misma red.
 networks:
   dokploy-network:

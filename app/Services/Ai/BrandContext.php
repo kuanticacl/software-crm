@@ -4,16 +4,17 @@ namespace App\Services\Ai;
 
 use App\Models\Setting;
 
-/** Contexto de marca de Quiebre que se entrega a la IA (voz, propuesta de valor y reglas de estilo). */
+/** Contexto de marca de MecaniQ (app móvil para talleres mecánicos) que se entrega a la IA (voz, propuesta de valor y reglas de estilo). */
 class BrandContext
 {
     public static function defaultText(): string
     {
         return <<<'TXT'
-Quiebre es una agencia de marketing inmobiliario en Chile con más de 10 años de experiencia. Posicionamiento: «Inteligencia inmobiliaria — Deja de adivinar y empieza a convertir».
-Ayuda a inmobiliarias, constructoras y corredoras a atraer y cerrar más ventas con datos y gestión comercial: marketing y Ads, redes sociales, branding, reporting y big data inmobiliario, aceleración de ventas e IA activa. Tiene su propia plataforma de gestión de leads (integraleads).
-Voz: profesional, cercana, directa y orientada a resultados. Español de Chile, trato de «tú», sin modismos excesivos ni jerga vacía. Frases cortas, beneficios concretos y números cuando existan. Evita promesas exageradas, mayúsculas gritadas y signos de exclamación en exceso.
-Llamados a la acción típicos: «Agenda una demo», «Conversemos», «Ver cómo lo hacemos».
+MecaniQ es una app móvil para talleres mecánicos en Chile: gestiona órdenes de trabajo, clientes y vehículos, cotizaciones y presupuestos, historial de mantenciones, inventario de repuestos, recordatorios y avisos por WhatsApp, y cobros, todo desde el celular. Posicionamiento: «El taller en tu bolsillo — menos papeleo, más autos reparados».
+Se dirige a dueños y jefes de taller mecánico, talleres de barrio, multimarca, de planchado y pintura, neumáticos y vulcanización, y flotas pequeñas. Tiene landing y un equipo comercial que prospecta talleres y agenda demos.
+Voz: cercana, práctica y directa, como alguien del rubro. Español de Chile, trato de «tú», sin jerga técnica de software ni promesas exageradas. Frases cortas, beneficios concretos (ahorrar tiempo, no perder cobros, clientes que vuelven) y números cuando existan. Evita mayúsculas gritadas y signos de exclamación en exceso.
+Llamados a la acción típicos: «Agenda una demo», «Prueba MecaniQ gratis», «Conversemos por WhatsApp».
+
 TXT;
     }
 

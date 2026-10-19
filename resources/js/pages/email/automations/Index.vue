@@ -135,7 +135,7 @@ const delayText = (m: number) => (m === 0 ? 'al instante' : m < 60 ? `${m} min d
                     <FormField label="Plantilla" for="atp" :error="form.errors.template_id" required><NativeSelect id="atp" v-model="form.template_id"><option v-for="t in templates" :key="t.id" :value="t.id">{{ t.name }}</option></NativeSelect></FormField>
                     <FormField label="Asunto (opcional)" for="as" hint="Reemplaza el de la plantilla. Admite variables."><Input id="as" v-model="form.subject" /></FormField>
                     <FormField label="Enviar a" for="am"><NativeSelect id="am" v-model="form.to_mode"><option value="lead">El correo del cliente</option><option value="fixed">Una dirección fija (aviso interno)</option><option value="team">El equipo: responsable asignado, responsables del origen y correos por defecto</option></NativeSelect></FormField>
-                    <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@quiebre.cl" /></FormField>
+                    <FormField v-if="form.to_mode === 'fixed'" label="Correo de aviso" for="ae" :error="form.errors.to_email"><Input id="ae" v-model="form.to_email" type="email" placeholder="ventas@mecaniq.cl" /></FormField>
                 </div>
 
                 <div class="grid gap-2 rounded-xl border p-4">

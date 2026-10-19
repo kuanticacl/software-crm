@@ -28,7 +28,7 @@ class DemoPurge
 
     private const DEMO_DOMAINS = ['@ejemplo.cl', '@correo.cl'];
 
-    private const DEMO_USERS = ['camila@quiebre.cl', 'diego@quiebre.cl', 'valentina@quiebre.cl'];
+    private const DEMO_USERS = ['camila@mecaniq.cl', 'diego@mecaniq.cl', 'valentina@mecaniq.cl'];
 
     /** @return array{leads: int, clients: int, proposals: int, emails: int, users: int} */
     public function preview(string $mode): array

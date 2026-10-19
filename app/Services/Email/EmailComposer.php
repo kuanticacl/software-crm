@@ -114,7 +114,7 @@ class EmailComposer
     /** Pie común a todos los correos: «Parte del holding» con los logos de las marcas (igual que en la propuesta comercial). */
     public function withHoldingFooter(string $html): string
     {
-        if (str_contains($html, 'data-holding')) {
+        if (str_contains($html, 'data-holding') || Agency::holding() === []) {
             return $html;
         }
 

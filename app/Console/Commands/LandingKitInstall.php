@@ -10,7 +10,7 @@ class LandingKitInstall extends Command
 {
     protected $signature = 'crm:landing-kit {--force : Repetir aunque ya se haya ejecutado}';
 
-    protected $description = 'Crea (si faltan) los orígenes, audiencia, campos y plantillas para top-inmobiliario.quiebre.cl';
+    protected $description = 'Crea (si faltan) los orígenes, audiencia, campos y plantillas para www.mecaniq.cl';
 
     public function handle(LandingKit $kit): int
     {

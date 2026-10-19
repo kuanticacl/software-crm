@@ -1,0 +1,154 @@
+{
+  "slug": "bienvenida-boletin",
+  "name": "Bienvenida al boletín",
+  "description": "Agradecimiento a quienes se suscriben al boletín de MecaniQ, con lo que recibirán.",
+  "category": "marketing",
+  "subject": "¡Gracias por suscribirte a MecaniQ!",
+  "preheader": "Consejos para tu taller y novedades de la app",
+  "variables": [
+    {
+      "key": "first_name",
+      "label": "Nombre",
+      "default": "",
+      "sample": "María"
+    },
+    {
+      "key": "site_url",
+      "label": "Enlace a la landing",
+      "default": "https://www.mecaniq.cl",
+      "sample": "https://www.mecaniq.cl"
+    }
+  ],
+  "design": {
+    "settings": {
+      "bg": "#F3F6F9",
+      "contentBg": "#FFFFFF",
+      "width": 600,
+      "font": "Arial, Helvetica, sans-serif",
+      "textColor": "#0B1522",
+      "linkColor": "#027BB9",
+      "radius": 16
+    },
+    "blocks": [
+      {
+        "id": "b000000f",
+        "type": "header",
+        "props": {
+          "logoUrl": "{{LOGO_URL}}",
+          "logoWidth": 150,
+          "brandText": "MecaniQ",
+          "brandColor": "#027BB9",
+          "align": "center",
+          "padY": 28,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000g",
+        "type": "heading",
+        "props": {
+          "text": "¡Gracias por suscribirte, {{ first_name }}!",
+          "size": 26,
+          "color": "#0B1522",
+          "weight": "700",
+          "align": "left",
+          "padY": 12,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000h",
+        "type": "text",
+        "props": {
+          "text": "Ya eres parte del boletín de **MecaniQ**, la app móvil para talleres mecánicos. Te compartiremos consejos para ordenar tu taller, cobrar a tiempo y fidelizar a tus clientes, además de las novedades de la app.",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000i",
+        "type": "heading",
+        "props": {
+          "text": "Qué puedes hacer con MecaniQ",
+          "size": 18,
+          "color": "#0B1522",
+          "weight": "700",
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000j",
+        "type": "text",
+        "props": {
+          "text": "**1. Órdenes de trabajo en el celular.** Registra el ingreso del vehículo, los trabajos y los repuestos sin papel.\n\n**2. Cotizaciones y avisos.** Envía cotizaciones y avisa por WhatsApp cuando el vehículo está listo.\n\n**3. Historial y recordatorios.** Cada cliente y vehículo tiene su historial, y te avisamos cuándo toca su próxima mantención.",
+          "size": 16,
+          "color": "",
+          "lineHeight": 1.6,
+          "align": "left",
+          "padY": 8,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000k",
+        "type": "button",
+        "props": {
+          "label": "Conocer MecaniQ",
+          "href": "{{ site_url }}",
+          "bg": "#027BB9",
+          "color": "#FFFFFF",
+          "radius": 999,
+          "size": 16,
+          "align": "center",
+          "fullWidth": false,
+          "padY": 20,
+          "padX": 32,
+          "rowBg": ""
+        }
+      },
+      {
+        "id": "b000000l",
+        "type": "text",
+        "props": {
+          "text": "¿Quieres verlo en acción? En la web puedes agendar una demo con nuestro equipo.",
+          "size": 13,
+          "color": "#8A98A8",
+          "lineHeight": 1.6,
+          "align": "center",
+          "padY": 6,
+          "padX": 32,
+          "bg": ""
+        }
+      },
+      {
+        "id": "b000000m",
+        "type": "footer",
+        "props": {
+          "company": "{{ company_name }}",
+          "address": "{{ADDRESS}}",
+          "legal": "Recibes este correo porque te suscribiste en mecaniq.cl.",
+          "showUnsubscribe": true,
+          "unsubscribeText": "Darme de baja",
+          "showView": false,
+          "color": "#8A8A8A",
+          "align": "center",
+          "padY": 24,
+          "padX": 32,
+          "bg": "#FAFAFA"
+        }
+      }
+    ]
+  },
+  "html": "<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<meta name=\"x-apple-disable-message-reformatting\">\n<style>\nbody{margin:0;padding:0;-webkit-text-size-adjust:100%}\nimg{border:0;outline:none;text-decoration:none}\na{color:#027BB9}\n@media only screen and (max-width:620px){.col{display:block!important;max-width:100%!important;width:100%!important;padding:0 0 16px 0!important}.px{padding-left:20px!important;padding-right:20px!important}}\n</style>\n</head>\n<body style=\"margin:0;padding:0;background-color:#F3F6F9;font-family:Arial, Helvetica, sans-serif;color:#0B1522\">\n<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"background-color:#F3F6F9\"><tr><td align=\"center\" style=\"padding:24px 12px\">\n<table role=\"presentation\" width=\"600\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"width:100%;max-width:600px;background-color:#FFFFFF;border-radius:16px;overflow:hidden\">\n<tr><td class=\"px\" style=\"padding:28px 32px;\"><div style=\"text-align:center\"><img src=\"{{LOGO_URL}}\" width=\"150\" alt=\"MecaniQ\" style=\"display:inline-block;width:150px;max-width:100%;height:auto;border:0\"></div></td></tr>\n<tr><td class=\"px\" style=\"padding:12px 32px;\"><h1 style=\"margin:0;font-size:26px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">¡Gracias por suscribirte, {{ first_name }}!</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\">Ya eres parte del boletín de <strong>MecaniQ</strong>, la app móvil para talleres mecánicos. Te compartiremos consejos para ordenar tu taller, cobrar a tiempo y fidelizar a tus clientes, además de las novedades de la app.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><h1 style=\"margin:0;font-size:18px;line-height:1.25;font-weight:700;color:#0B1522;text-align:left\">Qué puedes hacer con MecaniQ</h1></td></tr>\n<tr><td class=\"px\" style=\"padding:8px 32px;\"><div style=\"font-size:16px;line-height:1.6;color:#0B1522;text-align:left\"><strong>1. Órdenes de trabajo en el celular.</strong> Registra el ingreso del vehículo, los trabajos y los repuestos sin papel.<br><br><strong>2. Cotizaciones y avisos.</strong> Envía cotizaciones y avisa por WhatsApp cuando el vehículo está listo.<br><br><strong>3. Historial y recordatorios.</strong> Cada cliente y vehículo tiene su historial, y te avisamos cuándo toca su próxima mantención.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:20px 32px;\"><div style=\"text-align:center\"><table role=\"presentation\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" align=\"center\" style=\"display:inline-table;\"><tr><td align=\"center\" bgcolor=\"#027BB9\" style=\"background-color:#027BB9;border-radius:999px\"><a href=\"{{ site_url }}\" target=\"_blank\" style=\"display:block;padding:14px 28px;font-size:16px;line-height:1.2;font-weight:600;color:#FFFFFF;text-decoration:none;border-radius:999px\">Conocer MecaniQ</a></td></tr></table></div></td></tr>\n<tr><td class=\"px\" style=\"padding:6px 32px;\"><div style=\"font-size:13px;line-height:1.6;color:#8A98A8;text-align:center\">¿Quieres verlo en acción? En la web puedes agendar una demo con nuestro equipo.</div></td></tr>\n<tr><td class=\"px\" style=\"padding:24px 32px;background-color:#FAFAFA;\"><div style=\"font-size:12px;line-height:1.7;color:#8A8A8A;text-align:center\"><strong>{{ company_name }}</strong><br>{{ADDRESS}}<br>Recibes este correo porque te suscribiste en mecaniq.cl.<br><a href=\"{{ unsubscribe_url }}\" style=\"color:#8A8A8A;text-decoration:underline\">Darme de baja</a></div></td></tr>\n</table>\n</td></tr></table>\n</body>\n</html>"
+}

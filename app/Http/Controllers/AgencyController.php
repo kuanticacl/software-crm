@@ -34,11 +34,15 @@ class AgencyController extends Controller
             'email' => ['required', 'email:rfc', 'max:200'],
             'phone' => ['nullable', 'string', 'max:40'],
             'website' => ['required', 'url:http,https', 'max:300'],
+            'about_enabled' => ['required', 'boolean'],
+            'about_title' => ['nullable', 'string', 'max:120'],
+            'about_text' => ['nullable', 'string', 'max:400'],
             'tax_document' => ['required', 'in:'.implode(',', array_keys(TaxDocument::MODES))],
             'instagram' => $url, 'linkedin' => $url, 'facebook' => $url, 'youtube' => $url, 'tiktok' => $url,
         ], ['url' => 'Ingresa una URL completa que empiece con https://']);
 
         $data['tax_id'] = Rut::format($data['tax_id'] ?? null);
+        $data['about_enabled'] = $data['about_enabled'] ? '1' : '0';
         foreach (array_keys(Agency::FIELDS) as $key) {
             Setting::put("agency.{$key}", $data[$key] ?? null);
         }

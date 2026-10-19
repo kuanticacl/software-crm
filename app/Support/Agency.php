@@ -19,6 +19,9 @@ class Agency
         'facebook' => '',
         'youtube' => '',
         'tiktok' => '',
+        'about_enabled' => '1',
+        'about_title' => 'MecaniQ',
+        'about_text' => 'La app móvil para talleres mecánicos: órdenes de trabajo, cotizaciones, clientes y cobros desde el celular.',
     ];
 
     public const SOCIALS = ['instagram' => 'Instagram', 'linkedin' => 'LinkedIn', 'facebook' => 'Facebook', 'youtube' => 'YouTube', 'tiktok' => 'TikTok'];

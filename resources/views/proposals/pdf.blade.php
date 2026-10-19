@@ -138,9 +138,9 @@
                 <table style="width:auto"><tr>
                     @foreach ($holding as $h)<td style="padding:0;width:92px"><a href="{{ $h['url'] }}" style="text-decoration:none"><img src="{{ $img('brand/partners/'.$h['logo'].'.png') }}" style="height:28px;border:0" alt="{{ $h['name'] }}"></a></td>@endforeach
                 </tr></table>
-            @else
-                <div class="hold-t" style="text-align:left">Software Factory &amp; Growth Marketing</div>
-                <div class="mut" style="font-size:8.5px">Más de 10 años transformando empresas con desarrollo web, aplicaciones móviles, automatizaciones, inteligencia artificial y growth marketing.</div>
+            @elseif (($agency['about_enabled'] ?? '1') !== '0' && trim($agency['about_text'] ?? '') !== '')
+                <div class="hold-t" style="text-align:left">{{ $agency['about_title'] }}</div>
+                <div class="mut" style="font-size:8.5px">{{ $agency['about_text'] }}</div>
             @endif
         </td>
         <td style="width:50%;vertical-align:top">

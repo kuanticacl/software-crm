@@ -7,13 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { NativeSelect } from '@/components/ui/native-select';
 import { Spinner } from '@/components/ui/spinner';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import { formatRut } from '@/lib/rut';
 import { edit, update } from '@/routes/agency';
 
 const props = defineProps<{ agency: Record<string, string>; socials: Record<string, string>; holding: { name: string; url: string; logo: string }[]; taxDocuments: Record<string, string> }>();
 defineOptions({ layout: { breadcrumbs: [{ title: 'Datos de mi empresa', href: edit() }] } });
 
-const form = useForm({ ...props.agency });
+const form = useForm<Record<string, any>>({ ...props.agency, about_enabled: props.agency.about_enabled !== '0' });
 const ph: Record<string, string> = { instagram: 'https://www.instagram.com/…', linkedin: 'https://www.linkedin.com/company/…', facebook: 'https://www.facebook.com/…', youtube: 'https://www.youtube.com/@…', tiktok: 'https://www.tiktok.com/@…' };
 </script>
 
@@ -33,6 +35,16 @@ const ph: Record<string, string> = { instagram: 'https://www.instagram.com/…',
                     <FormField label="Correo de contacto" for="a-mail" :error="form.errors.email" required><Input id="a-mail" v-model="form.email" type="email" /></FormField>
                     <FormField label="Teléfono" for="a-tel" :error="form.errors.phone"><Input id="a-tel" v-model="form.phone" placeholder="+56 2 …" /></FormField>
                     <FormField label="Sitio web" for="a-web" :error="form.errors.website" required class="sm:col-span-2"><Input id="a-web" v-model="form.website" /></FormField>
+                </div>
+            </section>
+
+            <section class="rounded-2xl border bg-card p-5">
+                <h2 class="mb-1 flex items-center gap-2 font-semibold"><Building2 class="size-4 text-primary" /> Presentación en el pie de las propuestas</h2>
+                <p class="mb-4 text-xs text-muted-foreground">Texto breve sobre tu empresa que aparece en el pie del PDF y del enlace público de cada propuesta.</p>
+                <label class="mb-4 flex items-center gap-3 text-sm"><Switch :model-value="form.about_enabled" @update:model-value="(v: boolean) => (form.about_enabled = v)" /> Mostrar esta presentación</label>
+                <div v-if="form.about_enabled" class="grid gap-4">
+                    <FormField label="Título" for="a-at" :error="form.errors.about_title"><Input id="a-at" v-model="form.about_title" maxlength="120" /></FormField>
+                    <FormField label="Texto" for="a-ax" :error="form.errors.about_text"><Textarea id="a-ax" v-model="form.about_text" rows="3" maxlength="400" /></FormField>
                 </div>
             </section>
 

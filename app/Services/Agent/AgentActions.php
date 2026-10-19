@@ -21,7 +21,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Ediciones y eliminaciones que propone el Agent. Nunca se ejecutan solas: se arma un resumen «antes → después» que la persona
+ * Ediciones y eliminaciones que propone Lunita. Nunca se ejecutan solas: se arma un resumen «antes → después» que la persona
  * confirma en el chat, y recién ahí se aplican (con sus permisos y la visibilidad de los datos al momento de confirmar).
  * Las eliminaciones son «suaves» (papelera) salvo los gastos de un servicio.
  */

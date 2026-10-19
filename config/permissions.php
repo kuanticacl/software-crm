@@ -126,9 +126,9 @@ return [
             'permissions' => [
                 'ai.use' => 'Usar el asistente de IA (mailings, análisis de clientes y lectura de facturas)',
                 'ai.manage' => 'Configurar proveedores de IA y API keys',
-                'agent.use' => 'Usar el Agent (asistente que opera el CRM por chat)',
+                'agent.use' => 'Usar Lunita (asistente que opera el CRM por chat)',
                 'mcp.manage' => 'Configurar servidores MCP (herramientas externas de la IA, API keys y OAuth)',
-                'mcp.use' => 'Permitir que el Agent use herramientas MCP externas en nombre del usuario',
+                'mcp.use' => 'Permitir que Lunita use herramientas MCP externas en nombre del usuario',
             ],
         ],
         'settings' => [

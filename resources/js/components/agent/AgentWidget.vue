@@ -606,7 +606,7 @@ const send = async (text?: string) => {
                 ? (e.body?.message ??
                   (e.fieldErrors ? Object.values(e.fieldErrors)[0] : null) ??
                   `Error ${e.status}`)
-                : 'No se pudo conectar con el Agent.';
+                : 'No se pudo conectar con Lunita.';
         messages.value.push({ role: 'assistant', content: msg, error: true });
     } finally {
         busy.value = false;
@@ -615,7 +615,7 @@ const send = async (text?: string) => {
     }
 };
 
-/** Confirmar o cancelar una edición/eliminación que propuso el Agent (la acción se aplica en el servidor, con tus permisos). */
+/** Confirmar o cancelar una edición/eliminación que propuso Lunita (la acción se aplica en el servidor, con tus permisos). */
 const resolve = async (a: Approval, ok: boolean) => {
     if (a.state !== 'waiting') return;
     a.state = ok ? 'working' : 'cancelled';
@@ -728,7 +728,7 @@ const visit = (url: string) => {
                                 : 'h-[min(680px,calc(100dvh-6rem))] w-[min(430px,calc(100vw-2rem))]'),
                     )
                 "
-                aria-label="Asistente IA"
+                aria-label="Lunita"
                 @dragover.prevent="dragging = true"
                 @dragleave.prevent="dragging = false"
                 @drop.prevent="onDrop"
@@ -742,7 +742,7 @@ const visit = (url: string) => {
                     /></span>
                     <div class="min-w-0 flex-1">
                         <div class="text-[15px] leading-tight font-semibold">
-                            Asistente IA
+                            Lunita
                         </div>
                         <div
                             class="flex items-center gap-1.5 truncate text-xs text-muted-foreground"
@@ -1258,8 +1258,8 @@ const visit = (url: string) => {
         <button
             v-if="!open"
             class="flex size-14 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/80 text-primary-foreground shadow-lg ring-4 ring-background/60 transition hover:scale-105 hover:shadow-xl focus-visible:ring-primary/40 focus-visible:outline-none active:scale-95"
-            aria-label="Abrir asistente IA"
-            title="Asistente IA"
+            aria-label="Abrir a Lunita"
+            title="Lunita"
             @click="toggle"
         >
             <Sparkles class="size-6" />

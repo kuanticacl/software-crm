@@ -116,13 +116,13 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
     <Head title="Herramientas MCP" />
 
     <div class="flex max-w-6xl flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Herramientas MCP" description="Conecta servidores MCP externos para darle al Agent más herramientas (buscadores, análisis, otros sistemas), con API key u OAuth.">
+        <PageHeader title="Herramientas MCP" description="Conecta servidores MCP externos para darle a Lunita más herramientas (buscadores, análisis, otros sistemas), con API key u OAuth.">
             <template #actions><Button @click="openForm('new')"><Plus /> Agregar servidor</Button></template>
         </PageHeader>
 
         <div class="grid gap-3 rounded-2xl border bg-card p-4 text-sm text-muted-foreground md:grid-cols-3">
             <p class="flex items-start gap-3"><ShieldCheck class="mt-0.5 size-5 shrink-0 text-brand-green" /><span><strong class="text-foreground">Credenciales cifradas.</strong> Keys y tokens OAuth se guardan cifrados y nunca vuelven al navegador. OAuth usa PKCE y se renueva solo.</span></p>
-            <p class="flex items-start gap-3"><ShieldCheck class="mt-0.5 size-5 shrink-0 text-brand-green" /><span><strong class="text-foreground">Tú decides qué usa el Agent.</strong> Cada herramienta se habilita una a una; las que modifican datos piden tu confirmación antes de ejecutarse.</span></p>
+            <p class="flex items-start gap-3"><ShieldCheck class="mt-0.5 size-5 shrink-0 text-brand-green" /><span><strong class="text-foreground">Tú decides qué usa Lunita.</strong> Cada herramienta se habilita una a una; las que modifican datos piden tu confirmación antes de ejecutarse.</span></p>
             <p class="flex items-start gap-3"><ShieldCheck class="mt-0.5 size-5 shrink-0 text-brand-green" /><span><strong class="text-foreground">Aislado y auditado.</strong> Solo https público (bloquea redes internas), sin redirecciones, respuestas acotadas y registro de cada llamada.</span></p>
         </div>
         <p v-if="allowPrivate" class="flex items-center gap-2 rounded-xl bg-destructive/10 p-3 text-xs text-destructive"><ShieldAlert class="size-4" /> MCP_ALLOW_PRIVATE está activo: se permiten servidores en redes privadas. Desactívalo en producción.</p>
@@ -130,7 +130,7 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
         <DataCard v-if="!servers.length" class="p-10 text-center">
             <Cable class="mx-auto mb-3 size-8 text-muted-foreground" />
             <h2 class="font-semibold">Aún no hay servidores MCP</h2>
-            <p class="mx-auto mt-1 max-w-md text-sm text-muted-foreground">Agrega la URL de un servidor MCP remoto (Streamable HTTP). Podrás elegir exactamente qué herramientas puede usar el Agent.</p>
+            <p class="mx-auto mt-1 max-w-md text-sm text-muted-foreground">Agrega la URL de un servidor MCP remoto (Streamable HTTP). Podrás elegir exactamente qué herramientas puede usar Lunita.</p>
             <Button class="mt-4" @click="openForm('new')"><Plus /> Agregar servidor</Button>
         </DataCard>
 
@@ -156,7 +156,7 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
                 <p v-else-if="s.last_test_ok === false && s.last_test_message" class="flex items-start gap-2 rounded-xl bg-destructive/10 p-3 text-xs text-destructive"><CircleAlert class="mt-0.5 size-4 shrink-0" />{{ s.last_test_message }}</p>
 
                 <div class="grid gap-2 rounded-xl border p-3 text-sm">
-                    <label class="flex items-center justify-between gap-3"><span>Disponible para el Agent</span><Switch :model-value="s.is_enabled" @update:model-value="(v: boolean) => toggle(s, 'is_enabled', v)" /></label>
+                    <label class="flex items-center justify-between gap-3"><span>Disponible para Lunita</span><Switch :model-value="s.is_enabled" @update:model-value="(v: boolean) => toggle(s, 'is_enabled', v)" /></label>
                     <label class="flex items-center justify-between gap-3"><span>Pedir confirmación en herramientas que modifican<span v-if="!s.require_confirmation" class="ml-1 text-xs text-destructive">(desactivado)</span></span><Switch :model-value="s.require_confirmation" @update:model-value="(v: boolean) => toggle(s, 'require_confirmation', v)" /></label>
                 </div>
 
@@ -240,7 +240,7 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
         <DialogContent class="max-h-[90vh] overflow-y-auto sm:max-w-2xl">
             <DialogHeader>
                 <DialogTitle>Herramientas de {{ toolsFor?.name }}</DialogTitle>
-                <DialogDescription>Habilita solo lo que el Agent necesita. «Confirmar» hace que te pida aprobación con un botón antes de ejecutarla.</DialogDescription>
+                <DialogDescription>Habilita solo lo que Lunita necesita. «Confirmar» hace que te pida aprobación con un botón antes de ejecutarla.</DialogDescription>
             </DialogHeader>
             <ul v-if="toolsFor" class="grid gap-2">
                 <li v-for="t in toolsFor.tools" :key="t.name" class="grid gap-2 rounded-xl border p-3 text-sm">
@@ -262,5 +262,5 @@ const callCls = (st: string) => (st === 'ok' ? 'bg-brand-green/10 text-brand-gre
         </DialogContent>
     </Dialog>
 
-    <ConfirmDialog :open="!!toDelete" title="¿Eliminar el servidor MCP?" :description="`Se borra «${toDelete?.name}» con sus credenciales y su registro de llamadas. El Agent dejará de usar sus herramientas.`" confirm-label="Eliminar" @update:open="(v: boolean) => !v && (toDelete = null)" @confirm="confirmDelete" />
+    <ConfirmDialog :open="!!toDelete" title="¿Eliminar el servidor MCP?" :description="`Se borra «${toDelete?.name}» con sus credenciales y su registro de llamadas. Lunita dejará de usar sus herramientas.`" confirm-label="Eliminar" @update:open="(v: boolean) => !v && (toDelete = null)" @confirm="confirmDelete" />
 </template>

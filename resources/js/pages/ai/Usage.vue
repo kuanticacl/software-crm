@@ -32,7 +32,7 @@ const props = defineProps<{
 defineOptions({ layout: { breadcrumbs: [{ title: 'Consumo y gastos', href: usage() }] } });
 
 const featureLabel: Record<string, string> = {
-    agent: 'Agent (chat)', transcribe: 'Voz → texto', email_design: 'Diseño de mailings', subjects: 'Asuntos de correo', lead_analysis: 'Análisis de prospectos',
+    agent: 'Lunita (chat)', transcribe: 'Voz → texto', email_design: 'Diseño de mailings', subjects: 'Asuntos de correo', lead_analysis: 'Análisis de prospectos',
     proposal_draft: 'Propuestas: redactar', proposal_improve: 'Propuestas: mejorar', proposal_service: 'Propuestas: servicios', proposal_suggest: 'Propuestas: sugerir', test: 'Pruebas de conexión',
 };
 const label = (f: string) => featureLabel[f.replace(/_fallback$/, '')] ?? f.replace(/_fallback$/, '').replace(/_/g, ' ');
@@ -80,7 +80,7 @@ const expanded = ref<number | null>(null);
     <Head title="Consumo y gastos de IA" />
 
     <div class="flex flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Consumo y gastos de IA" description="Llamadas, tokens, costo estimado y fallos de todas las funciones de IA (Agent, propuestas, mailings, análisis de prospectos, voz).">
+        <PageHeader title="Consumo y gastos de IA" description="Llamadas, tokens, costo estimado y fallos de todas las funciones de IA (Lunita, propuestas, mailings, análisis de prospectos, voz).">
             <template #actions>
                 <NativeSelect :model-value="String(filters.days)" class="w-36" @update:model-value="(v: string | number | null) => go({ days: Number(v) })">
                     <option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option><option value="90">Últimos 90 días</option>

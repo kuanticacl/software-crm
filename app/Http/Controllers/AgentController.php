@@ -51,18 +51,18 @@ class AgentController extends Controller
         try {
             return response()->json($agent->chat($request->user(), $messages, $last['content'], $last['attachments'] ?? []));
         } catch (AiNotConfigured) {
-            return response()->json(['message' => 'Configura un proveedor de IA en Inteligencia artificial → Proveedores para usar el Agent.'], 503);
+            return response()->json(['message' => 'Configura un proveedor de IA en Inteligencia artificial → Proveedores para usar Lunita.'], 503);
         } catch (AiFailed $e) {
             return response()->json(['message' => $e->getMessage()], 502);
         }
     }
 
-    /** La persona confirmó una edición o eliminación propuesta por el Agent: se aplica ahora, con sus permisos. */
+    /** La persona confirmó una edición o eliminación propuesta por Lunita: se aplica ahora, con sus permisos. */
     public function confirm(Request $request, string $id): JsonResponse
     {
         $action = PendingActions::take($request->user()->id, $id);
         if (! $action) {
-            return response()->json(['ok' => false, 'message' => 'Esta acción venció o ya fue resuelta. Pídesela de nuevo al Agent.'], 410);
+            return response()->json(['ok' => false, 'message' => 'Esta acción venció o ya fue resuelta. Pídesela de nuevo a Lunita.'], 410);
         }
 
         if (($action['op'] ?? '') === 'mcp') {

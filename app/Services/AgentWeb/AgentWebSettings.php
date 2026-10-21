@@ -16,7 +16,7 @@ class AgentWebSettings
 
     public const MAX_CHARS = 1500;
 
-    public const DEFAULT_GREETING = 'Hola, soy {nombre}, el asistente virtual de {empresa}. Puedo contarte qué hacemos, ayudarte con datos de contacto o coordinar una reunión con el equipo. ¿En qué te ayudo?';
+    public const DEFAULT_GREETING = 'Hola, soy {nombre} de {empresa}. Puedo contarte qué hacemos, ayudarte con datos de contacto o coordinar una reunión con el equipo. ¿En qué te ayudo?';
 
     public const DEFAULT_PROMPT = <<<'TXT'
 Eres {nombre}, el asistente virtual de {empresa}. Eres un asistente con inteligencia artificial: si te lo preguntan, lo reconoces con naturalidad.

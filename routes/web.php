@@ -4,7 +4,7 @@ use App\Http\Controllers\Ai\AiEmailController;
 use App\Http\Controllers\Ai\AiProposalController;
 use App\Http\Controllers\Ai\AiSettingsController;
 use App\Http\Controllers\Ai\AiUsageController;
-use App\Http\Controllers\Ai\AlfredSettingsController;
+use App\Http\Controllers\Ai\AgentWebSettingsController;
 use App\Http\Controllers\Ai\LeadAiController;
 use App\Http\Controllers\Ai\McpController;
 use App\Http\Controllers\AgencyController;
@@ -338,8 +338,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Inteligencia artificial: proveedores y API keys
     Route::prefix('ai')->middleware('can:ai.manage')->group(function () {
         Route::get('/', [AiSettingsController::class, 'index'])->name('ai.index');
-        Route::get('alfred', [AlfredSettingsController::class, 'edit'])->name('ai.alfred');
-        Route::put('alfred', [AlfredSettingsController::class, 'update'])->name('ai.alfred.update');
+        Route::get('agentweb', [AgentWebSettingsController::class, 'edit'])->name('ai.agentweb');
+        Route::put('agentweb', [AgentWebSettingsController::class, 'update'])->name('ai.agentweb.update');
+        Route::redirect('alfred', '/ai/agentweb');
         Route::get('usage', [AiUsageController::class, 'index'])->name('ai.usage');
         Route::put('usage/prices', [AiUsageController::class, 'prices'])->name('ai.usage.prices');
         Route::put('usage/budget', [AiUsageController::class, 'budget'])->name('ai.usage.budget');

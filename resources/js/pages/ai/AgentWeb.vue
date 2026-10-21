@@ -20,16 +20,16 @@ const props = defineProps<{
     limits: { messages: number; chars: number };
     usage: { runs: number; errors: number };
 }>();
-defineOptions({ layout: { breadcrumbs: [{ title: 'Asistente web', href: '/ai/alfred' }] } });
+defineOptions({ layout: { breadcrumbs: [{ title: 'Agente web', href: '/ai/agentweb' }] } });
 
 const form = useForm({ enabled: props.settings.enabled, name: props.settings.name, prompt: props.settings.prompt, knowledge: props.settings.knowledge, greeting: props.settings.greeting });
-const save = () => form.put('/ai/alfred', { preserveScroll: true, onSuccess: () => toast.success('Ajustes del asistente guardados.') });
+const save = () => form.put('/ai/agentweb', { preserveScroll: true, onSuccess: () => toast.success('Ajustes del asistente guardados.') });
 </script>
 
 <template>
-    <Head title="Asistente web" />
+    <Head title="Agente web" />
     <div class="flex max-w-5xl flex-col gap-6 p-4 md:p-6">
-        <PageHeader title="Asistente virtual del sitio web" :description="`Asistente flotante del sitio de ${settings.company}: conversa con los visitantes, responde sobre la empresa, capta sus datos y solicita reuniones. Aquí eliges su nombre y defines qué dice y qué sabe.`">
+        <PageHeader title="Agente web" :description="`Asistente flotante del sitio de ${settings.company}: conversa con los visitantes, responde sobre la empresa, capta sus datos y solicita reuniones. Aquí eliges su nombre y defines qué dice y qué sabe.`">
             <template #actions>
                 <Badge :variant="form.enabled ? 'default' : 'secondary'"><Bot class="size-3.5" /> {{ form.enabled ? 'Activo' : 'Desactivado' }}</Badge>
             </template>
@@ -49,7 +49,7 @@ const save = () => form.put('/ai/alfred', { preserveScroll: true, onSuccess: () 
                 <Switch :model-value="form.enabled" @update:model-value="(v: boolean) => (form.enabled = v)" />
             </label>
 
-            <FormField label="Nombre del asistente" for="name" :error="form.errors.name" hint="Cómo se presenta ante los visitantes (por ejemplo Alfred, Scarlett, Luna…). Se aplica al saludo, al prompt y a las notas de los clientes que capte.">
+            <FormField label="Nombre del asistente" for="name" :error="form.errors.name" hint="Cómo se presenta ante los visitantes (por ejemplo Sofía, Luna, Max…). Se aplica al saludo, al prompt y a las notas de los clientes que capte.">
                 <Input id="name" v-model="form.name" maxlength="40" class="max-w-xs" />
             </FormField>
 

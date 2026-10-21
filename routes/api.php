@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AlfredChatController;
+use App\Http\Controllers\Api\AgentWebChatController;
 use App\Http\Controllers\Api\EmailSendController;
 use App\Http\Controllers\Api\LeadIngestController;
 use App\Http\Middleware\AuthenticateApiKey;
@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:lead-ingest'])->group(function () {
     Route::post('leads', [LeadIngestController::class, 'store'])->name('api.leads.store');
-    Route::get('alfred/config', [AlfredChatController::class, 'config'])->name('api.alfred.config');
+    Route::get('agentweb/config', [AgentWebChatController::class, 'config'])->name('api.agentweb.config');
 });
 
 /*
-| Alfred, el ejecutivo virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
+| AgentWeb, el ejecutivo virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
 */
-Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:alfred-chat'])->group(function () {
-    Route::post('alfred/chat', [AlfredChatController::class, 'chat'])->name('api.alfred.chat');
+Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:agentweb-chat'])->group(function () {
+    Route::post('agentweb/chat', [AgentWebChatController::class, 'chat'])->name('api.agentweb.chat');
 });
 
 /*

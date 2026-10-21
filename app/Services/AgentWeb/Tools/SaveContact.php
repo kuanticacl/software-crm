@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Alfred\Tools;
+namespace App\Services\AgentWeb\Tools;
 
 use App\Services\Agent\ToolArgs;
-use App\Services\Alfred\AlfredLeads;
+use App\Services\AgentWeb\AgentWebLeads;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\Validator;
 
-class SaveContact extends AlfredTool
+class SaveContact extends AgentWebTool
 {
     public function name(): string
     {
@@ -46,7 +46,7 @@ class SaveContact extends AlfredTool
             'consent' => ['required', 'accepted'],
         ], ['consent.accepted' => 'falta el consentimiento explícito de la persona', 'email.required_without' => 'falta un correo o teléfono', 'phone.required_without' => 'falta un correo o teléfono'])->validate();
 
-        app(AlfredLeads::class)->upsert($this->ctx, $d);
+        app(AgentWebLeads::class)->upsert($this->ctx, $d);
 
         return 'OK: datos guardados. Dile a la persona que el equipo de la empresa la contactará.';
     }

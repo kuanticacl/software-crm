@@ -1,14 +1,14 @@
-# Asistente virtual del sitio web (Alfred por defecto)
+# Agente web — asistente virtual del sitio
 
 Asistente flotante del sitio de la empresa. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
-reuniones. Se administra en **Inteligencia artificial → Asistente web** (permiso `ai.manage`).
+reuniones. Se administra en **Inteligencia artificial → Agente web** (permiso `ai.manage`).
 
 ## Diseño de seguridad
 
 - **Sin acceso al CRM.** Solo tiene dos herramientas de *escritura* (`save_contact`, `request_meeting`) y ninguna de
-  lectura. Un test (`test_alfred_only_has_write_tools_and_none_that_read_the_crm`) falla si se agrega otra.
+  lectura. Un test (`test_agentweb_only_has_write_tools_and_none_that_read_the_crm`) falla si se agrega otra.
 - **Solo conoce** el prompt, el «Conocimiento autorizado» (texto que redacta la empresa) y los datos públicos de
-  «Datos de mi empresa». Las **reglas de seguridad** (`AlfredSettings::SAFETY`) se agregan siempre al final y no se
+  «Datos de mi empresa». Las **reglas de seguridad** (`AgentWebSettings::SAFETY`) se agregan siempre al final y no se
   editan desde el CRM.
 - No recibe las «Instrucciones para toda la IA» (son de uso interno). Temperatura baja y respuestas acotadas.
 - Consentimiento explícito antes de guardar datos; las reuniones quedan **«por confirmar»** (actividad `meeting` con
@@ -20,9 +20,9 @@ reuniones. Se administra en **Inteligencia artificial → Asistente web** (permi
 
 ## API (misma API key por origen que el ingreso de leads, header `X-Api-Key`)
 
-`GET /api/v1/alfred/config` → `{ data: { enabled, greeting } }` (`enabled` = activo **y** con proveedor de IA).
+`GET /api/v1/agentweb/config` → `{ data: { enabled, greeting } }` (`enabled` = activo **y** con proveedor de IA).
 
-`POST /api/v1/alfred/chat`
+`POST /api/v1/agentweb/chat`
 
 ```json
 {
@@ -33,11 +33,11 @@ reuniones. Se administra en **Inteligencia artificial → Asistente web** (permi
 }
 ```
 
-Responde `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Alfred está desactivado o no hay IA.
+Responde `{ data: { reply, contact_saved, meeting_requested } }`; `503` si AgentWeb está desactivado o no hay IA.
 
 ## Nombre del asistente
 
-El nombre es libre (por defecto «Alfred»): se elige en **Asistente web → Nombre del asistente** y se aplica al saludo, al prompt y a
+El nombre es libre (por defecto «Asistente»): se elige en **Agente web → Nombre del asistente** y se aplica al saludo, al prompt y a
 las notas de los clientes que capta. El prompt y el saludo aceptan los marcadores `{nombre}`, `{empresa}` (el de «Email →
-Configuración»), `{correo}` y `{privacidad}` (sitio web + `/privacidad`), que se reemplazan al conversar. La API no cambia: sigue en `/api/v1/alfred/*`
-(el widget del sitio recibe el saludo ya con el nombre en `GET /api/v1/alfred/config`).
+Configuración»), `{correo}` y `{privacidad}` (sitio web + `/privacidad`), que se reemplazan al conversar. La API no cambia: sigue en `/api/v1/agentweb/*`
+(el widget del sitio recibe el saludo ya con el nombre en `GET /api/v1/agentweb/config`).

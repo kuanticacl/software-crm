@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Services\Alfred;
+namespace App\Services\AgentWeb;
 
 use App\Models\Setting;
 use App\Services\Email\MailSettings;
 use App\Support\Agency;
 
 /**
- * Ajustes del asistente virtual del sitio web (su nombre lo elige cada empresa; por defecto «Alfred»). Todo lo editable vive en «Ajustes» del CRM:
+ * Ajustes del asistente virtual del sitio web (su nombre lo elige cada empresa; por defecto «Asistente»). Todo lo editable vive en «Ajustes» del CRM:
  * el prompt (personalidad y flujo) y el conocimiento autorizado. Las reglas de seguridad NO son editables.
  */
-class AlfredSettings
+class AgentWebSettings
 {
     public const MAX_MESSAGES = 20;
 
@@ -48,15 +48,15 @@ TXT;
 
     public static function enabled(): bool
     {
-        return (bool) Setting::get('alfred.enabled', false);
+        return (bool) Setting::get('agentweb.enabled', false);
     }
 
-    /** Nombre con que se presenta el asistente (lo define cada empresa en «Asistente web»). */
+    /** Nombre con que se presenta el asistente (lo define cada empresa en «Agente web»). */
     public static function name(): string
     {
-        $n = trim((string) Setting::get('alfred.name', ''));
+        $n = trim((string) Setting::get('agentweb.name', ''));
 
-        return $n !== '' ? mb_substr($n, 0, 40) : 'Alfred';
+        return $n !== '' ? mb_substr($n, 0, 40) : 'Asistente';
     }
 
     /** Nombre de la empresa (el de «Correo → Configuración»). */
@@ -80,14 +80,14 @@ TXT;
 
     public static function prompt(): string
     {
-        $custom = trim((string) Setting::get('alfred.prompt', ''));
+        $custom = trim((string) Setting::get('agentweb.prompt', ''));
 
         return $custom !== '' ? $custom : self::DEFAULT_PROMPT;
     }
 
     public static function knowledge(): string
     {
-        return trim((string) Setting::get('alfred.knowledge', ''));
+        return trim((string) Setting::get('agentweb.knowledge', ''));
     }
 
     /** Saludo con el nombre y la empresa ya aplicados (lo que ve el visitante). */
@@ -98,7 +98,7 @@ TXT;
 
     public static function rawGreeting(): string
     {
-        $custom = trim((string) Setting::get('alfred.greeting', ''));
+        $custom = trim((string) Setting::get('agentweb.greeting', ''));
 
         return $custom !== '' ? $custom : self::DEFAULT_GREETING;
     }
@@ -119,7 +119,7 @@ TXT;
             'name' => self::name(),
             'company' => self::company(),
             'prompt' => self::prompt(),
-            'prompt_is_default' => trim((string) Setting::get('alfred.prompt', '')) === '',
+            'prompt_is_default' => trim((string) Setting::get('agentweb.prompt', '')) === '',
             'knowledge' => self::knowledge(),
             'greeting' => self::rawGreeting(),
         ];

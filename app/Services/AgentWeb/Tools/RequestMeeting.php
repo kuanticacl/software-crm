@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Alfred\Tools;
+namespace App\Services\AgentWeb\Tools;
 
 use App\Services\Agent\ToolArgs;
-use App\Services\Alfred\AlfredLeads;
+use App\Services\AgentWeb\AgentWebLeads;
 use App\Services\LeadService;
 use Carbon\CarbonImmutable;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 /** Solicita una reunión: queda como «por confirmar» en el cliente; el equipo la confirma a mano. */
-class RequestMeeting extends AlfredTool
+class RequestMeeting extends AgentWebTool
 {
     /** Horas de inicio disponibles (bloques de 1 hora, de lunes a viernes). */
     public const TIMES = ['09:30', '10:30', '11:30', '12:30', '13:30', '14:30', '15:30', '16:30', '17:30'];
@@ -72,7 +72,7 @@ class RequestMeeting extends AlfredTool
             throw ValidationException::withMessages(['date' => 'la fecha debe ser desde mañana y dentro de los próximos '.self::MAX_DAYS_AHEAD.' días']);
         }
 
-        $leads = app(AlfredLeads::class);
+        $leads = app(AgentWebLeads::class);
         if ($leads->meetingRequested($this->ctx)) {
             return 'ERROR: ya hay una solicitud de reunión registrada en esta conversación. Dile a la persona que el equipo la confirmará y que, si necesita cambiarla, lo converse con ellos.';
         }
@@ -82,7 +82,7 @@ class RequestMeeting extends AlfredTool
         $topic = trim((string) ($d['topic'] ?? ''));
 
         app(LeadService::class)->log($lead, 'meeting', null, mb_substr("Solicitud de reunión por confirmar: {$when} ({$d['modality']})", 0, 250), [
-            'status' => 'pending', 'via' => 'alfred', 'date' => $d['date'], 'time' => $d['time'], 'modality' => $d['modality'], 'topic' => $topic ?: null,
+            'status' => 'pending', 'via' => 'agentweb', 'date' => $d['date'], 'time' => $d['time'], 'modality' => $d['modality'], 'topic' => $topic ?: null,
         ]);
         app(LeadService::class)->update($lead, ['next_follow_up_at' => $d['date'].' '.$d['time'].':00'], null);
         $leads->noteTranscript($lead, $this->ctx);

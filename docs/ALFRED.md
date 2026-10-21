@@ -1,7 +1,7 @@
-# Alfred — ejecutivo virtual del sitio web
+# Asistente virtual del sitio web (Alfred por defecto)
 
-Asistente flotante de quiebre.cl. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
-reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permiso `ai.manage`).
+Asistente flotante del sitio de la empresa. Conversa con visitantes, responde sobre la agencia, capta sus datos y solicita
+reuniones. Se administra en **Inteligencia artificial → Asistente web** (permiso `ai.manage`).
 
 ## Diseño de seguridad
 
@@ -34,3 +34,10 @@ reuniones. Se administra en **Inteligencia artificial → Alfred (web)** (permis
 ```
 
 Responde `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Alfred está desactivado o no hay IA.
+
+## Nombre del asistente
+
+El nombre es libre (por defecto «Alfred»): se elige en **Asistente web → Nombre del asistente** y se aplica al saludo, al prompt y a
+las notas de los clientes que capta. El prompt y el saludo aceptan los marcadores `{nombre}`, `{empresa}` (el de «Email →
+Configuración»), `{correo}` y `{privacidad}` (sitio web + `/privacidad`), que se reemplazan al conversar. La API no cambia: sigue en `/api/v1/alfred/*`
+(el widget del sitio recibe el saludo ya con el nombre en `GET /api/v1/alfred/config`).

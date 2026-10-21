@@ -131,7 +131,7 @@ class AlfredTest extends TestCase
         $this->assertStringContainsString('Av. Apoquindo 7935', $text);
         $this->assertStringContainsString('No tienes acceso al CRM', $text);
         $this->assertStringContainsString('Nunca inventes', $text);
-        $this->assertStringEndsWith(AlfredSettings::SAFETY, $text);
+        $this->assertStringEndsWith(AlfredSettings::render(AlfredSettings::SAFETY), $text);
     }
 
     public function test_company_wide_ai_instructions_are_not_given_to_alfred(): void
@@ -215,16 +215,18 @@ class AlfredTest extends TestCase
         $admin = $this->userWithRole('admin');
 
         $this->actingAs($admin)->get('/ai/alfred')->assertOk();
-        $this->actingAs($admin)->put('/ai/alfred', ['enabled' => true, 'prompt' => AlfredSettings::DEFAULT_PROMPT, 'knowledge' => 'Hacemos marketing inmobiliario.', 'greeting' => ''])->assertRedirect();
+        $this->actingAs($admin)->put('/ai/alfred', ['enabled' => true, 'name' => 'Luna', 'prompt' => AlfredSettings::DEFAULT_PROMPT, 'knowledge' => 'Hacemos marketing inmobiliario.', 'greeting' => ''])->assertRedirect();
 
         $this->assertTrue(AlfredSettings::enabled());
         $this->assertNull(Setting::get('alfred.prompt'));
         $this->assertSame('Hacemos marketing inmobiliario.', AlfredSettings::knowledge());
-        $this->assertSame(AlfredSettings::DEFAULT_GREETING, AlfredSettings::greeting());
+        $this->assertSame(AlfredSettings::render(AlfredSettings::DEFAULT_GREETING), AlfredSettings::greeting());
 
-        $this->actingAs($admin)->put('/ai/alfred', ['enabled' => false, 'prompt' => 'Prompt propio', 'knowledge' => '', 'greeting' => 'Hola'])->assertRedirect();
+        $this->actingAs($admin)->put('/ai/alfred', ['enabled' => false, 'name' => 'Luna', 'prompt' => 'Prompt propio', 'knowledge' => '', 'greeting' => 'Hola'])->assertRedirect();
         $this->assertFalse(AlfredSettings::enabled());
         $this->assertSame('Prompt propio', AlfredSettings::prompt());
+        $this->assertSame('Luna', AlfredSettings::name());
+        $this->assertStringContainsString('Luna', AlfredSettings::greeting());
     }
 
     public function test_users_without_ai_manage_cannot_open_alfred_settings(): void

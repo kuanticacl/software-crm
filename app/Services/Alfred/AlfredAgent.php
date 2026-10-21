@@ -10,13 +10,12 @@ use Laravel\Ai\Messages\Message;
 use function Laravel\Ai\agent;
 
 /**
- * Alfred: ejecutivo virtual del sitio web. Es un modelo con DOS herramientas de escritura (guardar contacto y
+ * Asistente virtual del sitio web (el nombre lo define cada empresa). Es un modelo con DOS herramientas de escritura (guardar contacto y
  * solicitar reunión) y sin ninguna de lectura: no puede consultar clientes, propuestas ni datos internos del CRM.
  * Lo único que sabe es el prompt, el conocimiento autorizado y los datos públicos de contacto.
  */
 class AlfredAgent
 {
-    public const FALLBACK = 'Perdona, tuve un problema para responder. Puedes escribirnos a contacto@quiebre.cl y el equipo te ayudará.';
 
     public function __construct(private AiGateway $ai) {}
 
@@ -31,7 +30,7 @@ class AlfredAgent
 
         $response = $this->ai->run('alfred', $agent, $message, [], 60);
 
-        return ['reply' => trim((string) $response) ?: self::FALLBACK, 'actions' => $ctx->actions];
+        return ['reply' => trim((string) $response) ?: 'Perdona, tuve un problema para responder.'.(($m = (string) (\App\Support\Agency::profile()['email'] ?? '')) !== '' ? " Puedes escribirnos a {$m} y el equipo te ayudará." : ''), 'actions' => $ctx->actions];
     }
 
     /** Las únicas herramientas de Alfred. Un test verifica que no se agreguen herramientas de lectura. */

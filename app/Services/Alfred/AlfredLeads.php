@@ -45,7 +45,7 @@ class AlfredLeads
 
         $lead = $this->leads->create([
             ...$fields,
-            'message' => 'Contacto captado por Alfred, el ejecutivo virtual del sitio web.'.($interest !== '' ? " Interés: {$interest}." : '')." [Consentimiento de privacidad aceptado · aviso {$version} · {$now}]",
+            'message' => 'Contacto captado por ' . AlfredSettings::name() . ', el asistente virtual del sitio web.'.($interest !== '' ? " Interés: {$interest}." : '')." [Consentimiento de privacidad aceptado · aviso {$version} · {$now}]",
             ...collect($ctx->visitor)->only(['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'user_agent', 'referrer', 'landing_url'])->filter(fn ($v) => filled($v))->all(),
             'ip_address' => $ctx->visitor['ip'] ?? null,
             'source_id' => $ctx->source->id,
@@ -62,10 +62,10 @@ class AlfredLeads
     /** Deja la conversación en una nota del cliente para que el equipo tenga el contexto (texto escapado). */
     public function noteTranscript(Lead $lead, AlfredContext $ctx): void
     {
-        $lines = collect($ctx->transcript)->take(-12)->map(fn ($m) => ($m['role'] === 'assistant' ? 'Alfred' : 'Visitante').': '.mb_substr((string) $m['content'], 0, 400));
+        $lines = collect($ctx->transcript)->take(-12)->map(fn ($m) => ($m['role'] === 'assistant' ? AlfredSettings::name() : 'Visitante').': '.mb_substr((string) $m['content'], 0, 400));
 
         if ($lines->isNotEmpty()) {
-            $lead->notes()->create(['body' => e("Conversación con Alfred (últimos mensajes):\n".$lines->implode("\n")), 'is_private' => false, 'user_id' => null]);
+            $lead->notes()->create(['body' => e("Conversación con ".AlfredSettings::name()." (últimos mensajes):\n".$lines->implode("\n")), 'is_private' => false, 'user_id' => null]);
         }
     }
 

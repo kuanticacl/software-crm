@@ -15,15 +15,14 @@ use Illuminate\Http\Request;
 use Throwable;
 
 /**
- * POST /api/v1/alfred/chat — conversación de Alfred con un visitante del sitio. Se autentica con la API key del
+ * POST /api/v1/alfred/chat — conversación del asistente virtual con un visitante del sitio. Se autentica con la API key del
  * origen (X-Api-Key), igual que el ingreso de leads. La conversación NO se guarda en el servidor: el sitio envía
  * los mensajes previos en cada llamada y aquí se validan (solo roles user/assistant, largo acotado).
  */
 class AlfredChatController extends Controller
 {
-    private const UNAVAILABLE = 'Alfred no está disponible por ahora. Puedes escribirnos a contacto@quiebre.cl y el equipo te ayudará.';
 
-    /** GET /api/v1/alfred/config — el sitio muestra a Alfred solo si está activo y con IA disponible. */
+    /** GET /api/v1/alfred/config — el sitio muestra al asistente solo si está activo y con IA disponible. */
     public function config(AiGateway $ai): JsonResponse
     {
         return response()->json(['data' => [
@@ -35,7 +34,7 @@ class AlfredChatController extends Controller
     public function chat(Request $request, AlfredAgent $alfred, AiGateway $ai): JsonResponse
     {
         if (! AlfredSettings::enabled() || ! $ai->isAvailable()) {
-            return response()->json(['message' => self::UNAVAILABLE], 503);
+            return response()->json(['message' => AlfredSettings::unavailable()], 503);
         }
 
         /** @var LeadSource $source */
@@ -70,11 +69,11 @@ class AlfredChatController extends Controller
         try {
             $result = $alfred->chat($ctx, $messages, $last['content']);
         } catch (AiNotConfigured|AiFailed) {
-            return response()->json(['message' => self::UNAVAILABLE], 503);
+            return response()->json(['message' => AlfredSettings::unavailable()], 503);
         } catch (Throwable $e) {
             report($e);
 
-            return response()->json(['message' => self::UNAVAILABLE], 500);
+            return response()->json(['message' => AlfredSettings::unavailable()], 500);
         }
 
         $ok = collect($result['actions'])->where('ok', true)->pluck('tool');

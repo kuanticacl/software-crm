@@ -32,7 +32,7 @@ const props = defineProps<{
 defineOptions({ layout: { breadcrumbs: [{ title: 'Consumo y gastos', href: usage() }] } });
 
 const featureLabel: Record<string, string> = {
-    agent: 'Agent (chat)', alfred: 'Alfred (sitio web)', transcribe: 'Voz → texto', email_design: 'Diseño de mailings', subjects: 'Asuntos de correo', lead_analysis: 'Análisis de clientes',
+    agent: 'Agent (chat)', alfred: 'Asistente web', transcribe: 'Voz → texto', email_design: 'Diseño de mailings', subjects: 'Asuntos de correo', lead_analysis: 'Análisis de clientes',
     proposal_draft: 'Propuestas: redactar', proposal_improve: 'Propuestas: mejorar', proposal_service: 'Propuestas: servicios', proposal_suggest: 'Propuestas: sugerir', test: 'Pruebas de conexión',
 };
 const label = (f: string) => featureLabel[f.replace(/_fallback$/, '')] ?? f.replace(/_fallback$/, '').replace(/_/g, ' ');

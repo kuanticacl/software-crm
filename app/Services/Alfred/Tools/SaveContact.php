@@ -16,7 +16,7 @@ class SaveContact extends AlfredTool
 
     public function description(): string
     {
-        return 'Guarda los datos de contacto de la persona para que el equipo de Quiebre la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
+        return 'Guarda los datos de contacto de la persona para que el equipo de la empresa la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -48,6 +48,6 @@ class SaveContact extends AlfredTool
 
         app(AlfredLeads::class)->upsert($this->ctx, $d);
 
-        return 'OK: datos guardados. Dile a la persona que el equipo de Quiebre la contactará.';
+        return 'OK: datos guardados. Dile a la persona que el equipo de la empresa la contactará.';
     }
 }

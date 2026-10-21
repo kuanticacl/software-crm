@@ -27,7 +27,7 @@ class RequestMeeting extends AlfredTool
 
     public function description(): string
     {
-        return 'Registra una SOLICITUD de reunión (demo u otra) con el equipo de Quiebre. No queda confirmada: el equipo la confirma por correo. Úsala SOLO con consentimiento explícito de la persona y teniendo nombre, correo o teléfono, empresa, día hábil (lunes a viernes, desde mañana), hora de inicio entre 09:30 y 17:30 y modalidad.';
+        return 'Registra una SOLICITUD de reunión (demo u otra) con el equipo de la empresa. No queda confirmada: el equipo la confirma por correo. Úsala SOLO con consentimiento explícito de la persona y teniendo nombre, correo o teléfono, empresa, día hábil (lunes a viernes, desde mañana), hora de inicio entre 09:30 y 17:30 y modalidad.';
     }
 
     public function schema(JsonSchema $schema): array

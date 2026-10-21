@@ -17,7 +17,7 @@ return new class extends Migration
                     DB::table('settings')->insert(['key' => $new, 'value' => $r->value, 'is_secret' => $r->is_secret, 'created_at' => now(), 'updated_at' => now()]);
                 }
             }
-            if ($rows->isNotEmpty() && ! DB::table('settings')->where('key', 'agentweb.name')->exists()) {
+            if (! DB::table('settings')->where('key', 'agentweb.name')->exists()) {
                 DB::table('settings')->insert(['key' => 'agentweb.name', 'value' => 'Alfred', 'is_secret' => 0, 'created_at' => now(), 'updated_at' => now()]);
             }
             DB::table('ai_runs')->where('feature', 'alfred')->update(['feature' => 'agentweb']);

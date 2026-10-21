@@ -7,44 +7,43 @@ use App\Models\LeadSource;
 use App\Services\Ai\AiFailed;
 use App\Services\Ai\AiGateway;
 use App\Services\Ai\AiNotConfigured;
-use App\Services\Alfred\AlfredAgent;
-use App\Services\Alfred\AlfredContext;
-use App\Services\Alfred\AlfredSettings;
+use App\Services\AgentWeb\AgentWebAgent;
+use App\Services\AgentWeb\AgentWebContext;
+use App\Services\AgentWeb\AgentWebSettings;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
 /**
- * POST /api/v1/scarlett/chat — conversación de Scarlett con un visitante del sitio. Se autentica con la API key del
+ * POST /api/v1/agentweb/chat — conversación del asistente virtual con un visitante del sitio. Se autentica con la API key del
  * origen (X-Api-Key), igual que el ingreso de leads. La conversación NO se guarda en el servidor: el sitio envía
  * los mensajes previos en cada llamada y aquí se validan (solo roles user/assistant, largo acotado).
  */
-class AlfredChatController extends Controller
+class AgentWebChatController extends Controller
 {
-    private const UNAVAILABLE = 'Scarlett no está disponible por ahora. Puedes escribirnos a contacto@mecaniq.cl y el equipo te ayudará.';
 
-    /** GET /api/v1/scarlett/config — el sitio muestra a Scarlett solo si está activo y con IA disponible. */
+    /** GET /api/v1/agentweb/config — el sitio muestra al asistente solo si está activo y con IA disponible. */
     public function config(AiGateway $ai): JsonResponse
     {
         return response()->json(['data' => [
-            'enabled' => AlfredSettings::enabled() && $ai->isAvailable(),
-            'greeting' => AlfredSettings::greeting(),
+            'enabled' => AgentWebSettings::enabled() && $ai->isAvailable(),
+            'greeting' => AgentWebSettings::greeting(),
         ]]);
     }
 
-    public function chat(Request $request, AlfredAgent $alfred, AiGateway $ai): JsonResponse
+    public function chat(Request $request, AgentWebAgent $agentweb, AiGateway $ai): JsonResponse
     {
-        if (! AlfredSettings::enabled() || ! $ai->isAvailable()) {
-            return response()->json(['message' => self::UNAVAILABLE], 503);
+        if (! AgentWebSettings::enabled() || ! $ai->isAvailable()) {
+            return response()->json(['message' => AgentWebSettings::unavailable()], 503);
         }
 
         /** @var LeadSource $source */
         $source = $request->attributes->get('lead_source');
 
         $data = $request->validate([
-            'messages' => ['required', 'array', 'min:1', 'max:'.AlfredSettings::MAX_MESSAGES],
+            'messages' => ['required', 'array', 'min:1', 'max:'.AgentWebSettings::MAX_MESSAGES],
             'messages.*.role' => ['required', 'in:user,assistant'],
-            'messages.*.content' => ['required', 'string', 'max:'.AlfredSettings::MAX_CHARS],
+            'messages.*.content' => ['required', 'string', 'max:'.AgentWebSettings::MAX_CHARS],
             'session' => ['required', 'string', 'regex:/^[A-Za-z0-9_-]{8,64}$/'],
             'ip' => ['nullable', 'ip'],
             'user_agent' => ['nullable', 'string', 'max:1000'],
@@ -60,7 +59,7 @@ class AlfredChatController extends Controller
             return response()->json(['message' => 'El último mensaje debe ser de la persona.'], 422);
         }
 
-        $ctx = new AlfredContext(
+        $ctx = new AgentWebContext(
             $source,
             collect($data)->only(['ip', 'user_agent', 'referrer', 'landing_url', 'privacy_notice', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'])->all(),
             $data['session'],
@@ -68,13 +67,13 @@ class AlfredChatController extends Controller
         );
 
         try {
-            $result = $alfred->chat($ctx, $messages, $last['content']);
+            $result = $agentweb->chat($ctx, $messages, $last['content']);
         } catch (AiNotConfigured|AiFailed) {
-            return response()->json(['message' => self::UNAVAILABLE], 503);
+            return response()->json(['message' => AgentWebSettings::unavailable()], 503);
         } catch (Throwable $e) {
             report($e);
 
-            return response()->json(['message' => self::UNAVAILABLE], 500);
+            return response()->json(['message' => AgentWebSettings::unavailable()], 500);
         }
 
         $ok = collect($result['actions'])->where('ok', true)->pluck('tool');

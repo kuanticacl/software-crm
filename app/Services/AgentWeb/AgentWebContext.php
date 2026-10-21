@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services\Alfred;
+namespace App\Services\AgentWeb;
 
 use App\Models\Lead;
 use App\Models\LeadSource;
 
-/** Contexto de una conversación de Scarlett: origen autenticado, datos del visitante y acciones ejecutadas. */
-class AlfredContext
+/** Contexto de una conversación de AgentWeb: origen autenticado, datos del visitante y acciones ejecutadas. */
+class AgentWebContext
 {
     public ?Lead $lead = null;
 

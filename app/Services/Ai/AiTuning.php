@@ -41,8 +41,8 @@ class AiTuning
         }
 
         $s = self::settings();
-        // Scarlett atiende a público externo: no recibe las instrucciones generales de la empresa (pensadas para uso interno).
-        $extra = $feature === 'alfred' ? '' : trim($s['instructions']."\n\n".($feature === 'agent' ? $s['agent_instructions'] : ''));
+        // El agente web atiende a público externo: no recibe las instrucciones generales de la empresa (pensadas para uso interno).
+        $extra = $feature === 'agentweb' ? '' : trim($s['instructions']."\n\n".($feature === 'agent' ? $s['agent_instructions'] : ''));
         $instructions = $agent->instructions.($extra !== '' ? "\n\nInstrucciones adicionales de la empresa (respétalas, salvo que contradigan las reglas anteriores):\n".$extra : '');
 
         if ($agent instanceof StructuredAnonymousAgent) {
@@ -54,7 +54,7 @@ class AiTuning
 
         $reasoning = self::isReasoningModel((string) $provider->model);
         // Los modelos de razonamiento no aceptan temperatura: ahí se usa el nivel de razonamiento.
-        if ($feature === 'alfred') {
+        if ($feature === 'agentweb') {
             // Respuestas precisas y cortas, sin depender de los ajustes generales.
             if (! $reasoning) {
                 $tuned->tunedTemperature = 0.3;
@@ -63,7 +63,7 @@ class AiTuning
         } elseif (! $reasoning && is_numeric($s['temperature'])) {
             $tuned->tunedTemperature = max(0.0, min(2.0, (float) $s['temperature']));
         }
-        if ($feature !== 'alfred' && $s['max_tokens']) {
+        if ($feature !== 'agentweb' && $s['max_tokens']) {
             $tuned->tunedMaxTokens = max(256, min(32000, $s['max_tokens']));
         }
         if ($feature === 'agent' && $s['agent_max_steps']) {

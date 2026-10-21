@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Alfred\Tools;
+namespace App\Services\AgentWeb\Tools;
 
 use App\Services\Agent\ToolArgs;
-use App\Services\Alfred\AlfredContext;
+use App\Services\AgentWeb\AgentWebContext;
 use Illuminate\Validation\ValidationException;
 use Laravel\Ai\Contracts\Tool;
 use Laravel\Ai\Tools\Request;
@@ -11,13 +11,13 @@ use Stringable;
 use Throwable;
 
 /**
- * Base de las herramientas de Scarlett. Solo ESCRIBEN datos que la propia persona entregó (contacto y solicitud de
+ * Base de las herramientas de AgentWeb. Solo ESCRIBEN datos que la propia persona entregó (contacto y solicitud de
  * reunión): ninguna herramienta lee clientes, propuestas ni configuración del CRM. Los errores vuelven como texto
  * para que el modelo los explique; nunca se exponen detalles internos.
  */
-abstract class AlfredTool implements Tool
+abstract class AgentWebTool implements Tool
 {
-    public function __construct(protected AlfredContext $ctx) {}
+    public function __construct(protected AgentWebContext $ctx) {}
 
     abstract public function name(): string;
 

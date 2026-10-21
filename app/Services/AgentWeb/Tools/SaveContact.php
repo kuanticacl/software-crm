@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services\Alfred\Tools;
+namespace App\Services\AgentWeb\Tools;
 
 use App\Services\Agent\ToolArgs;
-use App\Services\Alfred\AlfredLeads;
+use App\Services\AgentWeb\AgentWebLeads;
 use Illuminate\Contracts\JsonSchema\JsonSchema;
 use Illuminate\Support\Facades\Validator;
 
-class SaveContact extends AlfredTool
+class SaveContact extends AgentWebTool
 {
     public function name(): string
     {
@@ -16,7 +16,7 @@ class SaveContact extends AlfredTool
 
     public function description(): string
     {
-        return 'Guarda los datos de contacto de la persona para que el equipo de MecaniQ la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
+        return 'Guarda los datos de contacto de la persona para que el equipo de la empresa la contacte. Úsala SOLO después de que la persona haya aceptado explícitamente que guardes sus datos (consentimiento) y tengas su nombre y un correo o teléfono.';
     }
 
     public function schema(JsonSchema $schema): array
@@ -26,7 +26,7 @@ class SaveContact extends AlfredTool
             'last_name' => $schema->string()->description('Apellido, si lo dio.'),
             'email' => $schema->string()->description('Correo electrónico.'),
             'phone' => $schema->string()->description('Teléfono.'),
-            'company' => $schema->string()->description('Nombre del taller o empresa.'),
+            'company' => $schema->string()->description('Empresa o inmobiliaria.'),
             'job_title' => $schema->string()->description('Cargo.'),
             'interest' => $schema->string()->description('Qué necesita o le interesa, en una frase (etapa del proyecto, servicio, etc.).'),
             'consent' => $schema->boolean()->required()->description('true solo si la persona aceptó de forma explícita que guardes sus datos para que el equipo la contacte.'),
@@ -46,8 +46,8 @@ class SaveContact extends AlfredTool
             'consent' => ['required', 'accepted'],
         ], ['consent.accepted' => 'falta el consentimiento explícito de la persona', 'email.required_without' => 'falta un correo o teléfono', 'phone.required_without' => 'falta un correo o teléfono'])->validate();
 
-        app(AlfredLeads::class)->upsert($this->ctx, $d);
+        app(AgentWebLeads::class)->upsert($this->ctx, $d);
 
-        return 'OK: datos guardados. Dile a la persona que el equipo de MecaniQ la contactará.';
+        return 'OK: datos guardados. Dile a la persona que el equipo de la empresa la contactará.';
     }
 }

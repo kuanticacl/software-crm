@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AlfredChatController;
+use App\Http\Controllers\Api\AgentWebChatController;
 use App\Http\Controllers\Api\BillingApiController;
 use App\Http\Controllers\Api\EmailSendController;
 use App\Http\Controllers\Api\LeadIngestController;
@@ -13,16 +13,19 @@ use Illuminate\Support\Facades\Route;
 */
 Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:lead-ingest'])->group(function () {
     Route::post('leads', [LeadIngestController::class, 'store'])->name('api.leads.store');
-    Route::get('scarlett/config', [AlfredChatController::class, 'config'])->name('api.alfred.config');
-    Route::get('alfred/config', [AlfredChatController::class, 'config']); // alias anterior
+    Route::get('agentweb/config', [AgentWebChatController::class, 'config'])->name('api.agentweb.config');
+    // Alias de las rutas anteriores (sitios ya integrados)
+    Route::get('alfred/config', [AgentWebChatController::class, 'config']);
+    Route::get('scarlett/config', [AgentWebChatController::class, 'config']);
 });
 
 /*
-| Scarlett, el ejecutivo virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
+| Agente web, asistente virtual del sitio web. Misma API key por origen; límites propios para controlar el gasto de IA.
 */
-Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:alfred-chat'])->group(function () {
-    Route::post('scarlett/chat', [AlfredChatController::class, 'chat'])->name('api.alfred.chat');
-    Route::post('alfred/chat', [AlfredChatController::class, 'chat']); // alias anterior
+Route::prefix('v1')->middleware([AuthenticateLeadSource::class, 'throttle:agentweb-chat'])->group(function () {
+    Route::post('agentweb/chat', [AgentWebChatController::class, 'chat'])->name('api.agentweb.chat');
+    Route::post('alfred/chat', [AgentWebChatController::class, 'chat']);
+    Route::post('scarlett/chat', [AgentWebChatController::class, 'chat']);
 });
 
 /*

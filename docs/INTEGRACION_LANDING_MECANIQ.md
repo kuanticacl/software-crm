@@ -103,18 +103,18 @@ export default defineEventHandler(async (event) => {
 })
 ```
 
-### Scarlett — `server/api/scarlett/config.get.ts` y `chat.post.ts`
+### Scarlett — `server/api/agentweb/config.get.ts` y `chat.post.ts`
 
 ```ts
 // config.get.ts — ¿mostrar el botón de Scarlett? (activa y con IA disponible)
-export default defineEventHandler(async (event) => (await crm(event, 'scarlett/config')).data) // { enabled, greeting }
+export default defineEventHandler(async (event) => (await crm(event, 'agentweb/config')).data) // { enabled, greeting }
 ```
 
 ```ts
 // chat.post.ts
 export default defineEventHandler(async (event) => {
   const { session, messages, privacy_notice } = await readBody(event)
-  const r = await crm(event, 'scarlett/chat', {
+  const r = await crm(event, 'agentweb/chat', {
     method: 'POST',
     body: {
       session,                                   // id de conversación: 8–64 caracteres [A-Za-z0-9_-]
@@ -199,7 +199,7 @@ const f = reactive({ first_name: '', last_name: '', email: '', phone: '', compan
 ```vue
 <script setup lang="ts">
 type Msg = { role: 'user' | 'assistant'; content: string }
-const { data: cfg } = await useFetch<{ enabled: boolean; greeting: string }>('/api/scarlett/config', { server: false })
+const { data: cfg } = await useFetch<{ enabled: boolean; greeting: string }>('/api/agentweb/config', { server: false })
 const open = ref(false), busy = ref(false), text = ref('')
 const session = useState('scarlett-session', () => Math.random().toString(36).slice(2) + Date.now().toString(36)) // 8–64 [A-Za-z0-9]
 const messages = ref<Msg[]>([])
@@ -244,8 +244,8 @@ Base `https://crm.mecaniq.cl/api/v1` · header `X-Api-Key: <key>` (o `Authorizat
 | Método | Ruta | Uso |
 |---|---|---|
 | POST | `/leads` | Crea un cliente (prospecto). Requiere `first_name` (o `name`) y `email` o `phone`. Acepta `company, job_title, message, utm_*, ip, user_agent, referrer, landing_url, country, region, city`, campos personalizados sueltos o en `custom`, `audience` (suscribe al boletín) y `email_template` + `email_variables` (envía una plantilla). Responde `201 { data: { id, source, stage, email, audience } }` |
-| GET | `/scarlett/config` | `{ data: { enabled, greeting } }` |
-| POST | `/scarlett/chat` | Ver sección 2. `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Scarlett está desactivada o sin IA; `429` por límite (10 msg/min y 150/día por visitante) |
+| GET | `/agentweb/config` | `{ data: { enabled, greeting } }` |
+| POST | `/agentweb/chat` | Ver sección 2. `{ data: { reply, contact_saved, meeting_requested } }`; `503` si Scarlett está desactivada o sin IA; `429` por límite (10 msg/min y 150/día por visitante) |
 | GET | `/plans` | Catálogo de planes (**key con permiso `billing.read`**) |
 
 Campos personalizados disponibles: `tipo_solicitud, fecha_preferida, horario_preferido, tipo_taller, n_mecanicos, ciudad, sistema_actual, interes`.
@@ -261,7 +261,7 @@ curl -s -X POST https://crm.mecaniq.cl/api/v1/leads \
   -H "X-Api-Key: $NUXT_CRM_API_KEY" -H "Content-Type: application/json" \
   -d '{"first_name":"Prueba","email":"prueba@ejemplo.cl","company":"Taller Prueba","tipo_taller":"Multimarca","tipo_solicitud":"demo"}'
 
-curl -s https://crm.mecaniq.cl/api/v1/scarlett/config -H "X-Api-Key: $NUXT_CRM_API_KEY"
+curl -s https://crm.mecaniq.cl/api/v1/agentweb/config -H "X-Api-Key: $NUXT_CRM_API_KEY"
 ```
 El cliente aparece en **CRM → Clientes** (origen «Landing MecaniQ», etapa «Ingreso»). Bórralo de la Papelera tras la prueba.
 
@@ -270,5 +270,7 @@ El cliente aparece en **CRM → Clientes** (origen «Landing MecaniQ», etapa «
 - [ ] `NUXT_CRM_URL` y `NUXT_CRM_API_KEY` definidas en Dokploy (no en el repositorio ni en `app.config`/`public`).
 - [ ] Rutas `/api/crm/*` y `/api/scarlett/*` probadas con `curl` en el dominio de la landing.
 - [ ] Aviso de privacidad visible junto al formulario y al chat (consentimiento).
-- [ ] En el CRM: Scarlett activa y con proveedor de IA (*Inteligencia artificial → Proveedores* y *Scarlett (web)*), Resend configurado (*Email → Configuración*) y las plantillas activas.
+- [ ] En el CRM: Scarlett activa y con proveedor de IA (*Inteligencia artificial → Proveedores* y *Agente web*), Resend configurado (*Email → Configuración*) y las plantillas activas.
 - [ ] Honeypot y `ip` del visitante enviados; sin `v-html` en respuestas de Scarlett.
+
+> **Agente web:** el asistente se llama «Scarlett» en MecaniQ, pero el nombre se cambia en el CRM (Inteligencia artificial → Agente web). Las rutas anteriores `/api/v1/scarlett/*` y `/api/v1/alfred/*` siguen funcionando como alias, pero usa `/api/v1/agentweb/*`.

@@ -3,11 +3,13 @@
 # Multi-stage: compila assets (Vite + Wayfinder) en "build" y deja la imagen final sin Node.
 
 # ---------------------------------------------------------------- base PHP
+# Seguridad: la etiqueta de PHP va fijada a un parche concreto (8.4.27 corrige CVE-2026-109618/109619). Al subir de parche,
+# reconstruir sin caché para recoger también los certificados raíz actualizados (incidente eMudhra/emSign, oct-2026).
 FROM php:8.4.27-fpm-alpine AS base
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
-RUN apk add --no-cache nginx supervisor curl tzdata poppler-utils \
+RUN apk add --no-cache --upgrade ca-certificates nginx supervisor curl tzdata poppler-utils \
     && install-php-extensions pdo_mysql gd zip bcmath intl exif pcntl opcache redis
 
 WORKDIR /var/www/html

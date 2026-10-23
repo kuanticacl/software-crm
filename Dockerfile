@@ -3,7 +3,7 @@
 # Multi-stage: compila assets (Vite + Wayfinder) en "build" y deja la imagen final sin Node.
 
 # ---------------------------------------------------------------- base PHP
-FROM php:8.4-fpm-alpine AS base
+FROM php:8.4.27-fpm-alpine AS base
 
 ADD --chmod=0755 https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
